@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "last-pjt",
+    "last": "last-pjt"
+  },
+  "targets": {},
+  "etags": {}
+}
