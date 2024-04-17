@@ -8,6 +8,8 @@ import { useDispatch } from "react-redux";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { clearUser, setUser } from "./store/userSlice";
 import TestPage from "./testPage/TestPage";
+import CodeTestPage from "./testPage/CodeTestPage";
+import SurveyPage from "./surveyPage/SurveyPage";
 
 const App = () => {
 
@@ -38,6 +40,8 @@ const App = () => {
       <Route path='/login' element={<LoginPage/>}/>
       <Route path='/register' element={<RegisterPage/>}/>
       <Route path='/' element={<TestPage/>}/>
+      <Route path='/codetest' element={<CodeTestPage/>}/>
+      <Route path='/survey' element={<SurveyPage/>}/>
     </Routes>
   )
 }
