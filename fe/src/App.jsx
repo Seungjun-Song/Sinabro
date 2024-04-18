@@ -10,6 +10,7 @@ import { clearUser, setUser } from "./store/userSlice";
 import TestPage from "./testPage/TestPage";
 import CodeTestPage from "./testPage/CodeTestPage";
 import SurveyPage from "./surveyPage/SurveyPage";
+import MyPage from "./myPage/MyPage";
 
 const App = () => {
 
@@ -42,6 +43,7 @@ const App = () => {
       <Route path='/' element={<TestPage/>}/>
       <Route path='/codetest' element={<CodeTestPage/>}/>
       <Route path='/survey' element={<SurveyPage/>}/>
+      <Route path='/mypage' element={<MyPage/>}/>
     </Routes>
   )
 }
