@@ -5,19 +5,28 @@ import { faDesktop, faCog, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
 const Box = styled.div`
   padding: 10px;
+  gap: 10px;
   border-radius: 5px;
+  max-height: 50px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  box-shadow: 0px 3px 3px black;
   cursor: pointer;
-  transition: transform 0.3s ease;
 
-  &:hover {
-    transform: scale(1.05);
-  }
+  ${({ checked }) => !checked && `
+    transition: transform 0.3s ease;
+    &:hover {
+      transform: scale(1.05);
+    }
+  `}
+  
+  ${({ checked }) => checked && `
+    transform: scale(1.2);
+  `}
 `;
 
-const SkillBox = ({ iconName, borderColor, text }) => {
+const SkillBox = ({ iconName, borderColor, text, checked }) => {
   let icon;
   switch (iconName) {
     case 'computer':
@@ -34,9 +43,9 @@ const SkillBox = ({ iconName, borderColor, text }) => {
   }
 
   return (
-    <Box style={{border: `3px solid ${borderColor}`, color: `${borderColor}`}}>
-      {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: '24px'}} />}
-      <span style={{ color: 'black', fontWeight: 'bold'}}>{text}</span>
+    <Box style={{ border: `3px solid ${borderColor}`, color: `${borderColor}` }} checked={checked}>
+      {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: '24px' }} />}
+      <span style={{ color: 'black', fontWeight: 'bold' }}>{text}</span>
     </Box>
   );
 }
