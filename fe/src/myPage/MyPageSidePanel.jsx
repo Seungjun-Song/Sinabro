@@ -57,6 +57,7 @@ const EditButton = styled.label`
     &:hover {
         transform: scale(1.05);
     }
+    cursor: pointer;
 `
 
 const MyInfoBox = styled.div`
@@ -81,6 +82,9 @@ const SmallImage = styled.img`
 `
 
 const InfoTag = styled.div`
+    font-weight: 5%;
+    display: flex;
+    flex-wrap: wrap;
 `
 
 const MyPageSidePanel = () => {
