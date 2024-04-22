@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import SkillBox from './SkillBox';
+import Navbar from '../components/navs/Navbar'
 
 const SurveyContainer = styled.div`
   width: 100vw;
