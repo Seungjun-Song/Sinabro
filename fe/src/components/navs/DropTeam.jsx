@@ -10,22 +10,27 @@ const Box = styled.div`
     border-radius: 10px;
 
     padding: 20px;
+    width: 100%;
+
+    color: black;
 `
 const TeamList = styled.div`
     margin-bottom: 20px;
 `
 
 const Create = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
 
-  font-weight: bold;
+    font-weight: bold;
 
-  width: 15rem;
-  height: 3rem;
-`;
+    width: 13rem;
+    height: 3rem;
+    padding-left: 1rem;
+
+  `;
 
 const DropTeam = () => {
     //TODO : team list를 받아 와야함

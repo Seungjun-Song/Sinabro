@@ -9,7 +9,7 @@ const TeamDetail = styled.div`
   justify-content: space-between;
   background-color: white;
 
-  width: 15rem;
+  width: 13rem;
 `;
 
 const TotalInfo = styled.div`   
@@ -31,11 +31,12 @@ const TeamInfo = styled.div`
 const TeamName = styled.div`
     font-weight: bold;
     font-size: 0.8rem;
-
 `;
 
 const TeamDate = styled.div`
     font-size: 0.5rem;
+
+    color: rgba(183, 183, 183, 1);
 `;
 
 const PjtLink = styled.img`

@@ -5,48 +5,89 @@ import { Link } from "react-router-dom";
 
 import DropTeam from './DropTeam';
 
-import Logo from './../../../public/image/nav/sinabro_logo.png'
-import Sinabro from './../../../public/image/nav/Sinabro.png'
-import DropDawnIcon from './../../../public/image/nav/dropdownIcon.png'
+import Logo from '/public/image/nav/sinabro_logo.png'
+import Sinabro from '/image/nav/Sinabro.png'
+import DropDawnIcon from '/image/nav/dropdownIcon.png'
 
 const NavBar = styled.nav`
-    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     height: 80px;
     background-color: rgba(86, 76, 173, 1);
-    top: 0;
-    display: flex;
+
+    position: relative;
 `;
 
 const LogoImage = styled.img`
-    position: absolute;
-    top: 15%;
-    left: 10px;
-    height: 50px;
+    height: 3rem;
 
-    border:10px;
+    border: 2px solid white;
+    border-radius: 50%; 
+    margin: 1rem;
+
 `;
 
 const SinabroImg = styled.img`
-    position: absolute;
-    top: 28%;
-    left: 80px;
-    height: 30%;
-
-    border:10px;
+    height: 1.3rem;
 `;
 
 const DropDown = styled.div`
-display: flex;
-font-size: 16px;
-padding-top: 25px;
-padding-left: 20%;
-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    color: white;
+`
+
+const Community = styled.div`
+    color: white;
+`
+
+const MyPage = styled.div`
+    color: white;
+`
+
+const Log = styled.div`
+    color: white;
 `
 
 const DropDownButton = styled.div`
-
 `
+
+const DropDownPage = styled.div`
+position: absolute; /* 절대 위치 지정 */
+z-index: 999;
+top: 70%;
+left: 8%;
+`
+
+const LeftNavContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 25%;
+    
+    margin-left: 1%;
+`;
+
+const RightNavContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 10%;
+
+    margin-right: 3%;
+`;
+
+const Logos = styled.div`
+`
+
+
 
 
 const Navbar = () => {
@@ -54,17 +95,18 @@ const Navbar = () => {
 
     return (
         <NavBar>
-            <Link to="">
+            <LeftNavContainer>
+                <Logos>
                 <LogoImage
                  src={Logo}
                 />
                 <SinabroImg
                  src={Sinabro}
                 />
-            </Link>
+                </Logos>
 
             <DropDown>
-                <div>
+                <div style={{fontFamily: "Jamsil Light"}}>
                     팀 스페이스
                 </div>
                 <DropDownButton onClick={() => {setDropDown(!dropDown)}}
@@ -72,20 +114,37 @@ const Navbar = () => {
                     {dropDown ? 
                     <img
                         src={DropDawnIcon}
-                        style={{ transform: 'rotate(180deg)' }}
+                        style={{ transform: 'rotate(180deg)', width: "10px" }}
                     >
                     </img> : 
                     <img
                         src={DropDawnIcon}
+                        style={{width:"10px"}}
                     >
                     </img>
                     }
                 </DropDownButton>
-                <div>
+                <DropDownPage>
                     {dropDown && <DropTeam/>}
-                </div>
+                </DropDownPage>
 
             </DropDown>
+
+            <Community style={{fontFamily: "Jamsil Light"}}>
+                    커뮤니티
+            </Community>
+            </LeftNavContainer>
+
+
+            <RightNavContainer>
+            <MyPage style={{fontFamily: "Jamsil Light"}}>
+                    마이페이지
+            </MyPage>
+
+            <Log style={{fontFamily: "Jamsil Light"}}>
+                    로그아웃
+            </Log>
+            </RightNavContainer>
 
 
         </NavBar>
