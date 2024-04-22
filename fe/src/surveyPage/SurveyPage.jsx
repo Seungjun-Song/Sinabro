@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SkillBox from './SkillBox';
+import Navbar from '../components/navs/Navbar'
 
 const SurveyContainer = styled.div`
   width: 100vw;
@@ -42,6 +43,8 @@ const SkillContainer = styled.div`
 
 const SurveyPage = () => {
   return (
+    <>
+    <Navbar></Navbar>
     <SurveyContainer>
       <SurveyBox>
         <Title>
@@ -57,6 +60,7 @@ const SurveyPage = () => {
         </SkillContainer>
       </SurveyBox>
     </SurveyContainer>
+    </>
   );
 }
 
