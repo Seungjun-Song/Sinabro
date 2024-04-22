@@ -24,4 +24,5 @@ public class PjtTechStack {
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
+    private String subcategoryName;
 }
