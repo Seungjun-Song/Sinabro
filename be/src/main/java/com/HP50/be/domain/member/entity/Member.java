@@ -15,7 +15,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class Member extends BaseTimeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer memberId;
