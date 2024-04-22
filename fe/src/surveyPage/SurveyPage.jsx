@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SkillBox from './SkillBox';
 import Navbar from '../components/navs/Navbar'
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const SurveyContainer = styled.div`
   width: 100vw;
@@ -47,6 +50,75 @@ const SkillContainer = styled.div`
   height: 40%;
 `;
 
+const MainContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 40%;
+`
+
+const SearchContainer = styled.div`
+    width: 100%;
+    border: 3px solid transparent;
+    border-image: linear-gradient(to right, #3DC7AF, #613ACD);
+    border-image-slice: 1;
+    padding: 0.6rem;
+    display: flex;
+    align-items: center;
+`
+
+const SearchContainerLeftSide = styled.div`
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem;
+`
+
+const SearchContainerRightSide = styled.div`
+    height: 100%;
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const SkillDetail = styled.div`
+    background-color: #F2F2F2;
+    padding: 0.2rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+    height: 1.8rem;
+    border-radius: 0.8rem;
+    display: flex;
+    gap: 0.8rem;
+    font-size: 0.8rem;
+    align-items: center;
+`
+
+const SearchInput = styled.input`
+    height: 1.8rem;
+    flex: 1;
+    border: none;
+    outline: none;
+`
+
+const SkillDelBtn = styled.div`
+    color: #39A0BA;
+    font-weight: bold;
+    cursor: pointer;
+`
+
+const SearchIcon = styled(FontAwesomeIcon)`
+    color: #613ACD;
+    cursor: pointer;
+    margin-left: auto;
+    align-self: center;
+`;
+
 const SendButtonContainer = styled.div`
     display: flex;
     align-items: center;
@@ -75,6 +147,7 @@ const SurveyPage = () => {
     const [isFeSelected, setFeIsSelected] = useState(false)
     const [isBeSelected, setBeIsSelected] = useState(false)
     const [isFullSelected, setFullIsSelected] = useState(false)
+    const [isChecked, setIsChecked] = useState(false)
 
     const selectFeSkill = () => {
         if (!isSelected) {
@@ -121,27 +194,94 @@ const SurveyPage = () => {
                 <Title>
                     <p>기술 스택</p>
                 </Title>
-                <Subtitle>
-                    <p>자신이 개발할 분야를 선택해주세요!</p>
-                </Subtitle>
-                <SkillContainer>
-                    <div onClick={selectFeSkill}>
-                        <SkillBox iconName='computer' borderColor='#3DC7AE' text='프론트 엔드' checked={isFeSelected} />
-                    </div>
-                    <div onClick={selectBeSkill}>
-                        <SkillBox iconName='gear' borderColor='#315DCC' text='백 엔드' checked={isBeSelected} />
-                    </div>
-                    <div onClick={selectFullSkill}>
-                        <SkillBox iconName='leaf' borderColor='#6C31CC' text='풀 스택' checked={isFullSelected} />
-                    </div>
-                </SkillContainer>
-                <SendButtonContainer>
-                    {isSelected &&
-                        <SendButton>
-                            완료
-                        </SendButton>
-                    }
-                </SendButtonContainer>
+                {!isChecked === true ?
+                    <>
+                        <Subtitle>
+                            <p>자신이 개발할 분야를 선택해주세요!</p>
+                        </Subtitle>
+                        <SkillContainer>
+                            <div onClick={selectFeSkill}>
+                                <SkillBox iconName='computer' borderColor='#3DC7AE' text='프론트 엔드' checked={isFeSelected} />
+                            </div>
+                            <div onClick={selectBeSkill}>
+                                <SkillBox iconName='gear' borderColor='#315DCC' text='백 엔드' checked={isBeSelected} />
+                            </div>
+                            <div onClick={selectFullSkill}>
+                                <SkillBox iconName='leaf' borderColor='#6C31CC' text='풀 스택' checked={isFullSelected} />
+                            </div>
+                        </SkillContainer>
+                        <SendButtonContainer>
+                            {isSelected &&
+                                <SendButton onClick={() => setIsChecked(true)}>
+                                    다음
+                                </SendButton>
+                            }
+                        </SendButtonContainer>
+                    </>
+                    :
+                    <>
+                        <Subtitle>
+                            <p>자신이 가진 기술 스택을 입력해주세요!</p>
+                        </Subtitle>
+                        <MainContainer>
+                            <SearchContainer>
+                                <SearchContainerLeftSide>
+                                    <SkillDetail>
+                                        {/* {없을 때 띄울 글자 생각해야함} */}
+                                        React
+                                        <SkillDelBtn>
+                                            X
+                                        </SkillDelBtn>
+                                    </SkillDetail>
+                                    <SkillDetail>
+                                        {/* {없을 때 띄울 글자 생각해야함} */}
+                                        React
+                                        <SkillDelBtn>
+                                            X
+                                        </SkillDelBtn>
+                                    </SkillDetail>
+                                    <SkillDetail>
+                                        {/* {없을 때 띄울 글자 생각해야함} */}
+                                        React
+                                        <SkillDelBtn>
+                                            X
+                                        </SkillDelBtn>
+                                    </SkillDetail>
+                                    <SkillDetail>
+                                        {/* {없을 때 띄울 글자 생각해야함} */}
+                                        React
+                                        <SkillDelBtn>
+                                            X
+                                        </SkillDelBtn>
+                                    </SkillDetail>
+                                    <SkillDetail>
+                                        {/* {없을 때 띄울 글자 생각해야함} */}
+                                        React
+                                        <SkillDelBtn>
+                                            X
+                                        </SkillDelBtn>
+                                    </SkillDetail>
+                                    <SkillDetail>
+                                        {/* {없을 때 띄울 글자 생각해야함} */}
+                                        React
+                                        <SkillDelBtn>
+                                            X
+                                        </SkillDelBtn>
+                                    </SkillDetail>
+                                    <SearchInput />
+                                </SearchContainerLeftSide>
+                                <SearchContainerRightSide>
+                                    <SearchIcon icon={faSearch} />
+                                </SearchContainerRightSide>
+                            </SearchContainer>
+                        </MainContainer>
+                        <SendButtonContainer>
+                            <SendButton>
+                                완료
+                            </SendButton>
+                        </SendButtonContainer>
+                    </>
+                }
             </SurveyBox>
         </SurveyContainer>
     );

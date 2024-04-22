@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import MyPageSidePanel from './MyPageSidePanel'
 import MyPageMainPanel from './MyPageMainPanel'
+import Navbar from '../components/navs/Navbar'
 
 const MyPageContainer = styled.div`
     display: flex;
@@ -21,7 +22,9 @@ const MainBox = styled.div`
 const MyPage = () => {
     return (
         <MyPageContainer>
-            <div style={{ width: '100%', height: '80px', border: '1px solid' }}>NavBar 80px</div>
+            <div style={{ width: '100%', height: '80px'}}>
+                <Navbar/>
+            </div>
             <MainBox>
                 <MyPageSidePanel/>
                 <MyPageMainPanel/>

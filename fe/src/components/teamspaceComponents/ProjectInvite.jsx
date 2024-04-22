@@ -15,7 +15,6 @@ const ProjectInvite = ({ hadlebutton ,IsModalOpen,setIsModalOpen}) => {
           borderLeftWidth: "5px", // 왼쪽 테두리 두께
           borderLeftColor: "black", // 왼쪽 테두리 색상
           borderLeftStyle: "solid", // 왼쪽 테두리 스타일
-          padding: "1rem",
         }}
       >
         <h4 style={{ margin: 0 }}>팀 초대</h4>
