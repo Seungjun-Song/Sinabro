@@ -1,21 +1,21 @@
 spring:
-    application:
-        name: be
-    profiles:
-        active: env
-        include: github
-    datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        username: ${DB_USERNAME}
-        url: ${DB_URL}
-        password: ${DB_PASSWORD}
-    jpa:
-        hibernate:
-            ddl-auto: update
-        show-sql: true
-        properties:
-            hibernate:
-                format_sql: 'true'
+  application:
+    name: be
+  profiles:
+    active: env
+    include: github
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    url: ${DB_URL}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: 'true'
 #  security:
 #    oauth2:
 #      client:
