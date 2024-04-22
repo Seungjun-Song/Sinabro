@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:20db515a74f321caec30266e5f38a97c2d218d01e1b7b378041b283c8f843e7e
-size 246
+package com.HP50.be.domain.code.repository;
+
+import com.HP50.be.domain.code.entity.SubCategory;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SubCategoryRepository extends JpaRepository<SubCategory, Integer> {
+}
