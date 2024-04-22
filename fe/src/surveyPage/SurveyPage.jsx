@@ -116,6 +116,8 @@ const SurveyPage = () => {
     }
 
     return (
+      <>
+      <Navbar></Navbar>
         <SurveyContainer>
             <SurveyBox>
                 <Title>
@@ -144,6 +146,7 @@ const SurveyPage = () => {
                 </SendButtonContainer>
             </SurveyBox>
         </SurveyContainer>
+        </>
     );
 }
 
