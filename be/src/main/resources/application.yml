@@ -3,7 +3,6 @@ spring:
         name: be
     profiles:
         active: env
-        include: github
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: ${DB_USERNAME}
@@ -16,10 +15,16 @@ spring:
         properties:
             hibernate:
                 format_sql: 'true'
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          github:
-#            clientId: ${GITHUB_CLIENT_ID}
-#            clientSecret: ${GITHUB_CLIENT_SECRET}
+    security:
+      oauth2:
+        client:
+          registration:
+            github:
+              clientId: ${GITHUB_CLIENT_ID}
+              clientSecret: ${GITHUB_CLIENT_SECRET}
+              scope:
+                - user
+                - project
+                - repo
+
+
