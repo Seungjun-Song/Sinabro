@@ -29,6 +29,7 @@ const TestPage = () => {
             <ChatBot/>
             <button onClick={() => navigate('/codetest')}>이게 되네?</button>
             <button onClick={() => navigate('/survey')}>설문 페이지</button>
+            <button onClick={() => navigate('/TeamSpacePage')}>팀스페이스 페이지</button>
         </div>
     )
 }
