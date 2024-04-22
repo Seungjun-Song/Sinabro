@@ -1,4 +1,4 @@
-package com.HP50.be.config;
+package com.HP50.be.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
