@@ -1,8 +1,8 @@
 package com.HP50.be.global.exception;
 
 
+import com.HP50.be.global.common.StatusCode;
 import lombok.Getter;
-import ssafy.ggame.global.common.StatusCode;
 
 @Getter
 public class BaseException extends RuntimeException {
