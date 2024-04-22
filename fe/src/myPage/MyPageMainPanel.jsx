@@ -174,7 +174,7 @@ const MyPageMainPanel = () => {
                     <MemoryGraphMainBox onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}>
 
                     </MemoryGraphMainBox>
-                    {!isSideBoxVisible &&
+                    {isSideBoxVisible &&
                         <MemoryGraphSideBox>
                             <MemoryGraphDescribeBox>
                                 <h1>제목</h1>
