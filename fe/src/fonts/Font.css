@@ -1,0 +1,39 @@
+@font-face {
+    font-family: "Jamsil Thin";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 1 Thin.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Jamsil Light";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 2 Light.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Jamsil Regular";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 3 Regular.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Jamsil Medium";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 4 Medium.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Jamsil Bold";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 5 Bold.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Jamsil ExtraBold";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 6 ExtraBold.ttf") format("woff");
+  }
+  body {
+    font-family: "Jamsil Regular", sans-serif;
+  }
