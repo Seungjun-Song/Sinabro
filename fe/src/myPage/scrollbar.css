@@ -1,0 +1,25 @@
+/* scrollbar.css */
+
+/* 너비 */
+::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 조절 */
+    border-radius: 50%; /* 스크롤바의 border-radius 설정 */
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent; 
+    border-radius: 10px; /* 스크롤바 트랙의 border-radius 설정 */
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px; /* 스크롤바 핸들의 border-radius 설정 */
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+  

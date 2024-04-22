@@ -10,6 +10,7 @@ import { clearUser, setUser } from "./store/userSlice";
 import TestPage from "./testPage/TestPage";
 import CodeTestPage from "./testPage/CodeTestPage";
 import SurveyPage from "./surveyPage/SurveyPage";
+import MyPage from "./myPage/MyPage";
 import TeamSpacePage from "./teamspacePage/TeamSpacePage";
 import "./fonts/Font.css"
 const App = () => {
@@ -38,11 +39,12 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/" element={<TestPage />} />
-      <Route path="/codetest" element={<CodeTestPage />} />
-      <Route path="/survey" element={<SurveyPage />} />
+      <Route path='/login' element={<LoginPage/>}/>
+      <Route path='/register' element={<RegisterPage/>}/>
+      <Route path='/' element={<TestPage/>}/>
+      <Route path='/codetest' element={<CodeTestPage/>}/>
+      <Route path='/survey' element={<SurveyPage/>}/>
+      <Route path='/mypage' element={<MyPage/>}/>
       <Route path="/TeamSpacePage" element={<TeamSpacePage />} />
     </Routes>
   );
