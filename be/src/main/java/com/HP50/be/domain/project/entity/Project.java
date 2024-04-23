@@ -57,4 +57,9 @@ public class Project extends BaseTimeEntity {
     public void addTeammate(Teammate teammate){
         teammates.add(teammate);
     }
+    // 레포 수정
+    public void updateRepo(String url){
+        this.projectRepo = url;
+    }
+
 }

@@ -50,4 +50,13 @@ public class ProjectController {
         }
         return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
     }
+    // 원격 레포 연결
+    @PutMapping
+    private ResponseEntity<Object> updateRepo(@RequestBody GitRepoRequestDto requestDto){
+        boolean result = service.updateRepo(requestDto);
+        if(!result){
+            throw new BaseException(StatusCode.FAIL_UPDATE_REPO);
+        }
+        return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
+    }
 }
