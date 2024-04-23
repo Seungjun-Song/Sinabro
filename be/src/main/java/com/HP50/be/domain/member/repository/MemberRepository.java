@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6aa7a11ec5fc3924e866f24f22ba50508fcaeb12422b8271f12d53c9a1503e60
-size 317
+package com.HP50.be.domain.member.repository;
+
+import com.HP50.be.domain.member.entity.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+
+public interface MemberRepository extends JpaRepository<Member, Integer> {
+    Optional<Member> findByMemberEmail(String email);
+}

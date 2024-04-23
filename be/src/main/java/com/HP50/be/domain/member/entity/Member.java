@@ -1,3 +1,40 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bb13c90944b25efe4975dc7a6fe7fe401f0b424a46b367c1cbbd67cc6c3fbcf0
-size 877
+package com.HP50.be.domain.member.entity;
+
+
+import com.HP50.be.domain.code.entity.Category;
+import com.HP50.be.domain.payment.entity.Payment;
+import com.HP50.be.global.common.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
+
+@Entity
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Member extends BaseTimeEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer memberId;
+
+    @Column(nullable = false)
+    private String memberName;
+
+    @Column(nullable = false)
+    private String memberEmail;
+
+    @Column(nullable = false)
+    private String memberGit;
+
+    @Column
+    private String memberImg;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+}

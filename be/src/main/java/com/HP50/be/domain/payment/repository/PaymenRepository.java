@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1301d38e166d2c0c37bae7831bed2480c2b5e2db2b647e7b410303fe0680fa67
-size 239
+package com.HP50.be.domain.payment.repository;
+
+import com.HP50.be.domain.payment.entity.Payment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PaymenRepository extends JpaRepository<Payment, Integer> {
+}

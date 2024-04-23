@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8615ab38c713bcf76a63bd3cd8ce3f7f816376f510b1874c0e21d6c841697c0c
-size 579
+package com.HP50.be.domain.project.service;
+
+import com.HP50.be.domain.project.dto.ProjectInfoDto;
+import com.HP50.be.domain.project.repository.ProjectCustomRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class ProjectServiceImpl implements ProjectService{
+    private final ProjectCustomRepository projectCustomRepository;
+    @Override
+    public ProjectInfoDto getTeamInfo(int memberId, int projectId) {
+        return projectCustomRepository.getTeamInfo(projectId,memberId);
+    }
+}
