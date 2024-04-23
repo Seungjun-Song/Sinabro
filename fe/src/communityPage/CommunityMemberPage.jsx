@@ -4,6 +4,9 @@ import SearchButtonIcon from '/image/community/search.png'
 import { useState } from 'react'
 
 import DropDawnIcon from '/image/nav/dropdownIcon.png'
+import ProceedSelection from './ProceedSelection'
+import TeamSelection from './TeamSelection'
+
 
 const MemberPage = styled.div`
     display: flex;        
@@ -58,50 +61,47 @@ const Option = styled.div`
 `
 
 const Proceed = styled.div`
-
+    display: flex;
+    align-items: start;
+    justify-content: center;
 `
 
 const ProceedToggle = styled.div`
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     background: rgba(62, 200, 175, 1);
     padding: 0.2rem 1rem;
 
+    width: 8rem;
 
     color: white;
 
     border: 2px solid rgba(62, 200, 175, 1);
     border-radius: 50px;
 `
-const ProceedSelection = styled.div`
-    position: absolute;
-    z-index: 999;
 
-    background-color: black;
-`
 const Team = styled.div`
+    display: flex;
+    align-items: start;
+    justify-content: center;
 `
 
 const TeamToggle = styled.div`
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     background: rgba(58, 166, 184, 1);
     padding: 0.2rem 1rem;
 
+    width: 8rem;
 
     color: white;
 
     border: 2px solid rgba(58, 166, 184, 1);
     border-radius: 50px;
-`
-
-const TeamSelection = styled.div`
-    position: absolute;
-    z-index: 999;
-
-    background-color: black;
 `
 
 const Posts = styled.div`
@@ -146,7 +146,7 @@ const CommunityMemberPage = () => {
                     {proceedToggle ? 
                     <img
                         src={DropDawnIcon}
-                        style={{ transform: 'rotate(180deg)', height: "50%" }}
+                        style={{ transform: 'rotate(180deg)', height: "50%"}}
                     >
                     </img> : 
                     <img
@@ -156,7 +156,11 @@ const CommunityMemberPage = () => {
                     </img>
                     }
                     </ProceedToggle>
-                    {proceedToggle && <ProceedSelection>dd</ProceedSelection>}
+                    {proceedToggle && 
+                    <ProceedSelection
+                        proceedOption={proceedOption}
+                        setProceedOption={setProceedOption}
+                    ></ProceedSelection>}
                 </Proceed>
 
 
@@ -177,7 +181,11 @@ const CommunityMemberPage = () => {
                     </img>
                     }
                     </TeamToggle>
-                    {teamToggle && <TeamSelection>dd</TeamSelection>}
+                    {teamToggle && 
+                    <TeamSelection
+                        teamOption={teamOption}
+                        setTeamOption={setTeamOption}
+                    ></TeamSelection>}
                 </Team>
                 </Option>
                 <div>
