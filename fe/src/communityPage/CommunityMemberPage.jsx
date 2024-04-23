@@ -9,6 +9,7 @@ import SearchButtonIcon from '/image/community/search.png'
 import ProceedSelection from './ProceedSelection'
 import TeamSelection from './TeamSelection'
 import Posts from './Posts'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -139,6 +140,8 @@ const CommunityMemberPage = () => {
     const [proceedToggle, setProceedToggle] = useState(false);
     const [teamToggle, setTeamToggle] = useState(false);
     
+    const navigate = useNavigate()
+
     //검색하기 axios
     const search = () => {
 
@@ -215,7 +218,8 @@ const CommunityMemberPage = () => {
                     ></TeamSelection>}
                 </Team>
                 </Option>
-                <WriteButton className='shadow'>
+                <WriteButton className='shadow'
+                            onClick={() => navigate('/createPost', {state: {kind: "member"}})}>
                     <img
                         src={WriteIcon}
                     >
