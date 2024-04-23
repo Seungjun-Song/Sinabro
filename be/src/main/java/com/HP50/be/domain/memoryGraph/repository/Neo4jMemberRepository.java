@@ -1,9 +1,7 @@
 package com.HP50.be.domain.memoryGraph.repository;
 
-import com.HP50.be.domain.member.entity.Member;
+import com.HP50.be.domain.memoryGraph.entity.Neo4jMember;
 import org.springframework.data.neo4j.repository.ReactiveNeo4jRepository;
-import org.springframework.data.neo4j.repository.support.CypherdslConditionExecutor;
 
-public interface Neo4jMemberRepository extends ReactiveNeo4jRepository<Member, Long>,
-        CypherdslConditionExecutor<Member> {
+public interface Neo4jMemberRepository extends ReactiveNeo4jRepository<Neo4jMember, String> {
 }
