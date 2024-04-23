@@ -2,7 +2,7 @@ spring:
     application:
         name: be
     profiles:
-        active: env
+        active: local
         include: github
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver

@@ -2,6 +2,7 @@ package com.HP50.be.domain.project.entity;
 
 import com.HP50.be.domain.code.entity.Category;
 import com.HP50.be.domain.code.entity.SubCategory;
+import com.HP50.be.domain.project.dto.ProjectCreateRequestDto;
 import com.HP50.be.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -44,4 +47,14 @@ public class Project extends BaseTimeEntity {
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
 
+    //연관관계 image
+    // Cascade.PERSIST : Delivery 엔터티를 저장할 때 자동으로 DeliveryImage 엔터티도 저장
+    @OneToMany(mappedBy = "project", cascade = CascadeType.PERSIST)
+    // teammates 필드에 Builder의 초기값을 설정
+    @Builder.Default
+    private List<Teammate> teammates = new ArrayList<>();
+
+    public void addTeammate(Teammate teammate){
+        teammates.add(teammate);
+    }
 }
