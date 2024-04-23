@@ -11,7 +11,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 @Getter
 @AllArgsConstructor
 @Builder
-@Node("Member")
+@Node("Neo4jMember")
 public class Neo4jMember {
     @Id
     private String email;
