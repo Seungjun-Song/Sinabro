@@ -1,23 +1,3 @@
-package com.HP50.be.domain.port.entity;
-
-import com.HP50.be.domain.member.entity.Member;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@Entity
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Port {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer portId;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:4075667c76a8e12b35256f24d85b8e6d97fff7734e737366c36ffdf15fe14ce5
+size 519

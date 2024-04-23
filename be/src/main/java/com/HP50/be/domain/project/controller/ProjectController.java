@@ -1,26 +1,3 @@
-package com.HP50.be.domain.project.controller;
-
-import com.HP50.be.domain.project.dto.ProjectInfoDto;
-import com.HP50.be.domain.project.dto.ProjectInfoRequestDto;
-import com.HP50.be.domain.project.service.ProjectService;
-import com.HP50.be.global.common.BaseResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RequiredArgsConstructor
-@RestController
-@RequestMapping("/api/teams")
-public class ProjectController {
-    private ProjectService service;
-    @GetMapping
-    private ResponseEntity<Object> getTeamInfo(ProjectInfoRequestDto requestDto){
-        ProjectInfoDto result = service.getTeamInfo(requestDto.getMemberId(), requestDto.getProjectId());
-
-        //ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponse<>(StatusCode.SUCCESS));
-        return ResponseEntity.ok(new BaseResponse<>(result));
-    }
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e7cccf0939cae18fa0c23840158e4b3cde271220b6d72c43a837435b5ddac1d4
+size 2083
