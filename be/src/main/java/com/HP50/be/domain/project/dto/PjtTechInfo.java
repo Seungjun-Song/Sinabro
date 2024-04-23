@@ -6,11 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PjtTechInfo {
-    Integer memberId;
+    Integer teammateId;
     String subcategoryName;
 
-    public PjtTechInfo(Integer memberId,  String subcategoryName) {
-        this.memberId = memberId;
+    public PjtTechInfo(Integer teammateId,  String subcategoryName) {
+        this.teammateId = teammateId;
         this.subcategoryName = subcategoryName;
     }
 }

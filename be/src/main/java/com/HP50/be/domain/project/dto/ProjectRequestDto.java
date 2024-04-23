@@ -7,7 +7,7 @@ import lombok.Setter;
 @Builder
 @Setter
 @Getter
-public class ProjectInfoRequestDto {
+public class ProjectRequestDto {
     int memberId;
     int projectId;
 }

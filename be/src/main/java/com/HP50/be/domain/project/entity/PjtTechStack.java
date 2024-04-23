@@ -17,11 +17,11 @@ public class PjtTechStack {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer pjtTechStackId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teammate_id")
     private Teammate teammate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
     private String subcategoryName;

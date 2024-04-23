@@ -1,14 +1,15 @@
 package com.HP50.be.domain.member.entity;
 
 import com.HP50.be.domain.code.entity.SubCategory;
+import com.HP50.be.domain.project.entity.PjtTechStack;
+import com.HP50.be.domain.project.entity.Teammate;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
-@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,7 +28,5 @@ public class TechStack {
 
     @Column(length = 50)
     private String subCategoryName;
-
-
 
 }

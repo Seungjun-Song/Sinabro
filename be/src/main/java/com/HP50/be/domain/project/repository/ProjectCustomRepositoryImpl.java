@@ -52,21 +52,21 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
                 ).from(teammate)
                 .where(project.projectId.eq(projectId)).fetch();
         // ID만 뽑기
-        List<Integer> memberIdList = teamList.stream().map(TeammateInfo::getMemberId).toList();
+        List<Integer> teammateIdList = teamList.stream().map(TeammateInfo::getTeammateId).toList();
         // 3. 팀원 아이디에 해당하는 애들가져와서 pjtTech정보 가져옴
         List<PjtTechInfo> techList = queryFactory.select(
                         Projections.constructor(
                                 PjtTechInfo.class,
-                                pjtTechStack.teammate.member.memberId.as("memberId"),
+                                pjtTechStack.teammate.teammateId.as("teammateId"), //수정 : teamMate로 하는게 더 나음
                                 pjtTechStack.subcategoryName.as("subcategoryName")
                         )
                 ).from(pjtTechStack)
-                .where(pjtTechStack.teammate.member.memberId.in(memberIdList))
+                .where(pjtTechStack.teammate.teammateId.in(teammateIdList))
                 .fetch();
         // 4. map으로 연결
         Map<Integer, List<String>> tech = techList.stream()
                 .collect(Collectors.groupingBy(
-                        PjtTechInfo::getMemberId, // memberId를 기준으로 그룹화
+                        PjtTechInfo::getTeammateId, // memberId를 기준으로 그룹화
                         Collectors.mapping(PjtTechInfo::getSubcategoryName, Collectors.toList()) // subcategoryName을 List로 매핑
                 ));
         // 연결중

@@ -20,4 +20,6 @@ public class Port {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    private Boolean portUse;
 }
