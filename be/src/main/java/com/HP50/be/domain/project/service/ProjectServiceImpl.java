@@ -179,5 +179,6 @@ public class ProjectServiceImpl implements ProjectService{
     public boolean updateRepo(GitRepoRequestDto requestDto) {
         Project project = projectRepository.findById(requestDto.getProjectId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
         project.updateRepo(requestDto.getProjectRepo());
+        return true;
     }
 }
