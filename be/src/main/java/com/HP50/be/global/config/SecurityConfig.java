@@ -1,6 +1,5 @@
 package com.HP50.be.global.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,13 +16,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeHttpRequests(auth->
-                    auth.requestMatchers("/").permitAll()
-                            .anyRequest().authenticated()
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().authenticated()
                 )
-
-                .oauth2Login(withDefaults())
-                .build();
+                .oauth2Login(withDefaults());
+        return http.build();
     }
 }

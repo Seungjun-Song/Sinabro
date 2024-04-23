@@ -1,4 +1,4 @@
-package com.HP50.be.domain.member.service;
+package com.HP50.be.global.common;
 
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.member.repository.MemberRepository;
