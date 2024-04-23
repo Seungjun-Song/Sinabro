@@ -1,9 +1,3 @@
-package com.HP50.be.domain.memoryGraph.repository;
-
-import com.HP50.be.domain.member.entity.Member;
-import org.springframework.data.neo4j.repository.ReactiveNeo4jRepository;
-import org.springframework.data.neo4j.repository.support.CypherdslConditionExecutor;
-
-public interface Neo4jMemberRepository extends ReactiveNeo4jRepository<Member, Long>,
-        CypherdslConditionExecutor<Member> {
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6e2991b0875de473a5a55eaed97aa0910701a8439533b4bc7e37d6e973a43abc
+size 393
