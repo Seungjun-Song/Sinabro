@@ -44,7 +44,10 @@ public class ProjectController {
     //팀원 삭제
     @DeleteMapping
     private ResponseEntity<Object> deleteTeammate(@RequestBody TeammateRequestDto requestDto){
-
+        boolean result = service.deleteTeammate(requestDto);
+        if(!result){
+            throw new BaseException(StatusCode.FAIL_DELETE_TEAMMATE);
+        }
         return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
     }
 }

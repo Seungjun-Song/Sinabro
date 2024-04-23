@@ -33,7 +33,7 @@ public class Teammate extends BaseTimeEntity {
 
     private Boolean teammateReader;
 
-    @OneToMany(mappedBy = "teammate", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "teammate",cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @Builder.Default
     private List<PjtTechStack> techStacks = new ArrayList<>();
 

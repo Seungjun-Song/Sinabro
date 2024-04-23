@@ -11,4 +11,6 @@ public interface ProjectService {
     public boolean createProject(ProjectCreateRequestDto requestDto);
     // 팀원 추가
     public boolean addTeammate(TeammateRequestDto requestDto);
+    // 팀원 삭제
+    public boolean deleteTeammate(TeammateRequestDto requestDto);
 }

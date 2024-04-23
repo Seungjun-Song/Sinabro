@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -83,7 +84,6 @@ public class ProjectServiceImpl implements ProjectService{
                         TechStackSimpleDto::getCategoryId
                 ));
         int reader = requestDto.getMemberId(); //리더
-
         Map<Integer, Member> membersMap = memberCustomRepository.getMembersMap(memberList);
         for(Integer id:memberList){
             Member member = membersMap.get(id);
@@ -141,11 +141,37 @@ public class ProjectServiceImpl implements ProjectService{
         }else{ //아니면 선택한 카테고리로 진행
             selectedCategoryId = member.getCategory().getCategoryId();
         }
-
-        List<TechStack> techStacks = techStackCustomRepository.getByMemberIdAndCategoryId(memberId, selectedCategoryId);
+        List<TechStack> techStacks = new ArrayList<>();
+        //근데 만약 선택한게 풀스택이면 100,200둘다 겟
+        if(selectedCategoryId==300){
+            List<TechStack> frontStack = techStackCustomRepository.getByMemberIdAndCategoryId(memberId, 100);
+            List<TechStack> backStack = techStackCustomRepository.getByMemberIdAndCategoryId(memberId, 200);
+            // frontStack과 backStack을 합치기
+            techStacks = Stream.concat(frontStack.stream(), backStack.stream())
+                    .collect(Collectors.toList());
+        }else{//아니면 해당하는것만 겟
+            techStacks = techStackCustomRepository.getByMemberIdAndCategoryId(memberId, selectedCategoryId);
+        }
 
         teammate.addTechStacks(techStacks,teammate);
         project.addTeammate(teammate);
+        return true;
+    }
+
+    @Override
+    public boolean deleteTeammate(TeammateRequestDto requestDto) {
+        Project project = projectRepository.findById(requestDto.getProjectId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
+        //팀 메이트 리스트 가져와서
+        List<Teammate> teammates = project.getTeammates();
+        //돌면서 지워야하는 팀 멤버면 remove하고 return
+        for(Teammate teammate: teammates){
+            if(teammate.getMember().getMemberId().equals(requestDto.getMemberId())){
+                teammateRepository.delete(teammate);
+                teammates.remove(teammate);
+                break;
+            }
+
+        }
         return true;
     }
 }
