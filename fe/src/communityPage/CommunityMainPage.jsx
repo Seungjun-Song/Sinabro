@@ -1,3 +1,46 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e2d8ac8ebbeb57b291dada8e8abeed22a3a1d53ea4cb6f3587ab718cb81baade
-size 1016
+import styled from 'styled-components'
+import React, { useState } from 'react';
+
+import Navbar from "../components/navs/Navbar";
+import SideMenu from './SideMenu';
+import CommunityMemberPage from './CommunityMemberPage';
+
+const Community = styled.div`
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: 100%;
+`
+
+
+const CommunityMainPage = () => {
+    const [selected, setSelected] = useState("member");
+    return (
+        <>
+        <Navbar>
+        </Navbar>
+        <Community>
+            <SideMenu
+                selected={selected}
+                setSelected={setSelected}
+            >
+            </SideMenu>
+
+            {selected === "member" ? (
+                <CommunityMemberPage></CommunityMemberPage>
+            ) : ("")}
+
+            {selected === "team" ? (
+                "team"
+            ) : ("")}
+
+            {selected === "feadback" ? (
+                "feadback"
+            ) : ("")}
+        </Community>
+
+        </>
+    )
+}
+
+export default CommunityMainPage;
