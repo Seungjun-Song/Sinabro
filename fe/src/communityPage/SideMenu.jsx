@@ -3,9 +3,10 @@ import styled, { css } from 'styled-components'
 const MenuList = styled.div`
     display: flex;          
     flex-direction: column;  
+    align-items: start;
     width: 20%;            
-    padding-left: 10rem;          
-    margin-top : 4rem;
+    padding-left: 10rem;  
+    margin-top: 5rem;        
     gap : 0.3rem;
   
     position: relative;

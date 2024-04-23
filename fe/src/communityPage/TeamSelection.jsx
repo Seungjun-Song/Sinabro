@@ -12,8 +12,13 @@ const Selection = styled.div`
 
     border: 2px solid rgba(58, 166, 184, 1);
     border-radius: 10px;
+
+    font-family: LaundryGothicRegular;
 `
-const TeamSelection = ({teamOption, setTeamOption}) => {
+const Option = styled.div`
+    text-align: center
+`
+const TeamSelection = ({teamOption, setTeamOption, setTeamToggle}) => {
     const teamList = [
         {
             id: 1, 
@@ -25,15 +30,20 @@ const TeamSelection = ({teamOption, setTeamOption}) => {
         }
     ]
 
+    const changeOption = (option) => {
+        setTeamOption(option);
+        setTeamToggle(false);
+    }
+
     return (
         <Selection>
-            <div onClick={() => setTeamOption("팀 선택")}>
+            <Option onClick={() => changeOption("팀 선택")}>
                 팀 선택
-            </div>
+            </Option>
             {teamList.map((team, index) => (
-                <div onClick={() => setTeamOption(team.name)}>
+                <Option onClick={() => changeOption(team.name)}>
                     {team.name}
-                </div>
+                </Option>
             ))}
         </Selection>
     )

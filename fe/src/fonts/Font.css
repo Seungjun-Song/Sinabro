@@ -88,6 +88,18 @@
     font-weight: 100;
     src: url("./Pretendard-Thin.ttf") format("woff");
   }
+  @font-face {
+    font-family: "LaundryGothicBold";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./LaundryGothic-Bold.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "LaundryGothicRegular";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./LaundryGothic-Regular.ttf") format("woff");
+  }
   body {
     font-family: "Jamsil Regular", sans-serif;
   }

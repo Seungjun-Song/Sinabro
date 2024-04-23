@@ -7,7 +7,7 @@ import CommunityMemberPage from './CommunityMemberPage';
 
 const Community = styled.div`
 display: flex;
-align-items: center;
+align-items: start;
 justify-content: space-between;
 width: 100%;
 `

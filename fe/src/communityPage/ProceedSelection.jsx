@@ -15,20 +15,27 @@ const Selection = styled.div`
 `
 
 const Option = styled.div`
+    text-align: center;
 
 `
 
-const ProceedSelection = ({proceedOption, setProceedOption}) => {
+const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle}) => {
+
+    const changeOption = (option) => {
+        setProceedOption(option);
+        setProceedToggle(false);
+    }
+
     return(
         <Selection>
-            <Option onClick={() => {setProceedOption("모두")}}>
+            <Option onClick={() => {changeOption("모두")}}>
                 모두
             </Option>
-            <Option onClick={() => {setProceedOption("진행 중")}}>
-                진행 중
+            <Option onClick={() => {changeOption("모집 중")}}>
+                모집 중
             </Option>
-            <Option onClick={() => {setProceedOption("진행 완료")}}>
-                진행 완료
+            <Option onClick={() => {changeOption("모집 완료")}}>
+                모집 완료
             </Option>
 
         </Selection>

@@ -1,11 +1,15 @@
 import styled from 'styled-components'
 
-import SearchButtonIcon from '/image/community/search.png'
 import { useState } from 'react'
 
 import DropDawnIcon from '/image/nav/dropdownIcon.png'
+import WriteIcon from '/image/community/writeIcon.png'
+import SearchButtonIcon from '/image/community/search.png'
+
 import ProceedSelection from './ProceedSelection'
 import TeamSelection from './TeamSelection'
+import Posts from './Posts'
+
 
 
 const MemberPage = styled.div`
@@ -64,6 +68,8 @@ const Proceed = styled.div`
     display: flex;
     align-items: start;
     justify-content: center;
+
+    font-family: LaundryGothicRegular;
 `
 
 const ProceedToggle = styled.div`
@@ -86,6 +92,8 @@ const Team = styled.div`
     display: flex;
     align-items: start;
     justify-content: center;
+
+    font-family: LaundryGothicRegular;
 `
 
 const TeamToggle = styled.div`
@@ -104,12 +112,29 @@ const TeamToggle = styled.div`
     border-radius: 50px;
 `
 
-const Posts = styled.div`
+const WriteButton = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    
+    background: rgba(86, 76, 173, 1);
+
+    border: 2px solid rgba(86, 76, 173, 1);
+    border-radius: 50px;
+
+    width: 8rem;
+    gap: 0.5rem;
+
+    font-family: LaundryGothicRegular;
+    color: white;
+
+    padding: 0 0.8rem;
+
 `
 
 const CommunityMemberPage = () => {
     const [searchWord, setSearchWord] = useState("");
-    const [proceedOption, setProceedOption] = useState("모두");
+    const [proceedOption, setProceedOption] = useState("모집 중");
     const [teamOption, setTeamOption] = useState("팀 선택");
     const [proceedToggle, setProceedToggle] = useState(false);
     const [teamToggle, setTeamToggle] = useState(false);
@@ -141,7 +166,7 @@ const CommunityMemberPage = () => {
             <Select>
                 <Option>
                 <Proceed>
-                    <ProceedToggle onClick={() => setProceedToggle(!proceedToggle)}>
+                    <ProceedToggle className='shadow' onClick={() => setProceedToggle(!proceedToggle)}>
                     {proceedOption}
                     {proceedToggle ? 
                     <img
@@ -160,13 +185,14 @@ const CommunityMemberPage = () => {
                     <ProceedSelection
                         proceedOption={proceedOption}
                         setProceedOption={setProceedOption}
+                        setProceedToggle={setProceedToggle}
                     ></ProceedSelection>}
                 </Proceed>
 
 
 
                 <Team>
-                    <TeamToggle onClick={() => setTeamToggle(!teamToggle)}>
+                    <TeamToggle className='shadow' onClick={() => setTeamToggle(!teamToggle)}>
                     {teamOption}
                     {teamToggle ? 
                     <img
@@ -185,16 +211,20 @@ const CommunityMemberPage = () => {
                     <TeamSelection
                         teamOption={teamOption}
                         setTeamOption={setTeamOption}
+                        setTeamToggle={setTeamToggle}
                     ></TeamSelection>}
                 </Team>
                 </Option>
-                <div>
-                    글쓰기
-                </div>
-
+                <WriteButton className='shadow'>
+                    <img
+                        src={WriteIcon}
+                    >
+                    </img>{" "}
+                    글 쓰기
+                </WriteButton>
             </Select>
+
             <Posts>
-                posts
             </Posts>
         </MemberPage>
     )
