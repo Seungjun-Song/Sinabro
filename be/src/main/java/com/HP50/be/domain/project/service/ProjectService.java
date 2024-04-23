@@ -1,5 +1,6 @@
 package com.HP50.be.domain.project.service;
 
+import com.HP50.be.domain.project.dto.GitRepoRequestDto;
 import com.HP50.be.domain.project.dto.ProjectCreateRequestDto;
 import com.HP50.be.domain.project.dto.ProjectInfoDto;
 import com.HP50.be.domain.project.dto.TeammateRequestDto;
@@ -13,4 +14,6 @@ public interface ProjectService {
     public boolean addTeammate(TeammateRequestDto requestDto);
     // 팀원 삭제
     public boolean deleteTeammate(TeammateRequestDto requestDto);
+    // 원격 레포 연결
+    public boolean updateRepo(GitRepoRequestDto requestDto);
 }

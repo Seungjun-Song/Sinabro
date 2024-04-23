@@ -19,8 +19,9 @@ public enum StatusCode {
     // TeamSpace ( 500)
     FAIL_CREATE_PROJECT(false,501,"프로젝트 생성에 실패했습니다."),
     NOT_EXIST_PROJECT(false,502,"해당하는 프로젝트가 없습니다."),
-    FAIL_ADD_TEAMMATE(false,501,"팀원 추가에 실패했습니다."),
-    FAIL_DELETE_TEAMMATE(false,501,"팀원 삭제에 실패했습니다."),
+    FAIL_ADD_TEAMMATE(false,503,"팀원 추가에 실패했습니다."),
+    FAIL_DELETE_TEAMMATE(false,504,"팀원 삭제에 실패했습니다."),
+    FAIL_UPDATE_REPO(false, 505, "레포 수정에 실패했습니다"),
     // Member ( 600 )
     NOT_EXIST_MEMBER(false,601,"해당하는 멤버가 없습니다."),
     // Port (800)

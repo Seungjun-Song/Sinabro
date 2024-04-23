@@ -174,4 +174,10 @@ public class ProjectServiceImpl implements ProjectService{
         }
         return true;
     }
+    // 원격 레포 연결
+    @Override
+    public boolean updateRepo(GitRepoRequestDto requestDto) {
+        Project project = projectRepository.findById(requestDto.getProjectId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
+        project.updateRepo(requestDto.getProjectRepo());
+    }
 }
