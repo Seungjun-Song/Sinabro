@@ -2,7 +2,7 @@ spring:
     application:
         name: be
     profiles:
-        active: env
+        active: local
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: ${DB_USERNAME}
@@ -26,5 +26,11 @@ spring:
                 - user
                 - project
                 - repo
-
-
+    neo4j:
+      uri: bolt://localhost:7687
+      authentication:
+        username: ${NEO4J_USERNAME}
+        password: ${NEO4J_PASSWORD}
+    data:
+      neo4j:
+        database: neo4j
