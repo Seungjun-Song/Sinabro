@@ -2,9 +2,12 @@ package com.HP50.be.domain.member.entity;
 
 
 import com.HP50.be.domain.code.entity.Category;
+import com.HP50.be.domain.payment.entity.Payment;
 import com.HP50.be.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
