@@ -12,6 +12,7 @@ import CodeTestPage from "./testPage/CodeTestPage";
 import SurveyPage from "./surveyPage/SurveyPage";
 import MyPage from "./myPage/MyPage";
 import TeamSpacePage from "./teamspacePage/TeamSpacePage";
+import CommunityMainPage from "./communityPage/CommunityMainPage";
 import "./fonts/Font.css"
 const App = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const App = () => {
       <Route path='/survey' element={<SurveyPage/>}/>
       <Route path='/mypage' element={<MyPage/>}/>
       <Route path="/TeamSpacePage" element={<TeamSpacePage />} />
+      <Route path="/communityMainPage" element={<CommunityMainPage/>}/>
     </Routes>
   );
 };
