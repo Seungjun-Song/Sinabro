@@ -1,5 +1,33 @@
 import { motion } from "framer-motion";
-const ProjectInvite = ({ hadlebutton ,IsModalOpen,setIsModalOpen}) => {
+import ProjectInviteImg from "./ProjectInviteImg";
+const DUMMY_DATA = [
+  {
+    id: 1,
+    img: "/images/pjtimg.png",
+    name: "주헌",
+    nameId :"JH201421228"
+  },
+  {
+    id: 2,
+    img: "/images/pjtimg.png",
+    name: "주헌",
+    nameId :"JH201421228"
+  },
+  {
+    id: 3,
+    img: "/images/pjtimg.png",
+    name: "주헌",
+    nameId :"JH201421228"
+  },
+  {
+    id: 4,
+    img: "/images/pjtimg.png",
+    name: "주헌",
+    nameId :"JH201421228"
+  },
+];
+
+const ProjectInvite = ({ hadlebutton, IsModalOpen, setIsModalOpen }) => {
   return (
     <div
       style={{
@@ -15,45 +43,35 @@ const ProjectInvite = ({ hadlebutton ,IsModalOpen,setIsModalOpen}) => {
           borderLeftWidth: "5px", // 왼쪽 테두리 두께
           borderLeftColor: "black", // 왼쪽 테두리 색상
           borderLeftStyle: "solid", // 왼쪽 테두리 스타일
-          padding: "1rem",
         }}
       >
-        <h4 style={{ margin: 0 }}>팀 초대</h4>
+        <h4 style={{ margin: 0 }}>팀원 초대</h4>
       </div>
       <div
         className="shadow px-5"
         style={{
           marginTop: "2rem",
-          height: "8rem",
+          padding: "2rem",
           borderRadius: "1rem",
           alignItems: "center",
           display: "flex",
-          gap: "1rem",
+          gap: "2rem",
+          backgroundColor: "white",
+          // overflowX:"auto",
         }}
       >
-        <img
-          className="shadow"
-          src="/images/pjtimg.png"
-          style={{ width: "4rem", height: "4rem", borderRadius: "2.5rem" }}
-        />
-        <img
-          className="shadow"
-          src="/images/pjtimg.png"
-          style={{ width: "4rem", height: "4rem", borderRadius: "2.5rem" }}
-        />
-        <img
-          className="shadow"
-          src="/images/pjtimg.png"
-          style={{ width: "4rem", height: "4rem", borderRadius: "2.5rem" }}
-        />
+        {DUMMY_DATA.map((item, index) => (
+          <ProjectInviteImg img={item.img} name={item.name} nameId={item.nameId} />
+        ))}
+
         <motion.div
           onClick={() => hadlebutton()}
-          whileHover={{cursor:"pointer" ,y:-7}}
+          whileHover={{ cursor: "pointer", y: -7 }}
           style={{
-            width: "4rem",
+            width: "5rem",
             border: "none",
-            height: "4rem",
-            borderRadius: "2.5rem",
+            height: "5rem",
+            borderRadius: "3rem",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",

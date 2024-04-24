@@ -3,7 +3,7 @@ import UserSearchInfo from "./UserSearchInfo";
 import UserSearchBar from "./UserSearchBar";
 import UserSearchResult from "./UserSearchResult";
 import { motion } from "framer-motion";
-const UserSearchModal = ({ setIsModalOpen }) => {
+const UserSearchModal = ({ setIsModalOpen ,projectName}) => {
   const [userName, setUserName] = useState("");
   const handleChange = (event) => {
     // 입력값이 변경될 때마다 호출되는 함수
@@ -13,6 +13,10 @@ const UserSearchModal = ({ setIsModalOpen }) => {
   return (
     <motion.div
       onClick={() => setIsModalOpen(false)}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
       style={{
         position: "fixed",
         top: 0,
@@ -46,11 +50,11 @@ const UserSearchModal = ({ setIsModalOpen }) => {
         }}
       >
         <div style={{ width: "100%" }}>
-          <UserSearchInfo />
+          <UserSearchInfo projectName={projectName} />
           <UserSearchBar handleChange={handleChange} userName={userName} />
           <UserSearchResult />
           <motion.div
-            whileHover={{ cursor: "pointer", backgroundColor: "#4244A2" }}
+            whileHover={{ cursor: "pointer",y:-5}}
             style={{
               borderRadius: "1rem",
               display: "flex",
