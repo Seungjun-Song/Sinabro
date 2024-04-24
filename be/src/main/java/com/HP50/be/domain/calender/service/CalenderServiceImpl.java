@@ -2,7 +2,9 @@ package com.HP50.be.domain.calender.service;
 
 import com.HP50.be.domain.calender.dto.CalenderRequestDto;
 import com.HP50.be.domain.calender.dto.CreateCalenderRequestDto;
+import com.HP50.be.domain.calender.dto.MyCalenderDto;
 import com.HP50.be.domain.calender.entity.Calender;
+import com.HP50.be.domain.calender.repository.CalenderCustomRepository;
 import com.HP50.be.domain.calender.repository.CalenderRepository;
 import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.code.repository.SubCategoryRepository;
@@ -17,6 +19,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +31,7 @@ public class CalenderServiceImpl implements CalenderService{
     private final MemberRepository memberRepository;
     private final SubCategoryRepository subCategoryRepository;
     private final ProjectCustomRepository projectCustomRepository;
+    private final CalenderCustomRepository calenderCustomRepository;
     @Override
     public boolean createCalender(int memberId, CreateCalenderRequestDto requestDto) {
         //1. 요청 유저가 프로젝트에 속해있는지 확인 + 담당자가 팀원인지 확인
@@ -83,5 +87,15 @@ public class CalenderServiceImpl implements CalenderService{
         Calender calender = calenderRepository.findById(requestDto.getCalenderId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_CALENDER));
         calenderRepository.delete(calender);
         return true;
+    }
+
+    @Override
+    public List<MyCalenderDto> getMySchedulesInProject(int memberId,int projectId) {
+        //멤버Id와 projectId기준으로 일정 가져옴.
+        List<MyCalenderDto> result = calenderCustomRepository.getMySchedulesInProject(memberId, projectId);
+        if(result==null){
+            throw new BaseException(StatusCode.NOT_EXIST_CALENDER);
+        }
+        return result;
     }
 }

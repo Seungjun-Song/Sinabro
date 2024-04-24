@@ -2,6 +2,9 @@ package com.HP50.be.domain.calender.service;
 
 import com.HP50.be.domain.calender.dto.CalenderRequestDto;
 import com.HP50.be.domain.calender.dto.CreateCalenderRequestDto;
+import com.HP50.be.domain.calender.dto.MyCalenderDto;
+
+import java.util.List;
 
 public interface CalenderService {
     //일정추가
@@ -10,4 +13,6 @@ public interface CalenderService {
     public boolean updateCalender(int memberId, CalenderRequestDto requestDto);
     // 일정 삭제
     public boolean deleteCalender(int memberId,CalenderRequestDto requestDto);
+    // 프로젝트에서 나의 일정 조회
+    List<MyCalenderDto> getMySchedulesInProject(int memberId,int projectId);
 }
