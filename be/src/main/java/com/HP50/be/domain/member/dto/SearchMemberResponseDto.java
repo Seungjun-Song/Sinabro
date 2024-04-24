@@ -11,5 +11,5 @@ import java.util.List;
 public class SearchMemberResponseDto {
     Integer page;
     Boolean hasNext;
-    List<SearchMemberSimpleInfo> searchList;
+    List<SearchMemberSimpleInfoDto> searchList;
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchMemberSimpleInfo {
+public class SearchMemberSimpleInfoDto {
     private Integer memberId;
     private String memberName;
     private String memberImg;

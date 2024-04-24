@@ -24,5 +24,5 @@ public class MemberController {
         return ResponseEntity.ok(new BaseResponse<>(result));
     }
 
-    
+
 }

@@ -1,6 +1,5 @@
 package com.HP50.be.domain.member.repository;
 
-import com.HP50.be.domain.member.dto.SearchMemberSimpleInfo;
 import com.HP50.be.domain.member.entity.Member;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
