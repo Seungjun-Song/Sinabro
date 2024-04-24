@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6b1b3b322563fa40f6005e241c13ebc91d1cd80a9623cbe854bc5468ca21139a
-size 604
+package com.HP50.be.domain.community.entity;
+
+import com.HP50.be.domain.member.entity.Member;
+import com.HP50.be.global.common.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Comment extends BaseTimeEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer commentId;
+
+    @Column
+    private String commentContent;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Comment board;
+}
+

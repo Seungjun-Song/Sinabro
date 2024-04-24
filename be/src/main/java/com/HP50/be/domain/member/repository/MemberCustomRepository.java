@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1e892b89b5b42d3831cfc3053758f520cee7afdf2375b72bd7061b2130013cac
-size 425
+package com.HP50.be.domain.member.repository;
+
+import com.HP50.be.domain.member.entity.Member;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+
+import java.util.List;
+import java.util.Map;
+
+public interface MemberCustomRepository {
+    public Map<Integer, Member> getMembersMap(List<Integer> idList);
+    public Slice<Member> searchMember(String keyword, Pageable pageable);
+
+}

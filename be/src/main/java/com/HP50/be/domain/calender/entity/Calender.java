@@ -1,3 +1,36 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:118990380c1e871873be565a03b5eb08ee5e00c74c7f9f5e6553c55f3aa5e5a2
-size 892
+package com.HP50.be.domain.calender.entity;
+
+import com.HP50.be.domain.code.entity.SubCategory;
+import com.HP50.be.domain.member.entity.Member;
+import com.HP50.be.domain.project.entity.Project;
+import com.HP50.be.global.common.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
+
+@Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Calender extends BaseTimeEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer calenderId;
+    private String calenderName;
+    private LocalDate calenderStartDt;
+    private LocalDate calenderEndDt;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "subcategory_id")
+    private SubCategory subCategory;
+
+}
