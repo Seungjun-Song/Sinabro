@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components'
+import { useState } from 'react';
+import styled, { css } from 'styled-components'
 
 import Navbar from '../../components/navs/Navbar';
 
@@ -37,17 +38,34 @@ const Option = styled.div`
     
     background: rgba(240, 240, 240, 1);
     color: rgba(86, 76, 173, 1);
+
+    cursor: pointer; 
+
+    ${props => props.selected && css`
+        background: rgba(86, 76, 173, 1);
+        color: rgba(240, 240, 240, 1);
+    `}
 `
 
 const TeamChoice = styled.div`
+    padding: 0.2rem 1rem;
+
+    width: 15%;
+    
+    background: rgba(240, 240, 240, 1);
+    color: rgba(86, 76, 173, 1);
+
+    cursor: pointer; 
 `
 
 const CreatePage = () => {
     const location = useLocation();
     const data = location.state;
-    
-    const changeOption = () => {
 
+    const [selected, setSelected] = useState(data.kind);
+    
+    const changeOption = (option) => {
+        setSelected(option);
     }
 
     return(
@@ -57,28 +75,31 @@ const CreatePage = () => {
             <Create>
                 <Header>
                     <Options>
-                    <Option onClick={() => changeOption("member")}>
+                    <Option onClick={() => changeOption("member")}
+                        selected={selected === "member"}>
                         팀원 구해요
                     </Option>
-                    <Option onClick={() => changeOption("team")}>
+                    <Option onClick={() => changeOption("team")}
+                        selected={selected === "team"}>
                         팀 구해요
                     </Option>
-                    <Option onClick={() => changeOption("feadback")}>
+                    <Option onClick={() => changeOption("feadback")}
+                        selected={selected === "feadback"}>
                         피드백 원해요
                     </Option>
                     </Options>
                     <TeamChoice>
-                        팀선택
+                        팀 선택하기
                     </TeamChoice>
                 </Header>
 
-                {data.kind === "member" ? (
+                {selected === "member" ? (
                     "member"
                 ) : ("")}
-                {data.kind === "team" ? (
+                {selected === "team" ? (
                     "team"
                 ) : ("")}
-                {data.kind === "feadback" ? (
+                {selected === "feadback" ? (
                     "feadback"
                 ) : ("")}
             </Create>
