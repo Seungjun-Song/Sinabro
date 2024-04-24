@@ -61,7 +61,7 @@ public class ProjectServiceImpl implements ProjectService{
             throw new BaseException(StatusCode.NOT_EXIST_PORT);
         }
         //진행 중 상태 가져오기
-        SubCategory status = subCategoryRepository.findById(402).orElseThrow(()-> new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY));
+        SubCategory status = subCategoryRepository.findById(502).orElseThrow(()-> new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY));
 
         // 프로젝트 DTO 생성 후 Entity로 변환
         ProjectDto projectDto = ProjectDto.builder()
