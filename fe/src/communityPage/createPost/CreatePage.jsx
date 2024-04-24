@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components'
 
 import Navbar from '../../components/navs/Navbar';
 import CreateMemberPost from './CreateMemberPost';
+import CreateTeamPost from './CreateTeamPost';
 
 const Create = styled.div`
     display: flex;
@@ -102,7 +103,7 @@ const CreatePage = () => {
                     </CreateMemberPost>
                 ) : ("")}
                 {selected === "team" ? (
-                    "team"
+                    <CreateTeamPost/>
                 ) : ("")}
                 {selected === "feadback" ? (
                     "feadback"

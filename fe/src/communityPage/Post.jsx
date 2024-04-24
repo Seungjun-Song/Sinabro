@@ -91,9 +91,9 @@ const Post = ({post}) => {
                     proceed={post.proceed === false}
                 >
                     {post.proceed ? 
-                    <>진행 중</>
+                    <>모집 중</>
                     :
-                    <>진행 완료</>
+                    <>모집 완료</>
                     }
                 </Proceed>
                 <Title>
