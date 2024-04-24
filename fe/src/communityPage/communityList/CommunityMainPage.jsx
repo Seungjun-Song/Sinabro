@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import Navbar from "../components/navs/Navbar";
-import SideMenu from './SideMenu';
+import Navbar from "../../components/navs/Navbar";
+import SideMenu from '../SideMenu';
 import CommunityMemberPage from './CommunityMemberPage';
 import CommunityTeamPage from './CommunityTeamPage';
 import CommunityFeadBackPage from './CommunityFeadbackPage';

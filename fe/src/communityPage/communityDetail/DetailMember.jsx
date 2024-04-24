@@ -1,9 +1,11 @@
 import styled, { css } from 'styled-components'
 
 import MoveToPjt from '/image/community/moveToPjt.png'
+import CommentWindow from './CommentWindow'
 
 import ProfileTempImg from '/images/default_my_image.png'
 import PjtImg from '/image/community/pjtTempImg.png'
+
 
 const Detail = styled.div`
     display: flex;        
@@ -255,9 +257,7 @@ const DetailMember = () => {
             
             <Line/>
 
-            <Comment>
-                comment                
-            </Comment>
+            <CommentWindow/>
         </Detail>
     )
 }

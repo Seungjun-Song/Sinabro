@@ -13,7 +13,7 @@ import SurveyPage from "./surveyPage/SurveyPage";
 import MyPage from "./myPage/MyPage";
 import TeamSpacePage from "./teamspacePage/TeamSpacePage";
 
-import CommunityMainPage from "./communityPage/CommunityMainPage";
+import CommunityMainPage from "./communityPage/communityList/CommunityMainPage";
 import CreatePost from "./communityPage/createPost/CreatePage";
 import DetailMainPage from "./communityPage/communityDetail/DetailMainPage";
 

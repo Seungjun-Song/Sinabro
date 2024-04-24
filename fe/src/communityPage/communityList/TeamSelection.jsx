@@ -18,6 +18,7 @@ const Selection = styled.div`
 const Option = styled.div`
     text-align: center
 `
+
 const TeamSelection = ({teamOption, setTeamOption, setTeamToggle}) => {
     const teamList = [
         {
@@ -40,8 +41,8 @@ const TeamSelection = ({teamOption, setTeamOption, setTeamToggle}) => {
             <Option onClick={() => changeOption("팀 선택")}>
                 팀 선택
             </Option>
-            {teamList.map((team, index) => (
-                <Option onClick={() => changeOption(team.name)}>
+            {teamList.map((team) => (
+                <Option key={team.id} onClick={() => changeOption(team.name)}>
                     {team.name}
                 </Option>
             ))}
