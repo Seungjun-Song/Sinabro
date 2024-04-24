@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/teams")
+@RequestMapping("/teams")
 @RequiredArgsConstructor
 public class ProjectController {
     private final ProjectService service;
@@ -59,4 +59,5 @@ public class ProjectController {
         }
         return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
     }
+
 }
