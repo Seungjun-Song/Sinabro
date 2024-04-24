@@ -27,7 +27,7 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
         ProjectInfoDto result = queryFactory.select(
                         Projections.constructor(
                                 ProjectInfoDto.class,
-                                subCategory.subCategoryName.as("status"),
+                                project.subCategory.subCategoryId.as("status"),
                                 project.projectName.as("projectName"),
                                 project.projectInfo.as(("projectInfo")),
                                 project.projectImg.as("projectImg"),
@@ -53,6 +53,7 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
                 .where(project.projectId.eq(projectId)).fetch();
         // ID만 뽑기
         List<Integer> teammateIdList = teamList.stream().map(TeammateInfo::getTeammateId).toList();
+
         // 3. 팀원 아이디에 해당하는 애들가져와서 pjtTech정보 가져옴
         List<PjtTechInfo> techList = queryFactory.select(
                         Projections.constructor(
@@ -69,13 +70,19 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
                         PjtTechInfo::getTeammateId, // memberId를 기준으로 그룹화
                         Collectors.mapping(PjtTechInfo::getSubcategoryName, Collectors.toList()) // subcategoryName을 List로 매핑
                 ));
+
         // 연결중
         for(TeammateInfo info: teamList){
-            Integer id = info.getMemberId();
+            Integer id = info.getTeammateId();
             info.setTechStack(tech.get(id));
+            if(info.getTeamReader()){
+                result.setTeamReaderId(info.getMemberId());
+            }
         }
         //프로젝트 정보에 연결
         result.setTeammateInfoList(teamList);
+
+
         return result;
     }
 }

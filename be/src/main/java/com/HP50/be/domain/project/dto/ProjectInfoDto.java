@@ -1,5 +1,6 @@
 package com.HP50.be.domain.project.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,10 +25,13 @@ public class ProjectInfoDto {
     private LocalDateTime createdDttm;
     // 완료 일시
     private LocalDateTime endDttm;
+    // 리더 멤버 ID
+    private Integer teamReaderId;
     //팀 리스트
     List<TeammateInfo> teammateInfoList;
 
-    public ProjectInfoDto(Integer status, String projectName, String projectInfo, String projectImg, String projectRepo, LocalDateTime createdDttm, LocalDateTime updatedDttm, LocalDateTime endDttm) {
+    @Builder
+    public ProjectInfoDto(Integer status, String projectName, String projectInfo, String projectImg, String projectRepo, LocalDateTime createdDttm,LocalDateTime endDttm) {
         this.status = status;
         this.projectName = projectName;
         this.projectInfo = projectInfo;
