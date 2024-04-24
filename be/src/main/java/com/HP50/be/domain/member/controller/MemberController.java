@@ -1,18 +1,3 @@
-package com.HP50.be.domain.member.controller;
-
-import com.HP50.be.domain.member.service.MemberService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequestMapping("/members")
-@RequiredArgsConstructor
-public class MemberController {
-
-    private final MemberService memberService;
-
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a7ad32db3edbf086fcd599d619332d4a1e6472354f451ec188476097038760bd
+size 1043
