@@ -26,6 +26,8 @@ public enum StatusCode {
 
     // Member ( 600 )
     NOT_EXIST_MEMBER(false,601,"해당하는 멤버가 없습니다."),
+    // Calender ( 700 )
+    FAIL_CREATE_CALENDER(false, 701, "일정 추가에 실패했습니다"),
     // Port (800)
     NOT_EXIST_PORT(false,801,"지급할 수 있는 포트가 없습니다.")
     ;

@@ -3,6 +3,8 @@ package com.HP50.be.domain.calender.controller;
 import com.HP50.be.domain.calender.dto.CreateCalenderRequestDto;
 import com.HP50.be.domain.calender.service.CalenderService;
 import com.HP50.be.global.common.BaseResponse;
+import com.HP50.be.global.common.StatusCode;
+import com.HP50.be.global.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,9 +23,12 @@ public class CalenderController {
     @PostMapping
     public ResponseEntity<Object> createCalender(@RequestBody CreateCalenderRequestDto requestDto){
         int memberId = 1; //JWT 대체 & 임시
-
-
-        return ResponseEntity.ok(new BaseResponse<>(null));
+        boolean calender = calenderService.createCalender(memberId, requestDto);
+        if(calender){
+            return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
+        }else{
+            throw new BaseException(StatusCode.FAIL_CREATE_CALENDER);
+        }
     }
 
 }
