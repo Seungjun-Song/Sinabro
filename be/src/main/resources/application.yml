@@ -27,7 +27,7 @@ spring:
                 - project
                 - repo
     neo4j:
-      uri: bolt://localhost:7687
+      uri: ${NEO4J_URI}
       authentication:
         username: ${NEO4J_USERNAME}
         password: ${NEO4J_PASSWORD}
