@@ -9,10 +9,7 @@ import com.HP50.be.global.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/schedules")
@@ -37,9 +34,24 @@ public class CalenderController {
     public ResponseEntity<Object> updateCalender(@RequestBody CalenderRequestDto calenderRequestDto){
         int memberId = 1; //JWT 대체 & 임시
         boolean result = calenderService.updateCalender(memberId, calenderRequestDto);
-        return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
+        if(result){
+            return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
+        }else{
+            throw new BaseException(StatusCode.FAIL_UPDATE_CALENDER);
+        }
+
 
     }
-
+    // 일정 삭제
+    @DeleteMapping
+    public ResponseEntity<Object> deleteCalender(@RequestBody CalenderRequestDto requestDto){
+        int memberId = 1; //JWT 대체
+        boolean result = calenderService.deleteCalender(memberId, requestDto);
+        if(result){
+            return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
+        }else{
+            throw new BaseException(StatusCode.FAIL_DELETE_CALENDER);
+        }
+    }
 
 }

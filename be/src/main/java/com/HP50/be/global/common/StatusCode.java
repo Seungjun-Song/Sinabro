@@ -29,6 +29,9 @@ public enum StatusCode {
     // Calender ( 700 )
     FAIL_CREATE_CALENDER(false, 701, "일정 추가에 실패했습니다"),
     NOT_EXIST_CALENDER(false,702,"해당하는 일정이 없습니다"),
+    FAIL_UPDATE_CALENDER(false, 703, "일정 수정에 실패했습니다"),
+    FAIL_DELETE_CALENDER(false, 704, "일정 삭제에 실패했습니다"),
+
     // Port (800)
     NOT_EXIST_PORT(false,801,"지급할 수 있는 포트가 없습니다.")
     ;

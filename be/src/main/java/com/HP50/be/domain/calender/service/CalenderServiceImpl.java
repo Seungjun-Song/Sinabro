@@ -71,4 +71,17 @@ public class CalenderServiceImpl implements CalenderService{
         calender.updateSubCategory(subCategory);
         return true;
     }
+
+    @Override
+    public boolean deleteCalender(int memberId, CalenderRequestDto requestDto) {
+        //1. 멤버인지 확인
+        boolean isTeammate = projectCustomRepository.isTeammate(memberId, requestDto.getProjectId());
+        if(!isTeammate){
+            throw new BaseException(StatusCode.NOT_TEAM_MEMBER);
+        }
+        //2. 멤버면 삭제 가능
+        Calender calender = calenderRepository.findById(requestDto.getCalenderId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_CALENDER));
+        calenderRepository.delete(calender);
+        return true;
+    }
 }

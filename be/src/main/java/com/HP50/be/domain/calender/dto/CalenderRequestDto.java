@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class CalenderRequestDto {
     Integer calenderId;
-    Integer managerId;
     Integer projectId;
     Integer subCategoryId;
 }
