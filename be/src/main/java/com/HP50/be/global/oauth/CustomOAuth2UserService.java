@@ -1,5 +1,7 @@
-package com.HP50.be.global.common;
+package com.HP50.be.global.oauth;
 
+import com.HP50.be.domain.member.dto.CustomOAuth2MemberDto;
+import com.HP50.be.domain.member.dto.MemberDto;
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class PrincipalOauthUserService extends DefaultOAuth2UserService {
+public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberRepository memberRepository;
 
@@ -27,6 +29,9 @@ public class PrincipalOauthUserService extends DefaultOAuth2UserService {
         // 로그인 -> code 리턴 -> accessToken 요청
         // userRequest 정보 -> loadUser함수 호출 -> 깃허브로 부터 정보 받아옴
         log.info("getAttributes:" + oAuth2User.getAttributes()); //유저 정보를 받아옴
+        // 내가 어디서 정보를 제공 받았는지 확인하는 라인
+        // 만약 카카오, 네이버, 구글 등 여러가지 기관에서 OAuth 를 허용했다면 RgistrationId 를 통해서 구분해서 로직을 진행해야됌
+        log.info("getRegistrationId: " + userRequest.getClientRegistration().getRegistrationId());
 
 //        회원가입
         String nickname = oAuth2User.getAttribute("login");
@@ -34,19 +39,24 @@ public class PrincipalOauthUserService extends DefaultOAuth2UserService {
         String memberImg = oAuth2User.getAttribute("avatar_url");
         String memberGit = oAuth2User.getAttribute("html_url");
 
-        Member memberEntity = memberRepository.findByMemberEmail(email).orElse(null);
-//      정보가 없으면 회원가입
-        if (memberEntity == null) {
-            memberEntity = Member.builder()
+        Member member = this.memberRepository.findByMemberEmail(email).orElse(null);
+        if(member == null){
+            member = this.memberRepository.save(Member.builder()
                     .memberName(nickname)
                     .memberEmail(email)
                     .memberImg(memberImg)
                     .memberGit(memberGit)
-                    .build();
-            memberRepository.save(memberEntity);
+                    .build()
+            );
         }
 
-        return super.loadUser(userRequest);
+        MemberDto memberDto = MemberDto.builder()
+            .memberId(member.getMemberId())
+            .memberEmail(member.getMemberEmail())
+            .memberName(member.getMemberName())
+            .build();
+
+        return new CustomOAuth2MemberDto(memberDto);
     }
 }
 

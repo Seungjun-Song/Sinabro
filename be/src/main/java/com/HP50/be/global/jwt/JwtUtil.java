@@ -11,12 +11,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
-@RequiredArgsConstructor
 public class JwtUtil {
 
-    private SecretKey secretKey;
+    private final SecretKey secretKey;
 
-    public JwtUtil(@Value("${jwt.secret}") String secret) {
+    public JwtUtil(@Value("${spring.jwt.secret}") String secret) {
+        System.out.println("secret = " + secret);
         // UTF8로 인코딩 하고 암호화는 HS256 방식으로 진행된다.
         // secret을 문자열로 받았기 때문에 SecretKeySpec 로 변환하는 과정이 필요
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());

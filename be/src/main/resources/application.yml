@@ -27,19 +27,18 @@ spring:
                 - project
                 - repo
     neo4j:
-      uri: bolt://localhost:7687
+      uri: ${NEO4J_URI}
       authentication:
         username: ${NEO4J_USERNAME}
         password: ${NEO4J_PASSWORD}
     data:
       neo4j:
         database: neo4j
-
+    jwt:
+      header: Authorization
+      secret: ${JWT_SECRET_KEY}
+      token-validity-in-seconds: 86400
 server:
   servlet:
     context-path: "/api"
 
-jwt:
-    header: Authorization
-    secret: ${JWT_SECRET_KEY}
-    token-validity-in-seconds: 86400
