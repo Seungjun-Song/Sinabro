@@ -63,5 +63,13 @@ public class CalenderController {
         List<MyCalenderDto> result = service.getMySchedulesInProject(memberId, projectId);
         return ResponseEntity.ok(new BaseResponse<>(result));
     }
+    //나의 모든 일정 조회
+    @GetMapping("/my-schedule")
+    public ResponseEntity<Object> getMySchedules(){
+        int memberId = 1;//JWT
+        List<MyCalenderDto> result = service.getMySchedules(memberId);
+        return ResponseEntity.ok(new BaseResponse<>(result));
+    }
+    
 
 }

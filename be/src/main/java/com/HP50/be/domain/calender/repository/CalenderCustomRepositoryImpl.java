@@ -27,14 +27,29 @@ public class CalenderCustomRepositoryImpl implements CalenderCustomRepository{
                                 calender.calenderEndDt.as("calenderEndDt"),
                                 calender.calenderName.as("calenderName")
                         )
-
                 ).from(calender)
                 .join(calender.subCategory, subCategory)
                 .where(calender.member.memberId.eq(memberId).and(
                         calender.project.projectId.eq(projectId)
                 )).fetch();
+        return result;
+    }
 
-
+    @Override
+    public List<MyCalenderDto> getMySchedules(int memberId) {
+        List<MyCalenderDto> result = queryFactory.select(
+                        Projections.constructor(
+                                MyCalenderDto.class,
+                                calender.calenderId.as("calenderId"),
+                                calender.subCategory.subCategoryId.as("subCategoryId"),
+                                calender.calenderStartDt.as("calenderStartDt"),
+                                calender.calenderEndDt.as("calenderEndDt"),
+                                calender.calenderName.as("calenderName")
+                        )
+                ).from(calender)
+                .join(calender.subCategory, subCategory)
+                .where(calender.member.memberId.eq(memberId)
+                ).fetch();
         return result;
     }
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CalenderCustomRepository {
     List<MyCalenderDto> getMySchedulesInProject(int memberId, int projectId);
+    List<MyCalenderDto> getMySchedules(int memberId);
 }
