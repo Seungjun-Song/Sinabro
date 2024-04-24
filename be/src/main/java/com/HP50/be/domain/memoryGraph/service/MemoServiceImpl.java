@@ -12,7 +12,5 @@ import reactor.core.publisher.Flux;
 public class MemoServiceImpl implements MemoService {
     private final MemoRepository memoRepository;
 
-    public Flux<Memo> findAll(){
-        return this.memoRepository.findAll();
-    }
+    public Flux<Memo> findAll(){return this.memoRepository.findAll();}
 }
