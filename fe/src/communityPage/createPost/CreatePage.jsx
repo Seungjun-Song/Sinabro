@@ -3,6 +3,7 @@ import { useState } from 'react';
 import styled, { css } from 'styled-components'
 
 import Navbar from '../../components/navs/Navbar';
+import CreateMemberPost from './CreateMemberPost';
 
 const Create = styled.div`
     display: flex;
@@ -19,6 +20,7 @@ const Header = styled.div`
     align-items: center;
 
     width: 100%;
+    
 `
 
 const Options = styled.div`
@@ -88,13 +90,16 @@ const CreatePage = () => {
                         피드백 원해요
                     </Option>
                     </Options>
-                    <TeamChoice>
-                        팀 선택하기
-                    </TeamChoice>
+                    {selected === "member" || selected === "feadback" ? (
+                        <TeamChoice>
+                            팀 선택하기
+                        </TeamChoice>
+                    ) : ("")}
                 </Header>
 
                 {selected === "member" ? (
-                    "member"
+                    <CreateMemberPost>
+                    </CreateMemberPost>
                 ) : ("")}
                 {selected === "team" ? (
                     "team"

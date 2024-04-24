@@ -63,6 +63,8 @@ const Option = styled.div`
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
+
+    cursor: pointer; 
 `
 
 const Proceed = styled.div`
