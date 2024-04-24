@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0cb007c1f29d67db257c348d472befda89f4a8cf2b292babc8e70580c91a39d3
-size 235
+package com.HP50.be.domain.calender.service;
+
+import com.HP50.be.domain.calender.dto.CalenderRequestDto;
+import com.HP50.be.domain.calender.dto.CreateCalenderRequestDto;
+
+public interface CalenderService {
+    public boolean createCalender(int memberId, CreateCalenderRequestDto requestDto);
+    public boolean updateCalender(int memberId, CalenderRequestDto requestDto);
+}

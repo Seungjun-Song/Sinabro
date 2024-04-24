@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:06eb1abdbc3531b6085b4f7ba30a75becb43e0c710a08e5abcf2829cca8ae74a
-size 780
+package com.HP50.be.domain.memoryGraph.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
+
+import java.util.List;
+
+
+@Getter
+@AllArgsConstructor
+@Builder
+@Node("Memo")
+public class Memo {
+    @Id
+    private final String title;
+    private final String content;
+
+    @Relationship(type = "in_coming", direction = Relationship.Direction.INCOMING)
+    private List<Memo> from;
+
+    // memo라는 관계를 가진 나에게서 뻗어나가는 메모를 출력
+    @Relationship(type = "out_going", direction = Relationship.Direction.OUTGOING)
+    private List<Memo> to;
+
+}
