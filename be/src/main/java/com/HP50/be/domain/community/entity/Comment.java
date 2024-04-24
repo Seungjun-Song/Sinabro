@@ -3,13 +3,10 @@ package com.HP50.be.domain.community.entity;
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
