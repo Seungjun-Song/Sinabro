@@ -32,6 +32,7 @@ const TestPage = () => {
             <button onClick={() => navigate('/mypage')}>마이 페이지</button>
             <button onClick={() => navigate('/TeamSpacePage')}>팀스페이스 페이지</button>
             <button onClick={() => navigate('/communityMainPage')}>커뮤니티</button>
+            <button onClick={() => navigate('/TeamSpaceDetailPage')}>팀스페이스 디테일 페이지</button>
         </div>
     )
 }

@@ -9,9 +9,10 @@ const UserSearchBar = ({handleChange,userName}) => {
           height: "4rem",
           width: "100%",
           marginTop: "1rem",
-          border: "3px solid transparent", // 투명한 테두리 설정
+
           padding: "1rem",
           borderRadius: "0.75rem",
+          border: "3px solid transparent", // 투명한 테두리 설정
           borderImage: "linear-gradient(to right, #a8c0ff, #3f2b96 )", // 그라데이션 테두리 이미지
           borderImageSlice: "1", // 이미지 슬라이스
           outline: "none",

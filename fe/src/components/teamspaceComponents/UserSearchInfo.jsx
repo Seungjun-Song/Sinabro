@@ -1,4 +1,4 @@
-const UserSearchInfo = () => {
+const UserSearchInfo = ({projectName}) => {
   return (
     <div
       style={{
@@ -35,7 +35,8 @@ const UserSearchInfo = () => {
         <h3 style={{ color: "#204FCF", fontWeight: "bold", margin: 0 }}>
           유저 검색
         </h3>
-        <h5 style={{ margin: 0 }}>시나브로의 팀원을 추가하세요!</h5>
+        {projectName && <h5 style={{ margin: 0 }}>{projectName}의 팀원을 추가하세요!</h5>}
+        {!projectName && <h5 style={{ margin: 0 }}>팀원을 추가하세요!</h5>}
       </div>
     </div>
   );
