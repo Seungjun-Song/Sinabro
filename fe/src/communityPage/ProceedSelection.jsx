@@ -19,7 +19,7 @@ const Option = styled.div`
 
 `
 
-const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle}) => {
+const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, kind}) => {
 
     const changeOption = (option) => {
         setProceedOption(option);
@@ -28,15 +28,30 @@ const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle}) =
 
     return(
         <Selection>
-            <Option onClick={() => {changeOption("모두")}}>
-                모두
-            </Option>
-            <Option onClick={() => {changeOption("모집 중")}}>
-                모집 중
-            </Option>
-            <Option onClick={() => {changeOption("모집 완료")}}>
-                모집 완료
-            </Option>
+            {kind === "team" || kind === "member" ? 
+            (<>
+                <Option onClick={() => {changeOption("모두")}}>
+                    모두
+                </Option>
+                <Option onClick={() => {changeOption("모집 중")}}>
+                    모집 중
+                </Option>
+                <Option onClick={() => {changeOption("모집 완료")}}>
+                    모집 완료
+                </Option>
+            </>)
+            :
+            (<>
+                <Option onClick={() => {changeOption("모두")}}>
+                    모두
+                </Option>
+                <Option onClick={() => {changeOption("구걸 중")}}>
+                    구걸 중
+                </Option>
+                <Option onClick={() => {changeOption("구걸 완료")}}>
+                    구걸 완료
+                </Option>
+            </>)}
 
         </Selection>
     )

@@ -4,7 +4,7 @@ import Post from "./Post";
 
 const List = styled.div`
 `
-const Posts = () => {
+const Posts = ({kind}) => {
     const postList = [
         {
             id: 1,
@@ -52,7 +52,7 @@ const Posts = () => {
         <List>
         {postList.map((post, index) => (
             <Post
-                post={post} key={index}
+                post={post} key={index} kind={kind}
             >
             </Post>
 

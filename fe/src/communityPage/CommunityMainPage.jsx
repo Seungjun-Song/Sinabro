@@ -6,6 +6,7 @@ import Navbar from "../components/navs/Navbar";
 import SideMenu from './SideMenu';
 import CommunityMemberPage from './CommunityMemberPage';
 import CommunityTeamPage from './CommunityTeamPage';
+import CommunityFeadBackPage from './CommunityFeadbackPage';
 
 const Community = styled.div`
 display: flex;
@@ -40,7 +41,7 @@ const CommunityMainPage = () => {
             ) : ("")}
 
             {selected === "feadback" ? (
-                "feadback"
+                <CommunityFeadBackPage/>
             ) : ("")}
         </Community>
 

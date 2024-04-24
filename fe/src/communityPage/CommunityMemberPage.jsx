@@ -191,6 +191,7 @@ const CommunityMemberPage = () => {
                         proceedOption={proceedOption}
                         setProceedOption={setProceedOption}
                         setProceedToggle={setProceedToggle}
+                        kind={"member"}
                     ></ProceedSelection>}
                 </Proceed>
 
@@ -230,7 +231,8 @@ const CommunityMemberPage = () => {
                 </WriteButton>
             </Select>
 
-            <Posts>
+            <Posts
+                kind={"member"}>
             </Posts>
         </MemberPage>
     )

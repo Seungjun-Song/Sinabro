@@ -91,6 +91,30 @@ const ProceedToggle = styled.div`
     border-radius: 50px;
 `
 
+const Team = styled.div`
+    display: flex;
+    align-items: start;
+    justify-content: center;
+
+    font-family: LaundryGothicRegular;
+`
+
+const TeamToggle = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(58, 166, 184, 1);
+    padding: 0.2rem 1rem;
+
+    width: 8rem;
+
+    color: white;
+
+    border: 2px solid rgba(58, 166, 184, 1);
+    border-radius: 50px;
+`
+
 const WriteButton = styled.div`
     display: flex;
     align-items: center;
@@ -111,9 +135,9 @@ const WriteButton = styled.div`
 
 `
 
-const CommunityTeamPage = () => {
+const CommunityFeadBackPage = () => {
     const [searchWord, setSearchWord] = useState("");
-    const [proceedOption, setProceedOption] = useState("모집 중");
+    const [proceedOption, setProceedOption] = useState("구걸 중");
     const [teamOption, setTeamOption] = useState("팀 선택");
     const [proceedToggle, setProceedToggle] = useState(false);
     const [teamToggle, setTeamToggle] = useState(false);
@@ -167,13 +191,38 @@ const CommunityTeamPage = () => {
                         proceedOption={proceedOption}
                         setProceedOption={setProceedOption}
                         setProceedToggle={setProceedToggle}
-                        kind={"team"}
                     ></ProceedSelection>}
                 </Proceed>
 
+
+
+                <Team>
+                    <TeamToggle className='shadow' onClick={() => setTeamToggle(!teamToggle)}>
+                    {teamOption}
+                    {teamToggle ? 
+                    <img
+                        src={DropDawnIcon}
+                        style={{ transform: 'rotate(180deg)', height: "50%" }}
+                    >
+                    </img> : 
+                    <img
+                        src={DropDawnIcon}
+                        style={{height:"50%"}}
+                    >
+                    </img>
+                    }
+                    </TeamToggle>
+                    {teamToggle && 
+                    <TeamSelection
+                        teamOption={teamOption}
+                        setTeamOption={setTeamOption}
+                        setTeamToggle={setTeamToggle}
+                        kind={"feadback"}
+                    ></TeamSelection>}
+                </Team>
                 </Option>
                 <WriteButton className='shadow'
-                            onClick={() => navigate('/createPost', {state: {kind: "team"}})}>
+                            onClick={() => navigate('/createPost', {state: {kind: "feadback"}})}>
                     <img
                         src={WriteIcon}
                     >
@@ -183,10 +232,10 @@ const CommunityTeamPage = () => {
             </Select>
 
             <Posts
-                kind={"team"}>
+                kind={"feadback"}>
             </Posts>
         </MemberPage>
     )
 }
 
-export default CommunityTeamPage;
+export default CommunityFeadBackPage;

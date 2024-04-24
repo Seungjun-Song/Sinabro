@@ -83,18 +83,30 @@ const Writer = styled.div`
 const Date = styled.div`
 `
 
-const Post = ({post}) => {    
+const Post = ({post, kind}) => {    
     return(
         <Detail>
             <MainInfo>
                 <Proceed
                     proceed={post.proceed === false}
                 >
-                    {post.proceed ? 
-                    <>모집 중</>
+                    {kind === "member" || kind === "team" ?
+                    (<>
+                        {post.proceed ? 
+                            (<>모집 중</>)
+                            :
+                            (<>모집 완료</>)
+                        }
+                    </>)
                     :
-                    <>모집 완료</>
-                    }
+                    (<>
+                        {post.proceed ? 
+                            (<>구걸 중</>)
+                            :
+                            (<>구걸 완료</>)
+                        }
+                    
+                    </>)}
                 </Proceed>
                 <Title>
                     {post.title}
