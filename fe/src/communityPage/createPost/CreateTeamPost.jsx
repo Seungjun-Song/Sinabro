@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useNavigate } from 'react-router';
+
 const MemberPost = styled.div`
     display: flex;
     align-items: center;
@@ -122,13 +123,13 @@ const Save = styled.div`
     cursor: pointer; 
 `
 
-const CreateMemberPost = () => {
+const CreateTeamPost = () => {
     const navigate = useNavigate();
 
     const submit = () =>{
         //TODO: axios 게시물 저장
 
-        navigate('/communityMainPage', {state: {kind: "member"}});
+        navigate('/communityMainPage', {state: {kind: "team"}});
     }
 
     return(
@@ -143,7 +144,7 @@ const CreateMemberPost = () => {
                 <StyledEditor>
                 <CKEditor
                     editor={ClassicEditor}
-                    placeholder={"프로젝트를 설명해 주세요!"}
+                    placeholder={"본인을 설명해 주세요!"}
                     onReady={editor => {
                         // You can store the "editor" and use when it is needed.
 
@@ -158,14 +159,14 @@ const CreateMemberPost = () => {
                 />
                 </StyledEditor>
                 <Tag
-                    placeholder='프로젝트 관련된 태그를 입력해주세요 ! 태그는 스페이스로 구분됩니다. 😃'>
+                    placeholder='표현하고 싶은 태그를 입력해주세요 ! 태그는 스페이스로 구분됩니다. 😃'>
 
                 </Tag>
             </Content>
 
             <Bottom>
                 <Buttons>
-                    <Cancel onClick={() => navigate('/communityMainPage', {state: {kind: "member"}})}>
+                    <Cancel onClick={() => navigate('/communityMainPage', {state: {kind: "team"}})}>
                         취소
                     </Cancel>
                     <Save onClick={() => submit()}>
@@ -177,4 +178,4 @@ const CreateMemberPost = () => {
     )
 }
 
-export default CreateMemberPost;
+export default CreateTeamPost;

@@ -1,9 +1,12 @@
 import styled from 'styled-components'
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import Navbar from "../components/navs/Navbar";
-import SideMenu from './SideMenu';
+import Navbar from "../../components/navs/Navbar";
+import SideMenu from '../SideMenu';
 import CommunityMemberPage from './CommunityMemberPage';
+import CommunityTeamPage from './CommunityTeamPage';
+import CommunityFeadBackPage from './CommunityFeadbackPage';
 
 const Community = styled.div`
 display: flex;
@@ -14,7 +17,10 @@ width: 100%;
 
 
 const CommunityMainPage = () => {
-    const [selected, setSelected] = useState("member");
+    const location = useLocation();
+    const data = location.state;
+
+    const [selected, setSelected] = useState(data.kind);
     return (
         <>
         <Navbar>
@@ -27,15 +33,15 @@ const CommunityMainPage = () => {
             </SideMenu>
 
             {selected === "member" ? (
-                <CommunityMemberPage></CommunityMemberPage>
+                <CommunityMemberPage/>
             ) : ("")}
 
             {selected === "team" ? (
-                "team"
+                <CommunityTeamPage/>
             ) : ("")}
 
             {selected === "feadback" ? (
-                "feadback"
+                <CommunityFeadBackPage/>
             ) : ("")}
         </Community>
 

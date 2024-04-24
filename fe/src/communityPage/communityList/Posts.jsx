@@ -4,7 +4,7 @@ import Post from "./Post";
 
 const List = styled.div`
 `
-const Posts = () => {
+const Posts = ({kind}) => {
     const postList = [
         {
             id: 1,
@@ -22,7 +22,7 @@ const Posts = () => {
             hash: ["spring boot", "커피", "백엔드"],
             writer: "sil",
             time: "2024-01-03",
-            proceed: true,
+            proceed: false,
         },
         {
             id: 3,
@@ -52,7 +52,7 @@ const Posts = () => {
         <List>
         {postList.map((post, index) => (
             <Post
-                post={post} key={index}
+                key={index} post={post} kind={kind}
             >
             </Post>
 
