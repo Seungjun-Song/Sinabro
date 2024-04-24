@@ -1,4 +1,4 @@
-const ProjectInfo = () => {
+const ProjectInfo = ({ projectinfo, setProjectInfo }) => {
   return (
     <div
       style={{
@@ -12,13 +12,27 @@ const ProjectInfo = () => {
         style={{
           padding: "1rem",
           borderLeftWidth: "5px", // 왼쪽 테두리 두께
-          borderLeftColor: "black", // 왼쪽 테두리 색상
+          borderLeftColor: "#3f2b96", // 왼쪽 테두리 색상
           borderLeftStyle: "solid", // 왼쪽 테두리 스타일
         }}
       >
         <h4 style={{ margin: 0 }}>프로젝트 설명</h4>
       </div>
-      <div className="shadow" style={{ marginTop: "2rem", height:"20rem",borderRadius:"1rem", padding:"1rem" ,overflow:"auto"}}>asdf</div>
+      <textarea
+        className="shadow"
+        placeholder="프로젝트에 관한 간단한 설명을 해주세요!"
+        style={{
+          marginTop: "2rem",
+          height: "20rem",
+          borderRadius: "1rem",
+          padding: "1rem",
+          overflow: "auto",
+          outline:"none",
+          border:"none",
+          resize:"none"
+        }}
+      >
+      </textarea>
     </div>
   );
 };
