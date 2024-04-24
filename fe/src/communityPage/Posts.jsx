@@ -22,7 +22,7 @@ const Posts = ({kind}) => {
             hash: ["spring boot", "커피", "백엔드"],
             writer: "sil",
             time: "2024-01-03",
-            proceed: true,
+            proceed: false,
         },
         {
             id: 3,
@@ -52,7 +52,7 @@ const Posts = ({kind}) => {
         <List>
         {postList.map((post, index) => (
             <Post
-                post={post} key={index} kind={kind}
+                key={index} post={post} kind={kind}
             >
             </Post>
 

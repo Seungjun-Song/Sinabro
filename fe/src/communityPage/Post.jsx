@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router'
 import styled, { css } from 'styled-components'
 
 const Detail = styled.div`
     font-family: Pretendard Medium;
 
     margin: 1.5rem 0;
+
+    cursor: pointer;
 `
 
 const MainInfo = styled.div`
@@ -25,7 +28,7 @@ const Proceed = styled.div`
 
     padding: 0.2rem 0.9rem;
 
-    ${props => props.proceed && css`
+    ${props => props.$proceed && css`
         background: rgba(161, 175, 247, 1);
         padding: 0.2rem 0.6rem;
     `}
@@ -84,15 +87,17 @@ const Date = styled.div`
 `
 
 const Post = ({post, kind}) => {    
+    const navigate = useNavigate();
+
     return(
-        <Detail>
+        <Detail onClick={() => navigate('/communityDetail', {state: {kind: kind} })}>
             <MainInfo>
                 <Proceed
-                    proceed={post.proceed === false}
+                    $proceed={post.proceed === false}
                 >
                     {kind === "member" || kind === "team" ?
                     (<>
-                        {post.proceed ? 
+                        {post.proceed === true ? 
                             (<>모집 중</>)
                             :
                             (<>모집 완료</>)
@@ -100,7 +105,7 @@ const Post = ({post, kind}) => {
                     </>)
                     :
                     (<>
-                        {post.proceed ? 
+                        {post.proceed === true ? 
                             (<>구걸 중</>)
                             :
                             (<>구걸 완료</>)
@@ -122,7 +127,7 @@ const Post = ({post, kind}) => {
                     {post.hash.map((tag, index) => {
 
                         return( 
-                            <Hash className='shadow'>
+                            <Hash className='shadow' key={index}>
                                 {tag}
                             </Hash>
                         )
