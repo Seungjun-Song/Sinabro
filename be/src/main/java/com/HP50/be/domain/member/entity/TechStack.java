@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c10e47cd224eb39799936de47801acecd0216b7c384fa208f56ecf5048aa1269
-size 696
+package com.HP50.be.domain.member.entity;
+
+import com.HP50.be.domain.code.entity.SubCategory;
+import com.HP50.be.domain.project.entity.PjtTechStack;
+import com.HP50.be.domain.project.entity.Teammate;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+
+@Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class TechStack {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer techStackId;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "subcategory_id")
+    private SubCategory subCategory;
+
+    @Column(length = 50)
+    private String subCategoryName;
+
+}
