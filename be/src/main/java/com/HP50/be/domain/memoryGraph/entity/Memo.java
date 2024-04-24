@@ -1,19 +1,3 @@
-package com.HP50.be.domain.memoryGraph.entity;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-
-
-@Getter
-@AllArgsConstructor
-@Builder
-@Node("Memo")
-public class Memo {
-    @Id
-    private final String title;
-    private final String content;
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:06eb1abdbc3531b6085b4f7ba30a75becb43e0c710a08e5abcf2829cca8ae74a
+size 780
