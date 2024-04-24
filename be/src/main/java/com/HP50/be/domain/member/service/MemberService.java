@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c4a1b88e875940de997fe8fbde9fac80b06aa74dfeacfacda7b1ed74d9fa60cf
-size 235
+package com.HP50.be.domain.member.service;
+
+import com.HP50.be.domain.member.dto.SearchMemberResponseDto;
+
+import java.util.List;
+
+public interface MemberService {
+    SearchMemberResponseDto searchMember(String keyword, int page);
+
+}
