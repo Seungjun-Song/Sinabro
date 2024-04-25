@@ -12,7 +12,7 @@ const CodeTestPage = () => {
             <button onClick={() => navigate(-1)}>돌아가기</button>
             <iframe
                 title="code-server"
-                src="http://15.164.93.226:8500/"
+                src="https://enjoyhomecafe.shop:8500/"
                 style={{ width: "80%", height: "80vh", border: "none" }}
             ></iframe>
             

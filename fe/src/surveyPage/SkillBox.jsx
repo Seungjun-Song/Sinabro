@@ -11,6 +11,7 @@ const Box = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  width: 9rem;
   box-shadow: 0px 3px 3px black;
   cursor: pointer;
 

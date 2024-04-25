@@ -1,0 +1,22 @@
+.custom-tooltip {
+    max-width: 200px;
+}
+
+.tooltip-content {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+}
+
+.work, .worker, .date {
+    margin-bottom: 5px;
+}
+
+.work {
+    font-weight: bold;
+}
+
+.date {
+    font-style: italic;
+}

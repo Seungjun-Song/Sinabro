@@ -2,9 +2,15 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userSlice from "./userSlice";
+import projectCalenderSlice from "./projectCalenderSlice";
+import toDoListSlice from "./toDoListSlice";
+import addScheduleModalHandleSlice from "./addScheduleModalHandleSlice";
 
 const reducers = combineReducers({
   user: userSlice,
+  projectCalender: projectCalenderSlice,
+  toDoList: toDoListSlice,
+  addScheduleModalHandle: addScheduleModalHandleSlice,
 });
 
 const persistConfig = {
