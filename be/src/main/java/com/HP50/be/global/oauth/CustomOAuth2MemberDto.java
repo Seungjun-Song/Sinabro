@@ -1,6 +1,6 @@
-package com.HP50.be.domain.member.dto;
+package com.HP50.be.global.oauth;
 
-
+import com.HP50.be.global.jwt.JwtPayloadDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -10,14 +10,12 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class CustomOAuth2MemberDto implements OAuth2User {
-
-    private final MemberDto memberDto;
+    private final JwtPayloadDto jwtPayloadDto;
     @Override
     public Map<String, Object> getAttributes() {
         return null;
     }
 
-    // role 값 리턴
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -25,14 +23,22 @@ public class CustomOAuth2MemberDto implements OAuth2User {
 
     @Override
     public String getName() {
-        return memberDto.getMemberName();
+        return jwtPayloadDto.getMemberName();
     }
 
     public String getMemberEmail(){
-        return memberDto.getMemberEmail();
+        return jwtPayloadDto.getMemberEmail();
     }
 
     public Integer getMemberId(){
-        return memberDto.getMemberId();
+        return jwtPayloadDto.getMemberId();
+    }
+
+    public String getMemberGit(){
+        return jwtPayloadDto.getMemberGit();
+    }
+
+    public String getMemberImg(){
+        return jwtPayloadDto.getMemberImg();
     }
 }

@@ -1,6 +1,5 @@
 package com.HP50.be.global.config;
 
-import com.HP50.be.global.jwt.JwtUtil;
 import com.HP50.be.global.oauth.CustomOAuth2UserService;
 import com.HP50.be.global.oauth.CustomSuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -8,9 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 
 @Configuration
@@ -31,7 +29,9 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2UserService))
                         .successHandler(customSuccessHandler)
-                );
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 }

@@ -1,7 +1,5 @@
 package com.HP50.be.global.oauth;
 
-import com.HP50.be.domain.member.dto.CustomOAuth2MemberDto;
-import com.HP50.be.domain.member.repository.MemberRepository;
 import com.HP50.be.global.jwt.JwtUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -23,6 +21,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
+        // CustomOAuth2UserService 에서 보낸 return 값이 포함되어서 전달됌
+        // Principal=com.HP50.be.domain.member.dto.CustomOAuth2MemberDto@31fc9aca
+        System.out.println("request = " + request + ", response = " + response + ", authentication = " + authentication);
         CustomOAuth2MemberDto customUserDetails = (CustomOAuth2MemberDto) authentication.getPrincipal();
 
         Integer memberId = customUserDetails.getMemberId();
