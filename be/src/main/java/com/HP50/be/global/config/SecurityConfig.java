@@ -1,5 +1,6 @@
 package com.HP50.be.global.config;
 
+import com.HP50.be.global.jwt.JwtUtil;
 import com.HP50.be.global.oauth.CustomOAuth2UserService;
 import com.HP50.be.global.oauth.CustomSuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,13 @@ public class SecurityConfig {
 
     private final CustomSuccessHandler customSuccessHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final JwtUtil jwtUtil;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+//                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(auth -> auth

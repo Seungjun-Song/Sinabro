@@ -41,16 +41,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // id가 서버 DB에 없다면 서버에 저장
         // id가 서버 DB에 있다면 다른 액션을 취하지 않고 넘김
         // 깃허브에서 제공하는 id 를 우리 서버의 memberId로 저장
-        Member member = this.memberRepository.findById(memberId).orElse(null);
-        if(member == null){
-            this.memberRepository.save(Member.builder()
-                    .memberId(memberId)
-                    .memberName(nickname)
-                    .memberEmail(email)
-                    .memberImg(memberImg)
-                    .memberGit(memberGit)
-                    .build());
-        }
+        this.memberRepository.findById(memberId).orElse(this.memberRepository.save(Member.builder()
+                .memberId(memberId)
+                .memberName(nickname)
+                .memberEmail(email)
+                .memberImg(memberImg)
+                .memberGit(memberGit)
+                .build()));
+
 
         // CustomOAuth2MemberDto 는 OAuth2User 를 상속받아서 구현
         // 그때 jwtPayloadDto 를 주입받음
