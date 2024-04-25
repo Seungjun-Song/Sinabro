@@ -22,15 +22,18 @@ const TestPage = () => {
             });
     };
     return (
-        <div>
-            <h1>TestPage</h1>
-            <p> Your Name is {userInfo.currentUser.displayName}</p>
-            <button onClick={handleLogout}>This button is logout function</button>
-            <ChatBot/>
-            <button onClick={() => navigate('/codetest')}>이게 되네?</button>
-            <button onClick={() => navigate('/survey')}>설문 페이지</button>
-            <button onClick={() => navigate('/mypage')}>마이 페이지</button>
-            <button onClick={() => navigate('/TeamSpacePage')}>팀스페이스 페이지</button>
+        <div style={{padding: '5rem'}}>
+            <div>
+                <h1>TestPage</h1>
+                <p> Your Name is {userInfo.currentUser.displayName}</p>
+            </div>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap'}}>
+                <button onClick={handleLogout}>This button is logout function</button>
+                <button onClick={() => navigate('/survey')}>설문 페이지</button>
+                <button onClick={() => navigate('/mypage')}>마이 페이지</button>
+                <button onClick={() => navigate('/TeamSpacePage')}>팀스페이스 페이지</button>
+                <button onClick={() => navigate('/project')}>프로젝트 페이지</button>
+            </div>
         </div>
     )
 }

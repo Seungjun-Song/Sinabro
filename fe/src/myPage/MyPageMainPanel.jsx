@@ -105,7 +105,7 @@ const MemoryGraphDescribeBox = styled.div`
     padding: 1rem;
     max-height: 26rem;
     overflow-y: auto;
-    margin-bottom: 1rem
+    margin-bottom: 1rem;
 `
 
 const MemoryGraphButtonBox = styled.div`

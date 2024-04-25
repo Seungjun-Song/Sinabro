@@ -13,6 +13,8 @@ import SurveyPage from "./surveyPage/SurveyPage";
 import MyPage from "./myPage/MyPage";
 import TeamSpacePage from "./teamspacePage/TeamSpacePage";
 import "./fonts/Font.css"
+import ProjectPage from "./projectPage/ProjectPage";
+import { Calender } from "./components/calender/Calender";
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,6 +48,8 @@ const App = () => {
       <Route path='/survey' element={<SurveyPage/>}/>
       <Route path='/mypage' element={<MyPage/>}/>
       <Route path="/TeamSpacePage" element={<TeamSpacePage />} />
+      <Route path="/project" element={<ProjectPage />} />
+      <Route path="/calender" element={<Calender />} />
     </Routes>
   );
 };
