@@ -1,5 +1,6 @@
 package com.HP50.be.global.oauth;
 
+import com.HP50.be.global.jwt.JwtConstants;
 import com.HP50.be.global.jwt.JwtUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -32,15 +33,17 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String memberImg = customUserDetails.getMemberImg();
 
         // jwtUtil에 있는 createJwt를 통해 토큰을 생성
-        String token = jwtUtil.createJwt(memberId, memberEmail, memberName, memberGit, memberImg, 60*60*60L);
+        String accessToken = jwtUtil.createAccessJwt(memberId, memberEmail, memberName, memberGit, memberImg);
+        String refreshToken = jwtUtil.createRefreshJwt(memberId, memberEmail, memberName, memberGit, memberImg);
+        response.addHeader(JwtConstants.ACCESS ,JwtConstants.ACCESS + accessToken) ;
+        response.addHeader(JwtConstants.REFRESH ,JwtConstants.REFRESH + refreshToken);
+//        response.sendRedirect("http://localhost:8080/api/login");
 
-        response.setHeader("Authorization", token);
-        response.sendRedirect("http://localhost:8080/");
     }
 
-    private Cookie createCookie(String value) {
+    private Cookie createCookie(String header, String value) {
 
-        Cookie cookie = new Cookie("Authorization", value);
+        Cookie cookie = new Cookie(header, value);
         cookie.setMaxAge(60*60*60);
         //cookie.setSecure(true);
         cookie.setPath("/api/hi");

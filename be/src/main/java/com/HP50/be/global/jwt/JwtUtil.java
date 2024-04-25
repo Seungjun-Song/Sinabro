@@ -21,7 +21,6 @@ public class JwtUtil {
     }
 
     public String getMemberId(String token) {
-
         return Jwts.parser().verifyWith(secretKey).build().
                 parseSignedClaims(token).
                 getPayload()
@@ -52,16 +51,46 @@ public class JwtUtil {
                 .before(new Date());
     }
 
-    public String createJwt(Integer memberId, String email, String memberName, String memberGit, String memberImg, Long expiredMs){
+    public String createAccessJwt(Integer memberId, String email, String memberName, String memberGit, String memberImg){
         return Jwts.builder()
+
+                // header를 따로 지정해주지 않는다면 type 이 지정되지 않음
+                // jwt 를 많이 사용하니까 따로 명시해주지 않는다면 jwt 로 판단함
+
+                .header()
+                    .add("typ", "jwt")
+                    .and()
                 // claim는 jwt 내부에 들어갈 payload 
                 .claim("memberId", memberId)
                 .claim("email", email)
                 .claim("memberName", memberName)
                 .claim("memberGit", memberGit)
                 .claim("memberImg", memberImg)
+                .claim("sub",JwtConstants.ACCESS)
                 .issuedAt(new Date(System.currentTimeMillis())) // jwt 발급한 시간
-                .expiration(new Date(System.currentTimeMillis() + expiredMs)) // jwt 만기 시간
+                .expiration(new Date(System.currentTimeMillis() + JwtConstants.ACCESS_EXP_TIME)) // jwt 만기 시간
+                .signWith(secretKey) // 해당 키로 암호화를 하겠다.
+                .compact(); // jwt 생성
+    }
+
+    public String createRefreshJwt(Integer memberId, String email, String memberName, String memberGit, String memberImg){
+        return Jwts.builder()
+
+                // header를 따로 지정해주지 않는다면 type 이 지정되지 않음
+                // jwt 를 많이 사용하니까 따로 명시해주지 않는다면 jwt 로 판단함
+
+                .header()
+                .add("typ", JwtConstants.JWT_TYPE)
+                .and()
+                // claim는 jwt 내부에 들어갈 payload
+                .claim("memberId", memberId)
+                .claim("email", email)
+                .claim("memberName", memberName)
+                .claim("memberGit", memberGit)
+                .claim("memberImg", memberImg)
+                .claim("sub",JwtConstants.REFRESH)
+                .issuedAt(new Date(System.currentTimeMillis())) // jwt 발급한 시간
+                .expiration(new Date(System.currentTimeMillis() + JwtConstants.REFRESH_EXP_TIME)) // jwt 만기 시간
                 .signWith(secretKey) // 해당 키로 암호화를 하겠다.
                 .compact(); // jwt 생성
     }
