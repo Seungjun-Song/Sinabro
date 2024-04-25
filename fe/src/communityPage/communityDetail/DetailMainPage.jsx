@@ -1,10 +1,12 @@
 import styled from 'styled-components'
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Navbar from '../../components/navs/Navbar';
-import SideMenu from '../SideMenu';
+import DetailSideMenu from './DetailSideMenu';
 import DetailMember from './DetailMember';
+import DetailTeam from './DetailTeam';
+import DetailFeadback from './DetailFeadback';
 
 const Community = styled.div`
     display: flex;
@@ -19,24 +21,26 @@ const DetailMainPage = () => {
     const data = location.state;
 
     const [selected, setSelected] = useState(data.kind);
+
     return (
         <>
         <Navbar>
         </Navbar>
         <Community>
-            <SideMenu
+            <DetailSideMenu
                 selected={selected}
-                setSelected={setSelected}
             >
-            </SideMenu>
+            </DetailSideMenu>
             {selected === "member" ? (
                 <DetailMember/>
             ) : ("")}
 
-            {selected === "team" ? (""
+            {selected === "team" ? (
+                <DetailTeam/>
             ) : ("")}
 
-            {selected === "feadback" ? (""
+            {selected === "feadback" ? (
+                <DetailFeadback/>
             ) : ("")}
         </Community>
 

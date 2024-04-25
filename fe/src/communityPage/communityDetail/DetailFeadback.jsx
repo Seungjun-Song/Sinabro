@@ -163,7 +163,7 @@ const PjtLink = styled.img`
 
 const Line = styled.hr`
 `
-const DetailMember = () => {
+const DetailFeadback = () => {
     const detailData = {
         id: 1,
         title: "웹 프로젝트 팀원 구합니다!",
@@ -258,4 +258,4 @@ const DetailMember = () => {
     )
 }
 
-export default DetailMember;
+export default DetailFeadback;

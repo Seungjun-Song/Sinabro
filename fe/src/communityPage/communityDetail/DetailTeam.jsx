@@ -126,7 +126,7 @@ const Hash = styled.div`
 
 `
 
-const Project = styled.div`
+const WriterBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -142,28 +142,36 @@ const Project = styled.div`
 
 `
 
-const PjtInfo = styled.div`
+const WriterInfo = styled.div`
     display: flex;
     align-items: center;
     justify-content: start;
 
+    height: 2rem;
+
     gap: 1rem;
 `
 
-const PjtProfile = styled.img`
+const WriterProfile = styled.img`
     height: 3rem;
+
+    border: 0px solid black;
+    border-radius: 50px;
+
+    height: 90%;
+
 `
 
-const PjtName = styled.div`
+const WriterName = styled.div`
     font-family: Pretendard Medium;
 `
 
-const PjtLink = styled.img`
+const WriterLink = styled.img`
 `
 
 const Line = styled.hr`
 `
-const DetailMember = () => {
+const DetailTeam = () => {
     const detailData = {
         id: 1,
         title: "웹 프로젝트 팀원 구합니다!",
@@ -175,13 +183,6 @@ const DetailMember = () => {
         proceed: true,
         projectId: 1,
         kind: "team"
-    }
-
-    const projectData = {
-        id: 1,
-        title: "BUNG",
-        projectImg: PjtImg,
-
     }
     
     return(
@@ -231,23 +232,22 @@ const DetailMember = () => {
                             )
                         })}
                     </Hashs>
-
-                    <Project>
-                        <PjtInfo>
-                            <PjtProfile
-                                src={projectData.projectImg}>
-                            </PjtProfile>
-                            <PjtName>
-                                {projectData.title}
-                            </PjtName>
-                        </PjtInfo>
+                    <WriterBox>
+                        <WriterInfo>
+                            <WriterProfile
+                                src={detailData.writerprofile}>
+                            </WriterProfile>
+                            <WriterName>
+                                @{detailData.writername}
+                            </WriterName>
+                        </WriterInfo>
 
                         
-                        <PjtLink
+                        <WriterLink
                             src={MoveToPjt}
                         >
-                        </PjtLink>
-                    </Project>
+                        </WriterLink>
+                    </WriterBox>
                 </Bottom>
             </Middle>
             
@@ -258,4 +258,4 @@ const DetailMember = () => {
     )
 }
 
-export default DetailMember;
+export default DetailTeam;
