@@ -28,9 +28,11 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         Integer memberId = customUserDetails.getMemberId();
         String memberEmail = customUserDetails.getMemberEmail();
         String memberName = customUserDetails.getName();
+        String memberGit = customUserDetails.getMemberGit();
+        String memberImg = customUserDetails.getMemberImg();
 
         // jwtUtil에 있는 createJwt를 통해 토큰을 생성
-        String token = jwtUtil.createJwt(memberId, memberEmail, memberName, 60*60*60L);
+        String token = jwtUtil.createJwt(memberId, memberEmail, memberName, memberGit, memberImg, 60*60*60L);
 
         response.addCookie(createCookie(token));
         response.sendRedirect("http://localhost:8080");

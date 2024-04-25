@@ -52,12 +52,14 @@ public class JwtUtil {
                 .before(new Date());
     }
 
-    public String createJwt(Integer memberId, String email, String memberName, Long expiredMs){
+    public String createJwt(Integer memberId, String email, String memberName, String memberGit, String memberImg, Long expiredMs){
         return Jwts.builder()
                 // claim는 jwt 내부에 들어갈 payload 
                 .claim("memberId", memberId)
                 .claim("email", email)
                 .claim("memberName", memberName)
+                .claim("memberGit", memberGit)
+                .claim("memberImg", memberImg)
                 .issuedAt(new Date(System.currentTimeMillis())) // jwt 발급한 시간
                 .expiration(new Date(System.currentTimeMillis() + expiredMs)) // jwt 만기 시간
                 .signWith(secretKey) // 해당 키로 암호화를 하겠다.

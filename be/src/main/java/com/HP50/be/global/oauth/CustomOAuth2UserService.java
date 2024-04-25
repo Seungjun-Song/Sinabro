@@ -18,6 +18,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberRepository memberRepository;
 
+    // 로그인이 되면 자동으로 실행되는 메소드
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         // 로그인 시 전달받은 정보 저장
