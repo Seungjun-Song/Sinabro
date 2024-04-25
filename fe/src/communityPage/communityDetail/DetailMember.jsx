@@ -41,7 +41,7 @@ const Proceed = styled.div`
 
     font-family: LaundryGothicRegular;
     color: rgba(52, 69, 156, 1);
-    font-size: 70%;
+    font-size: 85%;
 
     padding: 0.2rem 0.9rem;
 
