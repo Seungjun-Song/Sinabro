@@ -5,6 +5,8 @@ import { useLocation } from 'react-router-dom';
 import Navbar from '../../components/navs/Navbar';
 import SideMenu from '../SideMenu';
 import DetailMember from './DetailMember';
+import DetailTeam from './DetailTeam';
+import DetailFeadback from './DetailFeadback';
 
 const Community = styled.div`
     display: flex;
@@ -33,10 +35,12 @@ const DetailMainPage = () => {
                 <DetailMember/>
             ) : ("")}
 
-            {selected === "team" ? (""
+            {selected === "team" ? (
+                <DetailTeam/>
             ) : ("")}
 
-            {selected === "feadback" ? (""
+            {selected === "feadback" ? (
+                <DetailFeadback/>
             ) : ("")}
         </Community>
 

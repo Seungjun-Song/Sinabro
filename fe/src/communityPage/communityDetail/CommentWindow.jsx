@@ -16,6 +16,8 @@ const Count = styled.div`
     display: flex;
     justify-content: start;
 
+    margin: 0 0 0.3rem 0;
+
     width: 100%;
 `
 
