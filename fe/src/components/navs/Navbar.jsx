@@ -16,8 +16,8 @@ const NavBar = styled.nav`
     width: 100%;
     height: 80px;
     background-color: rgba(86, 76, 173, 1);
-
-    position: relative;
+    z-index:999;
+    position: fixed;
 `;
 
 const LogoImage = styled.img`
