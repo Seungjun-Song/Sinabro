@@ -22,8 +22,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         // CustomOAuth2UserService 에서 보낸 return 값이 포함되어서 전달됌
-        // Principal=com.HP50.be.domain.member.dto.CustomOAuth2MemberDto@31fc9aca
-        System.out.println("request = " + request + ", response = " + response + ", authentication = " + authentication);
+        // Principal=com.HP50.be.global.oauth.CustomOAuth2MemberDto@54c6a768
         CustomOAuth2MemberDto customUserDetails = (CustomOAuth2MemberDto) authentication.getPrincipal();
 
         Integer memberId = customUserDetails.getMemberId();

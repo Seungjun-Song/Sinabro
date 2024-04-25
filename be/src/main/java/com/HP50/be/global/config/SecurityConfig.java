@@ -27,9 +27,10 @@ public class SecurityConfig {
                 )
                 .oauth2Login(auth -> auth
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
-                                .userService(customOAuth2UserService))
-                        .successHandler(customSuccessHandler)
+                                .userService(customOAuth2UserService)) // oauth 로그인 시 발동되는 service
+                        .successHandler(customSuccessHandler) // 성공적으로 로그인을 마쳤을 때 발동되는 handler
                 )
+                // STATELESS 형태로 관리
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
