@@ -22,8 +22,16 @@ public enum StatusCode {
     FAIL_ADD_TEAMMATE(false,503,"팀원 추가에 실패했습니다."),
     FAIL_DELETE_TEAMMATE(false,504,"팀원 삭제에 실패했습니다."),
     FAIL_UPDATE_REPO(false, 505, "레포 수정에 실패했습니다"),
+    NOT_TEAM_MEMBER(false,506,"요청한 유저가 해당 프로젝트의 팀원이 아닙니다"),
+
     // Member ( 600 )
     NOT_EXIST_MEMBER(false,601,"해당하는 멤버가 없습니다."),
+    // Calender ( 700 )
+    FAIL_CREATE_CALENDER(false, 701, "일정 추가에 실패했습니다"),
+    NOT_EXIST_CALENDER(false,702,"해당하는 일정이 없습니다"),
+    FAIL_UPDATE_CALENDER(false, 703, "일정 수정에 실패했습니다"),
+    FAIL_DELETE_CALENDER(false, 704, "일정 삭제에 실패했습니다"),
+
     // Port (800)
     NOT_EXIST_PORT(false,801,"지급할 수 있는 포트가 없습니다.")
     ;

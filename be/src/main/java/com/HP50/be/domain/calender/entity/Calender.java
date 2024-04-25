@@ -32,5 +32,7 @@ public class Calender extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
-
+    public void updateSubCategory(SubCategory subCategory){
+        this.subCategory = subCategory;
+    }
 }

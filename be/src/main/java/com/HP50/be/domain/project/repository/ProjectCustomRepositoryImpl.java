@@ -3,6 +3,7 @@ package com.HP50.be.domain.project.repository;
 import com.HP50.be.domain.project.dto.PjtTechInfo;
 import com.HP50.be.domain.project.dto.ProjectInfoDto;
 import com.HP50.be.domain.project.dto.TeammateInfo;
+import com.HP50.be.domain.project.entity.Teammate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -84,5 +85,14 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
 
 
         return result;
+    }
+    //프로젝트 멤버인지 확인
+
+    @Override
+    public boolean isTeammate(int memberId, int projectId) {
+        return queryFactory.selectFrom(teammate)
+                .join(teammate.project, project)
+                .where(teammate.member.memberId.eq(memberId).and(teammate.project.projectId.eq(projectId)))
+                .fetchFirst() != null;
     }
 }
