@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
 const MenuList = styled.div`
@@ -34,18 +35,21 @@ const Menu = styled.button`
         font-family: Pretendard Bold;
     `}
 `
-const SideMenu = ({selected, setSelected}) => {
+const DetailSideMenu = ({selected, setSelected, sideClick}) => {
+
+    const navigate = useNavigate();
+
     return (
         <MenuList style={{fontFamily: "Pretendard Medium"}}>
-            <Menu onClick={() => {setSelected("member")}}
+            <Menu onClick={() => {navigate('/communityMainPage', {state: {kind: "member"}})}}
                     selected={selected === "member"}>
                 팀원 구해요
             </Menu>
-            <Menu onClick={() => setSelected("team")}
+            <Menu onClick={() => navigate('/communityMainPage', {state: {kind: "team"}})}
                     selected={selected === "team"}>
                 팀 구해요
             </Menu>
-            <Menu onClick={() => setSelected("feadback")}
+            <Menu onClick={() => navigate('/communityMainPage', {state: {kind: "feadback"}})}
                     selected={selected === "feadback"}>
                 피드백 원해요
             </Menu>
@@ -53,4 +57,4 @@ const SideMenu = ({selected, setSelected}) => {
     )
 }
 
-export default SideMenu;
+export default DetailSideMenu;

@@ -1,3 +1,64 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ffcbf42b25630ce78b1f1f484be98d17c1d4d6713e83cf8b3feba84fcf728789
-size 2261
+import React, { useEffect } from "react";
+import app from "./firebase";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import LoginPage from "./loginPage/LoginPage";
+import RegisterPage from "./registerPage/RegisterPage";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch } from "react-redux";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { clearUser, setUser } from "./store/userSlice";
+import TestPage from "./testPage/TestPage";
+import CodeTestPage from "./testPage/CodeTestPage";
+import SurveyPage from "./surveyPage/SurveyPage";
+import MyPage from "./myPage/MyPage";
+import TeamSpacePage from "./teamspacePage/TeamSpacePage";
+
+import CommunityMainPage from "./communityPage/communityList/CommunityMainPage";
+import CreatePost from "./communityPage/createPost/CreatePage";
+import DetailMainPage from "./communityPage/communityDetail/DetailMainPage";
+
+import "./fonts/Font.css"
+import TeamSpaceDetailPage from "./teamSpaceDetailPage/teamSpaceDetailPage";
+const App = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const auth = getAuth(app);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate("/");
+        dispatch(
+          setUser({
+            uid: user.uid,
+            displayName: user.displayName,
+          })
+        );
+      } else {
+        navigate("/login");
+        dispatch(clearUser());
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  return (
+    <Routes>
+      <Route path='/login' element={<LoginPage/>}/>
+      <Route path='/register' element={<RegisterPage/>}/>
+      <Route path='/' element={<TestPage/>}/>
+      <Route path='/codetest' element={<CodeTestPage/>}/>
+      <Route path='/survey' element={<SurveyPage/>}/>
+      <Route path='/mypage' element={<MyPage/>}/>
+      <Route path="/TeamSpacePage" element={<TeamSpacePage />} />
+
+      <Route path="/communityMainPage" element={<CommunityMainPage/>}/>
+      <Route path="/createPost" element={<CreatePost/>}/>
+      <Route path="/communityDetail" element={<DetailMainPage/>}/>
+      <Route path="/TeamSpaceDetailPage" element={<TeamSpaceDetailPage />} />
+    </Routes>
+  );
+};
+
+export default App;
