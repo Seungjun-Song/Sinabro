@@ -9,7 +9,7 @@ import UserSearchModal from "../components/teamspaceComponents/UserSearchModal";
 import { AnimatePresence } from "framer-motion";
 import ProjectGitConnect from "../components/teamspaceComponents/ProjectGitConnect";
 import Navbar from "../components/navs/Navbar";
-import ProjectFEInvite from "../components/teamspaceComponents/ProjectInvite";
+
 
 const TeamSpacePage = () => {
   const [IsModalOpen, setIsModalOpen] = useState(false);
@@ -27,7 +27,7 @@ const TeamSpacePage = () => {
         className="d-flex flex-column"
         style={{
           width: "100vw",
-
+          
           alignItems: "center",
           paddingTop: "7rem",
           backgroundColor: "rgba(212, 223, 255, 0.2)",

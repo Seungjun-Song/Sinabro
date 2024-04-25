@@ -17,6 +17,7 @@ import CreatePost from "./communityPage/createPost/CreatePage";
 
 import "./fonts/Font.css"
 import TeamSpaceDetailPage from "./teamSpaceDetailPage/teamSpaceDetailPage";
+import Mainpage from "./Mainpage/Mainpage";
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ const App = () => {
       <Route path="/communityMainPage" element={<CommunityMainPage/>}/>
       <Route path="/createPost" element={<CreatePost/>}/>
       <Route path="/TeamSpaceDetailPage" element={<TeamSpaceDetailPage />} />
+      <Route path="/Mainpage" element={<Mainpage />} />
     </Routes>
   );
 };

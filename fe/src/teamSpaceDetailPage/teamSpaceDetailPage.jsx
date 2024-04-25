@@ -15,7 +15,7 @@ const TeamSpaceDetailPage = () => {
           width: "100vw",
 
           alignItems: "center",
-          paddingTop: "7rem",
+          paddingTop: "5rem",
           // backgroundColor: "rgba(212, 223, 255, 0.2)",
         }}
       >
