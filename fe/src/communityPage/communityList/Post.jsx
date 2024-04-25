@@ -1,12 +1,17 @@
 import { useNavigate } from 'react-router'
 import styled, { css } from 'styled-components'
+import { motion } from "framer-motion";
 
-const Detail = styled.div`
+const Detail = styled(motion.div)`
     font-family: Pretendard Medium;
 
     margin: 1.5rem 0;
 
     cursor: pointer;
+
+    &::hover{
+        border-color: rgba(0, 0, 0, 0.1);
+    }
 `
 
 const MainInfo = styled.div`
@@ -90,7 +95,11 @@ const Post = ({post, kind}) => {
     const navigate = useNavigate();
 
     return(
-        <Detail onClick={() => navigate('/communityDetail', {state: {kind: kind} })}>
+        <Detail 
+            onClick={() => navigate('/communityDetail', {state: {kind: kind} })}
+            whileHover={{ cursor: "pointer", y: -3, scale: 1.05}}
+            transition={{ type: "spring", stiffness: 100 }}
+        >
             <MainInfo>
                 <Proceed
                     $proceed={post.proceed === false}

@@ -44,6 +44,8 @@ const Option = styled.div`
     color: rgba(86, 76, 173, 1);
 
     cursor: pointer; 
+    
+    font-family: Jamsil Regular;
 
     ${props => props.selected && css`
         background: rgba(86, 76, 173, 1);

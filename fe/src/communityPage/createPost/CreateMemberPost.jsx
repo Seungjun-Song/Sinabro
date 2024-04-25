@@ -79,6 +79,7 @@ const Tag = styled.input`
 
     &::placeholder {
         color: rgba(157, 157, 157, 1);
+        
     }
 
 `

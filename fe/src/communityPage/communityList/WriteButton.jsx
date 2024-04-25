@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import { motion } from "framer-motion";
 
 import WriteIcon from '/image/community/writeIcon.png'
-const Button = styled.div`
+
+const Button = styled(motion.div)`
     display: flex;
     align-items: center;
     justify-content: start;
@@ -26,7 +28,9 @@ const WriteButton = ({kind}) => {
     
     return(
         <Button className='shadow'
-            onClick={() => navigate('/createPost', {state: {kind: kind}})}>
+            onClick={() => navigate('/createPost', {state: {kind: kind}})}
+            whileHover={{cursor: "pointer", y: -3}}
+            >
         <img
             src={WriteIcon}
         >

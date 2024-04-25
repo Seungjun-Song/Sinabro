@@ -1,9 +1,10 @@
 import styled from 'styled-components'
+import { motion } from "framer-motion";
 
 import DropDawnIcon from '/image/nav/dropdownIcon.png'
 import ProceedSelection from './ProceedSelection'
 
-const Proceed = styled.div`
+const Proceed = styled(motion.div)`
     display: flex;
     align-items: start;
     justify-content: center;
@@ -11,7 +12,7 @@ const Proceed = styled.div`
     font-family: LaundryGothicRegular;
 `
 
-const ProceedToggle = styled.div`
+const ProceedToggle = styled(motion.div)`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,10 +28,15 @@ const ProceedToggle = styled.div`
     border-radius: 50px;
 `
 
-const ProceedOption = ({proceedOption, proceedToggle, setProceedOption, setProceedToggle, kind}) => {
+const ProceedOption = ({proceedOption, proceedToggle, setProceedOption, setProceedToggle, kind, ref}) => {
     return(
-        <Proceed>
-        <ProceedToggle className='shadow' onClick={() => setProceedToggle(!proceedToggle)}>
+        <Proceed
+        >
+        <ProceedToggle
+            className='shadow' 
+            onClick={() => setProceedToggle(!proceedToggle)}
+            whileHover={{ cursor: "pointer", y: -3}}
+        >
         {proceedOption}
         {proceedToggle ? 
         <img

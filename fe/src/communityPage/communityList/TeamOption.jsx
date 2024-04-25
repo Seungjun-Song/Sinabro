@@ -1,10 +1,11 @@
 import styled from 'styled-components'
+import { motion } from "framer-motion";
 
 import TeamSelection from './TeamSelection'
 
 import DropDawnIcon from '/image/nav/dropdownIcon.png'
 
-const Team = styled.div`
+const Team = styled(motion.div)`
     display: flex;
     align-items: start;
     justify-content: center;
@@ -12,7 +13,7 @@ const Team = styled.div`
     font-family: LaundryGothicRegular;
 `
 
-const TeamToggle = styled.div`
+const TeamToggle = styled(motion.div)`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,7 +32,10 @@ const TeamToggle = styled.div`
 const TeamOption = ({teamOption, teamToggle, setTeamOption, setTeamToggle, kind}) => {
     return(
         <Team>
-        <TeamToggle className='shadow' onClick={() => setTeamToggle(!teamToggle)}>
+        <TeamToggle 
+            className='shadow' 
+            onClick={() => setTeamToggle(!teamToggle)}
+            whileHover={{cursor: "pointer", y: -3}}>
         {teamOption}
         {teamToggle ? 
         <img

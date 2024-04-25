@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
+import { motion } from "framer-motion"
 
-const MenuList = styled.div`
+const MenuList = styled(motion.div)`
     display: flex;          
     flex-direction: column;  
     align-items: start;
@@ -28,15 +29,33 @@ const Menu = styled.button`
     color: black; // 글자색 설정
     text-align: left;
 
+    font-family: Pretendard Regular;
+
 
     ${props => props.selected && css`
         color: rgba(32, 79, 207, 1);
         font-family: Pretendard Bold;
     `}
 `
+
+// 애니메이션 변형을 위한 variants 객체
+const menuMotion = {
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+    variants: {
+        hidden: { opacity: 0, x: -50 },
+        visible: { opacity: 1, x: 0 }
+    },
+    transition: { duration: 0.3 }
+};
+
 const SideMenu = ({selected, setSelected}) => {
     return (
-        <MenuList style={{fontFamily: "Pretendard Medium"}}>
+        <MenuList 
+            {...menuMotion}
+            style={{fontFamily: "Pretendard Medium"}}
+        >
             <Menu onClick={() => {setSelected("member")}}
                     selected={selected === "member"}>
                 팀원 구해요

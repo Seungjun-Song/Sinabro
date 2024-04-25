@@ -17,6 +17,8 @@ const Selection = styled.div`
 const Option = styled.div`
     text-align: center;
 
+    font-family: LaundryGothicRegular;
+
 `
 
 const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, kind}) => {
