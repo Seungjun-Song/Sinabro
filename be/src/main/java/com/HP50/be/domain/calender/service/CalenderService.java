@@ -18,4 +18,6 @@ public interface CalenderService {
     List<MyCalenderDto> getMySchedulesInProject(int memberId,int projectId);
     //나의 전체 일정 조회
     List<MyCalenderDto> getMySchedules(int memberId);
+    //프로젝트 전체 일정 조회
+    List<CalenderDto> getProjectCalender(int projectId);
 }

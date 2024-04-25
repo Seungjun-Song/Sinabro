@@ -1,5 +1,6 @@
 package com.HP50.be.domain.calender.controller;
 
+import com.HP50.be.domain.calender.dto.CalenderDto;
 import com.HP50.be.domain.calender.dto.CalenderRequestDto;
 import com.HP50.be.domain.calender.dto.CreateCalenderRequestDto;
 import com.HP50.be.domain.calender.dto.MyCalenderDto;
@@ -70,6 +71,11 @@ public class CalenderController {
         List<MyCalenderDto> result = service.getMySchedules(memberId);
         return ResponseEntity.ok(new BaseResponse<>(result));
     }
-    
 
+    //프로젝트 전체 일정 조회
+    @GetMapping("/{projectId}")
+    public ResponseEntity<Object> getProjectSchedules(@PathVariable Integer projectId){
+        List<CalenderDto> result = service.getProjectCalender(projectId);
+        return ResponseEntity.ok(new BaseResponse<>(result));
+    }
 }

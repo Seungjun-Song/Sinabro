@@ -109,4 +109,14 @@ public class CalenderServiceImpl implements CalenderService{
         }
         return result;
     }
+    //프로젝트 전체 일정 조회
+    @Override
+    public List<CalenderDto> getProjectCalender(int projectId) {
+
+        List<CalenderDto> result = calenderCustomRepository.getProjectCalender(projectId);
+        if(result==null){
+            throw new BaseException(StatusCode.NOT_EXIST_CALENDER);
+        }
+        return result;
+    }
 }
