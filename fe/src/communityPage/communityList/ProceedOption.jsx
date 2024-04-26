@@ -1,3 +1,59 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3c4624b448d4add070f9f012c37caf83e8ac7c4791cbb15fa7fff96ba66e002b
-size 1438
+import styled from 'styled-components'
+
+import DropDawnIcon from '/image/nav/dropdownIcon.png'
+import ProceedSelection from './ProceedSelection'
+
+const Proceed = styled.div`
+    display: flex;
+    align-items: start;
+    justify-content: center;
+
+    font-family: LaundryGothicRegular;
+`
+
+const ProceedToggle = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(62, 200, 175, 1);
+    padding: 0.2rem 1rem;
+
+    width: 8rem;
+
+    color: white;
+
+    border: 2px solid rgba(62, 200, 175, 1);
+    border-radius: 50px;
+`
+
+const ProceedOption = ({proceedOption, proceedToggle, setProceedOption, setProceedToggle, kind}) => {
+    return(
+        <Proceed>
+        <ProceedToggle className='shadow' onClick={() => setProceedToggle(!proceedToggle)}>
+        {proceedOption}
+        {proceedToggle ? 
+        <img
+            src={DropDawnIcon}
+            style={{ transform: 'rotate(180deg)', height: "50%"}}
+        >
+        </img> : 
+        <img
+            src={DropDawnIcon}
+            style={{height:"50%"}}
+        >
+        </img>
+        }
+        </ProceedToggle>
+        {proceedToggle && 
+        <ProceedSelection
+            proceedOption={proceedOption}
+            setProceedOption={setProceedOption}
+            setProceedToggle={setProceedToggle}
+            kind={kind}
+        ></ProceedSelection>}
+    </Proceed>
+    )
+}
+
+export default ProceedOption;
