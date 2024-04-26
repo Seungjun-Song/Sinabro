@@ -1,13 +1,18 @@
 import styled from 'styled-components'
+import { motion } from "framer-motion"
+import { useState } from 'react'
 
-const Comment = styled.div`
+import HoverInfoBox from './HoverInfoBox'
+
+const Comment = styled(motion.div)`
     display: flex;
     align-items: center;
     justify-content: space-between;
     
-    
     border-bottom: 1px solid rgba(196, 196, 196, 1);
     padding: 1rem 1rem;
+
+    font-family: Pretendard SemiBold;
 
 `
 
@@ -20,7 +25,7 @@ const WriterInfo = styled.div`
 
 `
 
-const WriterProfile = styled.img`
+const WriterProfile = styled(motion.img)`
 `
 
 const WriterName = styled.div`
@@ -56,13 +61,41 @@ const Date = styled.div`
     font-size: 0.8rem;
 `
 
+const ProfileBox = styled.div`
+    position:relative;
+`
+
+const commentMotion = {
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+    variants: {
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0 }
+    },
+    transition: { duration: 0.3 }
+}
+
 
 const CommentBox = ({comment, index}) => {
+    const [ profileHover, setProfileHover ] = useState(false);
+
     return(
-        <Comment key={index}>
+        <Comment key={index}
+                {...commentMotion}>
             <WriterInfo>
+                <ProfileBox>
+                {profileHover && (
+                    <HoverInfoBox
+                    />
+                )}
                 <WriterProfile
-                    src={comment.writerImg}/>
+                    src={comment.writerImg}
+                    whileHover={{ cursor: "pointer", y : -3}}
+                    onMouseEnter={() => setProfileHover(true)}
+                    
+                />
+                </ProfileBox>
                 <WriterName>
                     {comment.writerName}
                 </WriterName>

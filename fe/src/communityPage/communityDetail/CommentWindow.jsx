@@ -42,9 +42,10 @@ const Input = styled.textarea`
     border-radius: 5px; 
 
     resize: none;
+    padding: 0.5rem 0 0 1rem;
 
     &::placeholder{
-        color: gray;
+        color: rgba(0, 0, 0, 0.4);
     }
 
 `
@@ -59,6 +60,8 @@ const Submit = styled.div`
 
     border: 0px solid white;
     border-radius: 5px; 
+
+    cursor: pointer;
 
 
 `

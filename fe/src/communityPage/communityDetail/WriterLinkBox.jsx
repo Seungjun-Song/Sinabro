@@ -1,8 +1,9 @@
 import styled from 'styled-components'
+import { motion } from "framer-motion"
 
 import MoveToPjt from '/image/community/moveToPjt.png'
 
-const WriterBox = styled.div`
+const WriterBox = styled(motion.div)`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -10,7 +11,7 @@ const WriterBox = styled.div`
     gap: 3rem;
 
     padding: 0.5rem 0.6rem 0.5rem 0.5rem;
-    background: rgba(216, 245, 242, 1);
+    background: linear-gradient(to right, rgba(216, 245, 242, 1), rgba(242, 244, 179, 1));
 
     border: 1px solid rgba(216, 245, 242, 1);
     border-radius: 10px;
@@ -47,7 +48,9 @@ const WriterLink = styled.img`
 
 const WriterLinkBox = ({detailData}) => {
     return(
-        <WriterBox>
+        <WriterBox
+            whileHover={{ cursor: "pointer", y: -3}}
+        >
             <WriterInfo>
                 <WriterProfile
                     src={detailData.writerprofile}>

@@ -1,8 +1,13 @@
 import styled from 'styled-components'
+import { motion } from "framer-motion"
 
 import MoveToPjt from '/image/community/moveToPjt.png'
 
-const Project = styled.div`
+const Box = styled(motion.div)`
+    font-size: 0.5rem;
+    color: rgba(171, 171, 171, 1);
+`
+const Project = styled(motion.div)`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -10,7 +15,7 @@ const Project = styled.div`
     gap: 3rem;
 
     padding: 0.5rem 0.6rem 0.5rem 0.5rem;
-    background: rgba(216, 245, 242, 1);
+    background: linear-gradient(to right, rgba(216, 245, 242, 1), rgba(242, 244, 179, 1));
 
     border: 1px solid rgba(216, 245, 242, 1);
     border-radius: 10px;
@@ -32,14 +37,34 @@ const PjtProfile = styled.img`
 
 const PjtName = styled.div`
     font-family: Pretendard Medium;
+    font-size: 1rem;
+    color: black;
 `
 
 const Link = styled.img`
 `
 
+const pjtMotion = {
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+    variants: {
+        hidden: { opacity: 0, x: 50 },
+        visible: { opacity: 1, x: 0 }
+    },
+    transition: { duration: 0.3 }
+}
+
 const PjtLinkBox = ({pjtData}) => {
     return(
-        <Project>
+        <Box
+            {...pjtMotion}
+        >
+            게시글과 관련된 프로젝트 정보를 확인해보세요 !
+        <Project
+            whileHover={{ cursor: "pointer", scale: 1.05}}
+            transition={{ type: "spring", stiffness: 100 }}
+        >
             <PjtInfo>
                 <PjtProfile
                     src={pjtData.projectImg}>
@@ -55,6 +80,7 @@ const PjtLinkBox = ({pjtData}) => {
             >
             </Link>
         </Project>
+        </Box>
     )
 }
 

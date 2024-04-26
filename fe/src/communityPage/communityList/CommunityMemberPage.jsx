@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 
 import { useState, useRef , useEffect} from 'react'
+import { motion } from "framer-motion"
 
 import Posts from './Posts'
 import WriteButton from './WriteButton'
 import ProceedOption from './ProceedOption'
 import TeamOption from './TeamOption'
 import SearchBox from './SearchBox'
-import { motion } from "framer-motion"
 
 const MemberPage = styled(motion.div)`
     display: flex;        

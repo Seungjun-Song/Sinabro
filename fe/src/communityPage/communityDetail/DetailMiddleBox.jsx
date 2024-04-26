@@ -1,9 +1,10 @@
 import styled from 'styled-components'
+import { motion } from "framer-motion"
 
 import PjtLinkBox from './PjtLinkBox'
 import WriterLinkBox from './WriterLinkBox'
 
-const Middle = styled.div`
+const Middle = styled(motion.div)`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -44,10 +45,22 @@ const Hash = styled.div`
     padding: 0.1rem 1rem;
 
 `
+const middleMotion = {
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+    variants: {
+        hidden: { opacity: 0, y: -50 },
+        visible: { opacity: 1, y: 0 }
+    },
+    transition: { duration: 0.3 }
+}
 
 const DetailMiddle = ({detailData, pjtData, kind}) => {
     return(
-    <Middle>
+    <Middle
+        {...middleMotion}
+    >
         <Content>
             {detailData.content}
         </Content>

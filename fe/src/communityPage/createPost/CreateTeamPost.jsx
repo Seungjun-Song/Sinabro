@@ -2,6 +2,10 @@ import styled from 'styled-components'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useNavigate } from 'react-router';
+import { motion } from "framer-motion"
+
+import CkEditor from './CkEditor';
+import { useState } from 'react';
 
 const MemberPost = styled.div`
     display: flex;
@@ -14,7 +18,7 @@ const MemberPost = styled.div`
     margin: 0 0 0 3rem;
 `
 
-const Header = styled.div`
+const Header = styled(motion.div)`
 
     display: flex;
     align-items: center;
@@ -123,8 +127,21 @@ const Save = styled.div`
     cursor: pointer; 
 `
 
+const headerMotion = {
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+    variants: {
+        hidden: { opacity: 0, x: -50 },
+        visible: { opacity: 1, x: 0 }
+    },
+    transition: { duration: 0.3 }
+}
+
 const CreateTeamPost = () => {
     const navigate = useNavigate();
+
+    const [content, setContent] = useState();
 
     const submit = () =>{
         //TODO: axios 게시물 저장
@@ -134,30 +151,18 @@ const CreateTeamPost = () => {
 
     return(
         <MemberPost>
-            <Header>
+            <Header
+                {...headerMotion}
+            >
                 <Title
                     placeholder='제목을 입력하세요'>
                 </Title>
             </Header>
 
             <Content>
-                <StyledEditor>
-                <CKEditor
-                    editor={ClassicEditor}
-                    placeholder={"본인을 설명해 주세요!"}
-                    onReady={editor => {
-                        // You can store the "editor" and use when it is needed.
-
-                    }}
-                    onChange={(event, editor) => {
-                        const data = editor.getData();
-                    }}
-                    onBlur={(event, editor) => {
-                    }}
-                    onFocus={(event, editor) => {
-                    }} 
+                <CkEditor
+                    setContent={setContent}
                 />
-                </StyledEditor>
                 <Tag
                     placeholder='표현하고 싶은 태그를 입력해주세요 ! 태그는 스페이스로 구분됩니다. 😃'>
 

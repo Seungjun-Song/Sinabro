@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { motion } from "framer-motion"
 
 const Selection = styled.div`
     position: absolute;
@@ -14,12 +15,23 @@ const Selection = styled.div`
     border-radius: 10px;
 `
 
-const Option = styled.div`
+const Option = styled(motion.div)`
     text-align: center;
 
     font-family: LaundryGothicRegular;
 
 `
+
+const toggleMotion = {
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+    variants: {
+        hidden: { opacity: 0, y: -10 },
+        visible: { opacity: 1, y: 0 }
+    },
+    transition: { duration: 0.3 }
+}
 
 const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, kind}) => {
 
@@ -28,29 +40,49 @@ const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, ki
         setProceedToggle(false);
     }
 
+    const selectData = ["모두", "모집 중", "모집 완료"];
+
     return(
         <Selection>
             {kind === "team" || kind === "member" ? 
             (<>
-                <Option onClick={() => {changeOption("모두")}}>
+                <Option 
+                    onClick={() => {changeOption("모두")}}
+                    {...toggleMotion}
+                >
                     모두
                 </Option>
-                <Option onClick={() => {changeOption("모집 중")}}>
+                <Option 
+                    onClick={() => {changeOption("모집 중")}}
+                    {...toggleMotion}
+                >
                     모집 중
                 </Option>
-                <Option onClick={() => {changeOption("모집 완료")}}>
+                <Option 
+                    onClick={() => {changeOption("모집 완료")}}
+                    {...toggleMotion}
+                >
                     모집 완료
                 </Option>
             </>)
             :
             (<>
-                <Option onClick={() => {changeOption("모두")}}>
+                <Option 
+                    onClick={() => {changeOption("모두")}}
+                    {...toggleMotion}
+                >
                     모두
                 </Option>
-                <Option onClick={() => {changeOption("구걸 중")}}>
+                <Option 
+                    onClick={() => {changeOption("구걸 중")}}
+                    {...toggleMotion}
+                >
                     구걸 중
                 </Option>
-                <Option onClick={() => {changeOption("구걸 완료")}}>
+                <Option 
+                    onClick={() => {changeOption("구걸 완료")}}
+                    {...toggleMotion}
+                >
                     구걸 완료
                 </Option>
             </>)}

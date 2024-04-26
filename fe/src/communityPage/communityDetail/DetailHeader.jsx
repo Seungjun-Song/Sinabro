@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components'
+import { motion } from "framer-motion";
 
 import DetailProceed from './DetailProceed'
-const Header = styled.div`
+const Header = styled(motion.div)`
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -50,9 +51,22 @@ const Date = styled.div`
     font-size: 80%;
 `
 
+const headerMotion = {
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+    variants: {
+        hidden: { opacity: 0, y: -50 },
+        visible: { opacity: 1, y: 0 }
+    },
+    transition: { duration: 0.3 }
+}
+
 const DetailHeader = ({kind, detailData}) => {
     return(
-        <Header>
+        <Header
+            {...headerMotion}
+        >
         <MainInfo>
         <DetailProceed
             detailData={detailData}
