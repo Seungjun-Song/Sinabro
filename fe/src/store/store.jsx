@@ -5,12 +5,16 @@ import userSlice from "./userSlice";
 import projectCalenderSlice from "./projectCalenderSlice";
 import toDoListSlice from "./toDoListSlice";
 import addScheduleModalHandleSlice from "./addScheduleModalHandleSlice";
+import newMessageSlice from "./newMessageSlice";
+import projectChatShowSlice from "./projectChatShow";
 
 const reducers = combineReducers({
   user: userSlice,
   projectCalender: projectCalenderSlice,
   toDoList: toDoListSlice,
   addScheduleModalHandle: addScheduleModalHandleSlice,
+  newMessage: newMessageSlice,
+  projectChatShow: projectChatShowSlice,
 });
 
 const persistConfig = {

@@ -5,6 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { getDatabase, ref, push, onValue } from "firebase/database";
 import app from "../../firebase";
+import styled from "styled-components";
+
+const IconHoverBox = styled.div`
+    transition: transform 0.3 ease;
+    &:hover{
+        transform: scale(1.2)
+    }
+`
 
 const ChatBot = () => {
     const [talkhistory, settalkhistory] = useState([]);
@@ -119,7 +127,9 @@ const ChatBot = () => {
                         onKeyUp={(e) => enterSendWord(e)}
                     />
                     {/* Send button */}
-                    <FontAwesomeIcon icon={faPaperPlane} onClick={() => handleChatbot(word)} style={{ cursor: 'pointer', color: '#3EC8AF' }} />
+                    <IconHoverBox>
+                        <FontAwesomeIcon icon={faPaperPlane} onClick={() => handleChatbot(word)} style={{ cursor: 'pointer', color: '#3EC8AF' }} />
+                    </IconHoverBox>
                 </div>
             </div>
         </div>
