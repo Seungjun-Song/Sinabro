@@ -1,3 +1,85 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:27b14af351d72736a2f60e55d6f27791a0319b9eda17f7b1c5a1b2c3f6da607e
-size 2551
+import styled from 'styled-components'
+import { motion } from "framer-motion"
+
+import Post from "./Post";
+
+const List = styled(motion.div)`
+    margin: 2rem;
+`
+
+const listMotion = {
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+    variants: {
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0 }
+    },
+    transition: { duration: 0.3 }
+}
+
+const Line = styled.hr`
+`
+
+const Posts = ({kind}) => {
+    const postList = [
+        {
+            id: 1,
+            title: "웹 프로젝트 팀원 구합니다!",
+            content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
+            hash: ["spring boot", "커피", "백엔드"],
+            writer: "sil",
+            time: "2024-01-03",
+            proceed: true,
+        },
+        {
+            id: 2,
+            title: "웹 프로젝트 팀원 구합니다!",
+            content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
+            hash: ["spring boot", "커피", "백엔드"],
+            writer: "sil",
+            time: "2024-01-03",
+            proceed: false,
+        },
+        {
+            id: 3,
+            title: "웹 프로젝트 팀원 구합니다!",
+            content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
+            hash: ["spring boot", "커피", "백엔드"],
+            writer: "sil",
+            time: "2024-01-03",
+            proceed: false,
+        },
+        {
+            id: 4,
+            title: "웹 프로젝트 팀원 구합니다!",
+            content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
+            hash: ["spring boot", "커피", "백엔드"],
+            writer: "sil",
+            time: "2024-01-03",
+            proceed: true,
+        },
+
+    ]
+
+
+
+
+    return(
+        <List
+            {...listMotion}
+        >
+        {postList.map((post, index) => (
+            <>
+            <Line key={index}/>
+            <Post
+                key={index} post={post} kind={kind}
+            >
+            </Post>
+            </>
+        ))}
+        </List>
+    )
+}
+
+export default Posts;

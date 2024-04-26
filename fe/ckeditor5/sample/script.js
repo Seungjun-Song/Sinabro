@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9a2a433d74a0ac51de81f7a2ebfd05abbf61125f6c03b59f4003ff747c4d89ed
-size 535
+ClassicEditor
+	.create( document.querySelector( '.editor' ), {
+		// Editor configuration.
+	} )
+	.then( editor => {
+		window.editor = editor;
+	} )
+	.catch( handleSampleError );
+
+function handleSampleError( error ) {
+	const issueUrl = 'https://github.com/ckeditor/ckeditor5/issues';
+
+	const message = [
+		'Oops, something went wrong!',
+		`Please, report the following error on ${ issueUrl } with the build id "r7vat4eu0yzh-rzn5b6r6hoyd" and the error stack trace:`
+	].join( '\n' );
+
+	console.error( message );
+	console.error( error );
+}

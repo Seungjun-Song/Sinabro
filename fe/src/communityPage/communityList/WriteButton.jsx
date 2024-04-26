@@ -1,3 +1,45 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:117d6a50b223d6368dedefc77bda2187768992cf2a9e76c629d18c1e2a8f5f65
-size 925
+import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
+import { motion } from "framer-motion";
+
+import WriteIcon from '/image/community/writeIcon.png'
+
+const Button = styled(motion.div)`
+    display: flex;
+    align-items: center;
+    justify-content: start;
+
+    background: rgba(86, 76, 173, 1);
+
+    border: 2px solid rgba(86, 76, 173, 1);
+    border-radius: 50px;
+
+    width: 8rem;
+    gap: 0.5rem;
+
+    font-family: LaundryGothicRegular;
+    color: white;
+
+    padding: 0 0.8rem;
+    
+    box-shadow: 3px 4px 3px gray;
+`
+const WriteButton = ({kind}) => {
+
+    const navigate = useNavigate()
+    
+    return(
+        <Button
+            onClick={() => navigate('/createPost', {state: {kind: kind}})}
+            whileHover={{cursor: "pointer", y: -3}}
+            >
+        <img
+            src={WriteIcon}
+        >
+        </img>{" "}
+        글 쓰기
+        </Button>
+    )
+}
+
+export default WriteButton;
