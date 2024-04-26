@@ -10,7 +10,7 @@ const TSDUserModal = ({ setWhatUser, whatUser }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
+      transition={{ duration: 0.3 }}
       layout
       style={{
         position: "fixed",
@@ -33,7 +33,7 @@ const TSDUserModal = ({ setWhatUser, whatUser }) => {
         initial={{ opacity: 0, width: "45%", height: "95%" }}
         animate={{ opacity: 1, width: "40%", height: "90%" }}
         exit={{ opacity: 0, width: "40%", height: "90%" }}
-        transition={{ duration: 0.2 }}
+        transition={{ duration: 0.3 }}
         onClick={(e) => e.stopPropagation()}
         style={{
           display: "flex",
@@ -61,7 +61,7 @@ const TSDUserModal = ({ setWhatUser, whatUser }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2, delay: 0.4 }}
+            transition={{ duration: 0.3, delay: 0.4 }}
             style={{ display: "flex", marginTop: "2rem" }}
           >
             <span style={{ fontWeight: "bold" }}>GRABBERS</span>
