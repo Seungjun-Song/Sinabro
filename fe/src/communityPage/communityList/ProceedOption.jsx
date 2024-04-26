@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 
 import DropDawnIcon from '/image/nav/dropdownIcon.png'
 import ProceedSelection from './ProceedSelection'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 const Proceed = styled(motion.div)`
     display: flex;
@@ -38,18 +40,12 @@ const ProceedOption = ({proceedOption, proceedToggle, setProceedOption, setProce
             whileHover={{ cursor: "pointer", y: -3}}
         >
         {proceedOption}
-        {proceedToggle ? 
-        <img
-            src={DropDawnIcon}
-            style={{ transform: 'rotate(180deg)', height: "50%"}}
+        <motion.div
+            transition={{ duration: 0.3}}
+            animate={{rotate: proceedToggle ? 180 : 0}}
         >
-        </img> : 
-        <img
-            src={DropDawnIcon}
-            style={{height:"50%"}}
-        >
-        </img>
-        }
+            <FontAwesomeIcon icon={faCaretDown}/>
+        </motion.div>
         </ProceedToggle>
         {proceedToggle && 
         <ProceedSelection

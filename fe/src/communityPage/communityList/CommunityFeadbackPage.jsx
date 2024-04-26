@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 import Posts from './Posts'
 import WriteButton from './WriteButton'
@@ -40,6 +40,36 @@ const CommunityFeadBackPage = () => {
     const [proceedToggle, setProceedToggle] = useState(false);
     const [teamToggle, setTeamToggle] = useState(false);
 
+    const proceedRef = useRef();
+    const teamRef = useRef();
+
+    //토글 외부 클릭 시 토글 닫기
+    useEffect(() => {
+        function handleClikcOutside(event){
+            if(proceedRef.current && !proceedRef.current.contains(event.target)){
+                setProceedToggle(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClikcOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClikcOutside);
+        }
+    }, [setProceedToggle]);
+
+    useEffect(() => {
+        function handleClikcOutside(event){
+            if(teamRef.current && !teamRef.current.contains(event.target)){
+                setTeamToggle(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClikcOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClikcOutside);
+        }
+    }, [setTeamToggle]);
+
     //검색하기 axios
     const search = () => {
 
@@ -61,6 +91,7 @@ const CommunityFeadBackPage = () => {
             <Select>
 
                 <Option>
+                <div ref={proceedRef}>
                 <ProceedOption
                     proceedOption={proceedOption}
                     proceedToggle={proceedToggle}
@@ -68,8 +99,9 @@ const CommunityFeadBackPage = () => {
                     setProceedToggle={setProceedToggle}
                     kind={"feadback"}
                 />
+                </div>
 
-
+                <div ref={teamRef}>
                 <TeamOption
                     teamOption={teamOption}
                     teamToggle={teamToggle}
@@ -77,12 +109,13 @@ const CommunityFeadBackPage = () => {
                     setTeamToggle={setTeamToggle}
                     kind={"feadback"}
                 />
+                </div>
                 </Option>
 
                 <WriteButton
                     kind={"feadback"}
                 />
-
+              
             </Select>
 
             <Posts

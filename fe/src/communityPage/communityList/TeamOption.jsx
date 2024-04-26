@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import TeamSelection from './TeamSelection'
 
 import DropDawnIcon from '/image/nav/dropdownIcon.png'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 const Team = styled(motion.div)`
     display: flex;
     align-items: start;
@@ -37,18 +38,12 @@ const TeamOption = ({teamOption, teamToggle, setTeamOption, setTeamToggle, kind}
             onClick={() => setTeamToggle(!teamToggle)}
             whileHover={{cursor: "pointer", y: -3}}>
         {teamOption}
-        {teamToggle ? 
-        <img
-            src={DropDawnIcon}
-            style={{ transform: 'rotate(180deg)', height: "50%" }}
+        <motion.div
+            transition={{ duration: 0.3}}
+            animate={{rotate: teamToggle ? 180 : 0}}
         >
-        </img> : 
-        <img
-            src={DropDawnIcon}
-            style={{height:"50%"}}
-        >
-        </img>
-        }
+                <FontAwesomeIcon icon={faCaretDown}/>
+        </motion.div>
         </TeamToggle>
         {teamToggle && 
         <TeamSelection

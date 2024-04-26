@@ -13,6 +13,8 @@ display: flex;
 align-items: start;
 justify-content: space-between;
 width: 100%;
+
+margin: 3.5rem 0 0 0;
 `
 
 

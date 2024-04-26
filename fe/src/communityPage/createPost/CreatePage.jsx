@@ -14,7 +14,7 @@ const Create = styled.div`
     align-items: center;
     flex-direction: column;
     width: 65%;
-    margin: auto;
+    margin: 4rem auto;
 
 `
 const Header = styled(motion.div)`

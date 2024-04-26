@@ -44,6 +44,7 @@ const CommunityMemberPage = () => {
     const proceedRef = useRef();
     const teamRef = useRef();
 
+    //토글 외부 클릭 시 토글 닫기
     useEffect(() => {
         function handleClikcOutside(event){
             if(proceedRef.current && !proceedRef.current.contains(event.target)){

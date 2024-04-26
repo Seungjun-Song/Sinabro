@@ -7,7 +7,7 @@ const MenuList = styled(motion.div)`
     align-items: start;
     width: 20%;            
     padding-left: 10rem;  
-    margin-top: 5rem;        
+    margin: 5rem 0 0 4rem;        
     gap : 0.3rem;
   
     position: relative;

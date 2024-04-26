@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { motion } from "framer-motion"
 
-const Selection = styled.div`
+const Selection = styled(motion.div)`
     position: absolute;
     z-index: 999;
 
@@ -18,17 +18,31 @@ const Selection = styled.div`
 const Option = styled(motion.div)`
     text-align: center;
 
+
     font-family: LaundryGothicRegular;
 
 `
 
-const toggleMotion = {
+const Line = styled.hr`
+    border-top: 2px solid gray;
+    width: 70%;
+    margin: 0.3rem auto;
+
+`
+
+const toggleBoxMotion = {
     initial: "hidden",
     animate: "visible",
     exit: "hidden",
     variants: {
-        hidden: { opacity: 0, y: -10 },
-        visible: { opacity: 1, y: 0 }
+        visible: { opacity: 1, 
+                    transition: {
+                        when: "beforeChildren",
+                        staggerChildren: 0.1,
+                    },
+                    y: 0
+                },
+        hidden: { opacity: 0, y: 10 },
     },
     transition: { duration: 0.3 }
 }
@@ -40,51 +54,53 @@ const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, ki
         setProceedToggle(false);
     }
 
-    const selectData = ["모두", "모집 중", "모집 완료"];
+    const selectToggleData = ["모두", "모집 중", "모집 완료"];
+    const feadbackToggleData = ["모두", "구걸 중", "구걸 완료"]
 
     return(
-        <Selection>
+        <Selection
+            {...toggleBoxMotion}
+        >
             {kind === "team" || kind === "member" ? 
             (<>
-                <Option 
-                    onClick={() => {changeOption("모두")}}
-                    {...toggleMotion}
-                >
-                    모두
-                </Option>
-                <Option 
-                    onClick={() => {changeOption("모집 중")}}
-                    {...toggleMotion}
-                >
-                    모집 중
-                </Option>
-                <Option 
-                    onClick={() => {changeOption("모집 완료")}}
-                    {...toggleMotion}
-                >
-                    모집 완료
-                </Option>
+                {selectToggleData.map((option, index) => (
+                    <motion.div
+                        key={index}
+                        variants={{
+                            visible: { opacity: 1, y: 0 },
+                            hidden: { opacity: 0, y: 10 },
+                        }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <Option 
+                            key={index}
+                            onClick={() => changeOption(option)}    
+                        >
+                            {option}
+                            <Line/>
+                        </Option>
+                        
+                    </motion.div>
+                ))}
             </>)
             :
             (<>
-                <Option 
-                    onClick={() => {changeOption("모두")}}
-                    {...toggleMotion}
-                >
-                    모두
-                </Option>
-                <Option 
-                    onClick={() => {changeOption("구걸 중")}}
-                    {...toggleMotion}
-                >
-                    구걸 중
-                </Option>
-                <Option 
-                    onClick={() => {changeOption("구걸 완료")}}
-                    {...toggleMotion}
-                >
-                    구걸 완료
-                </Option>
+                {feadbackToggleData.map((option, index) => (
+                    <motion.div
+                        key={index}
+                        variants={{
+                            visible: { opacity: 1, y: 0 },
+                            hidden: { opacity: 0, y: 10 },
+                        }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <Option 
+                            key={index}
+                            onClick={() => changeOption(option)}
+                        >{option}</Option>
+                    </motion.div>
+                ))}
+
             </>)}
 
         </Selection>

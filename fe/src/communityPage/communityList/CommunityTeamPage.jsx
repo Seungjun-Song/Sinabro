@@ -1,11 +1,38 @@
 import styled from 'styled-components'
 
-import { useState } from 'react'
+import { useState, useRef , useEffect} from 'react'
 
 import Posts from './Posts'
 import WriteButton from './WriteButton'
 import ProceedOption from './ProceedOption'
 import SearchBox from './SearchBox'
+
+useEffect(() => {
+    function handleClikcOutside(event){
+        if(proceedRef.current && !proceedRef.current.contains(event.target)){
+            setProceedToggle(false);
+        }
+    }
+
+    document.addEventListener("mousedown", handleClikcOutside);
+    return () => {
+        document.removeEventListener("mousedown", handleClikcOutside);
+    }
+}, [setProceedToggle]);
+
+useEffect(() => {
+    function handleClikcOutside(event){
+        if(teamRef.current && !teamRef.current.contains(event.target)){
+            setTeamToggle(false);
+        }
+    }
+
+    document.addEventListener("mousedown", handleClikcOutside);
+    return () => {
+        document.removeEventListener("mousedown", handleClikcOutside);
+    }
+}, [setTeamToggle]);
+
 
 const MemberPage = styled.div`
     display: flex;        
@@ -56,6 +83,7 @@ const CommunityTeamPage = () => {
 
             <Select>
                 <Option>
+                <div ref={proceedRef}>
                 <ProceedOption
                     proceedOption={proceedOption}
                     proceedToggle={proceedToggle}
@@ -63,6 +91,7 @@ const CommunityTeamPage = () => {
                     setProceedToggle={setProceedToggle}
                     kind={"team"}
                 />
+                </div>
 
                 </Option>
                 <WriteButton

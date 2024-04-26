@@ -13,6 +13,8 @@ const Community = styled.div`
     align-items: start;
 
     width: 100%;
+
+    margin: 3.5rem 0 0 0;
 `
 
 
