@@ -78,22 +78,32 @@ const commentMotion = {
 
 
 const CommentBox = ({comment, index}) => {
+    const [ hoverState, setHoverState ] = useState(false);
+
+    const [ hoverPointer, setHoverPointer ] = useState(false);
+    const [ profileClick, setProfileClick ] = useState(false);
     const [ profileHover, setProfileHover ] = useState(false);
 
+    const hoverTurnOff = () =>{
+
+    }
     return(
         <Comment key={index}
                 {...commentMotion}>
             <WriterInfo>
                 <ProfileBox>
-                {profileHover && (
+                {hoverState && (
                     <HoverInfoBox
+                        setHoverPointer={setHoverPointer}
+                        setProfileClick={setProfileClick}
+                        hoverTurnOff={hoverTurnOff}
                     />
                 )}
                 <WriterProfile
                     src={comment.writerImg}
                     whileHover={{ cursor: "pointer", y : -3}}
-                    onMouseEnter={() => setProfileHover(true)}
-                    
+                    onMouseEnter={() => setHoverState(true)}
+                    onMouseLeave={() => setHoverState(false)}
                 />
                 </ProfileBox>
                 <WriterName>

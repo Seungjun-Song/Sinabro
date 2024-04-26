@@ -74,6 +74,8 @@ const Hash = styled.div`
 
     padding: 0.1rem 1rem;
 
+    box-shadow: 3px 4px 3px #f5f5f5;
+
 `
 
 const WriteInfo = styled.div`
@@ -136,7 +138,7 @@ const Post = ({post, kind}) => {
                     {post.hash.map((tag, index) => {
 
                         return( 
-                            <Hash className='shadow' key={index}>
+                            <Hash key={index}>
                                 {tag}
                             </Hash>
                         )

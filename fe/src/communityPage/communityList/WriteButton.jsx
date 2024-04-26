@@ -21,13 +21,15 @@ const Button = styled(motion.div)`
     color: white;
 
     padding: 0 0.8rem;
+    
+    box-shadow: 3px 4px 3px gray;
 `
 const WriteButton = ({kind}) => {
 
     const navigate = useNavigate()
     
     return(
-        <Button className='shadow'
+        <Button
             onClick={() => navigate('/createPost', {state: {kind: kind}})}
             whileHover={{cursor: "pointer", y: -3}}
             >

@@ -28,6 +28,9 @@ const ProceedToggle = styled(motion.div)`
 
     border: 2px solid rgba(62, 200, 175, 1);
     border-radius: 50px;
+
+    box-shadow: 3px 4px 3px gray;
+
 `
 
 const ProceedOption = ({proceedOption, proceedToggle, setProceedOption, setProceedToggle, kind, ref}) => {
@@ -35,7 +38,6 @@ const ProceedOption = ({proceedOption, proceedToggle, setProceedOption, setProce
         <Proceed
         >
         <ProceedToggle
-            className='shadow' 
             onClick={() => setProceedToggle(!proceedToggle)}
             whileHover={{ cursor: "pointer", y: -3}}
         >

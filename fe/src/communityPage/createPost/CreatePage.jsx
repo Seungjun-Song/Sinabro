@@ -7,6 +7,7 @@ import Navbar from '../../components/navs/Navbar';
 import CreateMemberPost from './CreateMemberPost';
 import CreateTeamPost from './CreateTeamPost';
 import CreateFeadbackPost from './CreateFeadbackPost';
+import TeamChoiceBox from './TeamChoiceBox';
 
 const Create = styled.div`
     display: flex;
@@ -57,17 +58,6 @@ const Option = styled.div`
     `}
 `
 
-const TeamChoice = styled.div`
-    padding: 0.2rem 1rem;
-
-    width: 15%;
-    
-    background: rgba(240, 240, 240, 1);
-    color: rgba(86, 76, 173, 1);
-
-    cursor: pointer; 
-`
-
 const headerMotion = {
     initial: "hidden",
     animate: "visible",
@@ -112,9 +102,7 @@ const CreatePage = () => {
                     </Option>
                     </Options>
                     {selected === "member" || selected === "feadback" ? (
-                        <TeamChoice>
-                            팀 선택하기
-                        </TeamChoice>
+                        <TeamChoiceBox/>
                     ) : ("")}
                 </Header>
 

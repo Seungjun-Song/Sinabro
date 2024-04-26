@@ -71,7 +71,7 @@ const Posts = ({kind}) => {
         >
         {postList.map((post, index) => (
             <>
-            <Line/>
+            <Line key={index}/>
             <Post
                 key={index} post={post} kind={kind}
             >

@@ -102,11 +102,10 @@ const CommentWindow = () => {
         },
     ]
 
-
     return(
         <Window>
             <Count>
-                댓글 {count}
+                댓글 {commentDate.length}
             </Count>
             <Inputzon>
                 <Input

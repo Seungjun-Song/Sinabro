@@ -28,13 +28,14 @@ const TeamToggle = styled(motion.div)`
 
     border: 2px solid rgba(58, 166, 184, 1);
     border-radius: 50px;
+
+    box-shadow: 3px 4px 3px gray;
 `
 
 const TeamOption = ({teamOption, teamToggle, setTeamOption, setTeamToggle, kind}) => {
     return(
         <Team>
         <TeamToggle 
-            className='shadow' 
             onClick={() => setTeamToggle(!teamToggle)}
             whileHover={{cursor: "pointer", y: -3}}>
         {teamOption}
