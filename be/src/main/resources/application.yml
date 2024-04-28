@@ -35,7 +35,7 @@ spring:
       neo4j:
         database: neo4j
     jwt:
-      header: Authorization
+      header: ${JWT_HEADER}
       secret: ${JWT_SECRET_KEY}
       token-validity-in-seconds: 86400
 server:

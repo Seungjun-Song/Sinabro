@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -44,9 +46,13 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String accessToken = jwtUtil.createAccessJwt(memberId, memberEmail, memberName, memberGit, memberImg);
         String refreshToken = jwtUtil.createRefreshJwt();
 
+        Authentication accessTokenAuth = new UsernamePasswordAuthenticationToken(accessToken, true);
+
         tokenParam.append("accessToken=").append(accessToken).append("&")
                 .append("refreshToken=").append(refreshToken);
-
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        CustomOAuth2MemberDto customUserContext = (CustomOAuth2MemberDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(customUserContext.getName());
         response.sendRedirect("http://localhost:8080/api/jwt?" + tokenParam);
     }
 }

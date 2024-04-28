@@ -17,7 +17,7 @@ public class CorsConfig {
         config.addAllowedOriginPattern("http://localhost:5173"); // 우리 도메인에서 오는 요청만 허용
         config.addAllowedHeader("*"); // 모든 header에 응답을 허용하겠다.
         config.addAllowedMethod("*"); // 모든 post,get,put,delete,patch 요청을 허용하겠다.
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/api/**", config); // 해당 주소로 들어오는 모든 요청은 config 를 따라주겠다
         return new CorsFilter(source);
     }
 

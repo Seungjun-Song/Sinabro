@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -29,6 +30,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // .csrf(csrf -> csrf.disabled()) 같은 표현
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
 //                        .requestMatchers("/api/login").permitAll()
 //                        .anyRequest().authenticated()
@@ -40,6 +45,7 @@ public class SecurityConfig {
                         .successHandler(customSuccessHandler) // 성공적으로 로그인을 마쳤을 때 발동되는 handler
                         .failureHandler(customFailureHandler)
                 )
+                // UsernamePasswordAuthenticationFilter 얘가 실행되기 전에 cors 필터를 실행한다.
                 .addFilterBefore(corsConfig.corsFilter(), UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 // STATELESS 형태로 관리
