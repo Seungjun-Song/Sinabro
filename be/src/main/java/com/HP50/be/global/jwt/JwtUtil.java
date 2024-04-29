@@ -2,6 +2,7 @@ package com.HP50.be.global.jwt;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -51,6 +52,10 @@ public class JwtUtil {
                 .before(new Date());
     }
 
+//    public Authentication getAuthentication(String token){
+//        JwtPayloadDto jwtPayloadDto =
+//    }
+
     public String createAccessJwt(Integer memberId, String email, String memberName, String memberGit, String memberImg){
         return Jwts.builder()
 
@@ -61,7 +66,6 @@ public class JwtUtil {
 ////                    .add("typ", "jwt")
 ////                    .and()
                 // claim는 jwt 내부에 들어갈 payload
-                .claim("sub",JwtConstants.ACCESS)
                 .claim("company", JwtConstants.COMPANY)
                 .claim("memberId", memberId)
                 .claim("email", email)

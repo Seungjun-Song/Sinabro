@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -20,13 +21,18 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
 
     // jwt를 검증하고 정상적이라면 호출될 메소드
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        System.out.println(auth);
+
         StringBuilder tokenParam = new StringBuilder();
 
         log.info("로그인 성공 {}", authentication.getName());
@@ -46,13 +52,16 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String accessToken = jwtUtil.createAccessJwt(memberId, memberEmail, memberName, memberGit, memberImg);
         String refreshToken = jwtUtil.createRefreshJwt();
 
-        Authentication accessTokenAuth = new UsernamePasswordAuthenticationToken(accessToken, true);
+        response.setHeader(JwtConstants.JWT_HEADER ,JwtConstants.JWT_TYPE + accessToken) ;
+        response.setHeader(JwtConstants.REFRESH ,JwtConstants.JWT_TYPE + refreshToken);
 
-        tokenParam.append("accessToken=").append(accessToken).append("&")
-                .append("refreshToken=").append(refreshToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        CustomOAuth2MemberDto customUserContext = (CustomOAuth2MemberDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(customUserContext.getName());
-        response.sendRedirect("http://localhost:8080/api/jwt?" + tokenParam);
+        log.info("Authorization: {}", response.getHeader(JwtConstants.JWT_HEADER));
+
+        response.sendRedirect("http://localhost:8080/api/members/test");
+
+//        tokenParam.append("accessToken=").append(accessToken).append("&")
+//                .append("refreshToken=").append(refreshToken);
+//
+//        response.sendRedirect("http://localhost:8080/api/jwt?" + tokenParam);
     }
 }
