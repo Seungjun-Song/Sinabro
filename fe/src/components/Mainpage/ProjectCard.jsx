@@ -57,6 +57,7 @@ const ProjectCard = ({ item }) => {
           >
             {item.skills.map((skill, index) => (
               <div
+                key={index}
                 className="shadow"
                 style={{
                   backgroundColor: "#909EE7",
@@ -114,16 +115,15 @@ const ProjectCard = ({ item }) => {
                   initial={{ y: 10, opacity: 0 }} // 초기 상태에서 opacity를 0으로 설정
                   animate={{ y: 0, opacity: 1 }} // 나타날 때 opacity를 1로 설정
                   exit={{ y: 10, opacity: 0 }} // 사라질 때 opacity를 0으로 설정
-                  style={{ width: "100%", height: "80%" ,overflow:"auto"}}
-
+                  style={{ width: "100%", height: "80%", overflow: "auto" }}
                 >
                   {item.projectinfo}
                 </motion.div>
                 <motion.div
                   transition={{ duration: 0.2, delay: 0.6 }}
-                  initial={{ x: -10, opacity: 0, rotate:-45 }} // 초기 상태에서 opacity를 0으로 설정
-                  animate={{ x: 0, opacity: 1, rotate:0 }} // 나타날 때 opacity를 1로 설정
-                  exit={{ x: -10, opacity: 0 , rotate:-45 }} // 사라질 때 opacity를 0으로 설정
+                  initial={{ x: -10, opacity: 0, rotate: -45 }} // 초기 상태에서 opacity를 0으로 설정
+                  animate={{ x: 0, opacity: 1, rotate: 0 }} // 나타날 때 opacity를 1로 설정
+                  exit={{ x: -10, opacity: 0, rotate: -45 }} // 사라질 때 opacity를 0으로 설정
                   style={{
                     position: "absolute",
                     bottom: "2rem",
