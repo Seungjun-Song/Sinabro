@@ -2,6 +2,7 @@ package com.HP50.be.global.jwt;
 
 import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.StatusCode;
+import com.HP50.be.global.exception.BaseException;
 import com.HP50.be.global.oauth.CustomOAuth2MemberDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -33,7 +34,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
-    private static final String[] whiteList = {"/api/*"};
+    private static final String[] whiteList = {}; //  {"/api/*"};
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
@@ -48,17 +49,30 @@ public class JwtFilter extends OncePerRequestFilter {
     // 인증이나 권한이 필요한 주소요청이 있을 때 해당 필터를 타게 됨.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
         try {
-            log.info("SecurityContextHolder에서 출력한 값 {}", SecurityContextHolder.getContext().getAuthentication());
-            String requestUri = request.getRequestURI();
-            String header = request.getHeader(JwtConstants.JWT_HEADER);
-            System.out.println("header = " + header);
-            System.out.println("requestUri = " + requestUri);
+            final String header = request.getHeader(JwtConstants.JWT_HEADER);
+            log.info("헤더에서 출력한 토큰 {}", header);
 
-            if (header == null || !header.startsWith(JwtConstants.JWT_TYPE))
-                log.error("Authorization Bearer Token Expired {}", requestUri);
+            if (header == null || !header.startsWith("Bearer ")) {
+                log.error("Authorization Header does not start with Bearer {}", request.getRequestURI());
+            }
 
-            String token = header.split(" ")[1];
+            if (jwtUtil.isExpired(header)) {
+                String reissueAccessToken = jwtUtil.reissueAccessToken(header);
+
+                if (reissueAccessToken != null){
+                    // 재발급된 accessToken 다시 전달
+                    response.setHeader(JwtConstants.REFRESH, JwtConstants.JWT_TYPE + reissueAccessToken);
+                }
+            }
+
+
+            final String token = header.split(" ")[1].trim();
+//            Authentication authenticationToken = jwtTokenProvider.getAuthentication(token);
+//            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+            log.info("Token verification successful. URI: {}", request.getRequestURI());
         } catch (SignatureException e) {
             setErrorResponse(response, StatusCode.INVALID_TOKEN);
             log.error("Invalid JWT signature: {}", e.getMessage());
@@ -75,7 +89,7 @@ public class JwtFilter extends OncePerRequestFilter {
             log.error("JWT claims string is empty: {}", e.getMessage());
             setErrorResponse(response, StatusCode.ILLEGAL_ARGUMENT_TOKEN);
         } catch (NullPointerException e) {
-            log.error("JWT  is empty: {}", e.getMessage());
+            log.error("JWT is empty: {}", e.getMessage());
             setErrorResponse(response, StatusCode.INVALID_NULL_TOKEN);
         }
 

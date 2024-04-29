@@ -28,12 +28,12 @@ public enum StatusCode {
     NOT_EXIST_PORT(false,801,"지급할 수 있는 포트가 없습니다."),
 
     // Token (900)
-    INVALID_TOKEN(false, 301, "기존 서명을 확인할 수 없습니다."),
-    DAMAGED_ACCESS_TOKEN(false, 302, "올바르게 구성된 JWT 토큰이 아닙니다."),
-    EXPIRED_ACCESS_TOKEN(false, 302, "토큰이 만료되었습니다."),
-    UNSUPPORTED_ACCESS_TOKEN(false, 303, "지원하지 않는 토큰입니다."),
-    INVALID_NULL_TOKEN(false, 304, "토큰 값 자체가 유효하지 않습니다."),
-    ILLEGAL_ARGUMENT_TOKEN(false, 305, "JWT claims이 비어있는 상태입니다.")
+    INVALID_TOKEN(false, 901, "기존 서명을 확인할 수 없습니다."),
+    DAMAGED_ACCESS_TOKEN(false, 902, "올바르게 구성된 JWT 토큰이 아닙니다."),
+    EXPIRED_ACCESS_TOKEN(false, 903, "토큰이 만료되었습니다."),
+    UNSUPPORTED_ACCESS_TOKEN(false, 904, "지원하지 않는 토큰입니다."),
+    INVALID_NULL_TOKEN(false, 905, "토큰 값 자체가 유효하지 않습니다."),
+    ILLEGAL_ARGUMENT_TOKEN(false, 906, "JWT claims이 비어있는 상태입니다.")
     ;
 
 

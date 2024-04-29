@@ -11,6 +11,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomOAuth2MemberDto implements OAuth2User {
     private final JwtPayloadDto jwtPayloadDto;
+
     @Override
     public Map<String, Object> getAttributes() {
         return null;
@@ -41,4 +42,6 @@ public class CustomOAuth2MemberDto implements OAuth2User {
     public String getMemberImg(){
         return jwtPayloadDto.getMemberImg();
     }
+
+
 }

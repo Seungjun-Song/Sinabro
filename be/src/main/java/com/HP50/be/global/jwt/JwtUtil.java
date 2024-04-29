@@ -43,6 +43,22 @@ public class JwtUtil {
                 .get("memberName", String.class);
     }
 
+    public String getMemberGit(String token) {
+
+        return Jwts.parser().verifyWith(secretKey).build().
+                parseSignedClaims(token).
+                getPayload()
+                .get("memberGit", String.class);
+    }
+
+    public String getMemberImg(String token) {
+
+        return Jwts.parser().verifyWith(secretKey).build().
+                parseSignedClaims(token).
+                getPayload()
+                .get("memberImg", String.class);
+    }
+
     public Boolean isExpired(String token) {
 
         return Jwts.parser().verifyWith(secretKey).build().
@@ -93,5 +109,17 @@ public class JwtUtil {
                 .expiration(new Date(System.currentTimeMillis() + JwtConstants.REFRESH_EXP_TIME)) // jwt 만기 시간
                 .signWith(secretKey) // 해당 키로 암호화를 하겠다.
                 .compact(); // jwt 생성
+    }
+
+    public String reissueAccessToken(String accessToken) {
+        Integer memberId = this.getMemberId(accessToken);
+        String memberEmail = this.getEmail(accessToken);
+        String memberName = this.getMemberName(accessToken);
+        String memberGit = this.getMemberGit(accessToken);
+        String memberImg = this.getMemberImg(accessToken);
+
+        // this.getMemberId(accessToken)가 레디스에 있다면
+        String access = this.createAccessJwt(memberId, memberEmail, memberName, memberGit, memberImg);
+        return null;
     }
 }

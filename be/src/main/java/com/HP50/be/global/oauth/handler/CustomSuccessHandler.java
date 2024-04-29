@@ -3,6 +3,7 @@ package com.HP50.be.global.oauth.handler;
 import com.HP50.be.global.jwt.JwtConstants;
 import com.HP50.be.global.jwt.JwtUtil;
 import com.HP50.be.global.oauth.CustomOAuth2MemberDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -56,8 +58,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         response.setHeader(JwtConstants.REFRESH ,JwtConstants.JWT_TYPE + refreshToken);
 
         log.info("Authorization: {}", response.getHeader(JwtConstants.JWT_HEADER));
-
-        response.sendRedirect("http://localhost:8080/api/members/test");
 
 //        tokenParam.append("accessToken=").append(accessToken).append("&")
 //                .append("refreshToken=").append(refreshToken);
