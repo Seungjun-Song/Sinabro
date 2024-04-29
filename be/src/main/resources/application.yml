@@ -38,3 +38,7 @@ spring:
 server:
   servlet:
     context-path: "/api"
+
+openvidu:
+  url: ${OPENVIDU_URL}
+  secret: ${OPENVIDU_SECRET}
