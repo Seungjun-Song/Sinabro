@@ -40,8 +40,6 @@ public class OpenViduController {
      */
     @PostMapping
     public ResponseEntity<Object> createRoom( @RequestBody RoomRequestDto dto) throws OpenViduJavaClientException, OpenViduHttpException {
-        log.info("make room {}", dto);
-        log.info("make room master {}", dto);
 
         int memberId = 1;//JWT 설정 필요
         String nickname = "김윤민2"; // JWT 처리
@@ -133,7 +131,7 @@ public class OpenViduController {
     @PostMapping("/exit")
     public ResponseEntity<Object> exitRoom(@RequestBody RoomExistRequestDto dto) throws OpenViduJavaClientException, OpenViduHttpException {
 
-        String sessionId =dto.getRoomId();
+        String sessionId =dto.getSessionId();
         String connectionId = dto.getConnectionId();
 
         log.info("room exit {} {}", sessionId, connectionId);

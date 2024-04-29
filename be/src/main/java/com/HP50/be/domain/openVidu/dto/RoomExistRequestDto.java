@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class RoomExistRequestDto {
-    String roomId;
+    String sessionId;
     String connectionId;
 
 }
