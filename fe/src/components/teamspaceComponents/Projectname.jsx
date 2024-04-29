@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import "./Projectname.css";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 const ProjectNameContainer = styled.div`
   display: flex;
   gap: 5rem;
@@ -13,6 +13,7 @@ const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  align-items:flex-end;
 `;
 
 const Image = styled.img`
@@ -39,21 +40,24 @@ const Button = styled(motion.button)`
   border: none;
   border-radius: 10px;
   padding: 1rem;
-  
+
   &.shadow {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
   }
 `;
 
 const ProjectName = ({ setProjectName, projectName }) => {
-
   return (
     <ProjectNameContainer>
-      <ImageContainer className="align-items-center">
-        <Image className="shadow" src="/images/pjtimg.png" />
-        <Button whileHover={{y:-5}} className="shadow mt-3">
-          <h5 style={{ fontSize: "1rem", marginBottom: 0 }}>대표이미지 설정</h5>
-        </Button>
+      <ImageContainer >
+        <div style={{display:"flex" , flexDirection:"column" ,alignItems:"center"}} >
+          <Image className="shadow" src="/images/pjtimg.png" />
+          <Button whileHover={{ y: -5 }} className="shadow mt-3">
+            <h5 style={{ fontSize: "1rem", marginBottom: 0 }}>
+              대표이미지 설정
+            </h5>
+          </Button>
+        </div>
       </ImageContainer>
       <div
         style={{
