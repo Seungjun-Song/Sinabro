@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useState } from 'react'
 
 import HoverInfoBox from './HoverInfoBox'
@@ -80,13 +80,30 @@ const commentMotion = {
 const CommentBox = ({comment, index}) => {
     const [ hoverState, setHoverState ] = useState(false);
 
-    const [ hoverPointer, setHoverPointer ] = useState(false);
+    //const [ hoverPointer, setHoverPointer ] = useState(false);
+    //const [ profileHover, setProfileHover ] = useState(false);
     const [ profileClick, setProfileClick ] = useState(false);
-    const [ profileHover, setProfileHover ] = useState(false);
 
     const hoverTurnOff = () =>{
-
+      //  setHoverPointer(true);
+        setHoverState(false);
     }
+
+    const hoverTurnOn = () => {
+      //  setProfileHover(true);
+        setHoverState(true);
+    }
+
+
+    const profileClickEvent = () => {
+        if(hoverState){
+            setHoverState(false);
+        }
+        else{
+            setHoverState(true);
+        }
+    }
+
     return(
         <Comment key={index}
                 {...commentMotion}>
@@ -94,16 +111,14 @@ const CommentBox = ({comment, index}) => {
                 <ProfileBox>
                 {hoverState && (
                     <HoverInfoBox
-                        setHoverPointer={setHoverPointer}
-                        setProfileClick={setProfileClick}
                         hoverTurnOff={hoverTurnOff}
                     />
                 )}
                 <WriterProfile
                     src={comment.writerImg}
                     whileHover={{ cursor: "pointer", y : -3}}
-                    onMouseEnter={() => setHoverState(true)}
-                    onMouseLeave={() => setHoverState(false)}
+                    onMouseEnter={() => hoverTurnOn()}
+                    onClick={() => profileClickEvent()}
                 />
                 </ProfileBox>
                 <WriterName>

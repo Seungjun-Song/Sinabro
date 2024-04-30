@@ -1,3 +1,50 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:86e3ac162c4ba562135b935997d366ac9954278bb3424bc6477207de6ce68259
-size 1395
+import { useEffect, useState } from "react";
+import ProjectTeam from "./ProjectTeam";
+import Projectexplanation from "./Projectexplanation";
+import TSDUserModal from "./TSDUserModal";
+import { AnimatePresence } from "framer-motion";
+// import { fas } from "@fortawesome/free-solid-svg-icons";
+
+const UserSkill = ({ skill }) => {
+  //   const [imgsrc, setimgsrc] = useState(false);
+  let imgsrc = "";
+  const getimg = (item) => {
+    if (item == "React") {
+      return "/images/react.png";
+    } else if (item == "Css") {
+      return "/images/css.png";
+    } else if (item == "Html") {
+      return "/images/html.png";
+    } else if (item == "JavaScript") {
+      return "/images/js.png";
+    } else if (item == "Vue") {
+      return "/images/vue.png";
+    } else if (item == "Java") {
+      return "/images/java.png";
+    } else if (item == "django") {
+      return "/images/django.png";
+    } else if (item == "Python") {
+      return "/images/python.png";
+    } else if (item == "Spring") {
+      return "/images/spring.png";
+    }
+  };
+  imgsrc = getimg(skill);
+  return (
+    <>
+      <img style={{ width: "4rem" }} src={getimg(skill)} />
+      <div
+        className="px-3 py-1 mt-3"
+        style={{
+          backgroundColor: "#304895",
+          color: "white",
+          borderRadius: "3rem",
+        }}
+      >
+        {skill}
+      </div>
+    </>
+  );
+};
+
+export default UserSkill;

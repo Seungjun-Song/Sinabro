@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 import ProfileIcon from '/image/community/hoverProfile.png'
 import PlusIcon from '/image/community/hoverPlus.png'
@@ -42,10 +42,12 @@ const hoverMotion = {
     },
     transition: { duration: 0.3 }
 }
-const HoverInfoBox = () => {
+const HoverInfoBox = ({hoverTurnOff}) => {
+    
     return(
         <HoverInfo
             {...hoverMotion}
+            onMouseLeave={hoverTurnOff}
         >
             <UserDetail
                 src={ProfileIcon}
