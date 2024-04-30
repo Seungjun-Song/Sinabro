@@ -18,15 +18,8 @@ public class MemberController {
     // 유저 검색
     @GetMapping
     public ResponseEntity<Object> searchMember(@RequestParam String keyword,
-                                             @RequestParam Integer page){
+                                             @RequestParam Integer page) {
         SearchMemberResponseDto result = memberService.searchMember(keyword, page);
         return ResponseEntity.ok(new BaseResponse<>(result));
     }
-
-    @GetMapping("{test}")
-    public String test(@PathVariable("test") String test){
-        return test;
-    }
-
-
 }

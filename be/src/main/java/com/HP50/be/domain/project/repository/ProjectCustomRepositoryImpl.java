@@ -3,6 +3,7 @@ package com.HP50.be.domain.project.repository;
 import com.HP50.be.domain.project.dto.PjtTechInfo;
 import com.HP50.be.domain.project.dto.ProjectInfoDto;
 import com.HP50.be.domain.project.dto.TeammateInfo;
+import com.HP50.be.domain.project.entity.Teammate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
         ProjectInfoDto result = queryFactory.select(
                         Projections.constructor(
                                 ProjectInfoDto.class,
-                                subCategory.subCategoryName.as("status"),
+                                project.subCategory.subCategoryId.as("status"),
                                 project.projectName.as("projectName"),
                                 project.projectInfo.as(("projectInfo")),
                                 project.projectImg.as("projectImg"),
@@ -53,6 +54,7 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
                 .where(project.projectId.eq(projectId)).fetch();
         // ID만 뽑기
         List<Integer> teammateIdList = teamList.stream().map(TeammateInfo::getTeammateId).toList();
+
         // 3. 팀원 아이디에 해당하는 애들가져와서 pjtTech정보 가져옴
         List<PjtTechInfo> techList = queryFactory.select(
                         Projections.constructor(
@@ -69,13 +71,28 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
                         PjtTechInfo::getTeammateId, // memberId를 기준으로 그룹화
                         Collectors.mapping(PjtTechInfo::getSubcategoryName, Collectors.toList()) // subcategoryName을 List로 매핑
                 ));
+
         // 연결중
         for(TeammateInfo info: teamList){
-            Integer id = info.getMemberId();
+            Integer id = info.getTeammateId();
             info.setTechStack(tech.get(id));
+            if(info.getTeamReader()){
+                result.setTeamReaderId(info.getMemberId());
+            }
         }
         //프로젝트 정보에 연결
         result.setTeammateInfoList(teamList);
+
+
         return result;
+    }
+    //프로젝트 멤버인지 확인
+
+    @Override
+    public boolean isTeammate(int memberId, int projectId) {
+        return queryFactory.selectFrom(teammate)
+                .join(teammate.project, project)
+                .where(teammate.member.memberId.eq(memberId).and(teammate.project.projectId.eq(projectId)))
+                .fetchFirst() != null;
     }
 }

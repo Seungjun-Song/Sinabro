@@ -2,7 +2,7 @@ spring:
     application:
         name: be
     profiles:
-        active: server
+        active: local
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: ${DB_USERNAME}
@@ -35,10 +35,25 @@ spring:
     data:
       neo4j:
         database: neo4j
+
+      redis:
+        host: ${REDIS_HOST}
+        password: ${REDIS_PASSWORD}
+        port: 6379
+
+        repositories:
+          enabled: false
     jwt:
       header: ${JWT_HEADER}
       secret: ${JWT_SECRET_KEY}
       token-validity-in-seconds: 86400
+
+
+    
 server:
   servlet:
     context-path: ${API}
+
+openvidu:
+  url: ${OPENVIDU_URL}
+  secret: ${OPENVIDU_SECRET}
