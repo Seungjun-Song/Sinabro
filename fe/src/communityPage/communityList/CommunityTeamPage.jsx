@@ -38,6 +38,8 @@ const CommunityTeamPage = () => {
     const [proceedOption, setProceedOption] = useState("모집 중");
     const [proceedToggle, setProceedToggle] = useState(false);
 
+    const proceedRef = useRef();
+
     useEffect(() => {
         function handleClikcOutside(event){
             if(proceedRef.current && !proceedRef.current.contains(event.target)){
@@ -50,19 +52,6 @@ const CommunityTeamPage = () => {
             document.removeEventListener("mousedown", handleClikcOutside);
         }
     }, [setProceedToggle]);
-    
-    useEffect(() => {
-        function handleClikcOutside(event){
-            if(teamRef.current && !teamRef.current.contains(event.target)){
-                setTeamToggle(false);
-            }
-        }
-    
-        document.addEventListener("mousedown", handleClikcOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClikcOutside);
-        }
-    }, [setTeamToggle]);
     
     //검색하기 axios
     const search = () => {
