@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:143c337a53d3392106d37c02482dae9a963682d07479d8bb9b68ff78f0d8133f
-size 213
+package com.HP50.be.domain.calender.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class CalenderRequestDto {
+    Integer calenderId;
+    Integer projectId;
+    Integer subCategoryId;
+}
