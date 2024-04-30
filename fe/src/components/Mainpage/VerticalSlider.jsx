@@ -108,7 +108,7 @@ const VerticalSlider = () => {
     >
       <Slider {...settings}>
         {DUMMY_DATA.map((item,index) =>(
-            <CustomSlide  id={item.id} projectname={item.projectname} state={item.state} message={item.message} />
+            <CustomSlide key={index}  id={item.id} projectname={item.projectname} state={item.state} message={item.message} />
         ))}
       </Slider>
     </div>

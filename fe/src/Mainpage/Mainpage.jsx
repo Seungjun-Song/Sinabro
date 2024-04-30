@@ -2,6 +2,8 @@ import GotoTeamSpace from "../components/Mainpage/GotoTeamSpace";
 import SinabroTeamProject from "../components/Mainpage/SinabroTeamProject";
 import SimpleSlider from "../components/Mainpage/Slider";
 import VerticalSlider from "../components/Mainpage/VerticalSlider";
+import UserChat from "../components/Userchat/UserChat";
+
 import Navbar from "../components/navs/Navbar";
 import data from "./data";
 // import "./styles.css";
@@ -19,7 +21,7 @@ const Mainpage = () => {
           width: "100vw",
 
           // alignItems: "center",
-          paddingTop: "7rem",
+          paddingTop: "80px",
           justifyContent: "center",
           // backgroundColor: "rgba(212, 223, 255, 0.2)",
         }}
@@ -31,6 +33,7 @@ const Mainpage = () => {
           <SinabroTeamProject />
         </div>
       </motion.div>
+      <UserChat/>
     </>
   );
 };
