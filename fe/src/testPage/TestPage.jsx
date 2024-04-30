@@ -21,6 +21,11 @@ const TestPage = () => {
                 console.error(err);
             });
     };
+
+    const redirectToGithub = () => {
+        window.location.href = "https://github.com/login/oauth/authorize?client_id=218c974f1409ed1c47b2";
+    };
+
     return (
         <div style={{ padding: '5rem' }}>
             <div>
@@ -38,6 +43,7 @@ const TestPage = () => {
                 <button onClick={() => navigate('/Mainpage')}>메인페이지</button>
                 <button onClick={() => navigate('/rtc')}>rtc</button>
                 <button onClick={() => navigate('/login')}>로그인 페이지</button>
+                <button onClick={redirectToGithub}>Github</button>
             </div>
         </div>
     )
