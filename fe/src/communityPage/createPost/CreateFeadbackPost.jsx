@@ -89,7 +89,7 @@ const Buttons = styled.div`
     margin-left: auto;
 `
 
-const Cancel = styled.div`
+const Cancel = styled(motion.div)`
     color: rgba(150, 143, 216, 1);
     text-align: center;
     padding: 0.2rem 1rem;
@@ -99,7 +99,7 @@ const Cancel = styled.div`
     cursor: pointer; 
 `
 
-const Save = styled.div`
+const Save = styled(motion.div)`
     color: white;
     background: rgba(150, 143, 216, 1);
     text-align: center;
@@ -155,10 +155,18 @@ const CreateFeadbackPost = () => {
 
             <Bottom>
                 <Buttons>
-                    <Cancel onClick={() => navigate('/communityMainPage', {state: {kind: "feadback"}})}>
+                    <Cancel
+                        whileHover={{
+                            scale: 1.1,
+                        }} 
+                        onClick={() => navigate('/communityMainPage', {state: {kind: "feadback"}})}>
                         취소
                     </Cancel>
-                    <Save onClick={() => submit()}>
+                    <Save 
+                        whileHover={{
+                            scale: 1.1,
+                        }}
+                        onClick={() => submit()}>
                         등록
                     </Save>
                 </Buttons>

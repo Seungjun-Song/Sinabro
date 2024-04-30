@@ -54,12 +54,13 @@ const TeamChoiceBox = () => {
     ];
     
     return(
-        <TeamChoice>
+        <TeamChoice
+          onClick={() => {
+            setDropDown(!dropDown);
+          }}
+        >
             <div>팀 선택하기</div>
             <DropDownButton
-            onClick={() => {
-              setDropDown(!dropDown);
-            }}
           >
             <motion.div
               transition={{ duration: 0.3 }}

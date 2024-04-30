@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useNavigate } from 'react-router';
 import { motion } from "framer-motion"
 
@@ -58,21 +56,6 @@ const Content = styled.div`
     margin: 1rem 0 2rem 0;
 `
 
-const StyledEditor = styled.div`
-  width: 100%; // CKEditor 컨테이너 너비를 100%로 설정
-  .ck.ck-editor {
-    width: 100%; // 에디터 자체의 너비를 100%로 설정
-    margin: auto;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f8f8f8;
-  }
-
-  .ck.ck-content {
-    min-height: 500px;
-  }
-`;
-
 const Tag = styled.input`
     width: 100%;
     padding: 0.5rem 0 0.5rem 0.8rem;
@@ -106,7 +89,7 @@ const Buttons = styled.div`
     margin-left: auto;
 `
 
-const Cancel = styled.div`
+const Cancel = styled(motion.div)`
     color: rgba(150, 143, 216, 1);
     text-align: center;
     padding: 0.2rem 1rem;
@@ -116,7 +99,7 @@ const Cancel = styled.div`
     cursor: pointer; 
 `
 
-const Save = styled.div`
+const Save = styled(motion.div)`
     color: white;
     background: rgba(150, 143, 216, 1);
     text-align: center;
@@ -171,10 +154,19 @@ const CreateTeamPost = () => {
 
             <Bottom>
                 <Buttons>
-                    <Cancel onClick={() => navigate('/communityMainPage', {state: {kind: "team"}})}>
+                    <Cancel 
+                        whileHover={{
+                            scale: 1.1,
+                        }}
+                        onClick={() => navigate('/communityMainPage', {state: {kind: "team"}})}>
                         취소
                     </Cancel>
-                    <Save onClick={() => submit()}>
+                    <Save 
+                        onClick={() => submit()}
+                        whileHover={{ 
+                            scale: 1.1,
+                        }}    
+                    >
                         등록
                     </Save>
                 </Buttons>
