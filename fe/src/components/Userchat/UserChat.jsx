@@ -4,8 +4,16 @@ import Chatlist from "./Chatlist";
 import Draggable from "react-draggable";
 import { Resizable } from "re-resizable";
 import Chatdetail from "./Chatdetail";
+import GPTChat from "./GPTChat";
 
 const DUMMY_DATA = [
+  {
+    id: 0,
+    projectname: "GPT",
+    lastChat: "무엇을 도와드릴까요?",
+    day: "2024.04.26",
+    projectimg: "/images/gptblack.jpg",
+  },
   {
     id: 1,
     projectname: "프로젝트명1",
@@ -137,7 +145,11 @@ const UserChat = () => {
                 }}
               >
                 {whatpjt ? (
-                  <Chatdetail setWhatpjt={setWhatpjt} whatpjt={whatpjt} />
+                  whatpjt.projectname === "GPT" ? (
+                    <GPTChat setWhatpjt={setWhatpjt} whatpjt={whatpjt} />
+                  ) : (
+                    <Chatdetail setWhatpjt={setWhatpjt} whatpjt={whatpjt} />
+                  )
                 ) : (
                   <motion.div
                     style={{

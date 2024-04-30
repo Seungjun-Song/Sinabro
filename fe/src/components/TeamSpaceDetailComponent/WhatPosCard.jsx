@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-const WhatPosCard = ({ item, state, name, setWhatUser }) => {
+const WhatPosCard = ({ item, state, name, setWhatUser ,isDark}) => {
   const getColor = (item) => {
     // 여기에 item에 따라 적절한 색상을 반환하는 조건을 추가하세요
     // 예를 들어, item이 "A"일 때는 빨간색, "B"일 때는 파란색 등등...
@@ -40,11 +40,12 @@ const WhatPosCard = ({ item, state, name, setWhatUser }) => {
           borderColor: getColor(item),
           flexDirection: "column",
           height: "100%",
+          backgroundColor :isDark ? "#323232" :"white"
         }}
       >
         <img style={{ width: "6rem" }} src="/images/juheon.png" />
         <div style={{ color: getJobColor(item) }}>{state}</div>
-        <h5 style={{ margin: 0 }}>{name}</h5>
+        <h5 style={{ margin: 0 , color : isDark ? "white" :"black"}}>{name}</h5>
       </motion.div>
     </>
   );

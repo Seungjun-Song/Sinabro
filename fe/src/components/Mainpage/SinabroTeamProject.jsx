@@ -1,3 +1,4 @@
+import { GlobalColor } from "../../services/color";
 import ProjectCard from "./ProjectCard";
 import { motion } from "framer-motion";
 const DUMMY_DATA = [
@@ -69,7 +70,7 @@ const DUMMY_DATA = [
   },
 ];
 
-const SinabroTeamProject = ({}) => {
+const SinabroTeamProject = ({isDark}) => {
   return (
     <div
       style={{
@@ -89,10 +90,10 @@ const SinabroTeamProject = ({}) => {
           textAlign: "center",
         }}
       >
-        <h5 style={{ color: "#47474782", marginBottom: "1rem" }}>
+        <h5 style={{ color: isDark? "white" :"#47474782", marginBottom: "1rem" }}>
           이런걸 만들수 있어요!
         </h5>
-        <h3 style={{ fontWeight: "bold" }}>
+        <h3 style={{ color: isDark? "white" :GlobalColor.colors.primary_black,fontWeight: "bold" }}>
           시나브로를 통해 완성한 팀프로젝트
         </h3>
       </div>
@@ -103,7 +104,7 @@ const SinabroTeamProject = ({}) => {
             className="col-4"
             style={{ justifyContent: "center", display: "flex" }}
           >
-            <ProjectCard item={item} />
+            <ProjectCard isDark ={isDark} item={item} />
           </motion.div>
         ))}
       </motion.div>

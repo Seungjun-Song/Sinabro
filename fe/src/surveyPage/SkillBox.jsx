@@ -12,7 +12,7 @@ const Box = styled.div`
   justify-content: space-evenly;
   align-items: center;
   width: 9rem;
-  box-shadow: 0px 3px 3px black;
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 
   ${({ checked }) => !checked && `
@@ -23,7 +23,7 @@ const Box = styled.div`
   `}
   
   ${({ checked }) => checked && `
-    transform: scale(1.2);
+    transform: scale(1.1);
   `}
 `;
 
@@ -44,9 +44,9 @@ const SkillBox = ({ iconName, borderColor, text, checked }) => {
   }
 
   return (
-    <Box style={{ border: `3px solid ${borderColor}`, color: `${borderColor}` }} checked={checked}>
+    <Box style={{backgroundColor: checked ? borderColor  : "white" , border: `3px solid ${borderColor }`, color: `${checked ? "white" : borderColor}` }} checked={checked}>
       {icon && <FontAwesomeIcon icon={icon} style={{ fontSize: '24px' }} />}
-      <span style={{ color: 'black', fontWeight: 'bold' }}>{text}</span>
+      <span style={{ color: checked?  "white": 'black', fontWeight: 'bold' }}>{text}</span>
     </Box>
   );
 }

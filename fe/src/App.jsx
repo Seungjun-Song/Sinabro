@@ -24,10 +24,10 @@ import TeamSpaceDetailPage from "./teamSpaceDetailPage/teamSpaceDetailPage";
 import Mainpage from "./Mainpage/Mainpage";
 import ProjectPage from "./projectPage/ProjectPage";
 import { Calender } from "./components/calender/Calender";
-
+const api = "https://k10e103.p.ssafy.io/"
 const App = () => {
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   // const auth = getAuth(app);
   // useEffect(() => {
   //   const unsubscribe = onAuthStateChanged(auth, (user) => {
