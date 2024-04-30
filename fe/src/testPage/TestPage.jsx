@@ -36,6 +36,7 @@ const TestPage = () => {
                 <button onClick={() => navigate('/communityMainPage', { state: { kind: "member" } })}>커뮤니티</button>
                 <button onClick={() => navigate('/TeamSpaceDetailPage')}>팀스페이스 디테일 페이지</button>
                 <button onClick={() => navigate('/Mainpage')}>메인페이지</button>
+                <button onClick={() => navigate('/rtc')}>rtc</button>
             </div>
         </div>
     )
