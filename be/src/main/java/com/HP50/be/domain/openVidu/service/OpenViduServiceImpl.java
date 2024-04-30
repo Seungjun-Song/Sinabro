@@ -51,7 +51,6 @@ public class OpenViduServiceImpl implements OpenViduService{
                 .roomCount(1)
                 .build();
         redisRoomRepository.save(room);
-
         RoomResponseDto result = RoomResponseDto.builder()
                 .sessionId(sessionId)
                 .roomCount(1)
@@ -77,7 +76,8 @@ public class OpenViduServiceImpl implements OpenViduService{
         Room room = redisRoomRepository.findById(roomSessionId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_CHAT));
         log.info("service - enter room {}", room.toString());
         try{
-            room.addMember(room);
+            Room addM = room.addMember(room);
+            redisRoomRepository.save(addM);
             return true;
         }catch (Exception e){
             log.error("enter room error",e);

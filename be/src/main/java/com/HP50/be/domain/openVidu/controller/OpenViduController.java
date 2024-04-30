@@ -72,17 +72,10 @@ public class OpenViduController {
         if (service.isExist(sessionId)){  // 세션 아이디가 중복이라면
             return ResponseEntity.badRequest().body(StatusCode.ALREADY_EXIST_CHAT);
         }
-
-        try {
-            RoomResponseDto result = service.createRoom(dto.getProjectId(), sessionId); //ConnectionToken도 함께 반환
-            log.info("make room {}", result);
-            result.setConnectionToken(connection.getToken());
-            return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(result));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body(StatusCode.FAIL_CREATE_ROOM);
-        }
+        RoomResponseDto result = service.createRoom(dto.getProjectId(), sessionId); //ConnectionToken도 함께 반환
+        log.info("make room {}", result);
+        result.setConnectionToken(connection.getToken());
+        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(result));
     }
 
     /**
@@ -178,6 +171,7 @@ public class OpenViduController {
         return true;
     }
 
+    /**  ---------------------------------Status Check Codes ---------------------------------------------------
     /**
         Status Check Code
         openvidu session List확인
@@ -211,5 +205,4 @@ public class OpenViduController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(connectionUsers));
     }
-
 }
