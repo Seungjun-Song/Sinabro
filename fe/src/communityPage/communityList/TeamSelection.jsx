@@ -1,20 +1,28 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { motion } from "framer-motion"
+
+import { GlobalColor } from '../../services/color'
 
 const Selection = styled(motion.div)`
     position: absolute;
     z-index: 999;
 
-    background-color: rgba(58, 166, 184, 1);
+    background-color: ${GlobalColor.colors.teamToggle};
     color: white;
 
     margin-top: 2%;
     width: 7rem;
 
-    border: 2px solid rgba(58, 166, 184, 1);
+    border: 2px solid ${ GlobalColor.colors.teamToggle};
     border-radius: 10px;
 
     font-family: LaundryGothicRegular;
+
+    ${props => props.isDark && css`
+        background-color: ${GlobalColor.colors.teamToggle_dark};
+        border: 2px solid ${ GlobalColor.colors.teamToggle_dark};
+    `}
+
 `
 const Option = styled(motion.div)`
     text-align: center
@@ -44,7 +52,7 @@ const Line = styled.hr`
 
 `
 
-const TeamSelection = ({teamOption, setTeamOption, setTeamToggle}) => {
+const TeamSelection = ({teamOption, setTeamOption, setTeamToggle, isDark}) => {
     const teamList = [
         {
             id: 1, 
@@ -64,6 +72,7 @@ const TeamSelection = ({teamOption, setTeamOption, setTeamToggle}) => {
     return (
         <Selection
             {...toggleBoxMotion}
+            isDark={isDark}
         >
             <Option onClick={() => changeOption("팀 선택")}>
                 팀 선택

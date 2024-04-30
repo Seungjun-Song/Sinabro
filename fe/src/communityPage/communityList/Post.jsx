@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router'
 import styled, { css } from 'styled-components'
 import { motion } from "framer-motion";
+import { GlobalColor } from '../../services/color';
 
 const Detail = styled(motion.div)`
     font-family: Pretendard Medium;
@@ -22,7 +23,7 @@ const MainInfo = styled.div`
     gap: 1rem;
 `
 const Proceed = styled.div`
-    background: rgba(144, 158, 231, 0.4);
+    background: ${ GlobalColor.colors.proceeded };
 
     border: 0px solid rgba(144, 158, 231, 0.4);
     border-radius: 7px;
@@ -33,9 +34,19 @@ const Proceed = styled.div`
 
     padding: 0.2rem 0.9rem;
 
-    ${props => props.$proceed && css`
-        background: rgba(161, 175, 247, 1);
+    ${props => props.proceed && css`
+        background: ${ GlobalColor.colors.proceeding};
         padding: 0.2rem 0.6rem;
+    `}
+
+    ${props => props.isDark && css`
+        background: ${ GlobalColor.colors.proceeded };
+
+        ${props => props.proceed && css`
+        background: ${ GlobalColor.colors.proceeding};
+        padding: 0.2rem 0.6rem;
+        `}
+
     `}
 `
 
@@ -64,17 +75,24 @@ const Hashs = styled.div`
 `
 
 const Hash = styled.div`
-    background: rgba(58, 207, 189, 0.2);
+    background: ${ GlobalColor.colors.tag };
 
-    border: 0px solid rgba(58, 207, 189, 0.2);
+    border: 0px solid ${ GlobalColor.colors.tag };
     border-radius: 5px;
 
-    color: rgba(29, 102, 94, 1);
+    color: ${ GlobalColor.colors.tagFont };
     font-size: 0.7rem;
 
     padding: 0.1rem 1rem;
 
     box-shadow: 3px 4px 3px #f5f5f5;
+
+    ${props => props.isDark && css`
+        background: ${ GlobalColor.colors.tag_dark };
+        color: white;
+        box-shadow: 3px 4px 3px gray;
+
+    `}
 
 `
 
@@ -93,7 +111,7 @@ const Writer = styled.div`
 const Date = styled.div`
 `
 
-const Post = ({post, kind}) => {    
+const Post = ({post, kind, isDark}) => {    
     const navigate = useNavigate();
 
     return(
@@ -104,7 +122,8 @@ const Post = ({post, kind}) => {
         >
             <MainInfo>
                 <Proceed
-                    $proceed={post.proceed === false}
+                    proceed={post.proceed === false}
+                    isDark={isDark}
                 >
                     {kind === "member" || kind === "team" ?
                     (<>
@@ -138,7 +157,10 @@ const Post = ({post, kind}) => {
                     {post.hash.map((tag, index) => {
 
                         return( 
-                            <Hash key={index}>
+                            <Hash 
+                                key={index}
+                                isDark={isDark}
+                            >
                                 {tag}
                             </Hash>
                         )

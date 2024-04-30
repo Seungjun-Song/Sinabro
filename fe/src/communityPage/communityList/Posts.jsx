@@ -1,10 +1,15 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { motion } from "framer-motion"
 
 import Post from "./Post";
 
 const List = styled(motion.div)`
     margin: 2rem;
+
+    ${props => props.isDark && css`
+        color: white;
+    `}
+    
 `
 
 const listMotion = {
@@ -21,7 +26,7 @@ const listMotion = {
 const Line = styled.hr`
 `
 
-const Posts = ({kind}) => {
+const Posts = ({kind, isDark}) => {
     const postList = [
         {
             id: 1,
@@ -68,12 +73,16 @@ const Posts = ({kind}) => {
     return(
         <List
             {...listMotion}
+            isDark={isDark}
         >
         {postList.map((post, index) => (
             <>
             <Line key={index}/>
             <Post
-                key={index} post={post} kind={kind}
+                key={index} 
+                post={post} 
+                kind={kind}
+                isDark={isDark}
             >
             </Post>
             </>

@@ -33,7 +33,7 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityFeadBackPage = () => {
+const CommunityFeadBackPage = ({isDark}) => {
     const [searchWord, setSearchWord] = useState("");
     const [proceedOption, setProceedOption] = useState("구걸 중");
     const [teamOption, setTeamOption] = useState("팀 선택");
@@ -86,6 +86,7 @@ const CommunityFeadBackPage = () => {
                 searchWord={searchWord}
                 handleInputChange={handleInputChange}
                 search={search}
+                isDark={isDark}
             />
 
             <Select>
@@ -98,6 +99,7 @@ const CommunityFeadBackPage = () => {
                     setProceedOption={setProceedOption}
                     setProceedToggle={setProceedToggle}
                     kind={"feadback"}
+                    isDark={isDark}
                 />
                 </div>
 
@@ -108,18 +110,21 @@ const CommunityFeadBackPage = () => {
                     setTeamOption={setTeamOption}
                     setTeamToggle={setTeamToggle}
                     kind={"feadback"}
+                    isDark={isDark}
                 />
                 </div>
                 </Option>
 
                 <WriteButton
                     kind={"feadback"}
+                    isDark={isDark}
                 />
               
             </Select>
 
             <Posts
-                kind={"feadback"}>
+                kind={"feadback"}
+                isDark={isDark}>
             </Posts>
         </MemberPage>
     )
