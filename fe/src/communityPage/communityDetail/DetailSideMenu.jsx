@@ -35,7 +35,7 @@ const Menu = styled.button`
         font-family: Pretendard Bold;
     `}
 `
-const DetailSideMenu = ({selected, setSelected, sideClick}) => {
+const DetailSideMenu = ({selected}) => {
 
     const navigate = useNavigate();
 
