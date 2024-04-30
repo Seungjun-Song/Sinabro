@@ -2,12 +2,12 @@ package com.HP50.be.domain.member.entity;
 
 
 import com.HP50.be.domain.code.entity.Category;
-import com.HP50.be.domain.payment.entity.Payment;
 import com.HP50.be.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -16,7 +16,6 @@ import java.util.List;
 @Builder
 public class Member extends BaseTimeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer memberId;
 
     @Column(nullable = false)

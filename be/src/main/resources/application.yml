@@ -3,7 +3,6 @@ spring:
         name: be
     profiles:
         active: local
-
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: ${DB_USERNAME}
@@ -21,6 +20,7 @@ spring:
         client:
           registration:
             github:
+              redirect-uri: ${GITHUB_REDIRECT_URL}
               clientId: ${GITHUB_CLIENT_ID}
               clientSecret: ${GITHUB_CLIENT_SECRET}
               scope:
@@ -43,10 +43,16 @@ spring:
 
         repositories:
           enabled: false
+    jwt:
+      header: ${JWT_HEADER}
+      secret: ${JWT_SECRET_KEY}
+      token-validity-in-seconds: 86400
 
+
+    
 server:
   servlet:
-    context-path: "/api"
+    context-path: ${API}
 
 openvidu:
   url: ${OPENVIDU_URL}

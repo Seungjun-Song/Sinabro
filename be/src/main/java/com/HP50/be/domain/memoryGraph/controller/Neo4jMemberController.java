@@ -22,7 +22,6 @@ public class Neo4jMemberController {
     @PutMapping
     public ResponseEntity<BaseResponse<Disposable>> saveMember(@RequestBody MemberDto memberDto){
         log.debug("MemberDto= {}", memberDto);
-        System.out.println(memberDto);
         return this.neo4jMemberService.saveMember(memberDto);
     }
 }
