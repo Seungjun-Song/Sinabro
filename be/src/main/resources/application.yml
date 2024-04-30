@@ -2,7 +2,7 @@ spring:
     application:
         name: be
     profiles:
-        active: local
+        active: server
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: ${DB_USERNAME}
@@ -20,6 +20,7 @@ spring:
         client:
           registration:
             github:
+              redirect-uri: ${GITHUB_REDIRECT_URL}
               clientId: ${GITHUB_CLIENT_ID}
               clientSecret: ${GITHUB_CLIENT_SECRET}
               scope:
@@ -40,5 +41,4 @@ spring:
       token-validity-in-seconds: 86400
 server:
   servlet:
-    context-path: "/api"
-
+    context-path: ${API}
