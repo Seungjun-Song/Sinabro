@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+import { motion } from "framer-motion";
 
 import WriterImg from '/image/nav/tempPjtImg.png'
 import CommentBox from './CommentBox'
@@ -50,7 +51,7 @@ const Input = styled.textarea`
 
 `
 
-const Submit = styled.div`
+const Submit = styled(motion.div)`
     padding: 0.5rem 1rem;
 
     background: rgba(150, 143, 216, 1);
@@ -111,7 +112,16 @@ const CommentWindow = () => {
                 <Input
                     placeholder='댓글을 입력해 프로젝트에 참여해보세요 ! '>
                 </Input>
-                <Submit>
+                <Submit
+                    whileHover={{
+                        //scale: 1.01,
+                        y: -2,
+                        backgroundColor: "white",
+                        color: "rgba(150, 143, 216, 1)",
+                        border: "2px solid rgba(150, 143, 216, 1)",
+                        
+                    }}
+                >
                     등록
                 </Submit>
             </Inputzon>
