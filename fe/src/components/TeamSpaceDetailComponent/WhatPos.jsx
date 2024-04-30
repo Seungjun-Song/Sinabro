@@ -1,6 +1,8 @@
+import { faCog, faDesktop, faLeaf } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useState } from "react";
-const WhatPos = ({ item }) => {
+const WhatPos = ({ item, isDark }) => {
   const getColor = (item) => {
     // 여기에 item에 따라 적절한 색상을 반환하는 조건을 추가하세요
     // 예를 들어, item이 "A"일 때는 빨간색, "B"일 때는 파란색 등등...
@@ -25,32 +27,50 @@ const WhatPos = ({ item }) => {
   };
   let imgsrc = "";
   if (item == "FE") {
-    imgsrc = "/images/FEIcon.png";
+    imgsrc = faDesktop;
   } else if (item == "BE") {
-    imgsrc = "/images/BEIcon.png";
+    imgsrc = faCog;
   } else if (item == "FULL") {
-    imgsrc = "/images/FULLIcon.png";
+    imgsrc = faLeaf;
   }
   return (
     <>
       <div
-        className="shadow d-flex gap-3"
+        className="shadow d-flex"
         style={{
           padding: "0.7rem",
           borderRadius: "0.5rem",
           border: "3px solid",
           width: "12rem",
-          justifyContent: "center",
           alignItems: "center",
+          textAlign: "center",
           borderColor: getColor(item),
-          // height:"100%"
-          height:"4rem"
+          height: "4rem"
+          ,transition:"0.3s"
+          
         }}
       >
-        <img style={{width:"1.3rem"}} src={imgsrc} />
-        <div style={{ textAlign: "center", fontSize: "1.1rem" }}>
+        <FontAwesomeIcon
+          icon={imgsrc}
+          style={{
+            visibility: "visible",
+            fontSize: "20px",
+            color: getColor(item),
+          }}
+        />
+
+        <h5
+          style={{
+            textAlign: "center",
+            fontSize: "1.1rem",
+            marginBottom: 0,
+            margin: "auto",
+            color: isDark ? "white" : "black",
+            transition:"0.3s"
+          }}
+        >
           {getJob(item)}
-        </div>
+        </h5>
       </div>
     </>
   );

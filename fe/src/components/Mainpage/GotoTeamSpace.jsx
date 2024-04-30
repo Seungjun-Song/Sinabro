@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./styles.css";
 import { AnimatePresence, motion } from "framer-motion";
+import { GlobalColor } from "../../services/color";
 export default (props) => {
   const [activeSlide, setactiveSlide] = useState(props.activeSlide);
   const [isHover, setIsHover] = useState(false);
@@ -75,6 +76,9 @@ export default (props) => {
           marginBottom: "3rem",
           padding: "3rem",
           borderRadius: "0.75rem",
+          backgroundColor: props.isDark
+            ? GlobalColor.colors.primary_black50
+            : "white",
         }}
       >
         <motion.div
@@ -89,6 +93,7 @@ export default (props) => {
             style={{
               fontWeight: "bold",
               fontSize: "1.5rem",
+              color: props.isDark ? "white" : "dark",
             }}
           >
             나의 팀스페이스로 이동
@@ -96,11 +101,14 @@ export default (props) => {
           <AnimatePresence>
             {isHover && (
               <motion.div
-                style={{ marginLeft: "1rem" }}
+                style={{
+                  marginLeft: "1rem",
+                  color: props.isDark ? "white" : "dark",
+                }}
                 initial={{ opacity: 0, rotate: -45 }}
                 animate={{ opacity: 1, rotate: 0 }}
                 exit={{ opacity: 0 }}
-                transition={{duration:0.3}}
+                transition={{ duration: 0.3 }}
               >
                 <FontAwesomeIcon icon={faArrowRight} size="xl" />
               </motion.div>
@@ -112,7 +120,12 @@ export default (props) => {
           {props.data.map((item, i) => (
             <React.Fragment key={item.id}>
               <motion.div
-                whileHover={{ cursor: "pointer",boxShadow: "8px 8px 24px rgba(0, 0, 0, 0.3)"}}
+                whileHover={{
+                  cursor: "pointer",
+                  boxShadow: `8px 8px 24px ${
+                    props.isDark ? "rgba(0, 0, 0, 0.3)" : "rgb(255, 255, 255)"
+                  } `,
+                }}
                 transition={{ duration: 0.3 }}
                 className="slide"
                 style={{
@@ -123,14 +136,16 @@ export default (props) => {
               >
                 <SliderContent {...item} />
               </motion.div>
-              <div
-                className="reflection"
-                style={{
-                  backgroundImage: `linear-gradient(to bottom, rgba(255, 255, 255, 0.678), rgb(255, 255, 255)), url('${item.img}')`,
-                  transform: "scaleY(-1)",
-                  ...getStyles(i),
-                }}
-              />
+              {!props.isDark && (
+                <div
+                  className="reflection"
+                  style={{
+                    backgroundImage: `linear-gradient(to bottom,  rgba(255, 255, 255, 0.678), rgb(255, 255, 255)), url('${item.img}')`,
+                    transform: "scaleY(-1)",
+                    ...getStyles(i),
+                  }}
+                />
+              )}
             </React.Fragment>
           ))}
         </div>
@@ -141,14 +156,15 @@ export default (props) => {
             className="btn"
             onClick={prev}
             icon={faChevronLeft}
-            color="#fff"
+            style={{color: props.isDark ?  "#fff" : GlobalColor.colors.primary_black}}
             size="2x"
           />
           <FontAwesomeIcon
             className="btn"
             onClick={next}
             icon={faChevronRight}
-            color="#fff"
+            style={{color: props.isDark ?  "#fff" : GlobalColor.colors.primary_black}}
+            
             size="2x"
           />
         </div>

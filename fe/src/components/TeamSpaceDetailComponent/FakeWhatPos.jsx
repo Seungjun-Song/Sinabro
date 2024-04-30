@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-const FakeWhatPos = ({ item }) => {
+import { GlobalColor } from "../../services/color";
+const FakeWhatPos = ({ isDark }) => {
 //   const getColor = (item) => {
 //     // 여기에 item에 따라 적절한 색상을 반환하는 조건을 추가하세요
 //     // 예를 들어, item이 "A"일 때는 빨간색, "B"일 때는 파란색 등등...
@@ -34,11 +35,12 @@ const FakeWhatPos = ({ item }) => {
   return (
     <>
       <div
-        className="d-flex gap-3"
+        className="gap-3"
         style={{
+          opacity:0,
           padding: "0.7rem",
           borderRadius: "0.5rem",
-          border: "3px solid white",
+          border: `3px solid black `,
           width: "12rem",
           justifyContent: "center",
           alignItems: "center", 

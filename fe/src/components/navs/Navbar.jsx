@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import "./styles.css";
 import DropTeam from "./DropTeam";
 import { AnimatePresence, motion } from "framer-motion";
 import Logo from "/public/image/nav/sinabro_logo.png";
@@ -11,6 +11,7 @@ import DropDawnIcon from "/image/nav/dropdownIcon.png";
 import Sinabro_blue from "/image/nav/Sinabro_blue.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { DarkModeSwitch } from "react-toggle-dark-mode";
 const NavBar = styled.nav`
   display: flex;
   align-items: center;
@@ -83,8 +84,8 @@ const RightNavContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  width: 10%;
+  gap: 2rem;
+  width: 18%;
 
   margin-right: 3%;
 `;
@@ -94,6 +95,11 @@ const Logos = styled.div``;
 const Navbar = () => {
   const [dropDown, setDropDown] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false); // 스크롤 상태를 저장할 상태
+  const [isDarkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!isDarkMode);
+  };
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset; // 현재 스크롤 위치를 가져옴
@@ -106,6 +112,12 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll); // 컴포넌트가 언마운트될 때 이벤트 핸들러 제거
     };
   }, []);
+  const spring = {
+    type: "spring",
+    stiffness: 700,
+    damping: 30,
+  };
+
   return (
     <NavBar isScrolled={isScrolled}>
       <LeftNavContainer>
@@ -136,8 +148,8 @@ const Navbar = () => {
             <AnimatePresence>
               {dropDown && (
                 <motion.div
-                className="shadow"
-                style={{borderRadius:"0.5rem"}}
+                  className="shadow"
+                  style={{ borderRadius: "0.5rem" }}
                   variants={{
                     visible: { opacity: 1, y: 0 },
                     hidden: { opacity: 0, y: 10 },
@@ -160,6 +172,27 @@ const Navbar = () => {
         <MyPage style={{ fontFamily: "Jamsil Light" }}>마이페이지</MyPage>
 
         <Log style={{ fontFamily: "Jamsil Light" }}>로그아웃</Log>
+
+        {/* <DarkModeSwitch
+          style={{}}
+          checked={isDarkMode}
+          onChange={toggleDarkMode}
+          size={25}
+          sunColor="white"
+          moonColor="white"
+        /> */}
+        <div className="switch" data-isOn={isDarkMode} onClick={toggleDarkMode}>
+          <motion.div className="handle" layout transition={spring}>
+            <DarkModeSwitch
+              style={{}}
+              checked={isDarkMode}
+              onChange={toggleDarkMode}
+              size={18}
+              sunColor=" rgb(81, 81, 81)"
+              moonColor="white"
+            />
+          </motion.div>
+        </div>
       </RightNavContainer>
     </NavBar>
   );
