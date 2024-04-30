@@ -95,7 +95,8 @@ public class OpenViduServiceImpl implements OpenViduService{
             if(roomCount-1==0){ //내가 나가서 유저가 없으면 방 삭제
                 redisRoomRepository.delete(room);
             }else{
-                room.minusMember(); //있으면 -1
+                Room minusM = room.minusMember(room);//있으면 -1
+                redisRoomRepository.save(minusM);
             }
             return true;
         } catch (Exception e) {

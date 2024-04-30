@@ -23,8 +23,8 @@ public class Room {
         room.roomCount+=1;
         return room;
     }
-    public void minusMember(){
-        this.roomCount-=1;
+    public Room minusMember(Room room){
+        room.roomCount-=1;return room;
     }
 
 }
