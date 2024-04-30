@@ -151,6 +151,7 @@ export default function WebRTC() {
     //         createToken(sessionId),
     //     );
     // }, [mySessionId]);
+    // 
     const getToken = useCallback(async () => {
         try {
             const response = await axios.post('http://192.168.30.125:8080/api/room/enter', {
