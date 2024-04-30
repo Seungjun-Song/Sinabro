@@ -44,11 +44,6 @@ public enum StatusCode {
     UNSUPPORTED_ACCESS_TOKEN(false, 904, "지원하지 않는 토큰입니다."),
     INVALID_NULL_TOKEN(false, 905, "토큰 값 자체가 유효하지 않습니다."),
     ILLEGAL_ARGUMENT_TOKEN(false, 906, "JWT claims이 비어있는 상태입니다.")
-    // Calender ( 700 )
-    FAIL_CREATE_CALENDER(false, 701, "일정 추가에 실패했습니다"),
-    NOT_EXIST_CALENDER(false,702,"해당하는 일정이 없습니다"),
-    FAIL_UPDATE_CALENDER(false, 703, "일정 수정에 실패했습니다"),
-    FAIL_DELETE_CALENDER(false, 704, "일정 삭제에 실패했습니다")
     ;
 
 
