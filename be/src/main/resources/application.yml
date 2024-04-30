@@ -52,7 +52,7 @@ spring:
     
 server:
   servlet:
-    context-path: ${API}
+    context-path: /api
 
 openvidu:
   url: ${OPENVIDU_URL}
