@@ -120,6 +120,13 @@ const IconBox = styled.div`
     flex-direction: column;
 `
 
+const IconHoverBox = styled.div`
+    transition: transform 0.3 ease;
+    &:hover{
+        transform: scale(1.2)
+    }
+`
+
 const CustomModal = styled(Modal)`
   .modal-content {
     background-color: #ffffff;
@@ -246,11 +253,17 @@ const ProjectPageLeftPanel = () => {
                 <ProjectPageLeftPanelContainer>
                     <ProjectNameBox>
                         Project Name
-                        <FontAwesomeIcon icon={faChevronLeft} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
+                        <IconHoverBox>
+                            <FontAwesomeIcon icon={faChevronLeft} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
+                        </IconHoverBox>
                     </ProjectNameBox>
                     <CalendarBox>
-                        <FontAwesomeIcon icon={faCalendar} onClick={() => dispatch(toggleProjectCalenderState())} style={{ cursor: 'pointer' }} />
-                        <FontAwesomeIcon icon={faPlusCircle} onClick={handleShowModal} style={{ cursor: 'pointer' }} />
+                        <IconHoverBox>
+                            <FontAwesomeIcon icon={faCalendar} onClick={() => dispatch(toggleProjectCalenderState())} style={{ cursor: 'pointer' }} />
+                        </IconHoverBox>
+                        <IconHoverBox>
+                            <FontAwesomeIcon icon={faPlusCircle} onClick={handleShowModal} style={{ cursor: 'pointer' }} />
+                        </IconHoverBox>
                     </CalendarBox>
                     <ToDoListBox>
                         <TodayBox>
@@ -263,6 +276,7 @@ const ProjectPageLeftPanel = () => {
                                     const itemStartDate = item.start ? new Date(item.start) : null
                                     const itemEndDate = item.end ? new Date(item.end) : null
                                     const today = new Date()
+                                    today.setHours(0, 0, 0, 0)
 
                                     // start와 end가 모두 유효한 경우에만 처리
                                     if (itemStartDate && itemEndDate) {
@@ -277,14 +291,18 @@ const ProjectPageLeftPanel = () => {
                                                         <div>{fromatDated(itemStartDate)} ~ {fromatDated(itemEndDate)}</div>
                                                     </InnerTextBox>
                                                     <IconBox>
-                                                        <FontAwesomeIcon style={{ marginLeft: 'auto', marginTop: '0.2rem', marginRight: '0.2rem', color: '#3EC8AF', cursor: 'pointer' }} icon={faTimesCircle} onClick={() => dispatch(removeToDoItem(index))} />
+                                                        <IconHoverBox style={{ marginLeft: 'auto', marginTop: '0.2rem', marginRight: '0.2rem', color: '#3EC8AF', cursor: 'pointer' }} >
+                                                            <FontAwesomeIcon icon={faTimesCircle} onClick={() => dispatch(removeToDoItem(index))} />
+                                                        </IconHoverBox>
                                                         {item.state ?
-                                                            <FontAwesomeIcon style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }} icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                            <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
+                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                            </IconHoverBox>
                                                             :
-                                                            <FontAwesomeIcon style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }} icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                            <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
+                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                            </IconHoverBox>
                                                         }
-                                                        {console.log(item.state)}
-                                                        {console.log(toDoList[index].state)}
                                                     </IconBox>
                                                 </ContentBox>
                                             )
@@ -319,14 +337,18 @@ const ProjectPageLeftPanel = () => {
                                                         <div>{fromatDated(itemStartDate)} ~ {fromatDated(itemEndDate)}</div>
                                                     </InnerTextBox>
                                                     <IconBox>
-                                                        <FontAwesomeIcon style={{ marginLeft: 'auto', marginTop: '0.2rem', marginRight: '0.2rem', color: '#3EC8AF', cursor: 'pointer' }} icon={faTimesCircle} onClick={() => dispatch(removeToDoItem(index))} />
+                                                        <IconHoverBox style={{ marginLeft: 'auto', marginTop: '0.2rem', marginRight: '0.2rem', color: '#3EC8AF', cursor: 'pointer' }} >
+                                                            <FontAwesomeIcon icon={faTimesCircle} onClick={() => dispatch(removeToDoItem(index))} />
+                                                        </IconHoverBox>
                                                         {item.state ?
-                                                            <FontAwesomeIcon style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }} icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                            <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
+                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                            </IconHoverBox>
                                                             :
-                                                            <FontAwesomeIcon style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }} icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                            <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
+                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                            </IconHoverBox>
                                                         }
-                                                        {console.log(item.state)}
-                                                        {console.log(toDoList[index].state)}
                                                     </IconBox>
                                                 </ContentBox>
                                             )
@@ -343,7 +365,9 @@ const ProjectPageLeftPanel = () => {
                 </ProjectPageLeftPanelContainer>
             ) : (
                 <ProjectPageLeftPanelClosedContainer>
-                    <FontAwesomeIcon icon={faChevronRight} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
+                    <IconHoverBox>
+                        <FontAwesomeIcon icon={faChevronRight} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
+                    </IconHoverBox>
                 </ProjectPageLeftPanelClosedContainer>
             )}
             {showModal ?

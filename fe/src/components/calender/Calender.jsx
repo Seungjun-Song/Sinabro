@@ -12,6 +12,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleProjectCalenderState } from '../../store/projectCalenderSlice';
 import { changeScheduleModalState } from '../../store/addScheduleModalHandleSlice';
 
+import styled from 'styled-components'
+
+const IconBox = styled.div`
+    transition: transform 0.3 ease;
+    &:hover {
+        transform: scale(1.2)
+    }
+`
+
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
     return (
         <div className="header row">
@@ -192,9 +201,9 @@ export const Calender = () => {
 
     return (
         <div className="calendar" style={{ height: '100%', width: '100%', padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ display: 'flex', color: '#564CAD', width: '100%', justifyContent: 'center' }}>
+            <IconBox style={{ display: 'flex', color: '#564CAD', width: '100%', justifyContent: 'center' }}>
                 <FontAwesomeIcon icon={faTimesCircle} style={{ cursor: 'pointer' }} onClick={() => dispatch(toggleProjectCalenderState())} />
-            </div>
+            </IconBox>
             <RenderHeader
                 currentMonth={currentMonth}
                 prevMonth={prevMonth}

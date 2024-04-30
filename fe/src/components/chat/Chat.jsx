@@ -6,6 +6,14 @@ import app from "../../firebase";
 import { clearUser } from "../../store/userSlice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import styled from "styled-components";
+
+const IconHoverBox = styled.div`
+    transition: transform 0.3 ease;
+    &:hover{
+        transform: scale(1.2)
+    }
+`
 
 const Chat = () => {
     const auth = getAuth(app);
@@ -24,8 +32,8 @@ const Chat = () => {
             const data = snapshot.val();
             if (data) {
                 // 채팅 메시지를 배열로 변환하여 상태에 설정합니다.
-                const chatMessages = Object.values(data);
-                setChats(chatMessages);
+                const chatMessages = Object.values(data)
+                setChats(chatMessages)
             }
         });
     }, []);
@@ -73,12 +81,12 @@ const Chat = () => {
                     <div key={index}>
                         {chat.sender === userInfo.currentUser.uid ?
                             <div className="d-flex flex-column" style={{ width: "100%" }}>
-                                <div style={{ alignSelf: "flex-end", backgroundColor: '#564CAD', color: 'white', padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0.5rem 0.5rem 0 0.5rem', maxWidth: '12rem' }}>{chat.message}</div>
+                                <div style={{ alignSelf: "flex-end", backgroundColor: '#564CAD', color: 'white', padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0.5rem 0.5rem 0 0.5rem', maxWidth: '10rem' }}>{chat.message}</div>
                             </div>
                             :
                             <div className="d-flex flex-column" style={{ width: "100%" }}>
                                 <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', maxWidth: '12rem', fontWeight: 'bold' }}>{chat.displayName}</div>
-                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0.5rem 0.5rem 0.5rem 0', maxWidth: '12rem', border: '2px solid #D6D6D6' }}>{chat.message}</div>
+                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0.5rem 0.5rem 0.5rem 0', maxWidth: '10rem', border: '2px solid #D6D6D6' }}>{chat.message}</div>
                             </div>
                         }
                     </div>))}
@@ -102,7 +110,9 @@ const Chat = () => {
                         onKeyUp={(e) => enterSendMessage(e)}
                     />
                     {/* 채팅 전송 버튼 */}
-                    <FontAwesomeIcon icon={faPaperPlane} onClick={sendMessage} style={{ cursor: 'pointer', color: '#3EC8AF' }} />
+                    <IconHoverBox>
+                        <FontAwesomeIcon icon={faPaperPlane} onClick={sendMessage} style={{ cursor: 'pointer', color: '#3EC8AF' }} />
+                    </IconHoverBox>
                 </div>
             </div>
         </div>

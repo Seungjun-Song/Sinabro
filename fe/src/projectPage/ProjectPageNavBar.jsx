@@ -27,6 +27,13 @@ const UserImage = styled.img`
     border-radius: 50%;
 `
 
+const IconHoverBox = styled.div`
+    transition: transform 0.3 ease;
+    &:hover{
+        transform: scale(1.2)
+    }
+`
+
 const ProjectPageNavBar = () => {
 
     const [isMicOn, setIsMicOn] = useState(true)
@@ -36,17 +43,27 @@ const ProjectPageNavBar = () => {
 
     return (
         <NavContainer>
-            <FontAwesomeIcon icon={faSignOut} style={{ color: 'white', cursor: 'pointer' }} flip='horizontal' onClick={() => navigate(-1)} />
+            <IconHoverBox>
+                <FontAwesomeIcon icon={faSignOut} style={{ color: 'white', cursor: 'pointer' }} flip='horizontal' onClick={() => navigate(-1)} />
+            </IconHoverBox>
             <NavRigthBox>
                 {isMicOn ?
-                    <FontAwesomeIcon icon={faMicrophone} style={{ color: 'white', cursor: 'pointer', height: '1rem', width: '1rem' }} onClick={() => setIsMicOn(!isMicOn)} />
+                    <IconHoverBox>
+                        <FontAwesomeIcon icon={faMicrophone} style={{ color: 'white', cursor: 'pointer', height: '1rem', width: '1rem' }} onClick={() => setIsMicOn(!isMicOn)} />
+                    </IconHoverBox>
                     :
-                    <FontAwesomeIcon icon={faMicrophoneSlash} style={{ color: 'white', cursor: 'pointer', transform: 'scaleX(-1)', height: '1rem', width: '1rem' }} onClick={() => setIsMicOn(!isMicOn)} />
+                    <IconHoverBox>
+                        <FontAwesomeIcon icon={faMicrophoneSlash} style={{ color: 'white', cursor: 'pointer', transform: 'scaleX(-1)', height: '1rem', width: '1rem' }} onClick={() => setIsMicOn(!isMicOn)} />
+                    </IconHoverBox>
                 }
                 {isPhoneOn ?
-                    <FontAwesomeIcon icon={faPhone} style={{ color: 'white', cursor: 'pointer', height: '1rem', width: '1rem' }} onClick={() => setIsPhoneOn(!isPhoneOn)} />
+                    <IconHoverBox>
+                        <FontAwesomeIcon icon={faPhone} style={{ color: 'white', cursor: 'pointer', height: '1rem', width: '1rem' }} onClick={() => setIsPhoneOn(!isPhoneOn)} />
+                    </IconHoverBox>
                     :
-                    <FontAwesomeIcon icon={faPhoneSlash} style={{ color: 'white', cursor: 'pointer', height: '1rem', width: '1rem' }} onClick={() => setIsPhoneOn(!isPhoneOn)} />
+                    <IconHoverBox>
+                        <FontAwesomeIcon icon={faPhoneSlash} style={{ color: 'white', cursor: 'pointer', height: '1rem', width: '1rem' }} onClick={() => setIsPhoneOn(!isPhoneOn)} />
+                    </IconHoverBox>
                 }
                 <UserImage src='/images/user1.png' />
                 <UserImage src='/images/user2.png' />
