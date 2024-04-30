@@ -24,6 +24,7 @@ import java.io.IOException;
 @Slf4j
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
+    private final ObjectMapper mapper;
 
     // jwt를 검증하고 정상적이라면 호출될 메소드
     @Override
@@ -51,17 +52,27 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         String memberImg = customUserDetails.getMemberImg();
 
         // jwtUtil에 있는 createJwt를 통해 토큰을 생성
-        String accessToken = jwtUtil.createAccessJwt(memberId, memberEmail, memberName, memberGit, memberImg);
-        String refreshToken = jwtUtil.createRefreshJwt();
+        String accessToken = jwtUtil.createToken(memberId, memberEmail, memberName, memberGit, memberImg, JwtConstants.ACCESS_EXP_TIME);
+        String refreshToken = jwtUtil.createToken(memberId, memberEmail, memberName, memberGit, memberImg, JwtConstants.REFRESH_EXP_TIME * 10);
 
         response.setHeader(JwtConstants.JWT_HEADER ,JwtConstants.JWT_TYPE + accessToken) ;
         response.setHeader(JwtConstants.REFRESH ,JwtConstants.JWT_TYPE + refreshToken);
 
         log.info("Authorization: {}", response.getHeader(JwtConstants.JWT_HEADER));
 
-//        tokenParam.append("accessToken=").append(accessToken).append("&")
-//                .append("refreshToken=").append(refreshToken);
-//
-//        response.sendRedirect("http://localhost:8080/api/jwt?" + tokenParam);
+        response.addCookie(createCookie(JwtConstants.JWT_HEADER, accessToken));
+        response.addCookie(createCookie("RefreshToken", refreshToken));
+    }
+
+
+    private Cookie createCookie(String key, String value) {
+
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(60*60*60);
+        cookie.setHttpOnly(true); // JavaScript에서 접근을 제한합니다.
+        cookie.setSecure(true); // HTTPS 연결에서만 전송합니다.
+        cookie.setPath("/");
+
+        return cookie;
     }
 }

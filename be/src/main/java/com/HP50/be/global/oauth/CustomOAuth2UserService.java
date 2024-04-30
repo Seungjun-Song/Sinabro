@@ -37,6 +37,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String memberImg = oAuth2User.getAttribute("avatar_url");
         String memberGit = oAuth2User.getAttribute("html_url");
 
+        log.info("--------------------------OAuth 유저 출력 {} --------------------------", nickname);
+
 
         // id가 서버 DB에 없다면 서버에 저장
         // id가 서버 DB에 있다면 다른 액션을 취하지 않고 넘김

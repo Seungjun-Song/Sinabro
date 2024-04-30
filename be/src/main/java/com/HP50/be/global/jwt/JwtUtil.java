@@ -1,6 +1,7 @@
 package com.HP50.be.global.jwt;
 
 import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -68,11 +69,13 @@ public class JwtUtil {
                 .before(new Date());
     }
 
-//    public Authentication getAuthentication(String token){
-//        JwtPayloadDto jwtPayloadDto =
+//    public String findToken(HttpServletRequest request){
+//
 //    }
 
-    public String createAccessJwt(Integer memberId, String email, String memberName, String memberGit, String memberImg){
+    public String createToken(Integer memberId, String email,
+                                  String memberName, String memberGit,
+                                  String memberImg, long expiredTime){
         return Jwts.builder()
 
                 // header를 따로 지정해주지 않는다면 type 이 지정되지 않음
@@ -90,23 +93,7 @@ public class JwtUtil {
                 .claim("memberImg", memberImg)
 
                 .issuedAt(new Date(System.currentTimeMillis())) // jwt 발급한 시간
-                .expiration(new Date(System.currentTimeMillis() + JwtConstants.ACCESS_EXP_TIME)) // jwt 만기 시간
-                .signWith(secretKey) // 해당 키로 암호화를 하겠다.
-                .compact(); // jwt 생성
-    }
-
-    public String createRefreshJwt(){
-        return Jwts.builder()
-                // header를 따로 지정해주지 않는다면 type 이 지정되지 않음
-                // jwt 를 많이 사용하니까 따로 명시해주지 않는다면 jwt 로 판단함
-
-//                .header()
-//                .add("typ", JwtConstants.JWT_TYPE)
-//                .and()
-                // claim는 jwt 내부에 들어갈 payload
-                .claim("sub",JwtConstants.REFRESH)
-                .issuedAt(new Date(System.currentTimeMillis())) // jwt 발급한 시간
-                .expiration(new Date(System.currentTimeMillis() + JwtConstants.REFRESH_EXP_TIME)) // jwt 만기 시간
+                .expiration(new Date(System.currentTimeMillis() + expiredTime)) // jwt 만기 시간
                 .signWith(secretKey) // 해당 키로 암호화를 하겠다.
                 .compact(); // jwt 생성
     }
@@ -119,7 +106,6 @@ public class JwtUtil {
         String memberImg = this.getMemberImg(accessToken);
 
         // this.getMemberId(accessToken)가 레디스에 있다면
-        String access = this.createAccessJwt(memberId, memberEmail, memberName, memberGit, memberImg);
         return null;
     }
 }
