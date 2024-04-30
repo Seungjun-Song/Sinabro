@@ -1,15 +1,3 @@
-package com.HP50.be;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
-@EnableJpaAuditing
-@SpringBootApplication
-public class BeApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(BeApplication.class, args);
-	}
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:c69bf04f162cb917be61ac002debd8fb12e8585a6375e9c1a6a3ed3e2765ef5a
+size 614
