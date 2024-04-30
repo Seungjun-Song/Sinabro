@@ -1,9 +1,26 @@
 import styled from 'styled-components'
+import { motion } from "framer-motion"
 
 import Post from "./Post";
 
-const List = styled.div`
+const List = styled(motion.div)`
+    margin: 2rem;
 `
+
+const listMotion = {
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+    variants: {
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0 }
+    },
+    transition: { duration: 0.3 }
+}
+
+const Line = styled.hr`
+`
+
 const Posts = ({kind}) => {
     const postList = [
         {
@@ -49,13 +66,17 @@ const Posts = ({kind}) => {
 
 
     return(
-        <List>
+        <List
+            {...listMotion}
+        >
         {postList.map((post, index) => (
+            <>
+            <Line key={index}/>
             <Post
                 key={index} post={post} kind={kind}
             >
             </Post>
-
+            </>
         ))}
         </List>
     )

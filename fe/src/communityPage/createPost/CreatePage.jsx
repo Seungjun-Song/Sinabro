@@ -1,11 +1,13 @@
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import styled, { css } from 'styled-components'
+import { motion } from "framer-motion"
 
 import Navbar from '../../components/navs/Navbar';
 import CreateMemberPost from './CreateMemberPost';
 import CreateTeamPost from './CreateTeamPost';
 import CreateFeadbackPost from './CreateFeadbackPost';
+import TeamChoiceBox from './TeamChoiceBox';
 
 const Create = styled.div`
     display: flex;
@@ -13,10 +15,10 @@ const Create = styled.div`
     align-items: center;
     flex-direction: column;
     width: 65%;
-    margin: auto;
+    margin: 4rem auto;
 
 `
-const Header = styled.div`
+const Header = styled(motion.div)`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -44,6 +46,11 @@ const Option = styled.div`
     color: rgba(86, 76, 173, 1);
 
     cursor: pointer; 
+    
+    font-family: Jamsil Regular;
+
+    border: 0px solid black;
+    border-radius: 10px;
 
     ${props => props.selected && css`
         background: rgba(86, 76, 173, 1);
@@ -51,16 +58,16 @@ const Option = styled.div`
     `}
 `
 
-const TeamChoice = styled.div`
-    padding: 0.2rem 1rem;
-
-    width: 15%;
-    
-    background: rgba(240, 240, 240, 1);
-    color: rgba(86, 76, 173, 1);
-
-    cursor: pointer; 
-`
+const headerMotion = {
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+    variants: {
+        hidden: { opacity: 0, y: -50 },
+        visible: { opacity: 1, y: 0 }
+    },
+    transition: { duration: 0.3 }
+}
 
 const CreatePage = () => {
     const location = useLocation();
@@ -77,7 +84,9 @@ const CreatePage = () => {
             <Navbar>
             </Navbar>
             <Create>
-                <Header>
+                <Header
+                    {...headerMotion}
+                >
                     <Options>
                     <Option onClick={() => changeOption("member")}
                         selected={selected === "member"}>
@@ -93,9 +102,7 @@ const CreatePage = () => {
                     </Option>
                     </Options>
                     {selected === "member" || selected === "feadback" ? (
-                        <TeamChoice>
-                            팀 선택하기
-                        </TeamChoice>
+                        <TeamChoiceBox/>
                     ) : ("")}
                 </Header>
 

@@ -1,7 +1,9 @@
 import styled from 'styled-components'
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useNavigate } from 'react-router';
+import { motion } from "framer-motion"
+
+import CkEditor from './CkEditor';
+import { useState } from 'react';
 
 const MemberPost = styled.div`
     display: flex;
@@ -14,7 +16,7 @@ const MemberPost = styled.div`
     margin: 0 0 0 3rem;
 `
 
-const Header = styled.div`
+const Header = styled(motion.div)`
 
     display: flex;
     align-items: center;
@@ -54,21 +56,6 @@ const Content = styled.div`
     margin: 1rem 0 2rem 0;
 `
 
-const StyledEditor = styled.div`
-  width: 100%; // CKEditor 컨테이너 너비를 100%로 설정
-  .ck.ck-editor {
-    width: 100%; // 에디터 자체의 너비를 100%로 설정
-    margin: auto;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f8f8f8;
-  }
-
-  .ck.ck-content {
-    min-height: 500px;
-  }
-`;
-
 const Tag = styled.input`
     width: 100%;
     padding: 0.5rem 0 0.5rem 0.8rem;
@@ -102,7 +89,7 @@ const Buttons = styled.div`
     margin-left: auto;
 `
 
-const Cancel = styled.div`
+const Cancel = styled(motion.div)`
     color: rgba(150, 143, 216, 1);
     text-align: center;
     padding: 0.2rem 1rem;
@@ -112,7 +99,7 @@ const Cancel = styled.div`
     cursor: pointer; 
 `
 
-const Save = styled.div`
+const Save = styled(motion.div)`
     color: white;
     background: rgba(150, 143, 216, 1);
     text-align: center;
@@ -123,8 +110,21 @@ const Save = styled.div`
     cursor: pointer; 
 `
 
+const headerMotion = {
+    initial: "hidden",
+    animate: "visible",
+    exit: "hidden",
+    variants: {
+        hidden: { opacity: 0, x: -50 },
+        visible: { opacity: 1, x: 0 }
+    },
+    transition: { duration: 0.3 }
+}
+
 const CreateTeamPost = () => {
     const navigate = useNavigate();
+
+    const [content, setContent] = useState();
 
     const submit = () =>{
         //TODO: axios 게시물 저장
@@ -134,30 +134,18 @@ const CreateTeamPost = () => {
 
     return(
         <MemberPost>
-            <Header>
+            <Header
+                {...headerMotion}
+            >
                 <Title
                     placeholder='제목을 입력하세요'>
                 </Title>
             </Header>
 
             <Content>
-                <StyledEditor>
-                <CKEditor
-                    editor={ClassicEditor}
-                    placeholder={"본인을 설명해 주세요!"}
-                    onReady={editor => {
-                        // You can store the "editor" and use when it is needed.
-
-                    }}
-                    onChange={(event, editor) => {
-                        const data = editor.getData();
-                    }}
-                    onBlur={(event, editor) => {
-                    }}
-                    onFocus={(event, editor) => {
-                    }} 
+                <CkEditor
+                    setContent={setContent}
                 />
-                </StyledEditor>
                 <Tag
                     placeholder='표현하고 싶은 태그를 입력해주세요 ! 태그는 스페이스로 구분됩니다. 😃'>
 
@@ -166,10 +154,19 @@ const CreateTeamPost = () => {
 
             <Bottom>
                 <Buttons>
-                    <Cancel onClick={() => navigate('/communityMainPage', {state: {kind: "team"}})}>
+                    <Cancel 
+                        whileHover={{
+                            scale: 1.1,
+                        }}
+                        onClick={() => navigate('/communityMainPage', {state: {kind: "team"}})}>
                         취소
                     </Cancel>
-                    <Save onClick={() => submit()}>
+                    <Save 
+                        onClick={() => submit()}
+                        whileHover={{ 
+                            scale: 1.1,
+                        }}    
+                    >
                         등록
                     </Save>
                 </Buttons>

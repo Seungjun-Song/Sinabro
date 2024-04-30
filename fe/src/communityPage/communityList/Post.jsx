@@ -1,12 +1,17 @@
 import { useNavigate } from 'react-router'
 import styled, { css } from 'styled-components'
+import { motion } from "framer-motion";
 
-const Detail = styled.div`
+const Detail = styled(motion.div)`
     font-family: Pretendard Medium;
 
     margin: 1.5rem 0;
 
     cursor: pointer;
+
+    &::hover{
+        border-color: rgba(0, 0, 0, 0.1);
+    }
 `
 
 const MainInfo = styled.div`
@@ -69,6 +74,8 @@ const Hash = styled.div`
 
     padding: 0.1rem 1rem;
 
+    box-shadow: 3px 4px 3px #f5f5f5;
+
 `
 
 const WriteInfo = styled.div`
@@ -90,7 +97,11 @@ const Post = ({post, kind}) => {
     const navigate = useNavigate();
 
     return(
-        <Detail onClick={() => navigate('/communityDetail', {state: {kind: kind} })}>
+        <Detail 
+            onClick={() => navigate('/communityDetail', {state: {kind: kind} })}
+            whileHover={{ cursor: "pointer", y: -3, scale: 1.05}}
+            transition={{ type: "spring", stiffness: 100 }}
+        >
             <MainInfo>
                 <Proceed
                     $proceed={post.proceed === false}
@@ -127,7 +138,7 @@ const Post = ({post, kind}) => {
                     {post.hash.map((tag, index) => {
 
                         return( 
-                            <Hash className='shadow' key={index}>
+                            <Hash key={index}>
                                 {tag}
                             </Hash>
                         )

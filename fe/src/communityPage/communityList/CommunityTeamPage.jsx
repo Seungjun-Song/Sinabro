@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 
-import { useState } from 'react'
+import { useState, useRef , useEffect} from 'react'
 
 import Posts from './Posts'
 import WriteButton from './WriteButton'
 import ProceedOption from './ProceedOption'
 import SearchBox from './SearchBox'
+
 
 const MemberPage = styled.div`
     display: flex;        
@@ -37,6 +38,32 @@ const CommunityTeamPage = () => {
     const [proceedOption, setProceedOption] = useState("모집 중");
     const [proceedToggle, setProceedToggle] = useState(false);
 
+    useEffect(() => {
+        function handleClikcOutside(event){
+            if(proceedRef.current && !proceedRef.current.contains(event.target)){
+                setProceedToggle(false);
+            }
+        }
+    
+        document.addEventListener("mousedown", handleClikcOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClikcOutside);
+        }
+    }, [setProceedToggle]);
+    
+    useEffect(() => {
+        function handleClikcOutside(event){
+            if(teamRef.current && !teamRef.current.contains(event.target)){
+                setTeamToggle(false);
+            }
+        }
+    
+        document.addEventListener("mousedown", handleClikcOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClikcOutside);
+        }
+    }, [setTeamToggle]);
+    
     //검색하기 axios
     const search = () => {
 
@@ -56,6 +83,7 @@ const CommunityTeamPage = () => {
 
             <Select>
                 <Option>
+                <div ref={proceedRef}>
                 <ProceedOption
                     proceedOption={proceedOption}
                     proceedToggle={proceedToggle}
@@ -63,6 +91,7 @@ const CommunityTeamPage = () => {
                     setProceedToggle={setProceedToggle}
                     kind={"team"}
                 />
+                </div>
 
                 </Option>
                 <WriteButton

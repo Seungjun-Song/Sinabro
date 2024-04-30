@@ -1,10 +1,12 @@
 import styled from 'styled-components'
+import { motion } from "framer-motion";
 
 import TeamSelection from './TeamSelection'
 
 import DropDawnIcon from '/image/nav/dropdownIcon.png'
-
-const Team = styled.div`
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+const Team = styled(motion.div)`
     display: flex;
     align-items: start;
     justify-content: center;
@@ -12,7 +14,7 @@ const Team = styled.div`
     font-family: LaundryGothicRegular;
 `
 
-const TeamToggle = styled.div`
+const TeamToggle = styled(motion.div)`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,25 +28,23 @@ const TeamToggle = styled.div`
 
     border: 2px solid rgba(58, 166, 184, 1);
     border-radius: 50px;
+
+    box-shadow: 3px 4px 3px gray;
 `
 
 const TeamOption = ({teamOption, teamToggle, setTeamOption, setTeamToggle, kind}) => {
     return(
         <Team>
-        <TeamToggle className='shadow' onClick={() => setTeamToggle(!teamToggle)}>
+        <TeamToggle 
+            onClick={() => setTeamToggle(!teamToggle)}
+            whileHover={{cursor: "pointer", y: -3}}>
         {teamOption}
-        {teamToggle ? 
-        <img
-            src={DropDawnIcon}
-            style={{ transform: 'rotate(180deg)', height: "50%" }}
+        <motion.div
+            transition={{ duration: 0.3}}
+            animate={{rotate: teamToggle ? 180 : 0}}
         >
-        </img> : 
-        <img
-            src={DropDawnIcon}
-            style={{height:"50%"}}
-        >
-        </img>
-        }
+                <FontAwesomeIcon icon={faCaretDown}/>
+        </motion.div>
         </TeamToggle>
         {teamToggle && 
         <TeamSelection
