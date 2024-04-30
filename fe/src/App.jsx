@@ -17,6 +17,8 @@ import CommunityMainPage from "./communityPage/communityList/CommunityMainPage";
 import CreatePost from "./communityPage/createPost/CreatePage";
 import DetailMainPage from "./communityPage/communityDetail/DetailMainPage";
 
+import WebRTC from "./components/webrtc/WebRTC";
+
 import "./fonts/Font.css"
 import TeamSpaceDetailPage from "./teamSpaceDetailPage/teamSpaceDetailPage";
 import Mainpage from "./Mainpage/Mainpage";
@@ -24,28 +26,28 @@ import ProjectPage from "./projectPage/ProjectPage";
 import { Calender } from "./components/calender/Calender";
 
 const App = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const auth = getAuth(app);
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate("/");
-        dispatch(
-          setUser({
-            uid: user.uid,
-            displayName: user.displayName,
-          })
-        );
-      } else {
-        navigate("/login");
-        dispatch(clearUser());
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const auth = getAuth(app);
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       navigate("/");
+  //       dispatch(
+  //         setUser({
+  //           uid: user.uid,
+  //           displayName: user.displayName,
+  //         })
+  //       );
+  //     } else {
+  //       navigate("/login");
+  //       dispatch(clearUser());
+  //     }
+  //   });
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
 
   return (
     <Routes>
@@ -63,6 +65,7 @@ const App = () => {
       <Route path="/Mainpage" element={<Mainpage />} />
       <Route path="/project" element={<ProjectPage />} />
       <Route path="/calender" element={<Calender />} />
+      <Route path="/rtc" element={<WebRTC />} />
     </Routes>
   );
 };

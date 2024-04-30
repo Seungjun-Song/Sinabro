@@ -100,7 +100,6 @@ const ProjectPageRightPanel = () => {
 
     return (
         <>
-            {console.log(chatOpenForced)}
             {isSidePanelOpen ?
                 <ProjectPageRightPanelContainer>
                     <UpperBox>
