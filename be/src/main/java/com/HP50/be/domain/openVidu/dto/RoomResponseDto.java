@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:546f2b45302259236067bb2604323974df5a746f0d49d11d4d6e8b6019d32d70
-size 230
+package com.HP50.be.domain.openVidu.dto;
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class RoomResponseDto {
+    String sessionId;
+    Integer roomCount;
+    String connectionToken;
+}

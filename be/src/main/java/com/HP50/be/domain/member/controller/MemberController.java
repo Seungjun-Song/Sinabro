@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d1852e7087d905cea1e7735fcc1f8294330b89ed2d0aa572a7253f8eb8411813
-size 916
+package com.HP50.be.domain.member.controller;
+
+import com.HP50.be.domain.member.dto.SearchMemberResponseDto;
+import com.HP50.be.domain.member.service.MemberService;
+import com.HP50.be.global.common.BaseResponse;
+import com.HP50.be.global.jwt.JwtUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/members")
+@RequiredArgsConstructor
+public class MemberController {
+
+    private final MemberService memberService;
+    private final JwtUtil jwtUtil;
+    // 유저 검색
+    @GetMapping
+    public ResponseEntity<Object> searchMember(@RequestParam String keyword,
+                                             @RequestParam Integer page) {
+        SearchMemberResponseDto result = memberService.searchMember(keyword, page);
+        return ResponseEntity.ok(new BaseResponse<>(result));
+    }
+}
