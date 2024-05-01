@@ -43,9 +43,7 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2UserService))
                         .successHandler(customSuccessHandler) // 성공적으로 로그인을 마쳤을 때 발동되는 handler
-                        .defaultSuccessUrl("/")
                         .failureHandler(customFailureHandler)
-                        .failureUrl("/")
                 )
 
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
