@@ -1,6 +1,8 @@
 package com.HP50.be.global.jwt;
 
+import com.HP50.be.global.exception.BaseException;
 import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -23,10 +25,10 @@ public class JwtUtil {
     }
 
     public Integer getMemberId(String token) {
-        return Integer.parseInt(Jwts.parser().verifyWith(secretKey).build().
+        return Jwts.parser().verifyWith(secretKey).build().
                 parseSignedClaims(token).
                 getPayload()
-                .get("memberId", String.class));
+                .get("memberId", Integer.class);
     }
 
     public String getEmail(String token) {
@@ -61,7 +63,6 @@ public class JwtUtil {
     }
 
     public Boolean isExpired(String token) {
-
         return Jwts.parser().verifyWith(secretKey).build().
                 parseSignedClaims(token)
                 .getPayload()
@@ -69,9 +70,18 @@ public class JwtUtil {
                 .before(new Date());
     }
 
-//    public String findToken(HttpServletRequest request){
+   public String tokenFromRequest(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie: cookies){
+            if(cookie.getName().equals(JwtConstants.JWT_HEADER))
+                return cookie.getValue();
+        }
+        return null;
+   }
+
+//   public boolean isExistsRefreshTokenInRedis(){
 //
-//    }
+//   }
 
     public String createToken(Integer memberId, String email,
                                   String memberName, String memberGit,
