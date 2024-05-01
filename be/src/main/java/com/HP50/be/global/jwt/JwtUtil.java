@@ -1,11 +1,10 @@
 package com.HP50.be.global.jwt;
 
-import com.HP50.be.global.exception.BaseException;
+
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -78,6 +77,17 @@ public class JwtUtil {
         }
         return null;
    }
+
+    public Cookie createCookie(String key, String value) {
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge((int) JwtConstants.REFRESH_EXP_TIME);
+        cookie.setHttpOnly(true); // JavaScript에서 접근을 제한합니다.
+        cookie.setSecure(true); // HTTPS 연결에서만 전송합니다.
+        cookie.setPath("/");
+
+        return cookie;
+    }
+
 
 //   public boolean isExistsRefreshTokenInRedis(){
 //
