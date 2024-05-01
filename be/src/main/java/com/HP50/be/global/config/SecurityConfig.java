@@ -43,8 +43,11 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2UserService))
                         .successHandler(customSuccessHandler) // 성공적으로 로그인을 마쳤을 때 발동되는 handler
+                        .defaultSuccessUrl("/")
                         .failureHandler(customFailureHandler)
+                        .failureUrl("/")
                 )
+
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 // UsernamePasswordAuthenticationFilter 얘가 실행되기 전에 cors 필터를 실행한다.
                 // STATELESS 형태로 관리

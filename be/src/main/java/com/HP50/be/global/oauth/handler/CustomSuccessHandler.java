@@ -56,7 +56,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         log.info("Authorization: {}", response.getHeader(JwtConstants.JWT_HEADER));
 
         response.addCookie(createCookie(JwtConstants.JWT_HEADER, accessToken));
-        response.addCookie(createCookie("RefreshToken", refreshToken));
 
         response.sendRedirect("https://k10e103.p.ssafy.io");
     }
@@ -65,7 +64,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     private Cookie createCookie(String key, String value) {
 
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(60*60*60);
+        cookie.setMaxAge((int) JwtConstants.ACCESS_EXP_TIME);
         cookie.setHttpOnly(true); // JavaScript에서 접근을 제한합니다.
         cookie.setSecure(true); // HTTPS 연결에서만 전송합니다.
         cookie.setPath("/");
