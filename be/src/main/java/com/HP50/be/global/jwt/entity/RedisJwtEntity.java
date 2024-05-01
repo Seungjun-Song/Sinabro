@@ -1,8 +1,9 @@
 package com.HP50.be.global.jwt.entity;
 
 import com.HP50.be.global.jwt.JwtConstants;
-import jakarta.persistence.Id;
+
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 @Getter
@@ -17,9 +18,7 @@ public class RedisJwtEntity {
      * 레디스에서 중복된 Id가 있다면 덮어씌움 <br>
      * token: {id} 에 위치됨
      */
-
     @Id
     private String memberName;
-
     private String refreshToken;
 }

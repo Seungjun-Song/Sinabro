@@ -7,7 +7,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableJpaAuditing
-@EnableRedisRepositories(basePackages = "com.HP50.be.domain.openVidu")
+@EnableRedisRepositories(basePackages = {"com.HP50.be.domain.openVidu", "com.HP50.be.global.jwt"})
 @SpringBootApplication
 public class BeApplication {
 
