@@ -2,7 +2,7 @@ package com.HP50.be.global.oauth;
 
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.member.repository.MemberRepository;
-import com.HP50.be.global.jwt.JwtPayloadDto;
+import com.HP50.be.global.jwt.dto.JwtPayloadDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

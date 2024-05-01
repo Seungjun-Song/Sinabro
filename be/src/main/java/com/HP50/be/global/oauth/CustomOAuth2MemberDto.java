@@ -1,6 +1,6 @@
 package com.HP50.be.global.oauth;
 
-import com.HP50.be.global.jwt.JwtPayloadDto;
+import com.HP50.be.global.jwt.dto.JwtPayloadDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;

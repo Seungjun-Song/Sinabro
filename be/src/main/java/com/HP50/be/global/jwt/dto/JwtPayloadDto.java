@@ -1,4 +1,4 @@
-package com.HP50.be.global.jwt;
+package com.HP50.be.global.jwt.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

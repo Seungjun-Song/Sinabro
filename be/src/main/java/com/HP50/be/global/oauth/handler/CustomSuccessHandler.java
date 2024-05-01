@@ -32,11 +32,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        System.out.println(auth);
-
-        StringBuilder tokenParam = new StringBuilder();
 
         log.info("로그인 성공 {}", authentication.getName());
         log.info("현재 주소 {}", request.getRequestURL());
@@ -62,6 +57,8 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
         response.addCookie(createCookie(JwtConstants.JWT_HEADER, accessToken));
         response.addCookie(createCookie("RefreshToken", refreshToken));
+
+        response.sendRedirect("k10e103.p.ssafy.io");
     }
 
 
