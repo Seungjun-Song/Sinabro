@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .addFilterBefore(corsConfig.corsFilter(), UsernamePasswordAuthenticationFilter.class)
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .oauth2Login(auth -> auth
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
