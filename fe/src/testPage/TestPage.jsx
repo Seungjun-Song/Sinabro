@@ -23,7 +23,7 @@ const TestPage = () => {
     };
 
     const redirectToGithub = () => {
-        window.location.href = "https://github.com/login/oauth/authorize?client_id=218c974f1409ed1c47b2";
+        window.location.href = "https://k10e103.p.ssafy.io/api/oauth2/authorization/githubclient_id=218c974f1409ed1c47b2";
     };
 
     return (
