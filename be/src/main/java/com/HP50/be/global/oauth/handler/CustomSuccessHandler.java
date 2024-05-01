@@ -58,7 +58,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         response.addCookie(createCookie(JwtConstants.JWT_HEADER, accessToken));
         response.addCookie(createCookie("RefreshToken", refreshToken));
 
-        response.sendRedirect("k10e103.p.ssafy.io");
+        response.sendRedirect("https://k10e103.p.ssafy.io");
     }
 
 
