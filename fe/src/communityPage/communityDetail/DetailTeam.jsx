@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import CommentWindow from './CommentWindow'
 
@@ -13,11 +13,17 @@ const Detail = styled.div`
     width: 50%;
     margin: 4rem 20rem 0 5rem;
 
+    ${props => props.isDark && css`
+        color: white;
+    `}
+
+    transition: 0.3s;
+
 `
 
 const Line = styled.hr`
 `
-const DetailTeam = () => {
+const DetailTeam = ({ isDark }) => {
     const detailData = {
         id: 1,
         title: "웹 프로젝트 팀원 구합니다!",
@@ -32,10 +38,13 @@ const DetailTeam = () => {
     }
     
     return(
-        <Detail>
+        <Detail
+            isDark={isDark}
+        >
             <DetailHeader
                 kind="team"
                 detailData={detailData}
+                isDark={isDark}
             />
 
             <Line/>
@@ -43,11 +52,14 @@ const DetailTeam = () => {
             <DetailMiddle
                 detailData={detailData}
                 kind="team"
+                isDark={isDark}
             />
             
             <Line/>
 
-            <CommentWindow/>
+            <CommentWindow
+                isDark={isDark}
+            />
 
         </Detail>
     )

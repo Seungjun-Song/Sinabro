@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
+import { GlobalColor } from '../../services/color'
+
 const MenuList = styled.div`
     display: flex;          
     flex-direction: column;  
@@ -34,23 +36,37 @@ const Menu = styled.button`
         color: rgba(32, 79, 207, 1);
         font-family: Pretendard Bold;
     `}
+
+    ${props => props.isDark && css`
+        background: ${ GlobalColor.colors.primary_black };
+        color: white;
+        ${props => props.selected && css`
+            color: ${ GlobalColor.colors.sideMenu_select_dark };
+            font-family: Pretendard Bold;
+        `}
+    `}
+
+    transition: 0.3s;
 `
-const DetailSideMenu = ({selected}) => {
+const DetailSideMenu = ({selected, isDark}) => {
 
     const navigate = useNavigate();
 
     return (
         <MenuList style={{fontFamily: "Pretendard Medium"}}>
             <Menu onClick={() => {navigate('/communityMainPage', {state: {kind: "member"}})}}
-                    selected={selected === "member"}>
+                    selected={selected === "member"}
+                    isDark={isDark}>
                 팀원 구해요
             </Menu>
             <Menu onClick={() => navigate('/communityMainPage', {state: {kind: "team"}})}
-                    selected={selected === "team"}>
+                    selected={selected === "team"}
+                    isDark={isDark}>
                 팀 구해요
             </Menu>
             <Menu onClick={() => navigate('/communityMainPage', {state: {kind: "feadback"}})}
-                    selected={selected === "feadback"}>
+                    selected={selected === "feadback"}
+                    isDark={isDark}>
                 피드백 원해요
             </Menu>
         </MenuList>

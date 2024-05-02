@@ -9,6 +9,15 @@ import CreateTeamPost from './CreateTeamPost';
 import CreateFeadbackPost from './CreateFeadbackPost';
 import TeamChoiceBox from './TeamChoiceBox';
 
+import { GlobalColor } from '../../services/color';
+
+const Back = styled.div`
+    height: 100%;
+
+    ${props => props.isDark && css`
+        background: ${GlobalColor.colors.primary_black};
+    `}
+`
 const Create = styled.div`
     display: flex;
     justify-content: center;
@@ -16,7 +25,6 @@ const Create = styled.div`
     flex-direction: column;
     width: 65%;
     margin: 4rem auto;
-
 `
 const Header = styled(motion.div)`
     display: flex;
@@ -75,6 +83,8 @@ const CreatePage = () => {
 
     const [selected, setSelected] = useState(data.kind);
     
+    const isDark = true;
+
     const changeOption = (option) => {
         setSelected(option);
     }
@@ -83,7 +93,10 @@ const CreatePage = () => {
         <>
             <Navbar>
             </Navbar>
-            <Create>
+            <Back isDark={isDark}>
+            <Create
+                isDark={isDark}
+            >
                 <Header
                     {...headerMotion}
                 >
@@ -107,16 +120,22 @@ const CreatePage = () => {
                 </Header>
 
                 {selected === "member" ? (
-                    <CreateMemberPost>
-                    </CreateMemberPost>
+                    <CreateMemberPost
+                        isDark={isDark}
+                    />
                 ) : ("")}
                 {selected === "team" ? (
-                    <CreateTeamPost/>
+                    <CreateTeamPost
+                        isDark={isDark}
+                    />
                 ) : ("")}
                 {selected === "feadback" ? (
-                    <CreateFeadbackPost/>
+                    <CreateFeadbackPost
+                        isDark={isDark}
+                    />
                 ) : ("")}
             </Create>
+            </Back>
 
         </>
     )

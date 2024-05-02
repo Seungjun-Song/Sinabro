@@ -57,7 +57,7 @@ const Content = styled.div`
 
 const Date = styled.div`
     text-align: right;
-    color: rgba(0, 0, 0, 0.5);
+    //color: rgba(0, 0, 0, 0.5);
     font-size: 0.8rem;
 `
 

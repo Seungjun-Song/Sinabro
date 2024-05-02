@@ -1,7 +1,10 @@
-import styled from 'styled-components'
-
+import styled, {ThemeProvider} from 'styled-components'
+//import { ThemeProvider } from 'styled-components';
 import { useState, useRef , useEffect} from 'react'
 import { motion } from "framer-motion"
+
+import CommunityMemberPageDark from './styles/CommunityMemberPageDark.js'
+import CommunityMemberPageDefault from './styles/CommunityMemberPageDefault.js'
 
 import Posts from './Posts'
 import WriteButton from './WriteButton'
@@ -15,6 +18,7 @@ const MemberPage = styled(motion.div)`
     width: 50%;
     margin-right : 20rem;
     margin-top : 4rem;
+
 `
 
 const Select = styled.div`
@@ -34,7 +38,7 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityMemberPage = () => {
+const CommunityMemberPage = ({ isDark }) => {
     const [searchWord, setSearchWord] = useState("");
     const [proceedOption, setProceedOption] = useState("모집 중");
     const [teamOption, setTeamOption] = useState("팀 선택");
@@ -81,12 +85,16 @@ const CommunityMemberPage = () => {
       };
 
     return(
-        <MemberPage >
+        <ThemeProvider theme={ true ? CommunityMemberPageDark : CommunityMemberPageDefault}>
+        <MemberPage 
+            //thema={CommunityMemberPageStyles.MemberPage}
+        >
             <SearchBox 
                 placeholder={"팀 프로젝트를 검색해보세요"}
                 searchWord={searchWord}
                 handleInputChange={handleInputChange}
                 search={search}
+                isDark={isDark}
             />
             <Select>
                 <Option>
@@ -97,6 +105,7 @@ const CommunityMemberPage = () => {
                     setProceedOption={setProceedOption}
                     setProceedToggle={setProceedToggle}
                     kind={"member"}
+                    isDark={isDark}
                 />
                 </div>
 
@@ -107,19 +116,24 @@ const CommunityMemberPage = () => {
                     setTeamOption={setTeamOption}
                     setTeamToggle={setTeamToggle}
                     kind={"member"}
+                    isDark={isDark}
                 />
                 </div>
                 </Option>
 
                 <WriteButton
                     kind={"member"}
+                    isDark={isDark}
                 />
             </Select>
 
             <Posts
-                kind={"member"}>
+                kind={"member"}
+                isDark={isDark}
+                >
             </Posts>
         </MemberPage>
+        </ThemeProvider>
     )
 }
 

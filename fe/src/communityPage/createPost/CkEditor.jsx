@@ -1,6 +1,8 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+import { GlobalColor } from '../../services/color';
 
 const StyledEditor = styled.div`
   width: 100%; // CKEditor 컨테이너 너비를 100%로 설정
@@ -15,9 +17,23 @@ const StyledEditor = styled.div`
   .ck.ck-content {
     min-height: 500px;
   }
+
+  ${props => props.isDark && css`
+  	.ck.ck-editor{
+
+	}
+  	.ck.ck-content{
+		background-color: ${GlobalColor.colors.ckEditor_back_dark};
+	}
+
+	.ck.ck-toolbar {
+		background-color: ${GlobalColor.colors.ckEditor_back_dark};// 툴바 배경색 변경
+	}
+
+  `}
 `;
 
-const CkEditor = ({ setContent }) => {
+const CkEditor = ({ setContent, isDark }) => {
 
     const edrtorConfiguration = {
 		toolbar: {
@@ -61,7 +77,9 @@ const CkEditor = ({ setContent }) => {
     };
 
     return(
-        <StyledEditor>
+        <StyledEditor
+			isDark={isDark}
+		>
         <CKEditor
             editor={ClassicEditor}
             config={edrtorConfiguration}

@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 import { motion } from "framer-motion"
+import { GlobalColor } from '../services/color'
 
 const MenuList = styled(motion.div)`
     display: flex;          
@@ -33,9 +34,19 @@ const Menu = styled.button`
 
 
     ${props => props.selected && css`
-        color: rgba(32, 79, 207, 1);
+        color: ${ GlobalColor.colors.sideMenu_select };
         font-family: Pretendard Bold;
     `}
+    ${props => props.isDark && css`
+        background: ${ GlobalColor.colors.primary_black };
+        color: white;
+        ${props => props.selected && css`
+            color: ${ GlobalColor.colors.sideMenu_select_dark };
+            font-family: Pretendard Bold;
+        `}
+    `}
+
+    transition: 0.3s;
 `
 
 // 애니메이션 변형을 위한 variants 객체
@@ -50,22 +61,26 @@ const menuMotion = {
     transition: { duration: 0.3 }
 };
 
-const SideMenu = ({selected, setSelected}) => {
+const SideMenu = ({selected, setSelected, isDark}) => {
     return (
         <MenuList 
             {...menuMotion}
             style={{fontFamily: "Pretendard Medium"}}
         >
             <Menu onClick={() => {setSelected("member")}}
-                    selected={selected === "member"}>
+                    selected={selected === "member"}
+                    isDark={isDark}>
                 팀원 구해요
             </Menu>
             <Menu onClick={() => setSelected("team")}
-                    selected={selected === "team"}>
+                    selected={selected === "team"}
+                    isDark={isDark}
+                >
                 팀 구해요
             </Menu>
             <Menu onClick={() => setSelected("feadback")}
-                    selected={selected === "feadback"}>
+                    selected={selected === "feadback"}
+                    isDark={isDark}>
                 피드백 원해요
             </Menu>
         </MenuList>

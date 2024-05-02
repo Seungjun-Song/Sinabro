@@ -16,6 +16,8 @@ const WriterBox = styled(motion.div)`
     border: 1px solid rgba(216, 245, 242, 1);
     border-radius: 10px;
 
+    color: black;
+
 
 `
 

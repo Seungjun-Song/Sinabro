@@ -1,11 +1,11 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { motion } from "framer-motion";
 
 import DropDawnIcon from '/image/nav/dropdownIcon.png'
 import ProceedSelection from './ProceedSelection'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-
+import { GlobalColor } from '../../services/color';
 const Proceed = styled(motion.div)`
     display: flex;
     align-items: start;
@@ -19,27 +19,33 @@ const ProceedToggle = styled(motion.div)`
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background: rgba(62, 200, 175, 1);
+    background: ${GlobalColor.colors.proceedToggle};
     padding: 0.2rem 1rem;
 
     width: 8rem;
 
     color: white;
 
-    border: 2px solid rgba(62, 200, 175, 1);
+    border: 2px solid  ${GlobalColor.colors.proceedToggle};
     border-radius: 50px;
 
     box-shadow: 3px 4px 3px gray;
 
+    ${props => props.isDark && css`
+        background: ${GlobalColor.colors.proceedToggle_dark};
+        border: 2px solid ${GlobalColor.colors.proceedToggle_dark};
+    `}
+
 `
 
-const ProceedOption = ({proceedOption, proceedToggle, setProceedOption, setProceedToggle, kind, ref}) => {
+const ProceedOption = ({proceedOption, proceedToggle, setProceedOption, setProceedToggle, kind, isDark}) => {
     return(
         <Proceed
         >
         <ProceedToggle
             onClick={() => setProceedToggle(!proceedToggle)}
             whileHover={{ cursor: "pointer", y: -3}}
+            isDark={isDark}
         >
         {proceedOption}
         <motion.div
@@ -55,6 +61,7 @@ const ProceedOption = ({proceedOption, proceedToggle, setProceedOption, setProce
             setProceedOption={setProceedOption}
             setProceedToggle={setProceedToggle}
             kind={kind}
+            isDark={isDark}
         ></ProceedSelection>}
     </Proceed>
     )
