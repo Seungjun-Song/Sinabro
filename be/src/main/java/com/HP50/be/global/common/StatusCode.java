@@ -51,7 +51,12 @@ public enum StatusCode {
     UNSUPPORTED_ACCESS_TOKEN(false, 904, "지원하지 않는 토큰입니다."),
     INVALID_NULL_TOKEN(false, 905, "토큰 값 자체가 유효하지 않습니다."),
     ILLEGAL_ARGUMENT_TOKEN(false, 906, "JWT claims이 비어있는 상태입니다."),
-    TOKEN_NOT_FOUND(false, 907, "다시 로그인 해주세요.")
+    TOKEN_NOT_FOUND(false, 907, "다시 로그인 해주세요."),
+
+    //SonarQube(1000)
+    FAIL_SONAR_CLONE(false, 1001,"정적분석 git clone이 실패했습니다."),
+    FAIL_SONAR(false, 1001,"정적분석에 실패했습니다."),
+    FAIL_SONAR_COMMAND(false, 1001,"정적분석 명령에 실패했습니다.")
     ;
 
 
