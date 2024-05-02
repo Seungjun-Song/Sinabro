@@ -50,7 +50,8 @@ public enum StatusCode {
     EXPIRED_ACCESS_TOKEN(false, 903, "토큰이 만료되었습니다."),
     UNSUPPORTED_ACCESS_TOKEN(false, 904, "지원하지 않는 토큰입니다."),
     INVALID_NULL_TOKEN(false, 905, "토큰 값 자체가 유효하지 않습니다."),
-    ILLEGAL_ARGUMENT_TOKEN(false, 906, "JWT claims이 비어있는 상태입니다.")
+    ILLEGAL_ARGUMENT_TOKEN(false, 906, "JWT claims이 비어있는 상태입니다."),
+    TOKEN_NOT_FOUND(false, 907, "다시 로그인 해주세요.")
     ;
 
 

@@ -41,7 +41,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(auth -> auth
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
-                                .userService(customOAuth2UserService))
+                                .userService(customOAuth2UserService)) // OAuth2 로그인 성공 시, 후작업을 진행할 UserService 인터페이스 구현체 등록
                         .successHandler(customSuccessHandler) // 성공적으로 로그인을 마쳤을 때 발동되는 handler
                         .failureHandler(customFailureHandler)
                 )

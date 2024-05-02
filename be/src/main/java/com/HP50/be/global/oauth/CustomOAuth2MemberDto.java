@@ -42,6 +42,4 @@ public class CustomOAuth2MemberDto implements OAuth2User {
     public String getMemberImg(){
         return jwtPayloadDto.getMemberImg();
     }
-
-
 }

@@ -2,6 +2,7 @@ package com.HP50.be.global.oauth.handler;
 
 import com.HP50.be.global.jwt.JwtConstants;
 import com.HP50.be.global.jwt.JwtUtil;
+import com.HP50.be.global.jwt.service.TokenInRedisService;
 import com.HP50.be.global.oauth.CustomOAuth2MemberDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
@@ -24,7 +25,7 @@ import java.io.IOException;
 @Slf4j
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
-    private final ObjectMapper mapper;
+    private final TokenInRedisService tokenInRedisService;
 
     // jwt를 검증하고 정상적이라면 호출될 메소드
     @Override
@@ -55,20 +56,9 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
         log.info("Authorization: {}", response.getHeader(JwtConstants.JWT_HEADER));
 
-        response.addCookie(createCookie(JwtConstants.JWT_HEADER, accessToken));
+        response.addCookie(jwtUtil.createCookie(JwtConstants.JWT_HEADER, accessToken));
+        tokenInRedisService.save(accessToken, refreshToken);
 
         response.sendRedirect("https://k10e103.p.ssafy.io");
-    }
-
-
-    private Cookie createCookie(String key, String value) {
-
-        Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge((int) JwtConstants.ACCESS_EXP_TIME);
-        cookie.setHttpOnly(true); // JavaScript에서 접근을 제한합니다.
-        cookie.setSecure(true); // HTTPS 연결에서만 전송합니다.
-        cookie.setPath("/");
-
-        return cookie;
     }
 }
