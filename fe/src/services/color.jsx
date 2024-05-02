@@ -16,7 +16,7 @@ export const GlobalColor = {
       primary_red50 : "#B8000080" ,
       primary_gray: 'rgb(180, 180, 180)',
 
-      //커뮤니티 list 페이지
+      //커뮤니티 관련 색상
       sideMenu_select_dark: 'rgba(84, 118, 212, 1)',
       sideMenu_select : 'rgba(32, 79, 207, 1)',
       proceedToggle: 'rgba(62, 200, 175, 1)',
@@ -37,6 +37,9 @@ export const GlobalColor = {
       tagFont: 'rgba(29, 102, 94, 1)',
 
       commentBox: 'rgba(196, 196, 196, 1)',
+
+      ckEditor_back_dark: 'rgba(125, 125, 125, 1)',
+      ckEditor_font_dark: 'rgba(144, 158, 231, 0.4)'
     },
   };
   

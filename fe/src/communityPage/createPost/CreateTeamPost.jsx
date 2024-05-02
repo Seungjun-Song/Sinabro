@@ -1,9 +1,11 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { useNavigate } from 'react-router';
 import { motion } from "framer-motion"
 
 import CkEditor from './CkEditor';
 import { useState } from 'react';
+
+import { GlobalColor } from '../../services/color';
 
 const MemberPost = styled.div`
     display: flex;
@@ -40,6 +42,11 @@ const Title = styled.input`
         font-size: 2rem; 
     }
 
+    ${props => props.isDark && css`
+    background: ${GlobalColor.colors.primary_black50};
+
+`}
+
 `
 
 const Content = styled.div`
@@ -68,6 +75,10 @@ const Tag = styled.input`
     &::placeholder {
         color: rgba(157, 157, 157, 1);
     }
+
+    ${props => props.isDark && css`
+        background: ${ GlobalColor.colors.primary_black50}
+`}
 
 `
 
@@ -121,7 +132,7 @@ const headerMotion = {
     transition: { duration: 0.3 }
 }
 
-const CreateTeamPost = () => {
+const CreateTeamPost = ({ isDark }) => {
     const navigate = useNavigate();
 
     const [content, setContent] = useState();
@@ -138,16 +149,19 @@ const CreateTeamPost = () => {
                 {...headerMotion}
             >
                 <Title
-                    placeholder='제목을 입력하세요'>
+                    placeholder='제목을 입력하세요'
+                    isDark={isDark}>
                 </Title>
             </Header>
 
             <Content>
                 <CkEditor
                     setContent={setContent}
+                    isDark={isDark}
                 />
                 <Tag
-                    placeholder='표현하고 싶은 태그를 입력해주세요 ! 태그는 스페이스로 구분됩니다. 😃'>
+                    placeholder='표현하고 싶은 태그를 입력해주세요 ! 태그는 스페이스로 구분됩니다. 😃'
+                    isDark={isDark}>
 
                 </Tag>
             </Content>
