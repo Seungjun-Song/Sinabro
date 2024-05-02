@@ -34,14 +34,14 @@ public class SecurityConfig {
     private final CustomFailureHandler customFailureHandler;
     private final JwtUtil jwtUtil;
     private final JwtFilter jwtFilter;
-//    private final CorsConfig corsConfig;
+    private final CorsConfig corsConfig;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 // .csrf(csrf -> csrf.disabled()) 같은 표현
                 .csrf(CsrfConfigurer::disable)
                 .cors(cors -> cors
-                        .configurationSource(configurationSource())
+                        .configurationSource(corsConfig.configurationSource())
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()
@@ -59,21 +59,5 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
-    }
-
-    @Bean
-    protected CorsConfigurationSource configurationSource() {
-
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.addAllowedHeader("*");
-//        corsConfiguration.setAllowedOrigins(List.of("/users/**", "/login/**", "/auth/**,", "/room/**"));
-//        corsConfiguration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-
-        return source;
     }
 }
