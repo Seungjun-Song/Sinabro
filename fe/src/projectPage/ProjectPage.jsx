@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import ProjectPageNavBar from './ProjectPageNavBar';
 import ProjectPageLeftPanel from './ProjectPageLeftPanel';
 import ProjectPageRightPanel from './ProjectPageRightPanel';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +7,7 @@ import { Calender } from '../components/calender/Calender';
 import { getDatabase, onValue, ref } from 'firebase/database';
 import { setNewMessageState } from '../store/newMessageSlice';
 import { changeProjectChatState } from '../store/projectChatShow';
+import WebRTC from '../components/webrtc/WebRTC';
 
 const ProjectContainer = styled.div`
   position: relative; /* 부모 컨테이너를 기준으로 자식 요소의 위치를 설정하기 위해 */
@@ -91,7 +91,7 @@ const ProjectPage = () => {
 
   return (
     <ProjectContainer>
-      <ProjectPageNavBar />
+      <WebRTC />
       <ProjectMainContainer>
         <ProjectPageLeftPanel />
         {isProjectCalenderShow.value === true ? (
