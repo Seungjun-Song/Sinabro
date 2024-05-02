@@ -5,6 +5,8 @@ import com.HP50.be.global.jwt.entity.RedisJwtEntity;
 import com.HP50.be.global.jwt.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,9 +18,12 @@ public class TokenInRedisServiceImpl implements TokenInRedisService {
 
     @Override
     public Optional<RedisJwtEntity> findByMemberName(String token) {
-        return Optional.empty();
+        return tokenRepository.findByMemberName(token);
     }
 
+    public Iterable<RedisJwtEntity> findAll(){
+        return tokenRepository.findAll();
+    }
 
     @Override
     public void save(String accessToken, String refreshToken) {
