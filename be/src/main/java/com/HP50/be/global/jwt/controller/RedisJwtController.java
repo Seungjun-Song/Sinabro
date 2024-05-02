@@ -23,8 +23,8 @@ public class RedisJwtController {
     private final TokenInRedisService tokenInRedisService;
 
     @GetMapping("/tokens")
-    public Iterable<RedisJwtEntity> findAll(@AuthenticationPrincipal CustomOAuth2MemberDto dto){
+    public CustomOAuth2MemberDto findAll(@AuthenticationPrincipal CustomOAuth2MemberDto dto){
         System.out.println(dto);
-        return tokenInRedisService.findAll();
+        return dto;
     }
 }
