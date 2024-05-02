@@ -73,6 +73,7 @@ const DetailHeader = ({kind, detailData, isDark}) => {
         <DetailProceed
             detailData={detailData}
             kind={kind}
+            isDark={isDark}
         />
             <Title>
                 {detailData.title}
