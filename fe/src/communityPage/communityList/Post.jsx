@@ -40,11 +40,13 @@ const Proceed = styled.div`
     `}
 
     ${props => props.isDark && css`
-        background: ${ GlobalColor.colors.proceeded };
+        background: ${ GlobalColor.colors.proceeded_dark };
+        color: white;
 
         ${props => props.proceed && css`
-        background: ${ GlobalColor.colors.proceeding};
+        background: ${ GlobalColor.colors.proceeding_dark};
         padding: 0.2rem 0.6rem;
+        color: black;
         `}
 
     `}

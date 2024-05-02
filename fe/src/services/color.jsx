@@ -27,9 +27,9 @@ export const GlobalColor = {
       writeButton_dark: 'rgba(70, 62, 142, 1)',
 
       proceeded: 'rgba(144, 158, 231, 0.4)',
-      proceeded_dark: 'rgba(144, 158, 231, 0.4)',
+      proceeded_dark: 'rgba(161, 175, 247, 1)',
       proceeding: 'rgba(161, 175, 247, 1)',
-      proceeding_dark: 'rgba(161, 175, 247, 1)',
+      proceeding_dark: 'rgba(144, 158, 231, 0.4)',
 
       tag: 'rgba(58, 207, 189, 0.2)',
       tag_dark: 'rgba(6, 173, 153, 1)',
