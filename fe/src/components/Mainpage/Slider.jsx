@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import AnimatedNumber from "react-animated-numbers";
 
 const SimpleSlider = () => {
   const [isHover, setIsHover] = useState(false);
-  const [currentSlideNumber, setCurrentSlideNumber] = useState(0);
+  const [currentSlideNumber, setCurrentSlideNumber] = useState(1);
   function SamplePrevArrow(props) {
     const { className, style, onClick, isHover } = props;
 
@@ -100,6 +100,10 @@ const SimpleSlider = () => {
     nextArrow: <SampleNextArrow isHover={isHover} />,
     prevArrow: <SamplePrevArrow isHover={isHover} />,
   };
+  const controls = useAnimation();
+
+  // currentSlideNumber가 변경될 때마다 애니메이션 적용
+
 
   return (
     <motion.div
@@ -111,7 +115,7 @@ const SimpleSlider = () => {
       <Slider
         {...settings}
         beforeChange={(currentSlide, nextSlide) =>
-          setCurrentSlideNumber(nextSlide)
+          setCurrentSlideNumber(nextSlide + 1)
         }
       >
         <div>
@@ -142,13 +146,20 @@ const SimpleSlider = () => {
           gap: "0.2rem",
         }}
       >
-        <AnimatedNumber
-          transitions={(index) => ({
-            type: "spring",
-            duration: 3,
-          })}
-          animateToNumber={currentSlideNumber + 1}
-        />
+        {/* <AnimatedNumber
+          // transitions={(index) => ({
+          //   type: "spring",
+          //   duration:1,
+          // })}
+          animateToNumber={currentSlideNumber}
+        /> */}
+        <motion.div
+          initial={{ opacity: 0 }} // 초기 상태 설정
+          animate={{ opacity: 1 }} // 애니메이션 설정
+          transition={{ duration: 0.5 }} // 애니메이션 지속 시간 설정
+        >
+          {currentSlideNumber}
+        </motion.div>
         <div>/</div>
         <div>2</div>
       </div>

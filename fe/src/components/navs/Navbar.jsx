@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "./styles.css";
 import DropTeam from "./DropTeam";
@@ -11,7 +11,10 @@ import DropDawnIcon from "/image/nav/dropdownIcon.png";
 import Sinabro_blue from "/image/nav/Sinabro_blue.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { toggleisDarkState } from "../../store/isDarkSlice";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
+import { GlobalColor } from "../../services/color";
+
 const NavBar = styled.nav`
   display: flex;
   align-items: center;
@@ -25,7 +28,7 @@ const NavBar = styled.nav`
   position: fixed;
   top: 0;
   transition: 0.5s; /* 부드러운 애니메이션을 위한 transition 설정 */
-  color: ${({ isScrolled }) => (!isScrolled ? "white" : "black")};
+  color: ${({ isScrolled }) => (!isScrolled ? "white" : GlobalColor.colors.primary_black)};
 `;
 
 const LogoImage = styled.img`
@@ -95,11 +98,15 @@ const Logos = styled.div``;
 const Navbar = () => {
   const [dropDown, setDropDown] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false); // 스크롤 상태를 저장할 상태
-  const [isDarkMode, setDarkMode] = useState(false);
+  const isDark = useSelector(state =>state.isDark.isDark)
+  const dispatch = useDispatch()
+
 
   const toggleDarkMode = () => {
-    setDarkMode(!isDarkMode);
+    dispatch(toggleisDarkState())
   };
+
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset; // 현재 스크롤 위치를 가져옴
@@ -181,11 +188,11 @@ const Navbar = () => {
           sunColor="white"
           moonColor="white"
         /> */}
-        <div className="switch" data-isOn={isDarkMode} onClick={toggleDarkMode}>
-          <motion.div className="handle" layout transition={spring}>
+        <div className="switch" style={{border:"solid 2px"}}  data-isOn={isDark} onClick={toggleDarkMode}>
+          <motion.div className="handle" layout onClick={toggleDarkMode} >
             <DarkModeSwitch
               style={{}}
-              checked={isDarkMode}
+              checked={isDark}
               onChange={toggleDarkMode}
               size={18}
               sunColor=" rgb(81, 81, 81)"

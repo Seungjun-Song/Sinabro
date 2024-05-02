@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from "../firebase";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faAt } from "@fortawesome/free-solid-svg-icons";
 const MyPageSidePanelContainer = styled(motion.div)`
   display: flex;
   height: 100%;
@@ -87,7 +90,7 @@ const InfoTag = styled.div`
   flex-wrap: wrap;
 `;
 
-const MyPageSidePanel = () => {
+const MyPageSidePanel = ({ isDark }) => {
   const [selectedImage, setSelectedImage] = useState(
     "/images/default_my_image.png"
   );
@@ -112,11 +115,11 @@ const MyPageSidePanel = () => {
       initial={{ opacity: 0, y: 5 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 5 }}
-      transition={{ duration: 0.3}}
+      transition={{ duration: 0.3 }}
     >
       <SkillArea>Fix Plz</SkillArea>
       <MyImage src={selectedImage} />
-      <MyName>Fix Plz</MyName>
+      <MyName style={{ color: isDark ? "white" : "black" }}>Fix Plz</MyName>
       <WithOur>Fix Plz</WithOur>
       <EditButton>
         <input
@@ -128,12 +131,20 @@ const MyPageSidePanel = () => {
       </EditButton>
       <MyInfoBox>
         <MyInfoInnerBox>
-          <SmallImage src={"/images/GitHub.png"} />
-          <InfoTag>https://github.com/fixplz</InfoTag>
+          <FontAwesomeIcon
+            icon={faGithub}
+            size="2xl"
+            color={isDark ? "white" : "black"}
+          />
+          <InfoTag style={{ color: isDark ? "white" : "black" }}>
+            https://github.com/fixplz
+          </InfoTag>
         </MyInfoInnerBox>
         <MyInfoInnerBox>
-          <SmallImage src={"/images/At_sign.png"} />
-          <InfoTag>fixplz@fix.plz</InfoTag>
+          <FontAwesomeIcon icon={faAt} size="2xl" color={isDark ? "white" : "black"} />
+          <InfoTag style={{ color: isDark ? "white" : "black" }}>
+            fixplz@fix.plz
+          </InfoTag>
         </MyInfoInnerBox>
       </MyInfoBox>
     </MyPageSidePanelContainer>

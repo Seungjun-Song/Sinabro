@@ -47,7 +47,7 @@ const TSDProjectInfo = ({ whatInfo, setWhatInfo,isDark }) => {
             }}
             className="py-2 shadow"
             style={{
-              transition:"0.3s",
+              // transition:"0.3s",
               fontSize: "1.2rem",
               borderRadius: "0.5rem",
               textAlign: "center",

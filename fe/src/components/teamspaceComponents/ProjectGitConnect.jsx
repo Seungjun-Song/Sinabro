@@ -1,7 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import { GlobalColor } from "../../services/color";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 const token = "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";
-const ProjectGitConnect = ({ hadlebutton, IsModalOpen, setIsModalOpen }) => {
+const ProjectGitConnect = ({ isDark }) => {
   const [isData, setIsData] = useState(null);
   const [data, setData] = useState();
   const handleRepository = (repo) => {
@@ -44,7 +47,7 @@ const ProjectGitConnect = ({ hadlebutton, IsModalOpen, setIsModalOpen }) => {
         style={{
           // padding: "1rem",
           borderLeftWidth: "5px", // 왼쪽 테두리 두께
-          borderLeftColor: "black", // 왼쪽 테두리 색상
+          borderLeftColor: isDark ? "#a098c5" : "#3f2b96", // 왼쪽 테두리 색상
           borderLeftStyle: "solid", // 왼쪽 테두리 스타일
           padding: "1rem",
           display: "flex",
@@ -53,11 +56,13 @@ const ProjectGitConnect = ({ hadlebutton, IsModalOpen, setIsModalOpen }) => {
         }}
       >
         {/* <img style={{}} src="images/GitHub.png" /> */}
-        <h4 style={{ margin: 0 }}>Git Repository 연결</h4>
+        <h4 style={{ margin: 0, color: isDark ? "white" : "black" }}>
+          Git Repository 연결
+        </h4>
       </div>
       <AnimatePresence>
         <div
-          className="shadow px-5"
+          className="shadow px-5 py-4"
           style={{
             marginTop: "2rem",
             marginBottom: "2rem",
@@ -67,7 +72,9 @@ const ProjectGitConnect = ({ hadlebutton, IsModalOpen, setIsModalOpen }) => {
             gap: "1rem",
             padding: "1rem",
             flexDirection: "column",
-            backgroundColor: "white",
+            backgroundColor: isDark
+              ? GlobalColor.colors.primary_black50
+              : "white",
           }}
         >
           {!data && (
@@ -83,7 +90,12 @@ const ProjectGitConnect = ({ hadlebutton, IsModalOpen, setIsModalOpen }) => {
                     whileHover={{ cursor: "pointer", y: -3 }}
                     style={{ display: "flex", gap: 20, width: "100%" }}
                   >
-                    <div style={{ fontWeight: "bold" }}>
+                    <div
+                      style={{
+                        // fontWeight: "bold",
+                        color: isDark ? "white" : "black",
+                      }}
+                    >
                       나의 레퍼지토리 목록 불러오기
                     </div>
                   </motion.div>
@@ -114,8 +126,9 @@ const ProjectGitConnect = ({ hadlebutton, IsModalOpen, setIsModalOpen }) => {
                     <div
                       style={{
                         padding: "0.75rem",
-                        fontWeight: "bold",
+                        // fontWeight: "bold",
                         fontSize: "1.2rem",
+                        color: isDark ? "white" : "black",
                       }}
                     >
                       연결할 Repository를 선택해주세요!
@@ -131,18 +144,23 @@ const ProjectGitConnect = ({ hadlebutton, IsModalOpen, setIsModalOpen }) => {
                         key={index}
                         style={{
                           fontSize: "1.1rem",
-                          backgroundColor: "white",
+                          backgroundColor: isDark
+                            ? GlobalColor.colors.primary_black50
+                            : "white",
                           borderRadius: "10px",
                           padding: "0.75rem",
                           display: "flex",
                           gap: 5,
+                          color: isDark ? "white" : "black",
                         }}
                         variants={{
                           hidden: { opacity: 0, y: 20 },
                           visible: { opacity: 1, y: 0 },
                         }}
                       >
-                        <div style={{ color: "#46359D" }}>@</div>
+                        <div style={{ color: isDark ? "#a098c5" : "#46359D" }}>
+                          @
+                        </div>
                         {item.clone_url}
                       </motion.div>
                     ))}
@@ -168,22 +186,30 @@ const ProjectGitConnect = ({ hadlebutton, IsModalOpen, setIsModalOpen }) => {
                 <motion.div
                   style={{
                     fontSize: "1.1rem",
-                    backgroundColor: "white",
+                    backgroundColor: isDark ?GlobalColor.primary_black50: "white",
                     display: "flex",
-                    borderBottom: "solid #46359D 2px",
+                    borderBottom: "solid  2px",
+                    borderColor : isDark ? "#a098c5" : "#46359D",
+                    color :isDark ? "white" :"black"
                   }}
                 >
-                  <div style={{ color: "#46359D" }}>@</div>
+                  <div style={{ color: isDark ? "#a098c5" : "#46359D" }}>@</div>
                   {data}
                 </motion.div>
-                <motion.img
-                  whileHover={{ y: -5, cursor: "pointer" }}
+
+
+                <motion.div
+                  whileHover={{ cursor: "pointer", scale:1.1 }}
                   onClick={() => {
                     setIsData(null), setData(null);
                   }}
-                  style={{ width: "1rem", height: "1rem" }}
-                  src="/images/close_blue.png"
-                />
+                >
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    size="xl"
+                    color={isDark ? "white" : "#204FCF"}
+                  />
+                </motion.div>
               </motion.div>
             </AnimatePresence>
           )}
