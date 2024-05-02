@@ -9,12 +9,14 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 
 import com.jcraft.jsch.Session;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class SonarQubeServiceImpl implements SonarQubeService{
     private final ProjectRepository projectRepository;
@@ -38,17 +40,22 @@ public class SonarQubeServiceImpl implements SonarQubeService{
            - clone command
            - exec command
          */
+        // 폴더에 있는 repo 다 삭제
+        String deleteRepo = "sudo rm -rf /home/ubuntu/sonarQube/scanner/*";
+
         // 폴더 이동 command & git clone
-        String toFolderAndClone = "cd /home/ubuntu/sonarQube/scanner && " + "git clone "+repoUrl;
+        String toFolderAndClone = "cd /home/ubuntu/sonarQube/scanner && " + "sudo git clone "+repoUrl;
+        String[] split = repoUrl.split("/");
+        String repoName = split[split.length - 1];
+
         // exec command
-        String execCommand = "docker exec sonarscanner sonar-scanner " +
-                "-Dsonar.projectKey= " + "sqp_9ac1374591c1df73cbe3ac04bbfbd960cf88ce35"+
-                "-Dsonar.sources=. " +
+        String execCommand = "docker exec sonar-scanner sonar-scanner " +
+                "-Dsonar.projectKey=" + "sqp_9ac1374591c1df73cbe3ac04bbfbd960cf88ce35 "+
+                "-Dsonar.sources=/usr/src/" + repoName+" "+
                 "-Dsonar.host.url=http://sonarqube:9000";
         //2. 실행
         JSch jsch = new JSch();
         Session session = null;
-        ChannelExec channel = null;
         //3. 성공했다는 결과 반환
         try {
             // 키 기반 인증 설정
@@ -58,13 +65,18 @@ public class SonarQubeServiceImpl implements SonarQubeService{
             //검증 무시
             session.setConfig("StrictHostKeyChecking", "no");
             session.connect();
+            // 존재하는 레포 모두 삭제
+            if(!executeCommand(session,deleteRepo)){
+                throw new BaseException(StatusCode.FAIL_DELETE_REPO);
+            }
             // 폴더 이동 & git Clone
             if (!executeCommand(session, toFolderAndClone)) {
                 throw new BaseException(StatusCode.FAIL_SONAR_CLONE);
             }
-//            if (!executeCommand(session, execCommand)) {
-//                throw new BaseException(StatusCode.FAIL_SONAR_COMMAND);
-//            }
+            // sonarQube exec
+            if (!executeCommand(session, execCommand)) {
+                throw new BaseException(StatusCode.FAIL_SONAR_COMMAND);
+            }
 
             session.disconnect();
 
