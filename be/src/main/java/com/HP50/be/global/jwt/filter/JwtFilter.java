@@ -42,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final TokenInRedisService tokenInRedisService;
 
-    private static final List<String> PERMIT_URLS = List.of("/users/**", "/login/**", "/auth/**,", "/room/**");
+    private static final List<String> PERMIT_URLS = List.of("/users/**", "/login/**", "/auth/**,", "/room/**", "/api/**");
 
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 

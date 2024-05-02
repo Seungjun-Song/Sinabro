@@ -32,7 +32,6 @@ public class SecurityConfig {
     private final CustomSuccessHandler customSuccessHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomFailureHandler customFailureHandler;
-    private final JwtUtil jwtUtil;
     private final JwtFilter jwtFilter;
     private final CorsConfig corsConfig;
     @Bean
