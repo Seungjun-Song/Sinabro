@@ -13,16 +13,19 @@ const OauthTest = () => {
 
     const useAxios = () => {
         // axios.get('http://localhost:8080/api/oauth2/authorization/github')
-        axios.get(`https://k10e103.p.ssafy.io/api/oauth2/authorization/github`)
-        .then((res) => {
-            //setCookie(res);
-            console.log("cookie");
-            console.log(JSON.stringify(res));
+        // axios.get(`https://k10e103.p.ssafy.io/api/oauth2/authorization/github`)
+        // .then((res) => {
+        //     //setCookie(res);
+        //     console.log("cookie");
+        //     console.log(JSON.stringify(res));
             
-        })
-        .catch((err) => {
+        // })
+        // .catch((err) => {
 
-        });
+        // });
+
+        const redirectUrl = 'https://k10e103.p.ssafy.io'
+        
     }
 
     return (
