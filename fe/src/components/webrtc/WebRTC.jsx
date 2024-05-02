@@ -151,19 +151,33 @@ export default function WebRTC() {
     //         createToken(sessionId),
     //     );
     // }, [mySessionId]);
-    // 
+    
     const getToken = useCallback(async () => {
+
         try {
-            const response = await axios.post('http://192.168.30.125:8080/api/room/enter', {
+            const response = await axios.post('https://k10e103.p.ssafy.io/api/room', {
                 projectId: 3
             })
-
-            const token = response.result
-
-            return token;
+            if (response.data.isSuccess) {
+                const token = response.data.result
+                return token
+            }
+            else {
+                try {
+                    const response = await axios.post('https://k10e103.p.ssafy.io/api/room/enter', {
+                        projectId: 3
+                    })
+        
+                    const token = response.data.result
+                    console.log(response)
+                    return token;
+                } catch (error) {
+                    console.error('Error while fetching token:', error)
+                    throw error
+                }
+            }
         } catch (error) {
-            console.error('Error while fetching token:', error)
-            throw error
+            console.error(error)
         }
     }, [])
 
