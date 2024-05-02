@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AnimatePresence, motion } from "framer-motion";
+import { GlobalColor } from "../../services/color";
 const DUMMY_DATA = [
   {
     id: 1,
@@ -49,7 +50,7 @@ function SamplePrevArrow(props) {
     />
   );
 }
-function CustomSlide({id,state,projectname,message}) {
+function CustomSlide({id,state,projectname,message,isDark}) {
   return (
     <div
       //   className="shadow"
@@ -59,6 +60,8 @@ function CustomSlide({id,state,projectname,message}) {
         alignItems: "center",
         height: "5rem",
         gap: "2rem",
+        borderRadius:"1rem",
+        backgroundColor:isDark ? GlobalColor.colors.primary_black50 : "white"
       }}
     >
       <div
@@ -74,13 +77,13 @@ function CustomSlide({id,state,projectname,message}) {
         {" "}
         {state}
       </div>
-      <div style={{fontWeight:"bold" , fontSize:"1.2rem"}}>{projectname}</div>
+      <div style={{fontWeight:"bold" , fontSize:"1.2rem" , color: isDark? "white" : "black"}}>{projectname}</div>
       {/* <div style={{marginLeft:"0.1rem"}}></div> */}
-      <div style={{fontSize:"1.2rem"}} >{message}</div>
+      <div style={{fontSize:"1.2rem"  ,color: isDark? "white" : "black"}} >{message}</div>
     </div>
   );
 }
-const VerticalSlider = () => {
+const VerticalSlider = ({isDark}) => {
   const settings = {
     // dots: true,
     speed: 500,
@@ -101,14 +104,15 @@ const VerticalSlider = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "white",
+        backgroundColor: isDark ? GlobalColor.colors.primary_black50: "white",
         borderRadius: "1rem",
         height: "5rem",
+        
       }}
     >
       <Slider {...settings}>
         {DUMMY_DATA.map((item,index) =>(
-            <CustomSlide key={index}  id={item.id} projectname={item.projectname} state={item.state} message={item.message} />
+            <CustomSlide isDark={isDark} key={index}  id={item.id} projectname={item.projectname} state={item.state} message={item.message} />
         ))}
       </Slider>
     </div>

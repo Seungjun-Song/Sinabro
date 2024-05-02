@@ -31,7 +31,7 @@ const DUMMY_DATA = [
   },
 ];
 
-const ProjectTeam = ({ setWhatUser }) => {
+const ProjectTeam = ({ setWhatUser, isDark }) => {
   const displayedRoles = [];
 
   return (
@@ -65,8 +65,9 @@ const ProjectTeam = ({ setWhatUser }) => {
                 visible: { opacity: 1, y: 0 },
               }}
             >
-              <WhatPos item={item.job} />
+              <WhatPos item={item.job} isDark={isDark} />
               <WhatPosCard
+                isDark={isDark}
                 setWhatUser={setWhatUser}
                 item={item.job}
                 state={item.state}
@@ -89,8 +90,9 @@ const ProjectTeam = ({ setWhatUser }) => {
                 visible: { opacity: 1, y: 0 },
               }}
             >
-              <FakeWhatPos />
+              <FakeWhatPos isDark={isDark} />
               <WhatPosCard
+                isDark={isDark}
                 setWhatUser={setWhatUser}
                 item={item.job}
                 state={item.state}

@@ -2,7 +2,8 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-const ProjectCard = ({ item }) => {
+import { GlobalColor } from "../../services/color";
+const ProjectCard = ({ item ,isDark}) => {
   const [isHover, setIsHover] = useState(false);
   return (
     <>
@@ -14,6 +15,7 @@ const ProjectCard = ({ item }) => {
           justifyContent: "center",
           alignItems: "center",
           width: "17rem",
+          
         }}
       >
         <motion.div
@@ -28,6 +30,8 @@ const ProjectCard = ({ item }) => {
             borderRadius: "1rem",
             width: "17rem",
             position: "relative",
+            color: isDark ?  "white":GlobalColor.colors.primary_black50,
+            backgroundColor: isDark ? GlobalColor.colors.primary_black50 :"white"
           }}
         >
           <img
@@ -51,7 +55,7 @@ const ProjectCard = ({ item }) => {
             style={{
               display: "flex",
               gap: "1rem",
-              overflowX: "auto",
+              flexWrap:"wrap",
               height: "3rem",
             }}
           >
