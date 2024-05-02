@@ -17,7 +17,7 @@ const OauthTest = () => {
         .then((res) => {
             //setCookie(res);
             console.log("cookie");
-            console.log(JSON.stringify(cookie));
+            console.log(JSON.stringify(res));
             
         })
         .catch((err) => {
