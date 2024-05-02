@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { motion } from "framer-motion";
 
 import TeamSelection from './TeamSelection'
@@ -6,6 +6,8 @@ import TeamSelection from './TeamSelection'
 import DropDawnIcon from '/image/nav/dropdownIcon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { GlobalColor } from '../../services/color';
+
 const Team = styled(motion.div)`
     display: flex;
     align-items: start;
@@ -19,25 +21,32 @@ const TeamToggle = styled(motion.div)`
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background: rgba(58, 166, 184, 1);
+    background: ${GlobalColor.colors.teamToggle};
     padding: 0.2rem 1rem;
 
     width: 8rem;
 
     color: white;
 
-    border: 2px solid rgba(58, 166, 184, 1);
+    border: 2px solid ${GlobalColor.colors.teamToggle};
     border-radius: 50px;
 
     box-shadow: 3px 4px 3px gray;
+
+    ${props => props.isDark && css`
+        background: ${GlobalColor.colors.teamToggle_dark};
+        border: 2px solid ${GlobalColor.colors.teamToggle_dark};
+    `}
 `
 
-const TeamOption = ({teamOption, teamToggle, setTeamOption, setTeamToggle, kind}) => {
+const TeamOption = ({teamOption, teamToggle, setTeamOption, setTeamToggle, kind, isDark}) => {
     return(
         <Team>
         <TeamToggle 
             onClick={() => setTeamToggle(!teamToggle)}
-            whileHover={{cursor: "pointer", y: -3}}>
+            whileHover={{cursor: "pointer", y: -3}}
+            isDark={isDark}
+            >
         {teamOption}
         <motion.div
             transition={{ duration: 0.3}}
@@ -52,6 +61,7 @@ const TeamOption = ({teamOption, teamToggle, setTeamOption, setTeamToggle, kind}
             setTeamOption={setTeamOption}
             setTeamToggle={setTeamToggle}
             kind={kind}
+            isDark={isDark}
         ></TeamSelection>}
     </Team>
     )

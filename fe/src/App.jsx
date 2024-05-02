@@ -16,6 +16,7 @@ import TeamSpacePage from "./teamspacePage/TeamSpacePage";
 import CommunityMainPage from "./communityPage/communityList/CommunityMainPage";
 import CreatePost from "./communityPage/createPost/CreatePage";
 import DetailMainPage from "./communityPage/communityDetail/DetailMainPage";
+import OauthTest from "./oauthTestPage/OauthTest";
 
 import WebRTC from "./components/webrtc/WebRTC";
 
@@ -66,6 +67,7 @@ const App = () => {
       <Route path="/project" element={<ProjectPage />} />
       <Route path="/calender" element={<Calender />} />
       <Route path="/rtc" element={<WebRTC />} />
+      <Route path="/oauthTest" element={<OauthTest />} />
     </Routes>
   );
 };

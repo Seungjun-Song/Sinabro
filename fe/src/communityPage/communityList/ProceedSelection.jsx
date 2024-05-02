@@ -1,18 +1,26 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { motion } from "framer-motion"
+
+import { GlobalColor } from '../../services/color'
 
 const Selection = styled(motion.div)`
     position: absolute;
     z-index: 999;
 
-    background-color: rgba(62, 200, 175, 1);
+    background-color: ${ GlobalColor.colors.proceedToggle };
     color: white;
 
     margin-top: 2%;
     width: 7rem;
 
-    border: 2px solid rgba(62, 200, 175, 1);
+    border: 2px solid ${ GlobalColor.colors.proceedToggle };
     border-radius: 10px;
+
+    ${props => props.isDark && css`
+        background-color: ${ GlobalColor.colors.proceedToggle_dark };
+        border: 2px solid ${ GlobalColor.colors.proceedToggle_dark };
+    `}
+
 `
 
 const Option = styled(motion.div)`
@@ -47,7 +55,7 @@ const toggleBoxMotion = {
     transition: { duration: 0.3 }
 }
 
-const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, kind}) => {
+const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, kind, isDark}) => {
 
     const changeOption = (option) => {
         setProceedOption(option);
@@ -60,6 +68,7 @@ const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, ki
     return(
         <Selection
             {...toggleBoxMotion}
+            isDark={isDark}
         >
             {kind === "team" || kind === "member" ? 
             (<>

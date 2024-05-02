@@ -1,9 +1,11 @@
 import styled, { css } from 'styled-components'
 
-const Proceed = styled.div`
-    background: rgba(144, 158, 231, 0.4);
+import { GlobalColor } from '../../services/color'
 
-    border: 0px solid rgba(144, 158, 231, 0.4);
+const Proceed = styled.div`
+    background: ${GlobalColor.colors.proceeded};
+
+    border: 0px solid ${GlobalColor.colors.proceeded};
     border-radius: 7px;
 
     font-family: LaundryGothicRegular;
@@ -15,15 +17,30 @@ const Proceed = styled.div`
     font-family: LaundryGothicRegular;
 
 ${props => props.$proceed && css`
-    background: rgba(161, 175, 247, 1);
+    background: ${GlobalColor.colors.proceeding};
     padding: 0.2rem 0.6rem;
 `}
+
+    ${props => props.isDark && css`
+        background: ${GlobalColor.colors.proceeded_dark};
+
+        border: 0px solid ${GlobalColor.colors.proceeded_dark};
+
+        color: white;
+
+        ${props => props.$proceed && css`
+            background: ${GlobalColor.colors.proceeding_dark};
+            padding: 0.2rem 0.6rem;
+            color: black;
+        `}
+    `}
 `
 
-const DetailProceed = ({detailData, kind}) => {
+const DetailProceed = ({detailData, kind, isDark}) => {
     return(
         <Proceed
             $proceed={detailData.proceed === false}
+            isDark={isDark}
         >
         {kind === "feadback" ? (
             <>

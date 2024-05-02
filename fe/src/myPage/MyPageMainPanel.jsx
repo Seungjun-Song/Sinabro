@@ -6,6 +6,7 @@ import { Button, Modal } from "react-bootstrap";
 import { AnimatePresence, motion } from "framer-motion";
 // Import scrollbar styles
 import "./scrollbar.css";
+import { GlobalColor } from "../services/color";
 const SearchContainerRightSide = styled.div`
   height: 100%;
   width: 2rem;
@@ -154,7 +155,7 @@ const MemoryGraphButton = styled.div`
   cursor: pointer;
 `;
 const SkillDetail = styled.div`
-  background-color: #f2f2f2;
+  
   padding: 0.2rem;
   padding-left: 0.8rem;
   padding-right: 0.8rem;
@@ -233,7 +234,7 @@ const DUMMY_DATA = [
     img: "/images/pjt5.png",
   },
 ];
-const MyPageMainPanel = () => {
+const MyPageMainPanel = ({isDark}) => {
   const [isSideBoxVisible, setIsSidePanelVisible] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [whatSearch, setWhatSearch] = useState("");
@@ -285,7 +286,7 @@ const MyPageMainPanel = () => {
                   transition={{ duration: 0.3 }}
                 >
                   {" "}
-                  <SkillDetail>
+                  <SkillDetail style={{background: isDark ?GlobalColor.colors.primary_black50: "#f2f2f2" ,color: isDark ? "white" :"black"}}>
                     {/* {없을 때 띄울 글자 생각해야함} */}
                     {item.name}
                     <SkillDelBtn onClick={() => handleDelete(item)}>
@@ -296,7 +297,7 @@ const MyPageMainPanel = () => {
               ))}
             </AnimatePresence>
 
-            <SearchInput onChange={handleChange} value={whatSearch} />
+            <SearchInput style={{backgroundColor: isDark ? GlobalColor.colors.primary_black : "white",transition:"0.3s" , color:isDark ?"white" :"black"}} onChange={handleChange} value={whatSearch} />
           </SearchContainerLeftSide>
           <SearchContainerRightSide>
             <SearchIcon icon={faSearch} />
@@ -312,6 +313,7 @@ const MyPageMainPanel = () => {
               gap: "0.5rem",
               overflowY: "auto",
               borderRadius: "0rem 0rem 0.4rem 0.4rem",
+              // backgroundColor:isDark ? GlobalColor.colors.primary_black50 : "white"
             }}
           >
             {searchResults.map((result, index) => (
@@ -333,7 +335,8 @@ const MyPageMainPanel = () => {
                   padding: "0 1rem",
                   height: "1.3rem",
                   fontSize: "1rem",
-                  backgroundColor: "white",
+                  color : isDark ?"white" :"black",
+                  // backgroundColor: isDark ? GlobalColor.colors.primary_black50  : "white",
                 }}
                 key={index}
               >
@@ -366,14 +369,14 @@ const MyPageMainPanel = () => {
         </InnerBox>
       </InnerArea>
       <InnerArea>
-        <InnerText>Memory Graph</InnerText>
+        <InnerText >Memory Graph</InnerText>
         <MemoryGraphContainer>
           <MemoryGraphMainBox
             onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
           ></MemoryGraphMainBox>
           {isSideBoxVisible && (
             <MemoryGraphSideBox>
-              <MemoryGraphDescribeBox>
+              <MemoryGraphDescribeBox  style={{color:isDark ? "white" :"black"}}>
                 <h1>제목</h1>
                 내용내용내용내용내용내용 내용내용내용내용내용내용
                 내용내용내용내용내용내용 내용내용내용내용내용내용

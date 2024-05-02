@@ -1,8 +1,10 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { motion } from "framer-motion"
 
 import PjtLinkBox from './PjtLinkBox'
 import WriterLinkBox from './WriterLinkBox'
+
+import { GlobalColor } from '../../services/color'
 
 const Middle = styled(motion.div)`
     display: flex;
@@ -34,17 +36,24 @@ const Hashs = styled.div`
 `
 
 const Hash = styled.div`
-    background: rgba(58, 207, 189, 0.2);
+    background: ${ GlobalColor.colors.tag};
 
-    border: 0px solid rgba(58, 207, 189, 0.2);
+    border: 0px solid ${ GlobalColor.colors.tag};
     border-radius: 5px;
 
-    color: rgba(29, 102, 94, 1);
+    color: ${ GlobalColor.colors.tagFont};
     font-size: 0.7rem;
 
     padding: 0.1rem 1rem;
 
     box-shadow: 3px 4px 3px #f5f5f5;
+
+    ${props => props.isDark && css`
+    background: ${ GlobalColor.colors.tag_dark };
+    color: white;
+    box-shadow: 3px 4px 3px gray;
+
+`}
 
 `
 const middleMotion = {
@@ -58,7 +67,7 @@ const middleMotion = {
     transition: { duration: 0.3 }
 }
 
-const DetailMiddle = ({detailData, pjtData, kind}) => {
+const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
     return(
     <Middle
         {...middleMotion}
@@ -71,7 +80,8 @@ const DetailMiddle = ({detailData, pjtData, kind}) => {
                 {detailData.hash.map((tag, index) => {
 
                     return( 
-                        <Hash key={index}>
+                        <Hash key={index}
+                                isDark={isDark}>
                             {tag}
                         </Hash>
                     )

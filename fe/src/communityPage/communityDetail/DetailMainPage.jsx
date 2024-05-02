@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -7,6 +7,7 @@ import DetailSideMenu from './DetailSideMenu';
 import DetailMember from './DetailMember';
 import DetailTeam from './DetailTeam';
 import DetailFeadback from './DetailFeadback';
+import { GlobalColor } from '../../services/color';
 
 const Community = styled.div`
     display: flex;
@@ -15,6 +16,12 @@ const Community = styled.div`
     width: 100%;
 
     margin: 3.5rem 0 0 0;
+
+    ${props => props.isDark && css`
+        background: ${ GlobalColor.colors.primary_black};
+    `}
+    
+    transition: 0.3s;
 `
 
 
@@ -24,25 +31,36 @@ const DetailMainPage = () => {
 
     const [selected, setSelected] = useState(data.kind);
 
+    const isDark = true;
+
     return (
         <>
         <Navbar>
         </Navbar>
-        <Community>
+        <Community
+            isDark={isDark}
+        >
             <DetailSideMenu
                 selected={selected}
+                isDark={isDark}
             >
             </DetailSideMenu>
             {selected === "member" ? (
-                <DetailMember/>
+                <DetailMember
+                    isDark={isDark}
+                />
             ) : ("")}
 
             {selected === "team" ? (
-                <DetailTeam/>
+                <DetailTeam
+                    isDark={isDark}
+                />
             ) : ("")}
 
             {selected === "feadback" ? (
-                <DetailFeadback/>
+                <DetailFeadback
+                    isDark={isDark}
+                />
             ) : ("")}
         </Community>
 

@@ -1,6 +1,7 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import SearchButtonIcon from '/image/community/search.png'
+import { GlobalColor } from '../../services/color'
 
 const Search = styled.div`
     display: flex;
@@ -25,24 +26,32 @@ const SearchInput = styled.input`
     &::placeholder { 
         color: rgba(189, 189, 189, 1); // 플레이스홀더 텍스트의 색상
     }
+
+    ${props => props.$isDark && css`
+        background-color: ${ GlobalColor.colors.primary_black };
+    `}
+
+    transition: 0.3s;
 `
 
 const SearchButton = styled.img`
     height: 1.2rem;
 `
 
-const SearchBox = ({placeholder, searchWord, handleInputChange, search}) => {
+const SearchBox = ({placeholder, searchWord, handleInputChange, search, isDark}) => {
     return(
         <Search>
             <SearchInput
                 placeholder={placeholder}
                 value={searchWord}
                 onChange={handleInputChange}
+                $isDark={isDark}
             >
             </SearchInput>
             <SearchButton
                 src={SearchButtonIcon}
                 onClick={()=> search()}
+                $isDark={isDark}
             >
             </SearchButton>
 

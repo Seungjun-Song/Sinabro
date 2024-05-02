@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
-const ProjectInviteImg = ({ img, name, nameId }) => {
+const ProjectInviteImg = ({ img, name, nameId, isDark }) => {
   const [isOpen, setIsOpen] = useState(false);
   const list = ["FE", "BE", "FULL"];
   const [isHovered, setIsHovered] = useState(false);
@@ -29,15 +29,23 @@ const ProjectInviteImg = ({ img, name, nameId }) => {
             src={img}
             style={{ width: "5rem", height: "5rem", borderRadius: "3rem" }}
           />
-          <div style={{textAlign:"center",marginTop:"1rem"}} >{name}</div>
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: "1rem",
+              color: isDark ? "white" : "black",
+            }}
+          >
+            {name}
+          </div>
           <motion.img
-            whileHover={{ cursor: "pointer" ,opacity:1.1,scale:1.1}}
+            whileHover={{ cursor: "pointer", opacity: 1.1, scale: 1.1 }}
             style={{
               position: "absolute",
               width: "0.6rem",
               top: -5,
               right: -5,
-              opacity:0.3,
+              opacity: 0.3,
             }}
             src="/images/close_blue.png"
           />
@@ -56,7 +64,7 @@ const ProjectInviteImg = ({ img, name, nameId }) => {
                 left: "-100%",
                 backgroundColor: "white",
                 // borderRadius: "1rem",
-                zIndex:99
+                zIndex: 99,
               }}
             >
               {/* 드롭다운 내용 */}
@@ -72,7 +80,7 @@ const ProjectInviteImg = ({ img, name, nameId }) => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
                     onClick={() => (setJob(item), setIsOpen(false))}
-                    transition={{ duration: 0.3, delay: 0.1* index }}
+                    transition={{ duration: 0.3, delay: 0.1 * index }}
                     whileHover={{
                       backgroundColor: getColor(item),
                       cursor: "pointer",
