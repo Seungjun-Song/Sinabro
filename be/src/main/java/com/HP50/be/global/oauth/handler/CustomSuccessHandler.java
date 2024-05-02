@@ -59,6 +59,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         response.addCookie(jwtUtil.createCookie(JwtConstants.JWT_HEADER, accessToken));
         tokenInRedisService.save(accessToken, refreshToken);
 
-        response.sendRedirect("https://k10e103.p.ssafy.io");
+        response.sendRedirect("http://localhost:5173");
     }
 }
