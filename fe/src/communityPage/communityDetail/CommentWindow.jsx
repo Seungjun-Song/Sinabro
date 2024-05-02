@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { motion } from "framer-motion";
 
 import WriterImg from '/image/nav/tempPjtImg.png'
 import CommentBox from './CommentBox'
+
+import { GlobalColor } from '../../services/color';
 
 const Window = styled.div`
     display: flex;
@@ -39,7 +41,7 @@ const Input = styled.textarea`
     text-align: start;
     font-size: 0.8rem;
 
-    border: 1px solid rgba(196, 196, 196, 1);
+    border: 1px solid ${ GlobalColor.colors.primary_gray };
     border-radius: 5px; 
 
     resize: none;
@@ -48,6 +50,13 @@ const Input = styled.textarea`
     &::placeholder{
         color: rgba(0, 0, 0, 0.4);
     }
+
+    ${props => props.isDark && css`
+        background: ${ GlobalColor.colors.primary_gray };
+        border: 1px solid ${ GlobalColor.colors.primary_gray };
+    `}
+
+    transition: 0.3s;
 
 `
 
@@ -73,7 +82,7 @@ const Comments = styled.div`
     margin: 0 0 2rem 0;
 `
 
-const CommentWindow = () => {
+const CommentWindow = ({ isDark }) => {
     const [count, setCount] = useState(0);
 
     const commentDate = [
@@ -110,7 +119,10 @@ const CommentWindow = () => {
             </Count>
             <Inputzon>
                 <Input
-                    placeholder='댓글을 입력해 프로젝트에 참여해보세요 ! '>
+                    placeholder='댓글을 입력해 프로젝트에 참여해보세요 ! '
+                    isDark={isDark}    
+                >
+                        
                 </Input>
                 <Submit
                     whileHover={{

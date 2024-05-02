@@ -17,7 +17,6 @@ const MainInfo = styled.div`
     gap: 1rem;
 
     width: 100%;
-    background: white;
 `
 
 const Title = styled.div`
@@ -45,6 +44,9 @@ const Writer = styled.div`
 
 const ProfileImg = styled.img`
     height: 90%;
+
+    border: 0px solid black;
+    border-radius: 15px;
 `
 
 const Date = styled.div`
@@ -62,7 +64,7 @@ const headerMotion = {
     transition: { duration: 0.3 }
 }
 
-const DetailHeader = ({kind, detailData}) => {
+const DetailHeader = ({kind, detailData, isDark}) => {
     return(
         <Header
             {...headerMotion}

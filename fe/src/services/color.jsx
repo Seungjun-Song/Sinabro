@@ -35,6 +35,8 @@ export const GlobalColor = {
       tag_dark: 'rgba(6, 173, 153, 1)',
 
       tagFont: 'rgba(29, 102, 94, 1)',
+
+      commentBox: 'rgba(196, 196, 196, 1)',
     },
   };
   
