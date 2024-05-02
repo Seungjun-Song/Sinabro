@@ -123,7 +123,7 @@ export default (props) => {
                 whileHover={{
                   cursor: "pointer",
                   boxShadow: `8px 8px 24px ${
-                    props.isDark ? "rgba(0, 0, 0, 0.3)" : "rgb(255, 255, 255)"
+                    props.isDark ?  "rgba(255, 255, 255,0.2)":"rgba(0, 0, 0, 0.3)" 
                   } `,
                 }}
                 transition={{ duration: 0.3 }}

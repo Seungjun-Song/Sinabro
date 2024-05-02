@@ -11,9 +11,10 @@ import data from "./data";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import { GlobalColor } from "../services/color";
+import { useSelector } from "react-redux";
 
 const Mainpage = () => {
-  const isDark = true
+  const isDark = useSelector(state =>state.isDark.isDark)
   // const api = "192.168.30.194:8080";
   // useEffect(() => {
   //   axios
@@ -28,12 +29,12 @@ const Mainpage = () => {
   //     });
   // }, []);
 
-  const currentUrl = window.location.href;
-  const urlParams = new URLSearchParams(new URL(currentUrl).search);
+  // const currentUrl = window.location.href;
+  // const urlParams = new URLSearchParams(new URL(currentUrl).search);
 
-  // accessToken 값을 가져오기
-  const accessToken = urlParams.get("accessToken");
-  console.log(accessToken); // 예: "37173713"
+  // // accessToken 값을 가져오기
+  // const accessToken = urlParams.get("accessToken");
+  // console.log(accessToken); // 예: "37173713"
   return (
     <>
       <Navbar />
@@ -44,7 +45,7 @@ const Mainpage = () => {
         exit={{ opacity: 0 }} // 사라질 때 opacity를 0으로 설정
         style={{
           width: "100vw",
-
+          transition:"0.3s",
           // alignItems: "center",
           paddingTop: "80px",
           justifyContent: "center",

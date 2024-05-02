@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
+import { useSelector } from "react-redux";
 const SurveyContainer = styled.div`
   width: 100vw;
   height: 100vh;
@@ -185,6 +186,7 @@ const dataList = [
   },
 ];
 const SurveyPage = () => {
+  const isDark = useSelector(state =>state.isDark.isDark)
   const [isSelected, setIsSelected] = useState(false);
   const [isFeSelected, setFeIsSelected] = useState(false);
   const [isBeSelected, setBeIsSelected] = useState(false);

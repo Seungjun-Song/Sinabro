@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import "./Projectname.css";
 import { motion } from "framer-motion";
+import { GlobalColor } from "../../services/color";
 const ProjectNameContainer = styled.div`
   display: flex;
   gap: 5rem;
@@ -13,7 +14,7 @@ const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  align-items:flex-end;
+  align-items: flex-end;
 `;
 
 const Image = styled.img`
@@ -21,13 +22,13 @@ const Image = styled.img`
   width: 13rem;
 `;
 const Input = styled.input`
-  background-color: #7375ca;
   border: none;
-  color: white;
+  color: ${(props) => (props.isDark ? "black": "white" )};
   outline: none;
+  background-color: ${(props) => (props.isDark ? "white" : "#564CAD")};
 
   &::placeholder {
-    color: white; /* placeholder 텍스트의 색상을 설정합니다. */
+    color: ${props => props.isDark ? "none" : "white"};
   }
 `;
 
@@ -46,14 +47,34 @@ const Button = styled(motion.button)`
   }
 `;
 
-const ProjectName = ({ setProjectName, projectName }) => {
+const ProjectName = ({ setProjectName, projectName, isDark }) => {
   return (
     <ProjectNameContainer>
-      <ImageContainer >
-        <div style={{display:"flex" , flexDirection:"column" ,alignItems:"center"}} >
+      <ImageContainer>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <Image className="shadow" src="/images/pjtimg.png" />
-          <Button whileHover={{ y: -5 }} className="shadow mt-3">
-            <h5 style={{ fontSize: "1rem", marginBottom: 0 }}>
+          <Button
+            whileHover={{ y: -5 }}
+            className="shadow mt-3"
+            style={{
+              backgroundColor: isDark
+                ? GlobalColor.colors.primary_purple
+                : "white",
+            }}
+          >
+            <h5
+              style={{
+                fontSize: "1rem",
+                marginBottom: 0,
+                color: isDark ? "white" : "black",
+              }}
+            >
               대표이미지 설정
             </h5>
           </Button>
@@ -66,18 +87,20 @@ const ProjectName = ({ setProjectName, projectName }) => {
           gap: 10,
           flex: 1,
           justifyContent: "center",
+          color: isDark ? "white" : "black",
         }}
       >
         <h1>프로젝트 명</h1>
         <div
           className="py-3 px-4 shadow"
           style={{
-            backgroundColor: "#7375CA",
+            backgroundColor: isDark ? "white" : "#564CAD",
             borderRadius: "7px",
             width: "20rem",
           }}
         >
           <Input
+            isDark={isDark}
             onChange={(event) => setProjectName(event.target.value)}
             placeholder="프로젝트 명을 입력해 주세요!"
             value={projectName}

@@ -5,9 +5,11 @@ import Navbar from "../components/navs/Navbar";
 import TSDProjectContent from "../components/TeamSpaceDetailComponent/TSDProjectContent";
 import { motion } from "framer-motion";
 import { GlobalColor } from "../services/color";
+import { useSelector } from "react-redux";
 // import api from "../services/api";
 const TeamSpaceDetailPage = () => {
-  const isDark = true
+  const isDark = useSelector(state =>state.isDark.isDark)
+  
   // useEffect(() => {
   //   const axios_request = async () => {
   //     // console.log(pageNumber)

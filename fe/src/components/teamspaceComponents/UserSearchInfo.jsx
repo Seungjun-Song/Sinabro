@@ -1,4 +1,4 @@
-const UserSearchInfo = ({projectName}) => {
+const UserSearchInfo = ({projectName ,isDark}) => {
   return (
     <div
       style={{
@@ -32,11 +32,11 @@ const UserSearchInfo = ({projectName}) => {
           gap: "0.75rem",
         }}
       >
-        <h3 style={{ color: "#204FCF", fontWeight: "bold", margin: 0 }}>
+        <h3 style={{ color: isDark?"white" : "#204FCF", fontWeight: "bold", margin: 0 }}>
           유저 검색
         </h3>
-        {projectName && <h5 style={{ margin: 0 }}>{projectName}의 팀원을 추가하세요!</h5>}
-        {!projectName && <h5 style={{ margin: 0 }}>팀원을 추가하세요!</h5>}
+        {projectName && <h5 style={{ margin: 0 ,color:isDark ?"white" :"black" }}>{projectName}의 팀원을 추가하세요!</h5>}
+        {!projectName && <h5 style={{ margin: 0 ,color:isDark ?"white" :"black"}}>팀원을 추가하세요!</h5>}
       </div>
     </div>
   );

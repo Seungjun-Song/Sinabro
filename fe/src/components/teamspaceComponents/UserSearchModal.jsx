@@ -3,7 +3,10 @@ import UserSearchInfo from "./UserSearchInfo";
 import UserSearchBar from "./UserSearchBar";
 import UserSearchResult from "./UserSearchResult";
 import { motion } from "framer-motion";
-const UserSearchModal = ({ setIsModalOpen ,projectName}) => {
+import { GlobalColor } from "../../services/color";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+const UserSearchModal = ({ setIsModalOpen, projectName, isDark }) => {
   const [userName, setUserName] = useState("");
   const handleChange = (event) => {
     // 입력값이 변경될 때마다 호출되는 함수
@@ -43,18 +46,18 @@ const UserSearchModal = ({ setIsModalOpen ,projectName}) => {
           display: "flex",
           height: "90%",
           width: "40%",
-          backgroundColor: "white",
+          backgroundColor: isDark ? GlobalColor.colors.primary_purple : "white",
           borderRadius: "10px",
           justifyContent: "center",
           position: "relative",
         }}
       >
         <div style={{ width: "100%" }}>
-          <UserSearchInfo projectName={projectName} />
-          <UserSearchBar handleChange={handleChange} userName={userName} />
-          <UserSearchResult />
+          <UserSearchInfo isDark={isDark} projectName={projectName} />
+          <UserSearchBar isDark={isDark} handleChange={handleChange} userName={userName} />
+          <UserSearchResult isDark={isDark} />
           <motion.div
-            whileHover={{ cursor: "pointer",y:-5}}
+            whileHover={{ cursor: "pointer" }}
             style={{
               borderRadius: "1rem",
               display: "flex",
@@ -69,12 +72,17 @@ const UserSearchModal = ({ setIsModalOpen ,projectName}) => {
             <h3 style={{ margin: 0, color: "white" }}>초대</h3>
           </motion.div>
         </div>
-        <motion.img
+        <motion.div
           whileHover={{ cursor: "pointer" }}
           onClick={() => setIsModalOpen(false)}
           style={{ height: "1.5rem", position: "absolute", right: "3rem" }}
-          src="images/close_blue.png"
-        />
+        >
+          <FontAwesomeIcon
+            icon={faXmark}
+            size="2xl"
+            color={isDark ? "white" : "#204FCF"}
+          />
+        </motion.div>
       </motion.div>
     </motion.div>
   );
