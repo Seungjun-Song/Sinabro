@@ -42,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final TokenInRedisService tokenInRedisService;
 
-    private static final List<String> PERMIT_URLS = List.of("/users/**", "/login/**", "/auth/**");
+    private static final List<String> PERMIT_URLS = List.of("/users/**", "/login/**", "/auth/**,", "/room/**");
 
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
@@ -103,10 +103,12 @@ public class JwtFilter extends OncePerRequestFilter {
         } catch (MalformedJwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
             setErrorResponse(response, StatusCode.DAMAGED_ACCESS_TOKEN);
-        } catch (ExpiredJwtException e) {
-            log.error("JWT token is expired: {}", e.getMessage());
-            setErrorResponse(response, StatusCode.EXPIRED_ACCESS_TOKEN);
-        } catch (UnsupportedJwtException e) {
+        }
+//        catch (ExpiredJwtException e) {
+//            log.error("JWT token is expired: {}", e.getMessage());
+//            setErrorResponse(response, StatusCode.EXPIRED_ACCESS_TOKEN);
+//        }
+        catch (UnsupportedJwtException e) {
             log.error("JWT token is unsupported: {}", e.getMessage());
             setErrorResponse(response, StatusCode.UNSUPPORTED_ACCESS_TOKEN);
         } catch (IllegalArgumentException e) {

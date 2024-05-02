@@ -1,6 +1,7 @@
 package com.HP50.be.global.jwt;
 
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,11 +63,19 @@ public class JwtUtil {
     }
 
     public Boolean isExpired(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().
-                parseSignedClaims(token)
-                .getPayload()
-                .getExpiration()
-                .before(new Date());
+        try {
+            // 토큰 파싱 및 유효성 검사
+            Jwts.parser().verifyWith(secretKey).build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getExpiration()
+                    .before(new Date());
+            // 토큰이 만료되지 않았으면 true 반환
+            return false;
+        } catch (ExpiredJwtException ex) {
+            // 토큰이 만료되었을 때는 false 반환
+            return true;
+        }
     }
 
    public String tokenFromRequest(HttpServletRequest request){
