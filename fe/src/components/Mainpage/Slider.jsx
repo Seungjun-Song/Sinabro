@@ -3,9 +3,11 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AnimatePresence, motion } from "framer-motion";
+import AnimatedNumber from "react-animated-numbers";
 
 const SimpleSlider = () => {
   const [isHover, setIsHover] = useState(false);
+  const [currentSlideNumber, setCurrentSlideNumber] = useState(0);
   function SamplePrevArrow(props) {
     const { className, style, onClick, isHover } = props;
 
@@ -106,7 +108,12 @@ const SimpleSlider = () => {
       onHoverEnd={() => setIsHover(false)}
     >
       {/* <h2>Simple Slider</h2> */}
-      <Slider {...settings}>
+      <Slider
+        {...settings}
+        beforeChange={(currentSlide, nextSlide) =>
+          setCurrentSlideNumber(nextSlide)
+        }
+      >
         <div>
           <img
             style={{ width: "100%", height: "20rem" }}
@@ -120,7 +127,31 @@ const SimpleSlider = () => {
           />
         </div>
       </Slider>
-      <div style={{ position: "absolute" ,bottom:"2rem",right:"2rem" }}>asdf</div>
+
+      <div
+        style={{
+          backgroundColor: "rgba(0, 0, 0, .3)",
+          fontSize: "0.8rem",
+          color: "white",
+          borderRadius: "1rem",
+          padding: "0.4rem 1rem ",
+          position: "absolute",
+          bottom: "2rem",
+          right: "2rem",
+          display: "flex",
+          gap: "0.2rem",
+        }}
+      >
+        <AnimatedNumber
+          transitions={(index) => ({
+            type: "spring",
+            duration: 3,
+          })}
+          animateToNumber={currentSlideNumber + 1}
+        />
+        <div>/</div>
+        <div>2</div>
+      </div>
     </motion.div>
   );
 };

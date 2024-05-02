@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import { GlobalColor } from "../../services/color";
 
-const TSDProjectInfo = ({ whatInfo, setWhatInfo }) => {
+const TSDProjectInfo = ({ whatInfo, setWhatInfo,isDark }) => {
   const list = ["설명", "팀원", "일정"];
 
   return (
@@ -46,12 +47,14 @@ const TSDProjectInfo = ({ whatInfo, setWhatInfo }) => {
             }}
             className="py-2 shadow"
             style={{
+              transition:"0.3s",
               fontSize: "1.2rem",
               borderRadius: "0.5rem",
               textAlign: "center",
-              backgroundColor: whatInfo === item ? "white" : "#F5F8FF",
+              backgroundColor:isDark ? GlobalColor.colors.primary_black50 :  "#F5F8FF",
               border:
                 whatInfo === item ? "3px solid #564CAD" : "3px solid #F5F8FF",
+              color : isDark ? "white" :  "black"
             }}
           >
             {item}

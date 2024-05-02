@@ -2,7 +2,7 @@ export const GlobalColor = {
     colors: {
       primary_red: "#B80000",
       primary_black: "#2B2B2E",
-      primary_black50: "#2B2B2E95",
+      primary_black50: "#5e5e6a44",
       Pick_color: "#FF3353",
       primary_purple: "#472479",
       primary_purple50: "#47247980",

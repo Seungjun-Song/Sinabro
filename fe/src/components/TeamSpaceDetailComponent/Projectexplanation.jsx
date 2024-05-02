@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
-const Projectexplanation = () => (
+const Projectexplanation = ({isDark}) => (
   <>
     <motion.h4
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
-      style={{ fontWeight: "bold" }}
+      style={{ fontWeight: "bold" , color:isDark ? "white" :"black",transition:"0.3s", }}
       transition={{duration:0.3}}
+
     >
       클라이머들을 위한 문제 업데이트 알림 서비스
     </motion.h4>
@@ -14,7 +15,7 @@ const Projectexplanation = () => (
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
-      style={{ lineHeight: "3rem", margin: 0 }}
+      style={{ lineHeight: "3rem", margin: 0, color:isDark ? "white" :"black"  ,transition:"0.3s"}}
       transition={{delay:0.2 , duration:0.3}}
 
     >

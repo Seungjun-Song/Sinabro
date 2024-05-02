@@ -9,9 +9,9 @@ import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
     const [loading, setLoading] = useState(false)
-
+    const navigate = useNavigate()
     const [errorFromSubmit, setErrorFromSubmit] =useState("")
-
+    const dispatch = useDispatch
     const auth = getAuth(app)
 
     const {register, watch, formState:{errors}, handleSubmit} = useForm()
@@ -31,6 +31,8 @@ const LoginPage = () => {
         }
         finally {
             setLoading(false)
+            navigate("/Mainpage")
+            
         }
     }
     

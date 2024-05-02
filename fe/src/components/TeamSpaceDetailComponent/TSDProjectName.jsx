@@ -2,7 +2,7 @@ import { faCircleRight } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useState } from "react";
-const TSDProjectName = () => {
+const TSDProjectName = ({isDark}) => {
   const [isHover, setIsHover] = useState(false);
 
   return (
@@ -29,7 +29,7 @@ const TSDProjectName = () => {
             src="/images/pjtimg.png"
           />
           <div
-            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            style={{ display: "flex", flexDirection: "column", gap: "1rem" ,color: isDark ? 'white' :"black" }}
           >
             <h5 style={{margin:0}}>프로젝트 명</h5>
             <h3 style={{ fontWeight: "bold" ,margin:0}}>GRABBERS</h3>
@@ -52,6 +52,7 @@ const TSDProjectName = () => {
             border: "solid 3px #304895",
             borderRadius: "1rem",
             justifyContent: "center",
+            color : isDark ? "white" :"black"
           }}
         >
           프로젝트로 이동
