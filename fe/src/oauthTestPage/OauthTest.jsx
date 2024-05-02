@@ -31,7 +31,7 @@ const OauthTest = () => {
 
     const MemoApi = () => {
         console.log("in MemoApi")
-        axios.get(`http://localhost:8080/api/memo`)
+        axios.get(`https://localhost:8080/api/memo`)
         .then((res) => {
             console.log(res);
         })
