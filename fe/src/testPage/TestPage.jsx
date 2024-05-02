@@ -23,7 +23,8 @@ const TestPage = () => {
     };
 
     const redirectToGithub = () => {
-        window.location.href = "https://k10e103.p.ssafy.io/api/oauth2/authorization/github/client_id=218c974f1409ed1c47b2";
+        //window.location.href = "https://k10e103.p.ssafy.io/api/oauth2/authorization/github";
+        window.location.href = "localhost:8080/api/oauth2/authorization/github";
     };
 
     return (
@@ -43,7 +44,10 @@ const TestPage = () => {
                 <button onClick={() => navigate('/Mainpage')}>메인페이지</button>
                 <button onClick={() => navigate('/rtc')}>rtc</button>
                 <button onClick={() => navigate('/login')}>로그인 페이지</button>
+                <button onClick={() => redirectToGithub()}>oauth2 로그인 페이지</button>
                 <button onClick={() => navigate("/oauth2/authorization/github/client_id=218c974f1409ed1c47b2")}>Github</button>
+                <button onClick={() => navigate("/oauthTest")}>oauth 토큰 test</button>
+            
             </div>
         </div>
     )
