@@ -157,7 +157,7 @@ public class OpenViduController {
                 throw new BaseException(StatusCode.FAIL_DELETE_SESSION);
             }
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(StatusCode.SUCCESS));
+        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(StatusCode.SUCCESS_EXIT_CHAT));
     }
 
 

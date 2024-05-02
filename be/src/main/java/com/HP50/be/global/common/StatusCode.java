@@ -42,7 +42,7 @@ public enum StatusCode {
     NOT_EXIST_SESSION(false,835,"세션이 DB에는 존재하지만, 오픈비두에는 존재하지 않습니다."),
     FAIL_CONNECT_SESSION(false,836,"세션 연결에 실패했습니다.( 방 연결 실패 )"),
     FAIL_DELETE_SESSION(false,837,"세션 삭제에 실패했습니다"),
-
+    SUCCESS_EXIT_CHAT(true,838,"성공적으로 방을 나왔습니다"),
 
     // Token (900)
     INVALID_TOKEN(false, 901, "기존 서명을 확인할 수 없습니다."),
