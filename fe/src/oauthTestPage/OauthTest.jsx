@@ -12,26 +12,39 @@ const OauthTest = () => {
     }
 
     const useAxios = () => {
-        // axios.get('http://localhost:8080/api/oauth2/authorization/github')
-        // axios.get(`https://k10e103.p.ssafy.io/api/oauth2/authorization/github`)
-        // .then((res) => {
-        //     //setCookie(res);
-        //     console.log("cookie");
-        //     console.log(JSON.stringify(res));
+        //axios.get('http://localhost:8080/api/oauth2/authorization/github')
+        axios.get(`https://k10e103.p.ssafy.io/api/oauth2/authorization/github`)
+        .then((res) => {
+            //setCookie(res);
+            console.log("cookie");
+            console.log(JSON.stringify(res));
             
-        // })
-        // .catch((err) => {
+        })
+        .catch((err) => {
 
-        // });
+        });
+
 
         const redirectUrl = 'https://k10e103.p.ssafy.io'
         
     }
 
+    const MemoApi = () => {
+        console.log("in MemoApi")
+        axios.get(`https://localhost:8080/api/memo`)
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+
+        });
+    }
+
     return (
       <div>
         <button onClick={() => getCookies()}>쿠키 내놔 시바 새꺄</button>
-        <button onClick={() => useAxios()}>axios로 받고 다른페이지로 이동하기</button>
+        <button onClick={() => useAxios()}>axios로 받고 다른페이지로 이동하기, 아직 테스트 중</button>
+        <button onClick={() => MemoApi()}>memo api</button>
         <p>쿠키 값: { cookie }</p>
       </div>
     );
