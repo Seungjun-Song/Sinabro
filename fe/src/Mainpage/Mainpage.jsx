@@ -39,6 +39,7 @@ const Mainpage = () => {
   return (
     <>
       <Navbar />
+      {console.log(userInfo)}
       <motion.div
         className="d-flex"
         initial={{ opacity: 0 }} // 초기 상태에서 opacity를 0으로 설정
