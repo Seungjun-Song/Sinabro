@@ -9,11 +9,15 @@ import UserSearchModal from "../components/teamspaceComponents/UserSearchModal";
 import { AnimatePresence } from "framer-motion";
 import ProjectGitConnect from "../components/teamspaceComponents/ProjectGitConnect";
 import Navbar from "../components/navs/Navbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GlobalColor } from "../services/color";
+import ProjectCreateBtn from "../components/teamspaceComponents/ProjectCreateBtn";
+import { useEffect } from "react";
+import { clearProjectCreate, saveProjectMemberId } from "../store/projectCreateSlice";
 
 
 const TeamSpacePage = () => {
+  const [imgUrl, setImgUrl] = useState("/images/pjtimg.png")
   const [IsModalOpen, setIsModalOpen] = useState(false);
   const [projectName, setProjectName] = useState(null);
   const [projectinfo, setProjectInfo] = useState(null);
@@ -22,6 +26,20 @@ const TeamSpacePage = () => {
     setIsModalOpen(() => !IsModalOpen);
     console.log(IsModalOpen);
   };
+
+  const dispatch = useDispatch()
+
+  const createProjectInfo = useSelector(state => state.projectCreate)
+
+  console.log(createProjectInfo.value)
+
+  useEffect(() => {
+    dispatch(saveProjectMemberId()) // 나중에 멤버 아이디 받아서 넣어야함 // 토큰 넣으면 된다고?
+    return () => {
+      dispatch(clearProjectCreate()) // 언마운트 될 때 프로젝트 생성 정보를 초기화
+    }
+    
+  }, [])
 
   return (
     <>
@@ -41,6 +59,8 @@ const TeamSpacePage = () => {
           setProjectName={setProjectName}
           projectName={projectName}
           isDark={isDark}
+          imgUrl={imgUrl}
+          setImageUrl={setImgUrl}
         />
         <ProjectInfo
           setProjectInfo={setProjectInfo}
@@ -64,6 +84,7 @@ const TeamSpacePage = () => {
           )}
         </AnimatePresence>
         <ProjectGitConnect isDark={isDark} />
+        <ProjectCreateBtn isDark={isDark}/>
       </div>
     </>
   );

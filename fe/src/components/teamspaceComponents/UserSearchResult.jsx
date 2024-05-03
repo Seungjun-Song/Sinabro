@@ -1,32 +1,48 @@
 import { motion } from "framer-motion";
-const DUMMY_DATA = [
-  {
-    id: 1,
-    img: "/images/juheon.png",
-    name: "주헌",
-    nameId: "JH201421228",
-  },
-  {
-    id: 2,
-    img: "/images/juheon.png",
-    name: "주헌",
-    nameId: "JH201421228",
-  },
-  {
-    id: 3,
-    img: "/images/juheon.png",
-    name: "주헌",
-    nameId: "JH201421228",
-  },
-  {
-    id: 4,
-    img: "/images/juheon.png",
-    name: "주헌",
-    nameId: "JH201421228",
-  },
-];
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearInviteUser, setInviteUser } from "../../store/inviteUserSlice";
+// const DUMMY_DATA = [
+//   {
+//     id: 1,
+//     img: "/images/juheon.png",
+//     name: "주헌",
+//     nameId: "JH201421228",
+//   },
+//   {
+//     id: 2,
+//     img: "/images/juheon.png",
+//     name: "주헌",
+//     nameId: "JH201421228",
+//   },
+//   {
+//     id: 3,
+//     img: "/images/juheon.png",
+//     name: "주헌",
+//     nameId: "JH201421228",
+//   },
+//   {
+//     id: 4,
+//     img: "/images/juheon.png",
+//     name: "주헌",
+//     nameId: "JH201421228",
+//   },
+// ];
 
 const UserSearchResult = () => {
+  // 마운트 될 때 선택한 유저가 없어야함(일부 리덕스 값을 초기화해야함)
+
+  const [selectedUser, setSelectedUser] = useState(null)
+
+  const userData = useSelector(state => state.userSearch.value)
+
+  const dispatch = useDispatch()
+
+  const selectUser = (i) => {
+    setSelectedUser(i)
+    dispatch(setInviteUser(i))
+  }
+
   return (
     <div
       style={{
@@ -39,7 +55,7 @@ const UserSearchResult = () => {
       }}
     >
       <div>
-        {DUMMY_DATA.map((item, index) => (
+        {userData.map((item, index) => (
           <motion.div
             style={{
               height: "5rem",
@@ -48,15 +64,16 @@ const UserSearchResult = () => {
               gap: "15px",
               alignItems: "center",
               paddingLeft: "1.5rem",
-              backgroundColor: "white",
+              backgroundColor: selectedUser && selectedUser.memberId === item.memberId ? '#ccd5f8' : 'white',
             }}
             key={index}
             whileHover={{ backgroundColor: "#CCD5F8", cursor: "pointer" }}
+            onClick={() => selectUser(item)}
           >
-            <img style={{ width: "3.5rem", height: "3.5rem" }} src={item.img} />
+            <img style={{ width: "3.5rem", height: "3.5rem" }} src={item.memberImg} />
             <div>
-              <div>{item.name}</div>
-              <div>{item.nameId}</div>
+              <div>{item.memberId}</div>
+              <div>{item.memberName}</div>
             </div>
           </motion.div>
         ))}

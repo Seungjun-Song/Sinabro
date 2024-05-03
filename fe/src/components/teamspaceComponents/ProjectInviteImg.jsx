@@ -1,16 +1,35 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { removeProjectMemberAtIndex, updateProjectMemberAtIndex } from "../../store/projectCreateSlice";
+import { removeInvitedUserByIndex } from "../../store/invitedUserListSlice";
 
-const ProjectInviteImg = ({ img, name, nameId, isDark }) => {
+const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
   const [isOpen, setIsOpen] = useState(false);
   const list = ["FE", "BE", "FULL"];
   const [isHovered, setIsHovered] = useState(false);
   const [job, setJob] = useState(null);
+  const dispatch = useDispatch()
+
+  const updateJob = (j) => {
+    if (j === 'FE') {
+      const n = 100
+      dispatch(updateProjectMemberAtIndex({index: idx, newValue: n}))
+    }
+    else if (j === 'BE') {
+      const n = 200
+      dispatch(updateProjectMemberAtIndex({index: idx, newValue: n}))
+    }
+    else if (j === 'FULL') {
+      const n = 300
+      dispatch(updateProjectMemberAtIndex({index: idx, newValue: n}))
+    }
+  }
+
   // 호버 시작 시 실행되는 함수
   const handleHoverStart = (item) => {
     setIsHovered(item);
     // 호버 시작 시 실행할 함수를 여기에 추가하세요
-    console.log(item);
   };
 
   // 호버 종료 시 실행되는 함수
@@ -48,6 +67,7 @@ const ProjectInviteImg = ({ img, name, nameId, isDark }) => {
               opacity: 0.3,
             }}
             src="/images/close_blue.png"
+            onClick={() => {dispatch(removeProjectMemberAtIndex(idx)), dispatch(removeInvitedUserByIndex(idx))}}
           />
         </motion.div>
         <AnimatePresence>
@@ -79,7 +99,7 @@ const ProjectInviteImg = ({ img, name, nameId, isDark }) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
-                    onClick={() => (setJob(item), setIsOpen(false))}
+                    onClick={() => (setJob(item), updateJob(item), setIsOpen(false))}
                     transition={{ duration: 0.3, delay: 0.1 * index }}
                     whileHover={{
                       backgroundColor: getColor(item),
