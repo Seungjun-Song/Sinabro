@@ -5,9 +5,19 @@ import com.HP50.be.domain.project.service.ProjectService;
 import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -62,6 +72,13 @@ public class ProjectController {
             throw new BaseException(StatusCode.FAIL_UPDATE_REPO);
         }
         return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
+    }
+
+    @GetMapping("/projects")
+    private ResponseEntity<Object> enterProject() {
+        ProjectEnterDto projectEnterDto = service.enterProject();
+
+        return ResponseEntity.ok(new BaseResponse<>(projectEnterDto));
     }
 
 }

@@ -51,7 +51,19 @@ public enum StatusCode {
     UNSUPPORTED_ACCESS_TOKEN(false, 904, "지원하지 않는 토큰입니다."),
     INVALID_NULL_TOKEN(false, 905, "토큰 값 자체가 유효하지 않습니다."),
     ILLEGAL_ARGUMENT_TOKEN(false, 906, "JWT claims이 비어있는 상태입니다."),
-    TOKEN_NOT_FOUND(false, 907, "다시 로그인 해주세요.")
+    TOKEN_NOT_FOUND(false, 907, "다시 로그인 해주세요."),
+
+    // Jsch (1500)
+    SESSION_CONNECT_FAIL(false, 1500, "Session 접속 실패"),
+    CHANNEL_CONNECT_FAIL(false, 1501, "Channel 접속 실패"),
+    STREAM_HANDLING_FAIL(false, 1502, "Stream 처리 실패"),
+    CONTAINER_RUN_FAIL(false, 1503, "Container 실행 실패"),
+    THREAD_INTERRUPTED(false, 1504, "Thread 중단"),
+    NGINX_UPDATE_FAIL(false, 1505, "Nginx 리버스 프록시 설정 실패"),
+    GIT_CLONE_FAIL(false, 1506, "Git Clone 실패"),
+    MYSQL_START_FAIL(false, 1507, "MySQL 실행 실패"),
+    CONTAINER_START_FAIL(false, 1508, "Container 재실행 실패"),
+    MYSQL_RESTART_FAIL(false, 1509, "MySQL 재실행 실패"),
     ;
 
 
