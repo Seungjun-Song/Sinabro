@@ -19,7 +19,7 @@ public class SonarQubeController {
     @PostMapping("/scan")
     public ResponseEntity<Object> triggerSonarScan(
             @RequestBody SonarRequestDto dto) {
-        sonarQubeService.executeSonarScanner(dto.getProjectId());
+        sonarQubeService.executeSonarScanner(dto.getProjectId(),dto.getFolderName());
         return null;
     }
 }

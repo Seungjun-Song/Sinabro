@@ -10,4 +10,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Builder
 public class SonarRequestDto {
     Integer projectId;
+    String folderName;
 }

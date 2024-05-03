@@ -57,7 +57,9 @@ public enum StatusCode {
     FAIL_SONAR_CLONE(false, 1001,"정적분석 git clone이 실패했습니다."),
     FAIL_SONAR(false, 1002,"정적분석에 실패했습니다."),
     FAIL_SONAR_COMMAND(false, 1003,"정적분석 명령에 실패했습니다."),
-    FAIL_DELETE_REPO(false,1004,"정적분석 레포 삭제에 실패했습니다.")
+    FAIL_DELETE_REPO(false,1004,"정적분석 레포 삭제에 실패했습니다."),
+    FAIL_CHMOD_REPO(false,1005,"깃 파일 권한 설정에 실패했습니다."),
+    FAIL_BUILD_REPO(false,1006,"깃 파일 권한 빌드에 실패했습니다.")
     ;
 
 

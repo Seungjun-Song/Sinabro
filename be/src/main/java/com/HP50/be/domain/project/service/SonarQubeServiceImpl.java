@@ -11,6 +11,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -23,12 +24,16 @@ public class SonarQubeServiceImpl implements SonarQubeService{
     /**
         정적 분석
      */
-    private String host = "k10e103.p.ssafy.io";
-    private String user = "ubuntu";
-    private String privateKey = "C:\\Users\\SSAFY\\Desktop\\자율\\S10P31E103\\be\\K10E103T.pem";
+    @Value("${sonar.host}")
+    private String host;
+    @Value("${sonar.user}")
+    private String user;
+    @Value("${sonar.key}")
+    private String privateKey;
+
 
     @Override
-    public void executeSonarScanner(Integer projectId) {
+    public void executeSonarScanner(Integer projectId,String folderName) {
 
         //1. git clone - /home/sonarQube/scanner
         // 깃 레포 가져오기
@@ -47,12 +52,21 @@ public class SonarQubeServiceImpl implements SonarQubeService{
         String toFolderAndClone = "cd /home/ubuntu/sonarQube/scanner && " + "sudo git clone "+repoUrl;
         String[] split = repoUrl.split("/");
         String repoName = split[split.length - 1];
+        // 권한 부여
+        String authorize = "docker exec -i sonar-scanner /bin/sh -c 'cd ./"+repoName+"/"+folderName+" && chmod +x ./gradlew'";
+        // build
+        String build = "docker exec -w /usr/src/"+repoName+"/"+folderName+" sonar-scanner ./gradlew build -x test";
 
         // exec command
         String execCommand = "docker exec sonar-scanner sonar-scanner " +
-                "-Dsonar.projectKey=" + "sqp_9ac1374591c1df73cbe3ac04bbfbd960cf88ce35 "+
-                "-Dsonar.sources=/usr/src/" + repoName+" "+
-                "-Dsonar.host.url=http://sonarqube:9000";
+                "-Dsonar.projectKey=" + "sqp_bb953c543831146b0aab65a7253df86c870c0ac1"+" "+
+                "-Dsonar.sources=/usr/src/" + repoName +"/"+folderName+" "+
+                "-Dsonar.host.url=http://sonarqube:9000 "+
+                "-Dsonar.token=squ_4e19fc10ed04b1e8815b83bd0fa853418790e59f "+
+                "-Dsonar.java.binaries=/usr/src/"+repoName+"/"+folderName+"/build/classes/java/main"+" "+ //build class지정 필요
+                "-Dsonar.sourceEncoding=UTF-8";
+        // 품질 조회
+
         //2. 실행
         JSch jsch = new JSch();
         Session session = null;
@@ -73,13 +87,20 @@ public class SonarQubeServiceImpl implements SonarQubeService{
             if (!executeCommand(session, toFolderAndClone)) {
                 throw new BaseException(StatusCode.FAIL_SONAR_CLONE);
             }
+            // 권한 부여
+            if (!executeCommand(session, authorize)) {
+                throw new BaseException(StatusCode.FAIL_SONAR_CLONE);
+            }
+
+            // 빌드
+            if (!executeCommand(session, build)) {
+                throw new BaseException(StatusCode.FAIL_BUILD_REPO);
+            }
             // sonarQube exec
             if (!executeCommand(session, execCommand)) {
                 throw new BaseException(StatusCode.FAIL_SONAR_COMMAND);
             }
-
             session.disconnect();
-
         } catch (BaseException e) {
             e.printStackTrace();
             throw new BaseException(StatusCode.FAIL_SONAR);
