@@ -45,6 +45,7 @@ const OauthTest = () => {
         const CLIENT_SECRETS = "4490fac24eac201fd1dd3e4196e86a1f8f07f0ad";
         const CALLBACK_URL = "https://k10e103.p.ssafy.io/api/callback";
 
+        
         const GITHUB_AUTH_CODE_SERVER = "https://github.com/login/oauth/authorize";
         const GITHUB_AUTH_TOKEN_SERVER = "/login/oauth/access_token";
         const GITHUB_API_SERVER = "/user";
