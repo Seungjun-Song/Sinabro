@@ -44,6 +44,8 @@ const TestPage = () => {
                 <button onClick={() => navigate('/rtc')}>rtc</button>
                 <button onClick={() => navigate('/login')}>로그인 페이지</button>
                 <button onClick={() => navigate("/oauth2/authorization/github/client_id=218c974f1409ed1c47b2")}>Github</button>
+
+                <button onClick={() => navigate('/boarding')}>보딩 페이지</button>
             </div>
         </div>
     )

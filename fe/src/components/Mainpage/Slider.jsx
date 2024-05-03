@@ -120,14 +120,21 @@ const SimpleSlider = () => {
       >
         <div>
           <img
-            style={{ width: "100%", height: "20rem" }}
-            src="/images/beside1.png"
+          
+            style={{ width: "100%", height: "20rem" ,objectFit:"cover"}}
+            src="/images/중간발표.jpg"
           />
         </div>
         <div>
           <img
-            style={{ width: "100%", height: "20rem" }}
-            src="/images/beside2.png"
+            style={{ width: "100%", height: "20rem",objectFit:"cover" }}
+            src="/images/중간발표-006.jpg"
+          />
+        </div>
+        <div>
+          <img
+            style={{ width: "100%", height: "20rem",objectFit:"cover" }}
+            src="/images/중간발표-011.jpg"
           />
         </div>
       </Slider>
@@ -161,7 +168,7 @@ const SimpleSlider = () => {
           {currentSlideNumber}
         </motion.div>
         <div>/</div>
-        <div>2</div>
+        <div>3</div>
       </div>
     </motion.div>
   );

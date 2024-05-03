@@ -24,6 +24,7 @@ import TeamSpaceDetailPage from "./teamSpaceDetailPage/teamSpaceDetailPage";
 import Mainpage from "./Mainpage/Mainpage";
 import ProjectPage from "./projectPage/ProjectPage";
 import { Calender } from "./components/calender/Calender";
+import BoardingPage from "./boardingPage/BoardingPage";
 const api = "https://k10e103.p.ssafy.io/"
 const App = () => {
   const dispatch = useDispatch();
@@ -66,6 +67,11 @@ const App = () => {
       <Route path="/project" element={<ProjectPage />} />
       <Route path="/calender" element={<Calender />} />
       <Route path="/rtc" element={<WebRTC />} />
+
+
+
+      
+      <Route path="/boarding" element={<BoardingPage/>} />
     </Routes>
   );
 };
