@@ -64,6 +64,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 //        log.info("이전 페이지 출력 {}", prevPage);
 //        redirectStrategy.sendRedirect(request, response, prevPage);
 
-        response.sendRedirect("https://k10e103.p.ssafy.io");
+//        response.sendRedirect("http://localhost:5173");
     }
 }
