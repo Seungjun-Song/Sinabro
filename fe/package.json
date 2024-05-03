@@ -29,6 +29,7 @@
     "firebase": "^10.10.0",
     "framer-motion": "^11.1.7",
     "http": "^0.0.1-security",
+    "http-proxy-middleware": "^3.0.0",
     "openai": "^4.33.0",
     "openvidu-browser": "^2.29.1",
     "openvidu-node-client": "^2.29.0",

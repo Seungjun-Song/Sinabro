@@ -5,6 +5,7 @@ const initialState = {
         uid: '',
         photoURL: '',
         displayName: '',
+        token: '',
     }
 }
 
@@ -15,6 +16,7 @@ export const userSlice =  createSlice({
         setUser: (state, action) => {
             state.currentUser.uid = action.payload.uid
             state.currentUser.displayName = action.payload.displayName
+            state.currentUser.token = action.payload.token
         },
         clearUser: (state) => {
             state.currentUser = {}

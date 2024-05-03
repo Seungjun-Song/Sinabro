@@ -23,8 +23,8 @@ const TestPage = () => {
     };
 
     const redirectToGithub = () => {
-        window.location.href = "https://k10e103.p.ssafy.io/api/oauth2/authorization/github";
-        //window.location.href = "http://localhost:8080/api/oauth2/authorization/github";
+        //window.location.href = "https://k10e103.p.ssafy.io/api/oauth2/authorization/github";
+        window.location.href = "http://localhost:8080/api/oauth2/authorization/github";
     };
 
     return (
