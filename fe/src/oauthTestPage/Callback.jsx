@@ -10,7 +10,8 @@ const Callback = () => {
         const location = new URL(window.location.href);
         setCode(location.searchParams.get("code"));
 
-        navigate("/Mainpage");
+        console.log(code);
+        //navigate("/Mainpage");
     }, [])
 
     return(

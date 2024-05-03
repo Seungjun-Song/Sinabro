@@ -41,8 +41,8 @@ const OauthTest = () => {
     }
 
     const getGitCode = () => {
-        const CLIENT_ID = "83e5d9fb40bfc85291f9";
-        const CLIENT_SECRETS = "4490fac24eac201fd1dd3e4196e86a1f8f07f0ad";
+        const CLIENT_ID = "218c974f1409ed1c47b2";
+        const CLIENT_SECRETS = "c4404c995b5c19a69570db139fb789a25ddb4d10";
         const CALLBACK_URL = "https://k10e103.p.ssafy.io/callback";
         //const CALLBACK_URL = "http://localhost:5173/callback";
 
