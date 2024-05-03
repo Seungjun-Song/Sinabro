@@ -9,4 +9,8 @@ public class JwtInfoDto {
     private String jwtAccessToken;
     private Integer memberId;
     private String memberName;
+    private String memberImg;
+    private String memberEmail;
+    private String memberGit;
+    private boolean isNewer;
 }

@@ -1,5 +1,7 @@
 package com.HP50.be.global.oauth.service;
 
+import com.HP50.be.domain.member.entity.Member;
+import com.HP50.be.domain.member.repository.MemberRepository;
 import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.jwt.JwtConstants;
 import com.HP50.be.global.jwt.JwtUtil;
@@ -36,6 +38,7 @@ public class OAuthServiceImpl implements OAuthService{
     private String clinetSecret;
 
     private final TokenInRedisService tokenInRedisService;
+    private final MemberRepository memberRepository;
     private final RestTemplate restTemplate = new RestTemplate();
     private final JwtUtil jwtUtil;
 
@@ -91,18 +94,39 @@ public class OAuthServiceImpl implements OAuthService{
         String accessToken = jwtUtil.createToken(githubUserInfoDto.getId(),
                 githubUserInfoDto.getEmail(), githubUserInfoDto.getLogin(),
                 githubUserInfoDto.getHtml_url(), githubUserInfoDto.getAvatar_url(),
-                JwtConstants.ACCESS_EXP_TIME);
+                JwtConstants.ACCESS_EXP_TIME * 10000);
 
         String refreshToken = jwtUtil.createToken(githubUserInfoDto.getId(),
                 githubUserInfoDto.getEmail(), githubUserInfoDto.getLogin(),
                 githubUserInfoDto.getHtml_url(), githubUserInfoDto.getAvatar_url(),
                 JwtConstants.REFRESH_EXP_TIME * 10);
 
+        Integer memberId = githubUserInfoDto.getId();
+        String nickname = githubUserInfoDto.getLogin();
+        String email = githubUserInfoDto.getEmail();
+        String memberImg = githubUserInfoDto.getAvatar_url();
+        String memberGit = githubUserInfoDto.getHtml_url();
+
         JwtInfoDto jwtInfoDto = JwtInfoDto.builder()
-                .memberId(githubUserInfoDto.getId())
-                .memberName(githubUserInfoDto.getName())
+                .memberId(memberId)
+                .memberName(nickname)
+                .memberEmail(email)
+                .memberImg(memberImg)
+                .memberGit(memberGit)
                 .jwtAccessToken(accessToken)
                 .build();
+
+        // id가 서버 DB에 없다면 서버에 저장
+        // id가 서버 DB에 있다면 다른 액션을 취하지 않고 넘김
+        // 깃허브에서 제공하는 id 를 우리 서버의 memberId로 저장
+        Member member = memberRepository.findById(memberId).orElse(null);
+        if(member != null) {
+            memberRepository.save(member);
+            jwtInfoDto.setNewer(true);
+        }
+
+        log.info("--------------------------OAuth 유저 출력 {} --------------------------", nickname);
+
 
         response.setHeader(JwtConstants.JWT_HEADER ,JwtConstants.JWT_TYPE + accessToken) ;
         response.setHeader(JwtConstants.REFRESH ,JwtConstants.JWT_TYPE + refreshToken);
