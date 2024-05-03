@@ -8,6 +8,7 @@ import DetailMember from './DetailMember';
 import DetailTeam from './DetailTeam';
 import DetailFeadback from './DetailFeadback';
 import { GlobalColor } from '../../services/color';
+import { useSelector } from 'react-redux';
 
 const Community = styled.div`
     display: flex;
@@ -31,8 +32,7 @@ const DetailMainPage = () => {
 
     const [selected, setSelected] = useState(data.kind);
 
-    const isDark = true;
-
+    const isDark = useSelector(state =>state.isDark.isDark)
     return (
         <>
         <Navbar>

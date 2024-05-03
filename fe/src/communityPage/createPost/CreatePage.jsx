@@ -10,6 +10,7 @@ import CreateFeadbackPost from './CreateFeadbackPost';
 import TeamChoiceBox from './TeamChoiceBox';
 
 import { GlobalColor } from '../../services/color';
+import { useSelector } from 'react-redux';
 
 const Back = styled.div`
     height: 100%;
@@ -24,7 +25,7 @@ const Create = styled.div`
     align-items: center;
     flex-direction: column;
     width: 65%;
-    margin: 4rem auto;
+    margin: auto;
 `
 const Header = styled(motion.div)`
     display: flex;
@@ -83,8 +84,7 @@ const CreatePage = () => {
 
     const [selected, setSelected] = useState(data.kind);
     
-    const isDark = true;
-
+    const isDark = useSelector(state =>state.isDark.isDark)
     const changeOption = (option) => {
         setSelected(option);
     }
@@ -93,7 +93,7 @@ const CreatePage = () => {
         <>
             <Navbar>
             </Navbar>
-            <Back isDark={isDark}>
+            <Back style={{transition:"0.3s"}} isDark={isDark}>
             <Create
                 isDark={isDark}
             >

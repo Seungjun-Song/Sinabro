@@ -8,6 +8,7 @@ import CommunityMemberPage from './CommunityMemberPage';
 import CommunityTeamPage from './CommunityTeamPage';
 import CommunityFeadBackPage from './CommunityFeadbackPage';
 import { GlobalColor } from '../../services/color';
+import { useSelector } from 'react-redux';
 
 const Community = styled.div`
 display: flex;
@@ -26,8 +27,7 @@ transition: 0.3s;
 const CommunityMainPage = () => {
     const location = useLocation();
     const data = location.state;
-
-    const isDark = true;
+    const isDark = useSelector(state =>state.isDark.isDark)
 
     const [selected, setSelected] = useState(data.kind);
     return (
