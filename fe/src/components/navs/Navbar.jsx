@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./styles.css";
 import DropTeam from "./DropTeam";
 import { AnimatePresence, motion } from "framer-motion";
@@ -15,6 +15,7 @@ import { toggleisDarkState } from "../../store/isDarkSlice";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { GlobalColor } from "../../services/color";
 
+import { clearUser } from "./../../store/userSlice";
 const NavBar = styled.nav`
   display: flex;
   align-items: center;
@@ -54,14 +55,17 @@ const DropDown = styled.div`
 
 const Community = styled.div`
   /* color: white; */
+  cursor: pointer;
 `;
 
 const MyPage = styled.div`
   /* color: white; */
+  cursor: pointer;
 `;
 
 const Log = styled.div`
   /* color: white; */
+  cursor: pointer;
 `;
 
 const DropDownButton = styled.div``;
@@ -93,13 +97,18 @@ const RightNavContainer = styled.div`
   margin-right: 3%;
 `;
 
-const Logos = styled.div``;
+const Logos = styled.div`
+  cursor: pointer;
+`;
 
 const Navbar = () => {
   const [dropDown, setDropDown] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false); // 스크롤 상태를 저장할 상태
   const isDark = useSelector(state =>state.isDark.isDark)
-  const dispatch = useDispatch()
+  const user = useSelector(state => (state.user.currentUser))
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
 
   const toggleDarkMode = () => {
@@ -118,6 +127,7 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll); // 컴포넌트가 언마운트될 때 이벤트 핸들러 제거
     };
+
   }, []);
   const spring = {
     type: "spring",
@@ -125,10 +135,17 @@ const Navbar = () => {
     damping: 30,
   };
 
+  const logout = () => {
+    dispatch(clearUser());
+    navigate('/');
+  }
+
   return (
     <NavBar isScrolled={isScrolled}>
       <LeftNavContainer>
-        <Logos>
+        <Logos
+          onClick={() => navigate('/mainPage')}
+        >
           <LogoImage isScrolled={isScrolled} src={Logo} />
           {!isScrolled ? (
             <SinabroImg src={Sinabro} />
@@ -172,13 +189,18 @@ const Navbar = () => {
           </DropDownPage>
         </DropDown>
 
-        <Community style={{ fontFamily: "Jamsil Light" }}>커뮤니티</Community>
+        <Community style={{ fontFamily: "Jamsil Light" }}
+        onClick={() => navigate('/communityMainPage', { state: { kind: "member" } })}
+      >커뮤니티</Community>
       </LeftNavContainer>
-
       <RightNavContainer>
-        <MyPage style={{ fontFamily: "Jamsil Light" }}>마이페이지</MyPage>
+        <MyPage style={{ fontFamily: "Jamsil Light" }}
+          onClick={() => navigate('/mypage')}
+        >마이페이지</MyPage>
 
-        <Log style={{ fontFamily: "Jamsil Light" }}>로그아웃</Log>
+        <Log style={{ fontFamily: "Jamsil Light" }}
+          onClick={() => logout()}
+        >로그아웃</Log>
 
         {/* <DarkModeSwitch
           style={{}}
