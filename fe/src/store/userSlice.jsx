@@ -1,35 +1,3 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-    currentUser: {
-        uid: '',
-        photoURL: '',
-        displayName: '',
-        token: '',
-    }
-}
-
-export const userSlice =  createSlice({
-    name: 'user',
-    initialState,
-    reducers: {
-        setUser: (state, action) => {
-            state.currentUser.uid = action.payload.uid
-            state.currentUser.displayName = action.payload.displayName
-            state.currentUser.token = action.payload.token
-        },
-        clearUser: (state) => {
-            state.currentUser = {}
-        },
-        setPhotoURL: (state, action) => {
-            state.currentUser = {
-                ...state.currentUser,
-                photoURL: action.payload
-            }
-        }
-    }
-})
-
-export const {setPhotoURL, clearUser, setUser} = userSlice.actions
-
-export default userSlice.reducer
+version https://git-lfs.github.com/spec/v1
+oid sha256:35c6464c4b2dc4ba0bf1879817a07228d432530a8b853a7c072d01c70b0fc0c5
+size 876
