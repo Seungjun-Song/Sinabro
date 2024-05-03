@@ -1,6 +1,5 @@
 package com.HP50.be.domain.project.service;
 
-import com.HP50.be.domain.code.entity.Category;
 import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.code.repository.CategoryRepository;
 import com.HP50.be.domain.code.repository.SubCategoryRepository;
@@ -9,19 +8,20 @@ import com.HP50.be.domain.member.entity.TechStack;
 import com.HP50.be.domain.member.repository.MemberCustomRepository;
 import com.HP50.be.domain.member.repository.MemberRepository;
 import com.HP50.be.domain.member.repository.TechStackCustomRepository;
-import com.HP50.be.domain.member.repository.TechStackRepository;
 import com.HP50.be.domain.port.entity.Port;
 import com.HP50.be.domain.port.repository.PortCustomRepository;
 import com.HP50.be.domain.project.dto.*;
-import com.HP50.be.domain.project.entity.PjtTechStack;
 import com.HP50.be.domain.project.entity.Project;
 import com.HP50.be.domain.project.entity.Teammate;
 import com.HP50.be.domain.project.repository.PjtTechStackRepository;
 import com.HP50.be.domain.project.repository.ProjectCustomRepository;
 import com.HP50.be.domain.project.repository.ProjectRepository;
 import com.HP50.be.domain.project.repository.TeammateRepository;
+import com.HP50.be.global.common.JschUtil;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
+import com.HP50.be.global.jwt.JwtUtil;
+import com.jcraft.jsch.Session;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,6 +46,8 @@ public class ProjectServiceImpl implements ProjectService{
     private final TechStackCustomRepository techStackCustomRepository;
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
+    private final JwtUtil jwtUtil;
+    private final JschUtil jschUtil;
 
     @Override
     public ProjectInfoDto getTeamInfo(int memberId, int projectId) {
@@ -180,5 +181,86 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectRepository.findById(requestDto.getProjectId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
         project.updateRepo(requestDto.getProjectRepo());
         return true;
+    }
+
+    // 프로젝트 입장
+    @Override
+    public ProjectEnterDto enterProject() {
+//        String token = "";
+//        Integer memberId = jwtUtil.getMemberId(token);
+        Integer memberId = 3; // 후에 UUID 변환 후 따로 저장 해놔야됨
+        Integer dbPort = 40000;
+        String repoUrl = "https://github.com/Seungjun-Song/gollajyu"; // 실제 깃허브에서 가져온 repoUrl로 바꿔야 함
+        String repoName = repoUrl.split("/")[repoUrl.split("/").length - 1]; // 사용자가 선택한 repoUrl에서 제일 마지막 부분 추출
+
+        Session session = jschUtil.createSession();
+
+        String isContainerExistsCommand = "docker inspect --format='{{.State.Health.Status}}' code-server-" + memberId;
+        if(!jschUtil.executeCommand(session, isContainerExistsCommand)) {
+            System.out.println("컨테이너 없음");
+            runContainer(session, memberId, dbPort, repoUrl);
+        } else {
+            System.out.println("컨테이너 있음");
+            startContainer(session, memberId);
+        }
+
+        session.disconnect();
+
+        return ProjectEnterDto.builder()
+                .url("https://k10e103.p.ssafy.io/code-server-" + memberId + "/?folder=/home/coder/code-server/" + repoName)
+                .dbPort(dbPort)
+                .build();
+    }
+
+    public void runContainer(Session session, Integer memberId, Integer dbPort, String repoUrl) {
+        String runCommand = "docker run --name code-server-" + memberId + " -d -p :80 -p " + dbPort + ":3306 code-server --bind-addr=0.0.0.0:80";
+        if(!jschUtil.executeCommand(session, runCommand)) {
+            throw new BaseException(StatusCode.CONTAINER_RUN_FAIL);
+        }
+
+        int retryCount = 0;
+        int maxRetryCount = 10; // 최대 10번 시도 (약 10초)
+        String isContainerReadyCommand = "docker inspect --format='{{.State.Health.Status}}' code-server-" + memberId;
+        while (!jschUtil.isContainerReady(session, isContainerReadyCommand) && retryCount < maxRetryCount) {
+            retryCount++;
+        }
+
+        System.out.println(retryCount == maxRetryCount ? "컨테이너가 준비되지 않음" : "컨테이너 준비 완료");
+
+        String nginxUpdateCommand = "sudo python3 nginx_updater.py";
+        if(!jschUtil.executeCommand(session, nginxUpdateCommand)) {
+            throw new BaseException(StatusCode.NGINX_UPDATE_FAIL);
+        }
+
+        String gitCloneCommand = "docker exec code-server-" + memberId + " git clone " + repoUrl;
+        if(!jschUtil.executeCommand(session, gitCloneCommand)) {
+            throw new BaseException(StatusCode.GIT_CLONE_FAIL);
+        }
+
+        String mysqlStartCommand = "docker exec code-server-" + memberId + " /start_mysql.sh";
+        if(!jschUtil.executeCommand(session, mysqlStartCommand)) {
+            throw new BaseException(StatusCode.MYSQL_START_FAIL);
+        }
+    }
+
+    public void startContainer(Session session, Integer memberId) {
+        String startCommand = "docker start code-server-" + memberId;
+        if(!jschUtil.executeCommand(session, startCommand)) {
+            throw new BaseException(StatusCode.CONTAINER_START_FAIL);
+        }
+
+        int retryCount = 0;
+        int maxRetryCount = 10; // 최대 10번 시도 (약 10초)
+        String isContainerReadyCommand = "docker inspect --format='{{.State.Health.Status}}' code-server-" + memberId;
+        while (!jschUtil.isContainerReady(session, isContainerReadyCommand) && retryCount < maxRetryCount) {
+            retryCount++;
+        }
+
+        System.out.println(retryCount == maxRetryCount ? "컨테이너가 준비되지 않음" : "컨테이너 준비 완료");
+
+        String mysqlRestartCommand = "docker exec code-server-" + memberId + " /restart_mysql.sh";
+        if(!jschUtil.executeCommand(session, mysqlRestartCommand)) {
+            throw new BaseException(StatusCode.MYSQL_RESTART_FAIL);
+        }
     }
 }
