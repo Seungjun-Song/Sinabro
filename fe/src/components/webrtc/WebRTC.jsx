@@ -5,7 +5,8 @@ import UserVideoComponent from './UserVideoComponent';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faPhone, faSignOut, faMicrophoneSlash, faPhoneSlash, faHeadphonesSimple } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faSignOut, faHeadphonesSimple } from '@fortawesome/free-solid-svg-icons';
+import getEnv from '../../utils/getEnv';
 
 const NavContainer = styled.div`
     width: 100vw;
@@ -54,6 +55,8 @@ export default function WebRTC() {
     const navigate = useNavigate()
 
     const OV = useRef(new OpenVidu());
+
+    const back_url = getEnv('BACK_URL')
 
     useEffect(() => {
         const joinSession = async () => {
@@ -125,7 +128,7 @@ export default function WebRTC() {
     }, [session, myUserName]);
 
     const leaveSession = useCallback(() => {
-        axios.post('https://k10e103.p.ssafy.io/api/room/exit', {
+        axios.post(`${back_url}/room/exit`, {
             sessionId: sessionId,
             connectionId: tokenId,
         })
@@ -163,8 +166,8 @@ export default function WebRTC() {
     }, []);
 
     const getToken = async () => {
-        const res = await axios.post('https://k10e103.p.ssafy.io/api/room', {
-            projectId: 50
+        const res = await axios.post(`${back_url}/room`, {
+            projectId: 49 // 실제 프로젝트 아이디로 변경해야함
         })
         if (res.data.isSuccess === true) {
             const token = res.data.result.connectionToken
@@ -174,8 +177,8 @@ export default function WebRTC() {
         }
         else {
             try {
-                const response = await axios.post('https://k10e103.p.ssafy.io/api/room/enter', {
-                    projectId: 50
+                const response = await axios.post(`${back_url}/room/enter`, {
+                    projectId: 49 // 실제 프로젝트 아이디로 변경해야함
                 })
                 const token = response.data.result
                 setSessionId(token.match(/sessionId=([^&]+)/)[1])

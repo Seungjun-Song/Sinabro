@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { GlobalColor } from "../../services/color";
+import { useDispatch } from "react-redux";
+import { saveProjectInfo } from "../../store/projectCreateSlice";
 
 const TextArea = styled.textarea`
   margin-top: 2rem;
@@ -19,6 +21,14 @@ const TextArea = styled.textarea`
   }
 `;
 const ProjectInfo = ({ projectinfo, setProjectInfo, isDark }) => {
+
+  const dispatch = useDispatch()
+
+  const settingProjectInfo = (e) => {
+    dispatch(saveProjectInfo(e.target.value))
+    setProjectInfo(e.target.value)
+  }
+
   return (
     <div
       style={{
@@ -44,6 +54,8 @@ const ProjectInfo = ({ projectinfo, setProjectInfo, isDark }) => {
         className="shadow"
         isDark={isDark}
         placeholder="프로젝트에 관한 간단한 설명을 해주세요!"
+        onChange={e => settingProjectInfo(e)}
+        value={projectinfo}
       />
     </div>
   );

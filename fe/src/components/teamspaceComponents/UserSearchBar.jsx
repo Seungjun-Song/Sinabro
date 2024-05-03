@@ -1,4 +1,26 @@
-const UserSearchBar = ({handleChange,userName}) => {
+import axios from "axios";
+import React from "react";
+import getEnv from "../../utils/getEnv";
+import { useDispatch } from "react-redux";
+import { setUserSearch } from "../../store/userSearchSlice";
+
+const UserSearchBar = ({ handleChange, userName }) => {
+
+  const back_url = getEnv('BACK_URL')
+  const dispatch = useDispatch()
+
+  const searchUser = async (w) => {
+    try {
+      const res = await axios.get(`${back_url}/members?keyword=${w}&page=0`)
+      if (res.data.result.searchList) {
+        dispatch(setUserSearch(res.data.result.searchList))
+      }
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <div style={{ position: "relative" }}>
       <input
@@ -17,7 +39,7 @@ const UserSearchBar = ({handleChange,userName}) => {
           outline: "none",
         }}
         value={userName}
-      ></input>
+      />
       <img
         style={{
           height: "1.5rem",
@@ -25,7 +47,9 @@ const UserSearchBar = ({handleChange,userName}) => {
           position: "absolute",
           right: "1rem",
           top: "1.25rem",
+          cursor: 'pointer',
         }}
+        onClick={() => searchUser(userName)}
         src="/images/Search.png"
       />
     </div>
