@@ -14,6 +14,7 @@ import { GlobalColor } from "../services/color";
 import ProjectCreateBtn from "../components/teamspaceComponents/ProjectCreateBtn";
 import { useEffect } from "react";
 import { clearProjectCreate, saveProjectMemberId } from "../store/projectCreateSlice";
+import { clearInvitedUserList } from "../store/invitedUserListSlice";
 
 
 const TeamSpacePage = () => {
@@ -37,6 +38,7 @@ const TeamSpacePage = () => {
     dispatch(saveProjectMemberId()) // 나중에 멤버 아이디 받아서 넣어야함 // 토큰 넣으면 된다고?
     return () => {
       dispatch(clearProjectCreate()) // 언마운트 될 때 프로젝트 생성 정보를 초기화
+      dispatch(clearInvitedUserList())
     }
     
   }, [])
