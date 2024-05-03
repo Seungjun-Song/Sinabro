@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 
 const Mainpage = () => {
   const isDark = useSelector(state =>state.isDark.isDark)
+  const userInfo = useSelector(state => state.user.currentUser);
   // const api = "192.168.30.194:8080";
   // useEffect(() => {
   //   axios
@@ -38,6 +39,7 @@ const Mainpage = () => {
   return (
     <>
       <Navbar />
+      {console.log(userInfo)}
       <motion.div
         className="d-flex"
         initial={{ opacity: 0 }} // 초기 상태에서 opacity를 0으로 설정
