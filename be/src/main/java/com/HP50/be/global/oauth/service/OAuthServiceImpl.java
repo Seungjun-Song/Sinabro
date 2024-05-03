@@ -92,12 +92,14 @@ public class OAuthServiceImpl implements OAuthService{
                 githubUserInfoDto.getEmail(), githubUserInfoDto.getLogin(),
                 githubUserInfoDto.getHtml_url(), githubUserInfoDto.getAvatar_url(),
                 JwtConstants.ACCESS_EXP_TIME);
+
         String refreshToken = jwtUtil.createToken(githubUserInfoDto.getId(),
                 githubUserInfoDto.getEmail(), githubUserInfoDto.getLogin(),
                 githubUserInfoDto.getHtml_url(), githubUserInfoDto.getAvatar_url(),
                 JwtConstants.REFRESH_EXP_TIME * 10);
 
         JwtInfoDto jwtInfoDto = JwtInfoDto.builder()
+                .memberId(githubUserInfoDto.getId())
                 .memberName(githubUserInfoDto.getName())
                 .jwtAccessToken(accessToken)
                 .build();
@@ -112,6 +114,5 @@ public class OAuthServiceImpl implements OAuthService{
 
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(jwtInfoDto));
     }
-
 
 }

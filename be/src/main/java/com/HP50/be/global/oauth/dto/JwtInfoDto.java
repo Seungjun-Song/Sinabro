@@ -7,5 +7,6 @@ import lombok.Data;
 @Builder
 public class JwtInfoDto {
     private String jwtAccessToken;
+    private Integer memberId;
     private String memberName;
 }
