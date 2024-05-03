@@ -1,9 +1,6 @@
 package com.HP50.be.domain.project.service;
 
-import com.HP50.be.domain.project.dto.GitRepoRequestDto;
-import com.HP50.be.domain.project.dto.ProjectCreateRequestDto;
-import com.HP50.be.domain.project.dto.ProjectInfoDto;
-import com.HP50.be.domain.project.dto.TeammateRequestDto;
+import com.HP50.be.domain.project.dto.*;
 
 public interface ProjectService {
     // 프로젝트 정보 확인
@@ -16,4 +13,6 @@ public interface ProjectService {
     boolean deleteTeammate(TeammateRequestDto requestDto);
     // 원격 레포 연결
     boolean updateRepo(GitRepoRequestDto requestDto);
+    // 프로젝트 입장
+    ProjectEnterDto enterProject();
 }
