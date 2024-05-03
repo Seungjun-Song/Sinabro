@@ -125,7 +125,6 @@ public class OAuthServiceImpl implements OAuthService{
             jwtInfoDto.setNewer(true);
         }
 
-
         log.info("--------------------------OAuth 유저 출력 {} --------------------------", nickname);
 
 
