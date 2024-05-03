@@ -17,14 +17,14 @@ public class ProjectController {
     private final ProjectService service;
     // 팀 정보 조회
     @GetMapping
-    private ResponseEntity<Object> getTeamInfo(@RequestParam Integer projectId){
+    public ResponseEntity<Object> getTeamInfo(@RequestParam Integer projectId){
         //header처리 될 때 까지 memberId임시로 1 들어감
         ProjectInfoDto result = service.getTeamInfo(1, projectId);
         return ResponseEntity.ok(new BaseResponse<>(result));
     }
     // 프로젝트 생성
     @PostMapping("/projects")
-    private ResponseEntity<Object> createProject(@RequestBody ProjectCreateRequestDto requestDto){
+    public ResponseEntity<Object> createProject(@RequestBody ProjectCreateRequestDto requestDto){
         int reader = requestDto.getMemberId();
         boolean project = service.createProject(requestDto);
         if(project){
@@ -36,7 +36,7 @@ public class ProjectController {
     //팀원 추가
     // 추후 JWT사용할 시 memberId 비교해서 reader아니면 수정 못하도록 해야함.
     @PostMapping
-    private ResponseEntity<Object> addTeammate(@RequestBody TeammateRequestDto requestDto){
+    public ResponseEntity<Object> addTeammate(@RequestBody TeammateRequestDto requestDto){
         boolean result = service.addTeammate(requestDto);
         if(!result){
             throw new BaseException(StatusCode.FAIL_ADD_TEAMMATE);
@@ -46,7 +46,7 @@ public class ProjectController {
     //팀원 삭제
     // 추후 JWT사용할 시 memberId 비교해서 reader아니면 수정 못하도록 해야함.
     @DeleteMapping
-    private ResponseEntity<Object> deleteTeammate(@RequestBody TeammateRequestDto requestDto){
+    public ResponseEntity<Object> deleteTeammate(@RequestBody TeammateRequestDto requestDto){
         boolean result = service.deleteTeammate(requestDto);
         if(!result){
             throw new BaseException(StatusCode.FAIL_DELETE_TEAMMATE);
@@ -56,7 +56,7 @@ public class ProjectController {
     // 원격 레포 연결
     // 추후 JWT사용할 시 memberId 비교해서 reader아니면 수정 못하도록 해야함.
     @PutMapping
-    private ResponseEntity<Object> updateRepo(@RequestBody GitRepoRequestDto requestDto){
+    public ResponseEntity<Object> updateRepo(@RequestBody GitRepoRequestDto requestDto){
         boolean result = service.updateRepo(requestDto);
         if(!result){
             throw new BaseException(StatusCode.FAIL_UPDATE_REPO);
