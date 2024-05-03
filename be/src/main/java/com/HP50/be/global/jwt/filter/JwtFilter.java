@@ -42,7 +42,8 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final TokenInRedisService tokenInRedisService;
 
-    private static final List<String> PERMIT_URLS = List.of("/users/**", "/login/**", "/auth/**,", "/room/**", "/scan/**");
+//    private static final List<String> PERMIT_URLS = List.of("/users/**", "/login/**", "/auth/**,", "/room/**", "/api/**");
+private static final List<String> PERMIT_URLS = List.of("/**");
 
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
@@ -63,24 +64,34 @@ public class JwtFilter extends OncePerRequestFilter {
             // 토큰이 없다면 null
             String token = jwtUtil.tokenFromRequest(request);
 
+            if(token.isEmpty()) {
+                log.info("토큰이 없는 유저입니다.");
+                filterChain.doFilter(request, response);
+                return;
+            }
+
             // 토큰이 만료되었거나 없다면 토큰 갱신 신청
-            if (jwtUtil.isExpired(token) || token.isEmpty()) {
+            if (jwtUtil.isExpired(token)) {
                 // refreshToken 이 Redis에 남아있다면 로그인 정보를 갱신
-                RedisJwtEntity redisJwtEntity = tokenInRedisService.findByMemberName(token).orElseThrow(() -> new BaseException(StatusCode.TOKEN_NOT_FOUND));
+                RedisJwtEntity redisJwtEntity = tokenInRedisService.findByMemberName(token).orElse(null);
                 // 리프레시 토큰이 레디스에 남아있다면 새로운 토큰으로 갱신
-                if(redisJwtEntity != null){
-
-                    Integer memberId = jwtUtil.getMemberId(token);
-                    String memberEmail = jwtUtil.getEmail(token);
-                    String memberName = jwtUtil.getMemberName(token);
-                    String memberGit = jwtUtil.getMemberGit(token);
-                    String memberImg = jwtUtil.getMemberImg(token);
-
-                    // 만료된 토큰은 새로운 토큰으로 교환
-                    token = jwtUtil.createToken(memberId, memberEmail, memberName, memberGit, memberImg, JwtConstants.ACCESS_EXP_TIME);
-                    response.addCookie(jwtUtil.createCookie(JwtConstants.JWT_HEADER, token));
-                    log.info("토큰 재발급 완료!");
+                if(redisJwtEntity == null){
+                    log.info("토큰이 없는 유저입니다.");
+                    filterChain.doFilter(request, response);
+                    return;
                 }
+
+                Integer memberId = jwtUtil.getMemberId(token);
+                String memberEmail = jwtUtil.getEmail(token);
+                String memberName = jwtUtil.getMemberName(token);
+                String memberGit = jwtUtil.getMemberGit(token);
+                String memberImg = jwtUtil.getMemberImg(token);
+
+                // 만료된 토큰은 새로운 토큰으로 교환
+                token = jwtUtil.createToken(memberId, memberEmail, memberName, memberGit, memberImg, JwtConstants.ACCESS_EXP_TIME);
+                response.addCookie(jwtUtil.createCookie(JwtConstants.JWT_HEADER, token));
+                log.info("토큰 재발급 완료!");
+
             }
 
             JwtPayloadDto jwtPayloadDto = JwtPayloadDto.builder()

@@ -21,7 +21,14 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String memberName;
 
-    @Column(nullable = false)
+    /**
+     * 해당 Email 은 유저가 로그인하는 email 이 아닌
+     * 깃허브 profile 에 노출시킬 email 이다. <br>
+     * 따로 지정을 하지 않은 사람도 많으니 nullable 하게 처리
+     * loadUser 에서 멤버 저장
+     * @see com.HP50.be.global.oauth.CustomOAuth2UserService
+     */
+    @Column
     private String memberEmail;
 
     @Column(nullable = false)
