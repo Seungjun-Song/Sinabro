@@ -2,6 +2,8 @@ import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import styled, { css } from 'styled-components'
 import { motion } from "framer-motion"
+import { useSelector } from "react-redux";
+import { Modal } from 'react-bootstrap';
 
 import Navbar from '../../components/navs/Navbar';
 import CreateMemberPost from './CreateMemberPost';
@@ -24,7 +26,7 @@ const Create = styled.div`
     align-items: center;
     flex-direction: column;
     width: 65%;
-    margin: 4rem auto;
+    margin: 4rem auto 0 auto;
 `
 const Header = styled(motion.div)`
     display: flex;
@@ -81,13 +83,21 @@ const CreatePage = () => {
     const location = useLocation();
     const data = location.state;
 
-    const [selected, setSelected] = useState(data.kind);
-    
-    const isDark = true;
+    const [ selected, setSelected ] = useState(data.kind);
+
+    const [ postContent, setPostContent ] = useState({
+        title: '',
+        content: '',
+        tag: ''
+    });
+
+    const isDark = useSelector(state =>state.isDark.isDark);
 
     const changeOption = (option) => {
         setSelected(option);
     }
+
+
 
     return(
         <>
@@ -122,21 +132,27 @@ const CreatePage = () => {
                 {selected === "member" ? (
                     <CreateMemberPost
                         isDark={isDark}
+                        postContent={postContent}
+                        setPostContent={setPostContent}
                     />
                 ) : ("")}
                 {selected === "team" ? (
                     <CreateTeamPost
                         isDark={isDark}
+                        postContent={postContent}
+                        setPostContent={setPostContent}
+                        
                     />
                 ) : ("")}
                 {selected === "feadback" ? (
                     <CreateFeadbackPost
                         isDark={isDark}
+                        postContent={postContent}
+                        setPostContent={setPostContent}
                     />
                 ) : ("")}
             </Create>
             </Back>
-
         </>
     )
 }

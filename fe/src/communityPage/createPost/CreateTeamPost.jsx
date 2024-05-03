@@ -132,15 +132,25 @@ const headerMotion = {
     transition: { duration: 0.3 }
 }
 
-const CreateTeamPost = ({ isDark }) => {
+const CreateTeamPost = ({ isDark, postContent, setPostContent }) => {
     const navigate = useNavigate();
-
-    const [content, setContent] = useState();
 
     const submit = () =>{
         //TODO: axios 게시물 저장
 
         navigate('/communityMainPage', {state: {kind: "team"}});
+    }
+
+    const onChangeTitle = (e) =>{
+        setPostContent((prevState) => {
+            return{...prevState, title: e.target.value}
+        });
+    }
+
+    const onChangeTag = (e) => {
+        setPostContent((prevState) => {
+            return{...prevState, tag: e.target.value}
+        })
     }
 
     return(
@@ -150,19 +160,23 @@ const CreateTeamPost = ({ isDark }) => {
             >
                 <Title
                     placeholder='제목을 입력하세요'
+                    value={postContent.title}
+                    onChange={onChangeTitle}
                     isDark={isDark}>
                 </Title>
             </Header>
 
             <Content>
                 <CkEditor
-                    setContent={setContent}
+                    postContent={postContent}
+                    setPostContent={setPostContent}
                     isDark={isDark}
                 />
                 <Tag
                     placeholder='표현하고 싶은 태그를 입력해주세요 ! 태그는 스페이스로 구분됩니다. 😃'
+                    value={postContent.tag}
+                    onChange={onChangeTag}
                     isDark={isDark}>
-
                 </Tag>
             </Content>
 

@@ -131,15 +131,25 @@ const headerMotion = {
     transition: { duration: 0.3 }
 }
 
-const CreateFeadbackPost = ({ isDark }) => {
+const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
     const navigate = useNavigate();
-
-    const [content, setContent] = useState();
 
     const submit = () =>{
         //TODO: axios 게시물 저장
 
         navigate('/communityMainPage', {state: {kind: "feadback"}});
+    }
+
+    const onChangeTitle = (e) =>{
+        setPostContent((prevState) => {
+            return{...prevState, title: e.target.value}
+        });
+    }
+
+    const onChangeTag = (e) => {
+        setPostContent((prevState) => {
+            return{...prevState, tag: e.target.value}
+        })
     }
 
     return(
@@ -149,6 +159,8 @@ const CreateFeadbackPost = ({ isDark }) => {
             >
                 <Title
                     placeholder='제목을 입력하세요'
+                    value={postContent.title}
+                    onChange={postContent.title}
                     isDark={isDark}
                     >
                 </Title>
@@ -156,12 +168,15 @@ const CreateFeadbackPost = ({ isDark }) => {
 
             <Content>
                 <CkEditor
-                    setContent={setContent}
+                    postContent={postContent}
+                    setPostContent={setPostContent}
                     isDark={isDark}
                 />
 
                 <Tag
                     placeholder='프로젝트와 관련된 태그를 입력해주세요 ! 태그는 스페이스로 구분됩니다. 😃'
+                    value={postContent.tag}
+                    onChange={onChangeTag}
                     isDark={isDark}
                     >
 

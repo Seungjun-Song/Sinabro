@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 import Navbar from "../../components/navs/Navbar";
 import SideMenu from '../SideMenu';
@@ -27,7 +28,7 @@ const CommunityMainPage = () => {
     const location = useLocation();
     const data = location.state;
 
-    const isDark = true;
+    const isDark = useSelector(state =>state.isDark.isDark);
 
     const [selected, setSelected] = useState(data.kind);
     return (

@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 import Navbar from '../../components/navs/Navbar';
 import DetailSideMenu from './DetailSideMenu';
@@ -31,7 +32,7 @@ const DetailMainPage = () => {
 
     const [selected, setSelected] = useState(data.kind);
 
-    const isDark = true;
+    const isDark = useSelector(state =>state.isDark.isDark);
 
     return (
         <>
