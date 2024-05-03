@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 
 const Mainpage = () => {
   const isDark = useSelector(state =>state.isDark.isDark)
+  const userInfo = useSelector(state => state.user.currentUser);
   // const api = "192.168.30.194:8080";
   // useEffect(() => {
   //   axios
