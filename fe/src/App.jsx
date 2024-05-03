@@ -16,6 +16,8 @@ import TeamSpacePage from "./teamspacePage/TeamSpacePage";
 import CommunityMainPage from "./communityPage/communityList/CommunityMainPage";
 import CreatePost from "./communityPage/createPost/CreatePage";
 import DetailMainPage from "./communityPage/communityDetail/DetailMainPage";
+import OauthTest from "./oauthTestPage/OauthTest";
+import Callback from "./oauthTestPage/Callback";
 
 import WebRTC from "./components/webrtc/WebRTC";
 
@@ -70,8 +72,13 @@ const App = () => {
 
 
 
+
       
       <Route path="/boarding" element={<BoardingPage/>} />
+
+      <Route path="/oauthTest" element={<OauthTest />} />
+      <Route path="/callback" element={<Callback />} />
+
     </Routes>
   );
 };
