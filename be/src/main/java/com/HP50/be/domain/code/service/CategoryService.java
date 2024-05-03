@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bb3223f4707192fe27470fe9d7676c6ae99ac6b892c414f44b4fd0469116fbee
-size 309
+package com.HP50.be.domain.code.service;
+
+import com.HP50.be.domain.code.dto.CategoryRequestDto;
+import com.HP50.be.global.common.BaseResponse;
+import org.springframework.http.ResponseEntity;
+
+public interface CategoryService {
+    ResponseEntity<BaseResponse<?>> savePersonalDuty(CategoryRequestDto dto);
+
+}

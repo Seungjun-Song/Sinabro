@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c7420e4b3f4e8b99ee6b37d7d4d13672dd29c265fcb6c8527950e250a1b3ec98
-size 610
+package com.HP50.be.domain.project.service;
+
+import com.HP50.be.domain.project.dto.*;
+
+public interface ProjectService {
+    // 프로젝트 정보 확인
+    ProjectInfoDto getTeamInfo(int memberId, int projectId);
+    // 프로젝트 생성
+    boolean createProject(ProjectCreateRequestDto requestDto);
+    // 팀원 추가
+    boolean addTeammate(TeammateRequestDto requestDto);
+    // 팀원 삭제
+    boolean deleteTeammate(TeammateRequestDto requestDto);
+    // 원격 레포 연결
+    boolean updateRepo(GitRepoRequestDto requestDto);
+    // 프로젝트 입장
+    ProjectEnterDto enterProject();
+}
