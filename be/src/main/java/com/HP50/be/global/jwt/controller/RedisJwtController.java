@@ -1,6 +1,5 @@
 package com.HP50.be.global.jwt.controller;
 
-import com.HP50.be.global.jwt.entity.RedisJwtEntity;
 import com.HP50.be.global.jwt.service.TokenInRedisService;
 import com.HP50.be.global.oauth.CustomOAuth2MemberDto;
 import lombok.RequiredArgsConstructor;
