@@ -121,7 +121,13 @@ public class OAuthServiceImpl implements OAuthService{
         // 깃허브에서 제공하는 id 를 우리 서버의 memberId로 저장
         Member member = memberRepository.findById(memberId).orElse(null);
         if(member != null) {
-            memberRepository.save(member);
+            memberRepository.save(Member.builder()
+                    .memberId(memberId)
+                    .memberName(nickname)
+                    .memberEmail(email)
+                    .memberImg(memberImg)
+                    .memberGit(memberGit)
+                    .build());
             jwtInfoDto.setNewer(true);
         }
 
