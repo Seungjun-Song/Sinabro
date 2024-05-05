@@ -88,6 +88,8 @@ const Posts = ({kind, isDark}) => {
             </>
         ))}
         </List>
+
+        
     )
 }
 
