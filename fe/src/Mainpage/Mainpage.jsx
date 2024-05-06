@@ -8,7 +8,7 @@ import UserChat from "../components/Userchat/UserChat";
 import Navbar from "../components/navs/Navbar";
 import data from "./data";
 // import "./styles.css";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useIsPresent } from "framer-motion";
 import { useEffect } from "react";
 import { GlobalColor } from "../services/color";
 import { useSelector } from "react-redux";
@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 const Mainpage = () => {
   const isDark = useSelector(state =>state.isDark.isDark)
   const userInfo = useSelector(state => state.user.currentUser);
+  const isPresent = useIsPresent();
   // const api = "192.168.30.194:8080";
   // useEffect(() => {
   //   axios
@@ -62,6 +63,14 @@ const Mainpage = () => {
         </div>
       </motion.div>
       <UserChat />
+      {/* <motion.div
+        initial={{ scaleX: 1 }}
+        animate={{ scaleX: 0, transition: { duration: 0.5, ease: "circOut" } }}
+        exit={{ scaleX: 1, transition: { duration: 0.5, ease: "circIn" } }}
+        style={{ originX: isPresent ? 0 : 1 }}
+        className="privacy-screen"
+      /> */}
+
     </>
   );
 };

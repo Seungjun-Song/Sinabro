@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import app from "./firebase";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate, useRoutes } from "react-router-dom";
 import LoginPage from "./loginPage/LoginPage";
 import RegisterPage from "./registerPage/RegisterPage";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -27,6 +27,7 @@ import Mainpage from "./Mainpage/Mainpage";
 import ProjectPage from "./projectPage/ProjectPage";
 import { Calender } from "./components/calender/Calender";
 import BoardingPage from "./boardingPage/BoardingPage";
+import { AnimatePresence } from "framer-motion";
 const api = "https://k10e103.p.ssafy.io/"
 const App = () => {
   const dispatch = useDispatch();
@@ -51,8 +52,22 @@ const App = () => {
   //     unsubscribe();
   //   };
   // }, []);
-
+//   const element = useRoutes([
+//     {
+//       path:"/boarding",
+//       element :<BoardingPage/>,
+//     },
+//     {
+//       path:"/Mainpage",
+//       element :<Mainpage/>,
+//     }
+//   ])
+//   <AnimatePresence mode="wait" >
+//   {React.cloneElement(element, { key: location.pathname })}
+// </AnimatePresence>
+  const location = useLocation();
   return (
+   
     <Routes>
       <Route path='/login' element={<LoginPage/>}/>
       <Route path='/register' element={<RegisterPage/>}/>
