@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
-const Section2 = () => {
+const Section2 = ({ section2Ref }) => {
   const [currentSlideNumber, setCurrentSlideNumber] = useState(1);
   const settings = {
     dots: false,
@@ -17,12 +17,13 @@ const Section2 = () => {
     speed: 1500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 3000,
     autoplay: true,
   };
   return (
     <>
       <div
+        ref={section2Ref}
         style={{
           width: "95%",
           height: "100vh",
@@ -30,7 +31,7 @@ const Section2 = () => {
           justifyContent: "space-between",
           alignItems: "center",
           position: "relative",
-          marginBottom:"10rem",
+          marginBottom: "10rem",
         }}
       >
         <motion.div

@@ -132,7 +132,7 @@ const Section1 = () => {
         <motion.div
           animate={{ opacity: 1 }}
           initial={{ opacity: 0 }}
-          exit={{ opacity: 0 }}
+          // exit={{ opacity: 0 }}
           transition={{ duration: 0.3, delay: 0.2 }}
           style={{
             position: "absolute",
@@ -148,7 +148,7 @@ const Section1 = () => {
         <motion.div
           animate={{ opacity: 1 }}
           initial={{ opacity: 0 }}
-          exit={{ opacity: 0 }}
+          // exit={{ opacity: 0 }}
           transition={{ duration: 0.3, delay: 0.2 }}
           style={{
             position: "absolute",
@@ -164,7 +164,7 @@ const Section1 = () => {
         <motion.div
           animate={{ opacity: 1 }}
           initial={{ opacity: 0 }}
-          exit={{ opacity: 0 }}
+          // exit={{ opacity: 0 }}
           transition={{ duration: 0.3, delay: 0.6 }}
           style={{
             position: "absolute",
@@ -180,7 +180,7 @@ const Section1 = () => {
         <motion.div
           animate={{ opacity: 1 }}
           initial={{ opacity: 0 }}
-          exit={{ opacity: 0 }}
+          // exit={{ opacity: 0 }}
           transition={{ duration: 0.3, delay: 0.4 }}
           style={{
             position: "absolute",
@@ -196,7 +196,7 @@ const Section1 = () => {
         <motion.div
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 10 }}
-          exit={{ opacity: 0 }}
+          // exit={{ opacity: 0 }}
           transition={{ duration: 0.2, delay: 1 }}
         >
           <div style={{ display: "flex", fontSize: "5rem", gap: "1rem" }}>
@@ -214,7 +214,7 @@ const Section1 = () => {
         <motion.div
           animate={{ opacity: 1,y:0 }}
           initial={{ opacity: 0 ,y:10}}
-          exit={{ opacity: 0 }}
+          // exit={{ opacity: 0 }}
           transition={{ duration: 0.3, delay: 1.2 }}
           style={{
             display: "flex",

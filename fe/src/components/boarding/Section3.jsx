@@ -2,7 +2,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-const Section3 = () => {
+const Section3 = ({ section3Ref }) => {
   const [isHover, setIsHover] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const imglist = [
@@ -23,11 +23,19 @@ const Section3 = () => {
 
     return () => clearInterval(intervalId); // 컴포넌트가 언마운트되면 인터벌 제거
   }, []);
+  const cardVariants = {
+    offscreen: {
+      opacity: 0,
+    },
+    onscreen: {
+      opacity: 1,
+    },
+  };
   return (
     <>
       <motion.div
-        whileInView={{opacity:1}}
-        initial={{opacity:0}}
+        ref={section3Ref}
+        variants={cardVariants}
         style={{
           justifyContent: "center",
           alignItems: "center",
@@ -40,7 +48,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.7 }}
           style={{
             // zIndex: -1,
@@ -55,7 +63,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 2 }}
           style={{ zindex: -1, position: "absolute", top: "80%", left: "60%" }}
           src="/images/choi.png"
@@ -63,7 +71,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.9 }}
           style={{
             width: "7rem",
@@ -78,7 +86,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 1 }}
           style={{
             zindex: -1,
@@ -93,7 +101,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.7 }}
           style={{ zindex: -1, position: "absolute", top: "80%", left: "50%" }}
           src="/images/githublogo.png"
@@ -101,7 +109,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 1 }}
           style={{
             zindex: -1,
@@ -116,7 +124,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 1.1 }}
           style={{
             zindex: -1,
@@ -130,7 +138,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.7 }}
           style={{
             zindex: -1,
@@ -144,7 +152,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.9 }}
           style={{
             zindex: -1,
@@ -159,7 +167,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.6 }}
           style={{
             zindex: -1,
@@ -173,7 +181,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.6 }}
           style={{ zindex: -1, position: "absolute", top: "10%", left: "60%" }}
           src="/images/park.png"
@@ -181,7 +189,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 1.1 }}
           style={{ zindex: -1, position: "absolute", top: "68%", left: "50%" }}
           src="/images/park1.png"
@@ -189,7 +197,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.6 }}
           style={{
             zindex: -1,
@@ -204,7 +212,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.7 }}
           style={{
             zindex: -1,
@@ -219,7 +227,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.6 }}
           style={{ zindex: -1, position: "absolute", top: "13%", left: "80%" }}
           src="/images/song.png"
@@ -227,7 +235,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.9 }}
           style={{
             zindex: -1,
@@ -242,7 +250,7 @@ const Section3 = () => {
         <motion.img
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 0.6 }}
           style={{
             width: "5rem",
@@ -257,7 +265,7 @@ const Section3 = () => {
         <motion.div
           animate={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -5 }}
+          // exit={{ opacity: 0, y: -5 }}
           transition={{ duration: 0.3, delay: 1.3 }}
           style={{
             position: "absolute",
@@ -273,7 +281,7 @@ const Section3 = () => {
         <motion.div
           animate={{ opacity: 1 }}
           initial={{ opacity: 0 }}
-          exit={{ opacity: 0 }}
+          // exit={{ opacity: 0 }}
           transition={{ duration: 0.3, delay: 1.3 }}
           style={{
             position: "absolute",
@@ -301,7 +309,7 @@ const Section3 = () => {
               <motion.h1
                 animate={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: 20 }}
-                exit={{ opacity: 0, y: -5 }}
+                // exit={{ opacity: 0, y: -5 }}
                 transition={{ duration: 0.3, delay: 1.3 }}
                 style={{
                   fontSize: "3rem",
@@ -314,7 +322,7 @@ const Section3 = () => {
               <motion.img
                 animate={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: 20 }}
-                exit={{ opacity: 0, y: -5 }}
+                // exit={{ opacity: 0, y: -5 }}
                 transition={{ duration: 0.3, delay: 1.5 }}
                 src="/images/up.png"
                 style={{ width: "4.5rem", height: "5rem" }}
@@ -323,7 +331,7 @@ const Section3 = () => {
             <motion.h1
               animate={{ opacity: 1, y: 0 }}
               initial={{ opacity: 0, y: 20 }}
-              exit={{ opacity: 0, y: -5 }}
+              // exit={{ opacity: 0, y: -5 }}
               transition={{ duration: 0.3, delay: 1.5 }}
               style={{ fontSize: "3rem", fontWeight: "bold" }}
             >
@@ -332,7 +340,7 @@ const Section3 = () => {
             <motion.div
               animate={{ opacity: 1, y: 0 }}
               initial={{ opacity: 0, y: 20 }}
-              exit={{ opacity: 0, y: -5 }}
+              // exit={{ opacity: 0, y: -5 }}
               transition={{ duration: 0.3, delay: 1.7 }}
               style={{ fontSize: "1rem" }}
             >
@@ -341,7 +349,7 @@ const Section3 = () => {
             <motion.div
               animate={{ opacity: 1, y: 0 }}
               initial={{ opacity: 0, y: 20 }}
-              exit={{ opacity: 0, y: -5 }}
+              // exit={{ opacity: 0, y: -5 }}
               transition={{ duration: 0.3, delay: 1.9 }}
               style={{
                 marginTop: "2rem",
@@ -361,7 +369,7 @@ const Section3 = () => {
             <motion.div
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
-              exit={{ opacity: 0 }}
+              // exit={{ opacity: 0 }}
               transition={{ duration: 0.3, delay: 2.1 }}
               onHoverStart={() => setIsHover(true)}
               onHoverEnd={() => setIsHover(false)}
@@ -390,7 +398,7 @@ const Section3 = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0 }}
+            // exit={{ opacity: 0 }}
             transition={{ delay: 2.3 }}
             style={{
               width: "50%",
@@ -422,9 +430,9 @@ const Section3 = () => {
                 src={imglist[currentIndex]}
                 key={imglist[currentIndex]}
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1, x: 0 }}
+                animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.4 }}
               />
             </AnimatePresence>
           </motion.div>

@@ -41,7 +41,7 @@ const Section4 = () => {
             backgroundColor: "#bb19d4",
           }}
         ></motion.div>
-              <motion.div
+        <motion.div
           animate={{ opacity: 1 }}
           initial={{ opacity: 0 }}
           exit={{ opacity: 0 }}
@@ -57,7 +57,7 @@ const Section4 = () => {
             backgroundColor: "#198fd4",
           }}
         ></motion.div>
-         <motion.div
+        <motion.div
           animate={{ opacity: 1 }}
           initial={{ opacity: 0 }}
           exit={{ opacity: 0 }}
