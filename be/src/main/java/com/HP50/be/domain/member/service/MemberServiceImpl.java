@@ -63,6 +63,7 @@ public class MemberServiceImpl implements MemberService {
 
 
         ProfileResponseDto profileResponseDto = ProfileResponseDto.builder()
+                .memberId(memberId)
                 .nickname(member.getMemberName())
                 .memberEmail(member.getMemberEmail())
                 .memberImg(member.getMemberImg())

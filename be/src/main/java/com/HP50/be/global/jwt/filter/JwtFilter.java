@@ -43,16 +43,14 @@ public class JwtFilter extends OncePerRequestFilter {
     private final TokenInRedisService tokenInRedisService;
 
 //    private static final List<String> PERMIT_URLS = List.of("/users/**", "/login/**", "/auth/**,", "/room/**", "/api/**");
-private static final List<String> PERMIT_URLS = List.of("/**");
+private static final List<String> PERMIT_URLS = List.of("/**", "/swagger-ui/**");
 
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getServletPath();
-        log.info("PERMIT_URLS에 해당되면 InternalFilter 를 거치지 않음 {}", path);
         return PERMIT_URLS.stream()
-                .anyMatch(exclude -> pathMatcher.match(exclude, path));
+                .anyMatch(exclude -> pathMatcher.match(exclude, request.getServletPath()));
     }
 
     // 인증이나 권한이 필요한 주소요청이 있을 때 해당 필터를 타게 됨.
