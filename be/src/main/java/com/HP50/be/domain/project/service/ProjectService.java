@@ -1,6 +1,10 @@
 package com.HP50.be.domain.project.service;
 
 import com.HP50.be.domain.project.dto.*;
+import com.HP50.be.domain.project.entity.Project;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 public interface ProjectService {
     // 프로젝트 정보 확인
@@ -15,4 +19,6 @@ public interface ProjectService {
     boolean updateRepo(GitRepoRequestDto requestDto);
     // 프로젝트 입장
     ProjectEnterDto enterProject();
+
+    ResponseEntity<?> getProjectListInMember(String token);
 }

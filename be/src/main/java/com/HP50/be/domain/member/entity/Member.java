@@ -45,6 +45,9 @@ public class Member extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @OneToMany(mappedBy = "member")
+    private List<Teammate> teammates = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "member")
+    private List<TechStack> techStacks = new ArrayList<>();
 }
