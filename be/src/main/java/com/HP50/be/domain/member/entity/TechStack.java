@@ -1,8 +1,7 @@
 package com.HP50.be.domain.member.entity;
 
 import com.HP50.be.domain.code.entity.SubCategory;
-import com.HP50.be.domain.project.entity.PjtTechStack;
-import com.HP50.be.domain.project.entity.Teammate;
+import com.HP50.be.domain.member.dto.TechStackResponseDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,4 +28,8 @@ public class TechStack {
     @Column(length = 50)
     private String subCategoryName;
 
+
+    public TechStackResponseDto toResponseDto(Member member){
+        return null;
+    }
 }

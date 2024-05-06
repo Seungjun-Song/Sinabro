@@ -17,6 +17,7 @@ import com.HP50.be.domain.project.repository.PjtTechStackRepository;
 import com.HP50.be.domain.project.repository.ProjectCustomRepository;
 import com.HP50.be.domain.project.repository.ProjectRepository;
 import com.HP50.be.domain.project.repository.TeammateRepository;
+import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.JschUtil;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
@@ -24,6 +25,8 @@ import com.HP50.be.global.jwt.JwtUtil;
 import com.jcraft.jsch.Session;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -210,6 +213,22 @@ public class ProjectServiceImpl implements ProjectService{
                 .url("https://k10e103.p.ssafy.io/code-server-" + memberId + "/?folder=/home/coder/code-server/" + repoName)
                 .dbPort(dbPort)
                 .build();
+    }
+
+    @Override
+    public ResponseEntity<?> getProjectListInMember(String token) {
+        Member member = memberRepository.findById(jwtUtil.getMemberId(token)).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
+        List<ProjectListResponseDto> projectListResponseDtos = member.getTeammates().stream()
+                .map(project -> ProjectListResponseDto.builder()
+                        .projectId(project.getProject().getProjectId())
+                        .projectName(project.getProject().getProjectName())
+                        .projectInfo(project.getProject().getProjectInfo())
+                        .projectImg(project.getProject().getProjectImg())
+                        .projectRepo(project.getProject().getProjectRepo())
+                        .subCategory(project.getProject().getSubCategory())
+                        .build())
+                .toList();
+        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(projectListResponseDtos));
     }
 
     public void runContainer(Session session, Integer memberId, Integer dbPort, String repoUrl) {
