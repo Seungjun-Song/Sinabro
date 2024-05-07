@@ -1,5 +1,6 @@
 package com.HP50.be.domain.community.controller;
 
+import com.HP50.be.domain.community.dto.BoardFilterRequestDto;
 import com.HP50.be.domain.community.dto.BoardInsertRequestDto;
 import com.HP50.be.domain.community.service.BoardService;
 import com.HP50.be.global.jwt.JwtConstants;
@@ -28,6 +29,12 @@ public class BoardController {
     public ResponseEntity<?> insertBoard(@CookieValue(JwtConstants.JWT_HEADER) String token,
                                          @RequestBody BoardInsertRequestDto boardInsertRequestDto){
         return boardService.insertBoard(token, boardInsertRequestDto);
+    }
+
+    @Operation(summary = "게시글 가져오기")
+    @GetMapping
+    public ResponseEntity<?> findByConditons(@RequestBody BoardFilterRequestDto boardFilterRequestDto){
+        return boardService.findByConditions(boardFilterRequestDto);
     }
 
 }

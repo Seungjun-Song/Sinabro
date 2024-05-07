@@ -1,9 +1,13 @@
 package com.HP50.be.domain.community.service;
 
+import com.HP50.be.domain.code.dto.SubCategoryResponseDto;
 import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.code.service.SubCategoryService;
+import com.HP50.be.domain.community.dto.BoardFilterRequestDto;
 import com.HP50.be.domain.community.dto.BoardInsertRequestDto;
+import com.HP50.be.domain.community.dto.BoardListResponseDto;
 import com.HP50.be.domain.community.entity.Board;
+import com.HP50.be.domain.community.repository.BoardCustomRepository;
 import com.HP50.be.domain.community.repository.BoardRepository;
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.member.repository.MemberRepository;
@@ -19,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
@@ -26,9 +33,8 @@ public class BoardServiceImpl implements BoardService {
     private final SubCategoryService subCategoryService;
     private final ProjectRepository projectRepository;
     private final MemberRepository memberRepository;
+    private final BoardCustomRepository boardCustomRepository;
     private final JwtUtil jwtUtil;
-
-
 
     @Override
     public ResponseEntity<?> insertBoard(String token, BoardInsertRequestDto boardInsertRequestDto) {
@@ -40,18 +46,48 @@ public class BoardServiceImpl implements BoardService {
         return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
+    @Override
+    public ResponseEntity<?> findBoard(String token, BoardFilterRequestDto boardFilterRequestDto) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<?> findByConditions(BoardFilterRequestDto boardFilterRequestDto) {
+        List<Board> boards = boardCustomRepository.findByConditions(boardFilterRequestDto);
+        List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>();
+
+
+        for(Board board: boards){
+
+            BoardListResponseDto boardListResponseDto = BoardListResponseDto.builder()
+                    .boardId(board.getBoardId())
+                    .memberName(board.getMember().getMemberName())
+                    .boardTitle(board.getBoardTitle())
+                    .boardContent(board.getBoardContent())
+                    .communityProgress(board.isCommunityProgress())
+                    .createdDttm(board.getCreatedDttm())
+                    .updatedDttm(board.getUpdatedDttm())
+                    .build();
+
+            boardListResponseDtos.add(boardListResponseDto);
+        }
+
+        return ResponseEntity.ok().body(new BaseResponse<>(boardListResponseDtos));
+    }
+
     public Board transferToBoard(String token, BoardInsertRequestDto boardInsertRequestDto){
         Integer memberId = jwtUtil.getMemberId(token);
         // board 가 0 이라면 save
         // 0 이 아니라면 update 분기처리
         Integer boardId = boardInsertRequestDto.getBoardId();
-        SubCategory subCategory = subCategoryService.findById(boardInsertRequestDto.getProjectId());
+        SubCategory subCategory = subCategoryService.findById(boardInsertRequestDto.getSubCategoryId());
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         Project project = projectRepository.findById(boardInsertRequestDto.getProjectId())
                 .orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
 
         String toJson = new Gson().toJson(boardInsertRequestDto.getBoardTag()) ;
+
 
         // builder 패턴 진행 중에 boardId 를 넣어주고와 넣어주지 않음의 차이
         if(boardId == 0) return Board.builder()
@@ -66,7 +102,7 @@ public class BoardServiceImpl implements BoardService {
                 .build();
 
         else return Board.builder()
-                .boardId(boardInsertRequestDto.getBoardId())
+                .boardId(boardInsertRequestDto.getBoardId()) // 여기서 update 함을 처리
                 .member(member)
                 .boardTitle(boardInsertRequestDto.getBoardTitle())
                 .boardContent(boardInsertRequestDto.getBoardContent())
