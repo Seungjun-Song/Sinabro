@@ -1,32 +1,33 @@
 import { motion } from "framer-motion";
 import ProjectInviteImg from "./ProjectInviteImg";
 import { GlobalColor } from "../../services/color";
-const DUMMY_DATA = [
-  {
-    id: 1,
-    img: "/images/pjtimg.png",
-    name: "주헌",
-    nameId: "JH201421228",
-  },
-  {
-    id: 2,
-    img: "/images/pjtimg.png",
-    name: "주헌",
-    nameId: "JH201421228",
-  },
-  {
-    id: 3,
-    img: "/images/pjtimg.png",
-    name: "주헌",
-    nameId: "JH201421228",
-  },
-  {
-    id: 4,
-    img: "/images/pjtimg.png",
-    name: "주헌",
-    nameId: "JH201421228",
-  },
-];
+import { useSelector } from "react-redux";
+// const DUMMY_DATA = [
+//   {
+//     id: 1,
+//     img: "/images/pjtimg.png",
+//     name: "주헌",
+//     nameId: "JH201421228",
+//   },
+//   {
+//     id: 2,
+//     img: "/images/pjtimg.png",
+//     name: "주헌",
+//     nameId: "JH201421228",
+//   },
+//   {
+//     id: 3,
+//     img: "/images/pjtimg.png",
+//     name: "주헌",
+//     nameId: "JH201421228",
+//   },
+//   {
+//     id: 4,
+//     img: "/images/pjtimg.png",
+//     name: "주헌",
+//     nameId: "JH201421228",
+//   },
+// ];
 
 const ProjectInvite = ({
   hadlebutton,
@@ -34,6 +35,9 @@ const ProjectInvite = ({
   setIsModalOpen,
   isDark,
 }) => {
+
+  const invitedUserList = useSelector(state => state.invitedUserList.value)
+
   return (
     <div
       style={{
@@ -68,12 +72,13 @@ const ProjectInvite = ({
           // overflowX:"auto",
         }}
       >
-        {DUMMY_DATA.map((item, index) => (
+        {invitedUserList.map((item, index) => (
           <ProjectInviteImg
             isDark={isDark}
-            img={item.img}
-            name={item.name}
-            nameId={item.nameId}
+            img={item.memberImg}
+            name={item.memberName}
+            nameId={item.memberId}
+            idx={index}
           />
         ))}
 

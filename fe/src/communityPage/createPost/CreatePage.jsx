@@ -12,6 +12,7 @@ import CreateFeadbackPost from './CreateFeadbackPost';
 import TeamChoiceBox from './TeamChoiceBox';
 
 import { GlobalColor } from '../../services/color';
+import { useSelector } from 'react-redux';
 
 const Back = styled.div`
     height: 100%;
@@ -103,7 +104,7 @@ const CreatePage = () => {
         <>
             <Navbar>
             </Navbar>
-            <Back isDark={isDark}>
+            <Back style={{transition:"0.3s"}} isDark={isDark}>
             <Create
                 isDark={isDark}
             >

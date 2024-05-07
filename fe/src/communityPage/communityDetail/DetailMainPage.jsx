@@ -9,6 +9,7 @@ import DetailMember from './DetailMember';
 import DetailTeam from './DetailTeam';
 import DetailFeadback from './DetailFeadback';
 import { GlobalColor } from '../../services/color';
+import { useSelector } from 'react-redux';
 
 const Community = styled.div`
     display: flex;
