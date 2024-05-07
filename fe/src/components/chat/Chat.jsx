@@ -25,7 +25,7 @@ const Chat = () => {
     const currentTime = new Date().toISOString()
     const [beforeUser, setBeforeUser] = useState("")
 
-    const isDark = useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state =>state.isDark.isDark)
 
     useEffect(() => {
         // Firebase Realtime Database에서 채팅 메시지를 가져와서 설정합니다.

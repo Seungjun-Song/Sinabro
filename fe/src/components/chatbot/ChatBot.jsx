@@ -26,7 +26,7 @@ const ChatBot = () => {
         dangerouslyAllowBrowser: true,
     });
 
-    const isDark = useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state =>state.isDark.isDark)
 
     useEffect(() => {
         // Fetch chat history from Firebase Realtime Database
