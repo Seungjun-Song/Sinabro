@@ -28,10 +28,23 @@ public class BoardServiceImpl implements BoardService {
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
 
+
+
     @Override
     public ResponseEntity<?> insertBoard(String token, BoardInsertRequestDto boardInsertRequestDto) {
-        Integer memberId = jwtUtil.getMemberId(token);
 
+        Board board = this.transferToBoard(token, boardInsertRequestDto);
+        // 기존에 존재하는 엔티티라면 update
+        // 존재하지 않았던 엔티티라면 save
+        boardRepository.save(board);
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
+    }
+
+    public Board transferToBoard(String token, BoardInsertRequestDto boardInsertRequestDto){
+        Integer memberId = jwtUtil.getMemberId(token);
+        // board 가 0 이라면 save
+        // 0 이 아니라면 update 분기처리
+        Integer boardId = boardInsertRequestDto.getBoardId();
         SubCategory subCategory = subCategoryService.findById(boardInsertRequestDto.getProjectId());
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
@@ -40,7 +53,8 @@ public class BoardServiceImpl implements BoardService {
 
         String toJson = new Gson().toJson(boardInsertRequestDto.getBoardTag()) ;
 
-        Board board = Board.builder()
+        // builder 패턴 진행 중에 boardId 를 넣어주고와 넣어주지 않음의 차이
+        if(boardId == 0) return Board.builder()
                 .member(member)
                 .boardTitle(boardInsertRequestDto.getBoardTitle())
                 .boardContent(boardInsertRequestDto.getBoardContent())
@@ -51,8 +65,18 @@ public class BoardServiceImpl implements BoardService {
                 .subCategory(subCategory)
                 .build();
 
-        boardRepository.save(board);
+        else return Board.builder()
+                .boardId(boardInsertRequestDto.getBoardId())
+                .member(member)
+                .boardTitle(boardInsertRequestDto.getBoardTitle())
+                .boardContent(boardInsertRequestDto.getBoardContent())
+                .boardTag(toJson)
+                .boardImg(boardInsertRequestDto.getBoardImg())
+                .communityProgress(true)
+                .project(project)
+                .subCategory(subCategory)
+                .build();
 
-        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
+
 }
