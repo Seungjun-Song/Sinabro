@@ -43,6 +43,7 @@ const wordlist = [
       "개발ㅈ",
       "개발",
       "개",
+      "",
     ],
   },
   {
@@ -65,6 +66,7 @@ const wordlist = [
       "프로젝",
       "프로",
       "프",
+      "",
     ],
   },
   {
@@ -85,6 +87,7 @@ const wordlist = [
       "팀워ㅋ",
       "팀워",
       "팀",
+      "",
     ],
   },
 ];
@@ -212,8 +215,8 @@ const Section1 = () => {
           <h5 style={{ marginTop: "3rem" }}>#개발자 #뉴비 #팀워크 #프로젝트</h5>
         </motion.div>
         <motion.div
-          animate={{ opacity: 1,y:0 }}
-          initial={{ opacity: 0 ,y:10}}
+          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 10 }}
           // exit={{ opacity: 0 }}
           transition={{ duration: 0.3, delay: 1.2 }}
           style={{
