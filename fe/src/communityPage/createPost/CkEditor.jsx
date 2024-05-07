@@ -33,7 +33,7 @@ const StyledEditor = styled.div`
   `}
 `;
 
-const CkEditor = ({ setContent, isDark }) => {
+const CkEditor = ({ isDark, postContent, setPostContent }) => {
 
     const edrtorConfiguration = {
 		toolbar: {
@@ -87,10 +87,12 @@ const CkEditor = ({ setContent, isDark }) => {
             
             onReady={editor => {
                 // You can store the "editor" and use when it is needed.
-
+				editor.setData(postContent.content);
             }}
             onChange={(event, editor) => {
-                setContent(editor.getData());
+				setPostContent((prevState) => {
+					return {...prevState, content: editor.getData()};
+				})
             }}
         />
 
