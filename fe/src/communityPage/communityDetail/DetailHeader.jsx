@@ -3,6 +3,9 @@ import { motion } from "framer-motion";
 
 import DetailProceed from './DetailProceed'
 import Jobs from './../communityList/Jobs'
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+
 const Header = styled(motion.div)`
     display: flex;
     align-items: center;
@@ -49,9 +52,27 @@ const ProfileImg = styled.img`
     border: 0px solid black;
     border-radius: 15px;
 `
+const RightBox = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 0.6rem;
+
+`
 
 const Date = styled.div`
     font-size: 80%;
+`
+
+const DeleteButton = styled.div`
+    background: red;
+    border: 0px solid red;
+    border-radius: 5px;
+    padding: 0.1rem 0.3rem;
+    font-size: 0.9rem;
+
+    cursor: pointer;
 `
 
 const headerMotion = {
@@ -66,6 +87,16 @@ const headerMotion = {
 }
 
 const DetailHeader = ({kind, detailData, isDark}) => {
+
+    const userInfo = useSelector(state => state.user.currentUser);
+
+    const navigate = useNavigate();
+
+    const deletePost = () => {
+
+        
+        navigate('/communityMainPage', { state: { kind: "member", page: 1 } })
+    }
     return(
         <Header
             {...headerMotion}
@@ -92,9 +123,19 @@ const DetailHeader = ({kind, detailData, isDark}) => {
                 />
                 @{detailData.writername}
             </Writer>
+            <RightBox>
             <Date>
                 {detailData.time}    
-            </Date>                    
+            </Date> 
+            {detailData.memberId === userInfo.uid &&
+                <DeleteButton
+                    onClick={() => deletePost()}
+                >
+                    삭제
+                </DeleteButton>            
+            }
+
+            </RightBox>
         </PlusInfo>
     </Header>
     )
