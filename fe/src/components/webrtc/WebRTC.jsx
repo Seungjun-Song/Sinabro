@@ -7,13 +7,17 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faSignOut, faHeadphonesSimple } from '@fortawesome/free-solid-svg-icons';
 import getEnv from '../../utils/getEnv';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleisDarkState } from '../../store/isDarkSlice';
+import { DarkModeSwitch } from "react-toggle-dark-mode";
+import { motion } from "framer-motion";
+import './styles.css'
 
 const NavContainer = styled.div`
     width: 100vw;
     height: 8%;
     background-color: #564CAD;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1rem;
 `
@@ -23,6 +27,7 @@ const NavRigthBox = styled.div`
     align-items: center;
     height: 100%;
     gap: 1rem;
+    margin-left: auto;
 `
 
 const UserImage = styled.div`
@@ -38,6 +43,14 @@ const IconHoverBox = styled.div`
     }
 `
 
+const RightNavContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin: 0 1rem;
+`;
+
 export default function WebRTC() {
     const [mySessionId, setMySessionId] = useState('SessionA');
     const [myUserName, setMyUserName] = useState(`Participant${Math.floor(Math.random() * 100)}`); // 실제 유저의 정보를 넘겨줘야함
@@ -51,6 +64,14 @@ export default function WebRTC() {
 
     const [isMicOn, setIsMicOn] = useState(true)
     const [isPhoneOn, setIsPhoneOn] = useState(true)
+
+    const dispatch = useDispatch()
+
+    const isDark = useSelector(state => state.isDark.isDark)
+
+    const toggleDarkMode = () => {
+        dispatch(toggleisDarkState())
+    }
 
     const navigate = useNavigate()
 
@@ -193,19 +214,19 @@ export default function WebRTC() {
 
     useEffect(() => {
         const handleBeforeUnload = (e) => {
-          // 뒤로가기나 새로고침 시 경고 표시
-          e.preventDefault();
-          e.returnValue = '';
+            // 뒤로가기나 새로고침 시 경고 표시
+            e.preventDefault();
+            e.returnValue = '';
         };
-    
+
         // 페이지 이탈 시 경고 표시
         window.addEventListener('beforeunload', handleBeforeUnload);
-    
+
         return () => {
-          // 컴포넌트 언마운트 시 이벤트 리스너 제거
-          window.removeEventListener('beforeunload', handleBeforeUnload);
+            // 컴포넌트 언마운트 시 이벤트 리스너 제거
+            window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-      }, []);
+    }, []);
 
     const toggleMicrophone = () => {
         if (publisher) {
@@ -251,6 +272,20 @@ export default function WebRTC() {
                     </UserImage>
                 ))}
             </NavRigthBox>
-        </NavContainer>
+            <RightNavContainer>
+                <div className="switch" style={{ border: 'solid 2px white' }} data-isOn={isDark} onClick={toggleDarkMode}>
+                    <motion.div className="handle" layout onClick={toggleDarkMode} >
+                        <DarkModeSwitch
+                            style={{}}
+                            checked={isDark}
+                            onChange={toggleDarkMode}
+                            size={18}
+                            sunColor=" rgb(81, 81, 81)"
+                            moonColor="white"
+                        />
+                    </motion.div>
+                </div>
+            </RightNavContainer >
+        </NavContainer >
     );
 }

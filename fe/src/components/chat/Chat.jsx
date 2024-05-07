@@ -24,6 +24,9 @@ const Chat = () => {
     const messageEndRef = useRef(null)
     const currentTime = new Date().toISOString()
     const [beforeUser, setBeforeUser] = useState("")
+
+    const isDark = useSelector(state =>state.isDark.isDark)
+
     useEffect(() => {
         // Firebase Realtime Database에서 채팅 메시지를 가져와서 설정합니다.
         const db = getDatabase();
@@ -85,8 +88,8 @@ const Chat = () => {
                             </div>
                             :
                             <div className="d-flex flex-column" style={{ width: "100%" }}>
-                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', maxWidth: '12rem', fontWeight: 'bold' }}>{chat.displayName}</div>
-                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0.5rem 0.5rem 0.5rem 0', maxWidth: '10rem', border: '2px solid #D6D6D6' }}>{chat.message}</div>
+                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', maxWidth: '12rem', fontWeight: 'bold', color: `${!isDark ? 'white' : 'black'}` }}>{chat.displayName}</div>
+                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0 0.5rem 0.5rem 0.5rem', maxWidth: '10rem', border: '2px solid #D6D6D6', backgroundColor: `${isDark ? 'white' : '#D6D6D6'}`}}>{chat.message}</div>
                             </div>
                         }
                     </div>))}

@@ -17,6 +17,7 @@ const ProjectPageLeftPanelContainer = styled.div`
     display: flex;
     flex-direction: column;
     border-right: 2px solid #B8B8B8;
+    background-color: ${({isDark}) => (isDark ? 'white' : '#404040')};
 `;
 
 const ProjectPageLeftPanelClosedContainer = styled.div`
@@ -37,8 +38,8 @@ const ProjectNameBox = styled.div`
     margin-left: 1rem;
     margin-right: 1rem;
     border-bottom: 2px solid #B8B8B8;
-    color: #564CAD;
     font-weight: bold;
+    color: ${({isDark}) => isDark ? '#564CAD': 'white'};
 `;
 
 const CalendarBox = styled.div`
@@ -48,8 +49,8 @@ const CalendarBox = styled.div`
     align-items: center;
     margin-left: 1.2rem;
     margin-right: 1.2rem;
-    color: #564CAD;
     font-weight: bold;
+    color: ${({isDark}) => isDark ? '#564CAD' : 'white'};
 `;
 
 const ToDoListBox = styled.div`
@@ -67,9 +68,9 @@ const TodayBox = styled.div`
 `;
 
 const DayText = styled.div`
-    color: #535353;
     font-size: 1.2rem;
     margin-bottom: 1rem;
+    color: ${({isDark}) => !isDark ? 'white' : '#535353'};
 `;
 
 const ListBox = styled.div`
@@ -87,7 +88,6 @@ const ContentBox = styled.div`
     display: flex;
     border-left: 1rem solid #3EC8AF;
     border-radius: 0.5rem;
-    box-shadow: 2px 2px 1px 2px #B8B8B8;
     transition: transform 0.3s ease;
     &:hover {
         transform: scale(1.05);
@@ -189,6 +189,8 @@ const ProjectPageLeftPanel = () => {
 
     const modalState = useSelector(state => (state.addScheduleModalHandle.value))
 
+    const isDark = useSelector(state => state.isDark.isDark)
+
     useEffect(() => {
         if (modalState) {
             handleShowModal()
@@ -250,14 +252,14 @@ const ProjectPageLeftPanel = () => {
     return (
         <>
             {isSidePanelOpen ? (
-                <ProjectPageLeftPanelContainer>
-                    <ProjectNameBox>
+                <ProjectPageLeftPanelContainer isDark={isDark}>
+                    <ProjectNameBox isDark={isDark}>
                         Project Name
                         <IconHoverBox>
                             <FontAwesomeIcon icon={faChevronLeft} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
                         </IconHoverBox>
                     </ProjectNameBox>
-                    <CalendarBox>
+                    <CalendarBox isDark={isDark}>
                         <IconHoverBox>
                             <FontAwesomeIcon icon={faCalendar} onClick={() => dispatch(toggleProjectCalenderState())} style={{ cursor: 'pointer' }} />
                         </IconHoverBox>
@@ -269,7 +271,7 @@ const ProjectPageLeftPanel = () => {
                         <TodayBox>
                             {/* <button onClick={() => dispatch(delToDOlist())}>test</button> */}
                             {/* toDoList 삭제 버튼 */}
-                            <DayText>오늘 할 일</DayText>
+                            <DayText isDark={isDark}>오늘 할 일</DayText>
                             <ListBox>
                                 {/* 오늘의 할 일 목록 출력 */}
                                 {toDoList.map((item, index) => {
@@ -283,7 +285,7 @@ const ProjectPageLeftPanel = () => {
                                         // 오늘 날짜인 경우에만 출력
                                         if (itemStartDate <= today && today <= itemEndDate) {
                                             return (
-                                                <ContentBox key={index} onClick={() => dispatch(changeProjectCalenderState(true))}>
+                                                <ContentBox className='shadow' key={index} style={{ backgroundColor: 'white'}} onClick={() => dispatch(changeProjectCalenderState(true))}>
                                                     <UserImg src='/images/user1.png' />
                                                     <InnerTextBox>
                                                         <div style={{ fontSize: '1rem' }}>{truncate(item.work, 10)}</div>
@@ -316,7 +318,7 @@ const ProjectPageLeftPanel = () => {
                             </ListBox>
                         </TodayBox>
                         <TodayBox>
-                            <DayText>내일 할 일</DayText>
+                            <DayText isDark={isDark}>내일 할 일</DayText>
                             <ListBox>
                                 {toDoList.map((item, index) => {
                                     const itemStartDate = item.start ? new Date(item.start) : null
@@ -329,7 +331,7 @@ const ProjectPageLeftPanel = () => {
                                         // 내일 날짜인 경우에만 출력
                                         if (itemStartDate <= tomorrow && tomorrow <= itemEndDate) {
                                             return (
-                                                <ContentBox key={index} onClick={() => dispatch(changeProjectCalenderState(true))}>
+                                                <ContentBox className='shadow' key={index} style={{ backgroundColor: 'white'}} onClick={() => dispatch(changeProjectCalenderState(true))}>
                                                     <UserImg src='/images/user1.png' />
                                                     <InnerTextBox>
                                                         <div style={{ fontSize: '1rem' }}>{truncate(item.work, 10)}</div>
