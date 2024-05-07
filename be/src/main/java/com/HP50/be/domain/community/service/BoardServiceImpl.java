@@ -1,11 +1,10 @@
 package com.HP50.be.domain.community.service;
 
 import com.HP50.be.domain.code.dto.SubCategoryResponseDto;
+import com.HP50.be.domain.code.dto.TagDto;
 import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.code.service.SubCategoryService;
-import com.HP50.be.domain.community.dto.BoardFilterRequestDto;
-import com.HP50.be.domain.community.dto.BoardInsertRequestDto;
-import com.HP50.be.domain.community.dto.BoardListResponseDto;
+import com.HP50.be.domain.community.dto.*;
 import com.HP50.be.domain.community.entity.Board;
 import com.HP50.be.domain.community.repository.BoardCustomRepository;
 import com.HP50.be.domain.community.repository.BoardRepository;
@@ -19,10 +18,12 @@ import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
 import com.HP50.be.global.jwt.JwtUtil;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +48,35 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseEntity<?> findBoard(String token, BoardFilterRequestDto boardFilterRequestDto) {
-        return null;
+    public ResponseEntity<BaseResponse<BoardDetailResponseDto>> findBoardDetail(Integer boardId) {
+        Board board = this.findById(boardId);
+
+        // 문자열로 넘어온 json 처럼 생긴 데이터를 TagDto로 변환하는 로직
+        TagDto[] tagDtoArray = new Gson().fromJson(board.getBoardTag(), TagDto[].class);
+        List<TagDto> tagDtoList = List.of(tagDtoArray);
+
+        String toJson = new Gson().toJson(board.getBoardTag());
+        BoardDetailResponseDto boardDetailResponseDto = BoardDetailResponseDto.builder()
+                .boardId(board.getBoardId())
+                .memberName(board.getMember().getMemberName())
+                .boardTitle(board.getBoardTitle())
+                .boardContent(board.getBoardContent())
+                .subCategory(board.getSubCategory())
+                .communityProgress(board.isCommunityProgress())
+                .tagDtos(tagDtoList)
+                .commentResponseDtos(board.getComments().stream()
+                        .map(entity -> CommentResponseDto.builder()
+                                .memberId(entity.getMember().getMemberId())
+                                .commentContent(entity.getCommentContent())
+                                .memberName(entity.getMember().getMemberName())
+                                .memberImg(entity.getMember().getMemberImg())
+                                .createdDttm(entity.getCreatedDttm())
+                                .build()).toList())
+                .createdDttm(board.getCreatedDttm())
+                .updatedDttm(board.getUpdatedDttm())
+                .build();
+
+        return ResponseEntity.ok().body(new BaseResponse<>(boardDetailResponseDto));
     }
 
     @Override
@@ -90,7 +118,7 @@ public class BoardServiceImpl implements BoardService {
         Project project = projectRepository.findById(boardInsertRequestDto.getProjectId())
                 .orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
 
-        String toJson = new Gson().toJson(boardInsertRequestDto.getBoardTag()) ;
+        String toJson = new Gson().toJson(boardInsertRequestDto.getBoardTag());
 
 
         // builder 패턴 진행 중에 boardId 를 넣어주고와 넣어주지 않음의 차이

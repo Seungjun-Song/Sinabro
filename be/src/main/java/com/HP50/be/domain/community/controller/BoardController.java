@@ -1,5 +1,6 @@
 package com.HP50.be.domain.community.controller;
 
+import com.HP50.be.domain.community.dto.BoardDetailResponseDto;
 import com.HP50.be.domain.community.dto.BoardFilterRequestDto;
 import com.HP50.be.domain.community.dto.BoardInsertRequestDto;
 import com.HP50.be.domain.community.dto.BoardListResponseDto;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +38,14 @@ public class BoardController {
     @GetMapping
     public ResponseEntity<BaseResponse<List<BoardListResponseDto>>> findByConditons(@RequestBody BoardFilterRequestDto boardFilterRequestDto){
         return boardService.findByConditions(boardFilterRequestDto);
+    }
+
+    @Operation(summary = "상세 게시글 조회")
+    @GetMapping("/{boardId}")
+    public ResponseEntity<BaseResponse<BoardDetailResponseDto>> findBoardDetail(
+            @PathVariable Integer boardId
+            ){
+        return boardService.findBoardDetail(boardId);
     }
 
 }
