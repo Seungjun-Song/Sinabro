@@ -74,6 +74,11 @@ public class BoardServiceImpl implements BoardService {
         return ResponseEntity.ok().body(new BaseResponse<>(boardListResponseDtos));
     }
 
+    @Override
+    public Board findById(Integer boardId) {
+        return boardRepository.findById(boardId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_BOARD));
+    }
+
     public Board transferToBoard(String token, BoardInsertRequestDto boardInsertRequestDto){
         Integer memberId = jwtUtil.getMemberId(token);
         // board 가 0 이라면 save
