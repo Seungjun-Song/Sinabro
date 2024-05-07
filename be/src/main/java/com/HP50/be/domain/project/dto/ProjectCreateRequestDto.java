@@ -13,7 +13,7 @@ import java.util.List;
 public class ProjectCreateRequestDto {
     String projectName;
     String projectInfo;
-//    String projectImg; Multipart로 받아야함.
+    String projectImg;
     String projectRepo;
     List<TechStackSimpleDto> memberList;
 }

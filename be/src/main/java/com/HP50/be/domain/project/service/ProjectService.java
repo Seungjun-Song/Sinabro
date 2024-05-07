@@ -11,7 +11,7 @@ public interface ProjectService {
     // 프로젝트 정보 확인
     ProjectInfoDto getTeamInfo(int memberId, int projectId);
     // 프로젝트 생성
-    boolean createProject(ProjectCreateRequestDto requestDto, int reader, MultipartFile imgFile);
+    boolean createProject(ProjectCreateRequestDto requestDto, int reader);
     // 팀원 추가
     boolean addTeammate(TeammateRequestDto requestDto);
     // 팀원 삭제
