@@ -36,8 +36,9 @@ public class BoardController {
     // 스웨거에 return 형식을 보여주기 위해서는 ? 를 사용하면 안되고 아래와 같이 명시적으로 기입해줘야함
     @Operation(summary = "게시글 가져오기")
     @GetMapping
-    public ResponseEntity<BaseResponse<List<BoardListResponseDto>>> findByConditons(@RequestBody BoardFilterRequestDto boardFilterRequestDto){
-        return boardService.findByConditions(boardFilterRequestDto);
+    public ResponseEntity<BaseResponse<List<BoardListResponseDto>>> findByConditons(@RequestBody BoardFilterRequestDto boardFilterRequestDto,
+                                                                                    @RequestParam Integer page){
+        return boardService.findByConditions(boardFilterRequestDto, page);
     }
 
     @Operation(summary = "상세 게시글 조회")

@@ -20,6 +20,8 @@ import com.HP50.be.global.jwt.JwtUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -80,10 +82,10 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseEntity<BaseResponse<List<BoardListResponseDto>>> findByConditions(BoardFilterRequestDto boardFilterRequestDto) {
-        List<Board> boards = boardCustomRepository.findByConditions(boardFilterRequestDto);
+    public ResponseEntity<BaseResponse<List<BoardListResponseDto>>> findByConditions(BoardFilterRequestDto boardFilterRequestDto, int page) {
+        PageRequest pageRequest = PageRequest.of(page, 20);
+        Slice<Board> boards = boardCustomRepository.findByConditions(boardFilterRequestDto, pageRequest);
         List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>();
-
 
         for(Board board: boards){
             BoardListResponseDto boardListResponseDto = BoardListResponseDto.builder()
