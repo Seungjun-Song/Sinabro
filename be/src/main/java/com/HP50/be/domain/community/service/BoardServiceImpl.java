@@ -37,7 +37,7 @@ public class BoardServiceImpl implements BoardService {
     private final JwtUtil jwtUtil;
 
     @Override
-    public ResponseEntity<?> insertBoard(String token, BoardInsertRequestDto boardInsertRequestDto) {
+    public ResponseEntity<BaseResponse<StatusCode>> insertBoard(String token, BoardInsertRequestDto boardInsertRequestDto) {
 
         Board board = this.transferToBoard(token, boardInsertRequestDto);
         // 기존에 존재하는 엔티티라면 update
@@ -52,13 +52,12 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseEntity<?> findByConditions(BoardFilterRequestDto boardFilterRequestDto) {
+    public ResponseEntity<BaseResponse<List<BoardListResponseDto>>> findByConditions(BoardFilterRequestDto boardFilterRequestDto) {
         List<Board> boards = boardCustomRepository.findByConditions(boardFilterRequestDto);
         List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>();
 
 
         for(Board board: boards){
-
             BoardListResponseDto boardListResponseDto = BoardListResponseDto.builder()
                     .boardId(board.getBoardId())
                     .memberName(board.getMember().getMemberName())
