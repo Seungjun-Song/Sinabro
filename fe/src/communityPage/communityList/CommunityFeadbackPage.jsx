@@ -33,7 +33,7 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityFeadBackPage = ({isDark}) => {
+const CommunityFeadBackPage = ({isDark, postList}) => {
     const [searchWord, setSearchWord] = useState("");
     const [proceedOption, setProceedOption] = useState("구걸 중");
     const [teamOption, setTeamOption] = useState("팀 선택");
@@ -124,7 +124,8 @@ const CommunityFeadBackPage = ({isDark}) => {
 
             <Posts
                 kind={"feadback"}
-                isDark={isDark}>
+                isDark={isDark}
+                postList={postList}>
             </Posts>
         </MemberPage>
     )

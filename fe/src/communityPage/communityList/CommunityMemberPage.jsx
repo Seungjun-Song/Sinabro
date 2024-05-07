@@ -38,7 +38,7 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityMemberPage = ({ isDark }) => {
+const CommunityMemberPage = ({ isDark, postList }) => {
     const [searchWord, setSearchWord] = useState("");
     const [proceedOption, setProceedOption] = useState("모집 중");
     const [teamOption, setTeamOption] = useState("팀 선택");
@@ -130,6 +130,7 @@ const CommunityMemberPage = ({ isDark }) => {
             <Posts
                 kind={"member"}
                 isDark={isDark}
+                postList={postList}
                 >
             </Posts>
         </MemberPage>

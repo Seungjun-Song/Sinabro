@@ -61,24 +61,29 @@ const menuMotion = {
     transition: { duration: 0.3 }
 };
 
-const SideMenu = ({selected, setSelected, isDark}) => {
+const SideMenu = ({selected, setSelected, isDark, setCurrentPage}) => {
+
+    const changeMenu = (kind) => {
+        setSelected(kind);
+        setCurrentPage(1);
+    }
     return (
         <MenuList 
             {...menuMotion}
             style={{fontFamily: "Pretendard Medium"}}
         >
-            <Menu onClick={() => {setSelected("member")}}
+            <Menu onClick={() => {changeMenu("member")}}
                     selected={selected === "member"}
                     isDark={isDark}>
                 팀원 구해요
             </Menu>
-            <Menu onClick={() => setSelected("team")}
+            <Menu onClick={() => changeMenu("team")}
                     selected={selected === "team"}
                     isDark={isDark}
                 >
                 팀 구해요
             </Menu>
-            <Menu onClick={() => setSelected("feadback")}
+            <Menu onClick={() => changeMenu("feadback")}
                     selected={selected === "feadback"}
                     isDark={isDark}>
                 피드백 원해요
