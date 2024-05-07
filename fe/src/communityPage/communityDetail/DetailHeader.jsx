@@ -64,16 +64,37 @@ const RightBox = styled.div`
 const Date = styled.div`
     font-size: 80%;
 `
+const Buttons = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
+    gap: 0.2rem;
+`
 const DeleteButton = styled.div`
     background: red;
     border: 0px solid red;
     border-radius: 5px;
     padding: 0.1rem 0.3rem;
     font-size: 0.9rem;
+    color: white;
 
     cursor: pointer;
 `
+
+const ModifyButton = styled.div`
+    background: rgba(150, 143, 216, 1);
+    border: 0px solid rgba(150, 143, 216, 1);
+    border-radius: 5px;
+    padding: 0.1rem 0.3rem;
+    font-size: 0.9rem;
+    color: white;
+    font-family: Jamsil Regular;
+
+    cursor: pointer;
+`
+
+
 
 const headerMotion = {
     initial: "hidden",
@@ -128,11 +149,18 @@ const DetailHeader = ({kind, detailData, isDark}) => {
                 {detailData.time}    
             </Date> 
             {detailData.memberId === userInfo.uid &&
+                <Buttons>
+                <ModifyButton
+                    onClick={() => navigate('/createPost', {state: {kind: kind}})}
+                >
+                    수정
+                </ModifyButton>
                 <DeleteButton
                     onClick={() => deletePost()}
                 >
                     삭제
-                </DeleteButton>            
+                </DeleteButton>       
+                </Buttons>     
             }
 
             </RightBox>
