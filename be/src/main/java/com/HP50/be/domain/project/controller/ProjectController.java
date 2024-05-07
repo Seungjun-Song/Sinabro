@@ -39,13 +39,11 @@ public class ProjectController {
     // 프로젝트 생성
     @PostMapping("/projects")
     public ResponseEntity<Object> createProject(@CookieValue (JwtConstants.JWT_HEADER) String token,
-                                                @RequestPart(name = "project")ProjectCreateRequestDto requestDto,
-                                                @RequestPart(name = "projectImg", required = false) MultipartFile imgFile
+                                                @RequestBody ProjectCreateRequestDto requestDto
     ){
         // 생성한 사람이 리더
         Integer reader = jwtUtil.getMemberId(token);
-
-        boolean project = service.createProject(requestDto,reader,imgFile);
+        boolean project = service.createProject(requestDto,reader);
         if(project){
         return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));}
         else{

@@ -61,7 +61,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
     // 프로젝트 생성
     @Override
-    public boolean createProject(ProjectCreateRequestDto requestDto, int reader, MultipartFile imgFile) {
+    public boolean createProject(ProjectCreateRequestDto requestDto, int reader) {
         //안쓰는 포트 get
         Port unUse = portCustomRepository.getUnUse();
         if(unUse==null){
@@ -69,16 +69,12 @@ public class ProjectServiceImpl implements ProjectService{
         }
         //진행 중 상태 가져오기
         SubCategory status = subCategoryRepository.findById(502).orElseThrow(()-> new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY));
-        
-        //이미지 저장 - S3 수정 필요
-        System.out.println("imgFile = " + imgFile.toString());
-
 
         // 프로젝트 DTO 생성 후 Entity로 변환
         ProjectDto projectDto = ProjectDto.builder()
                 .projectName(requestDto.getProjectName())
                 .projectInfo(requestDto.getProjectInfo())
-                .projectImg(null)//수정 필요!!!!!!!!!!!!!!!!!!!
+                .projectImg(requestDto.getProjectImg())//fireBase에서 저장된 후 mysql에 저장
                 .projectRepo(requestDto.getProjectRepo())
                 .projectDbPort(unUse.getPortId())
                 .subCategory(status)
