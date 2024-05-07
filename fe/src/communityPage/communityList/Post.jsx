@@ -154,7 +154,9 @@ const Post = ({post, kind, isDark}) => {
                     {post.title}
                 </Title>
 
-                <Jobs>
+                <Jobs
+                    kind={kind}
+                >
                 </Jobs>
             </MainInfo>
 

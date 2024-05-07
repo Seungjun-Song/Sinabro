@@ -24,8 +24,8 @@ const Job = styled.div`
     box-shadow: 3px 4px 3px rgba(217, 217, 217, 1);
     font-size: 0.5rem;
 `
-const Jobs = () => {
-    const jobList = [
+const Jobs = ({kind}) => {
+    const memeberJobList = [
         {
             name: "백",
             target: 2,
@@ -42,9 +42,24 @@ const Jobs = () => {
         }
     ]
 
+    const FeadbackJobList = [
+        {
+            name: "백",
+            borderColor: "#315DCC",
+            icon: faCog,
+        }, 
+        {
+            name: "프론트",
+            borderColor: "#3DC7AE",
+            icon: faDesktop
+        }
+    ]
+
     return(
         <JobBox>
-            {jobList.map((job, index) => (
+            {kind == "member" && 
+            <>
+                {memeberJobList.map((job, index) => (
                 <Job
                 style={{backgroundColor: "white" , border: `3px solid ${job.borderColor }`, color: `${job.borderColor}` }}
                 >
@@ -54,7 +69,25 @@ const Jobs = () => {
                     </div>
                     {job.current} / {job.target}
                 </Job>
-            ))}     
+            ))}               
+            
+            </>}
+            
+            {kind == "feadback" &&
+            <>
+                {FeadbackJobList.map((job, index) => (
+                <Job
+                style={{backgroundColor: "white" , border: `3px solid ${job.borderColor }`, color: `${job.borderColor}` }}
+                >
+                    {job.icon && <FontAwesomeIcon icon={job.icon} style={{ fontSize: '10px' }} />}
+                    <div>
+                    {job.name}
+                    </div>
+                </Job>
+                ))}   
+            </>
+            }
+
         </JobBox>
     )
 }
