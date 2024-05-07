@@ -7,6 +7,7 @@ import { useState } from 'react';
 import CkEditor from './CkEditor';
 
 import { GlobalColor } from '../../services/color';
+import CreateJobsBox from './CreateJobsBox';
 
 const MemberPost = styled.div`
     display: flex;
@@ -22,12 +23,13 @@ const MemberPost = styled.div`
 const Header = styled(motion.div)`
 
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
-
+    flex-direction: column;
+    gap: 1rem;
     width: 100%;
 
-    margin: 1rem 0 2rem 0;
+    margin: 1rem 0 1rem 0;
 `
 
 const Title = styled.input`
@@ -137,6 +139,13 @@ const headerMotion = {
 const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
     const navigate = useNavigate();
 
+    const [ jobInfo, setJobInfo ] = useState({
+        backTarget: 0,
+        backTotal: 0,
+        frontTotal: 0,
+        frontTarget: 0,
+    })
+
     const submit = () =>{
         //TODO: axios 게시물 저장
 
@@ -166,6 +175,12 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
                     onChange={onChangeTitle}
                     isDark={isDark}>
                 </Title>
+                <CreateJobsBox
+                    kind={"member"}
+                    jobInfo={jobInfo}
+                    setJobInfo={setJobInfo}
+                >
+                </CreateJobsBox>
             </Header>
 
             <Content>

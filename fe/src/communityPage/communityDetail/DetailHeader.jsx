@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 import { motion } from "framer-motion";
 
 import DetailProceed from './DetailProceed'
+import Jobs from './../communityList/Jobs'
 const Header = styled(motion.div)`
     display: flex;
     align-items: center;
@@ -78,6 +79,11 @@ const DetailHeader = ({kind, detailData, isDark}) => {
             <Title>
                 {detailData.title}
             </Title>
+            <Jobs
+                kind={kind}
+            >
+                
+            </Jobs>
         </MainInfo>
         <PlusInfo>
             <Writer>
