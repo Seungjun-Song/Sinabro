@@ -1,36 +1,3 @@
-package com.HP50.be.domain.payment.entity;
-
-import com.HP50.be.domain.member.entity.Member;
-import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-
-import java.time.LocalDateTime;
-
-@Entity
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Payment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer paymentId;
-
-    @Column
-    private Integer paymentAmount;
-
-    @Column
-    private String paymentField;
-
-    @Column
-    private String paymentMethod;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdDttm;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:20b565345a8ffb29b54fb9120bfb7a39f5cf520fefd0a2b03fda7fa86827cfaf
+size 774
