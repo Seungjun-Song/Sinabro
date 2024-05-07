@@ -2,6 +2,7 @@ package com.HP50.be.domain.project.service;
 
 import com.HP50.be.domain.project.entity.Project;
 import com.HP50.be.domain.project.repository.ProjectRepository;
+import com.HP50.be.global.common.JschUtil;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
 import com.jcraft.jsch.Channel;
@@ -21,20 +22,10 @@ import java.io.InputStream;
 @RequiredArgsConstructor
 public class SonarQubeServiceImpl implements SonarQubeService{
     private final ProjectRepository projectRepository;
-    /**
-        정적 분석
-     */
-    @Value("${sonar.host}")
-    private String host;
-    @Value("${sonar.user}")
-    private String user;
-    @Value("${sonar.key}")
-    private String privateKey;
-
+    private final JschUtil jschUtil;
 
     @Override
     public void executeSonarScanner(Integer projectId,String folderName) {
-
         //1. git clone - /home/sonarQube/scanner
         // 깃 레포 가져오기
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
@@ -59,7 +50,7 @@ public class SonarQubeServiceImpl implements SonarQubeService{
 
         // exec command
         String execCommand = "docker exec sonar-scanner sonar-scanner " +
-                "-Dsonar.projectKey=" + "sqp_bb953c543831146b0aab65a7253df86c870c0ac1"+" "+
+                "-Dsonar.projectKey=" + getProjectKey(project)+" "+ //projectId로 정적 분석 생성
                 "-Dsonar.sources=/usr/src/" + repoName +"/"+folderName+" "+
                 "-Dsonar.host.url=http://sonarqube:9000 "+
                 "-Dsonar.token=squ_4e19fc10ed04b1e8815b83bd0fa853418790e59f "+
@@ -68,85 +59,44 @@ public class SonarQubeServiceImpl implements SonarQubeService{
         // 품질 조회
 
         //2. 실행
-        JSch jsch = new JSch();
-        Session session = null;
-        //3. 성공했다는 결과 반환
+        Session session = jschUtil.createSession();
+        //명령 실행
         try {
-            // 키 기반 인증 설정
-            jsch.addIdentity(privateKey);
-            // EC2 인스턴스에 연결
-            session = jsch.getSession(user, host, 22);
-            //검증 무시
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
             // 존재하는 레포 모두 삭제
-            if(!executeCommand(session,deleteRepo)){
+            if (!jschUtil.executeCommand(session, deleteRepo)) {
                 throw new BaseException(StatusCode.FAIL_DELETE_REPO);
             }
             // 폴더 이동 & git Clone
-            if (!executeCommand(session, toFolderAndClone)) {
+            if (!jschUtil.executeCommand(session, toFolderAndClone)) {
                 throw new BaseException(StatusCode.FAIL_SONAR_CLONE);
             }
             // 권한 부여
-            if (!executeCommand(session, authorize)) {
-                throw new BaseException(StatusCode.FAIL_SONAR_CLONE);
+            if (!jschUtil.executeCommand(session, authorize)) {
+                throw new BaseException(StatusCode.FAIL_BUILD_REPO);
             }
 
             // 빌드
-            if (!executeCommand(session, build)) {
+            if (!jschUtil.executeCommand(session, build)) {
                 throw new BaseException(StatusCode.FAIL_BUILD_REPO);
             }
             // sonarQube exec
-            if (!executeCommand(session, execCommand)) {
+            if (!jschUtil.executeCommand(session, execCommand)) {
                 throw new BaseException(StatusCode.FAIL_SONAR_COMMAND);
             }
+            //연결 해제
             session.disconnect();
-        } catch (BaseException e) {
+        }catch (BaseException e){
             e.printStackTrace();
             throw new BaseException(StatusCode.FAIL_SONAR);
-        } catch (Exception e ){
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
 
+
+    }
+    public String getProjectKey(Project project){
+        return "sonarQube_"+project.getProjectId();
     }
 
-    @Override
-    public boolean executeCommand(Session session, String command)  throws Exception{
-        Channel channel = session.openChannel("exec");
-        ((ChannelExec) channel).setCommand(command);
-        channel.setInputStream(null);
-        InputStream in = channel.getInputStream();
-        InputStream err = ((ChannelExec) channel).getErrStream(); // 오류 스트림 추가
-
-        channel.connect();
-
-        StringBuilder output = new StringBuilder();
-        byte[] tmp = new byte[1024];
-        int n;
-        while ((n = in.read(tmp)) != -1) {
-            output.append(new String(tmp, 0, n));
-        }
-
-        StringBuilder errorOutput = new StringBuilder();
-        while ((n = err.read(tmp)) != -1) {
-            errorOutput.append(new String(tmp, 0, n));
-        }
-
-        // 명령 실행이 완료될 때까지 기다림
-        while (!channel.isClosed()) {
-            System.out.println("channel.isClosed() = " + channel.isClosed());
-            Thread.sleep(100);
-        }
-
-        channel.disconnect();
-
-        System.out.println("=================================================");
-        System.out.println("Command: " + command);
-        System.out.println("Output: " + output.toString());
-        System.out.println("Error: " + errorOutput.toString());
-        System.out.println("channel.getExitStatus() = " + channel.getExitStatus());
-        System.out.println("=================================================");
-
-        return channel.getExitStatus() == 0; // 성공 시 true 반환
-    }
 }
