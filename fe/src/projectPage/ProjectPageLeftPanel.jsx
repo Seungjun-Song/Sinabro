@@ -189,7 +189,7 @@ const ProjectPageLeftPanel = () => {
 
     const modalState = useSelector(state => (state.addScheduleModalHandle.value))
 
-    const isDark = useSelector(state => state.isDark.isDark)
+    const isDark = !useSelector(state => state.isDark.isDark)
 
     useEffect(() => {
         if (modalState) {

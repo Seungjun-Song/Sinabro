@@ -23,7 +23,7 @@ const IconBox = styled.div`
 
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
 
-    const isDark = useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state =>state.isDark.isDark)
 
     return (
         <div className="header row">
@@ -47,7 +47,7 @@ const RenderDays = () => {
     const days = [];
     const date = ['Sun', 'Mon', 'Thu', 'Wed', 'Thrs', 'Fri', 'Sat'];
 
-    const isDark = useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state =>state.isDark.isDark)
 
     for (let i = 0; i < 7; i++) {
         days.push(
@@ -72,7 +72,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
     
     const toDoList = useSelector(state => state.toDoList.value);
     
-    const isDark = useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state =>state.isDark.isDark)
 
     const dispatch = useDispatch()
 
@@ -188,7 +188,7 @@ export const Calender = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
 
-    const isDark = useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state =>state.isDark.isDark)
 
     const dispatch = useDispatch();
 

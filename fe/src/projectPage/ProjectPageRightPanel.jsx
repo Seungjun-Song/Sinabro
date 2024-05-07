@@ -61,7 +61,7 @@ const IconHoverBox = styled.div`
         transform: scale(1.2)
     }
     color: #564CAD;
-    color: ${({isDark}) => isDark ? '#564CAD' : 'white' }
+    color: ${({isDark}) => isDark ? '#564CAD' : 'white' };
 `
 
 const ProjectPageRightPanel = () => {
@@ -72,7 +72,7 @@ const ProjectPageRightPanel = () => {
     const [isChatsNow, setIsChatsNow] = useState(true)
     const [isNotification, setIsNotification] = useState(true)
 
-    const isDark = useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state =>state.isDark.isDark)
 
     const states = useSelector(state => state.newMessage)
     const chatOpenForced = useSelector(state => state.projectChatShow.value)
