@@ -15,10 +15,10 @@ import SearchBox from './SearchBox'
 const MemberPage = styled(motion.div)`
     display: flex;        
     flex-direction: column;
-    width: 50%;
+    width: 70%;
     margin-right : 20rem;
     margin-top : 4rem;
-
+    
 `
 
 const Select = styled.div`
@@ -38,10 +38,8 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityMemberPage = ({ isDark, postList }) => {
+const CommunityMemberPage = ({ isDark, postList, proceedOption, setProceedOption, teamOption, setTeamOption }) => {
     const [searchWord, setSearchWord] = useState("");
-    const [proceedOption, setProceedOption] = useState("모집 중");
-    const [teamOption, setTeamOption] = useState("팀 선택");
     const [proceedToggle, setProceedToggle] = useState(false);
     const [teamToggle, setTeamToggle] = useState(false);
 
