@@ -10,7 +10,6 @@ import CommunityTeamPage from './CommunityTeamPage';
 import CommunityFeadBackPage from './CommunityFeadbackPage';
 import Pagination from './Pagination';
 import { GlobalColor } from '../../services/color';
-import { useSelector } from 'react-redux';
 
 const Community = styled.div`
 display: flex;

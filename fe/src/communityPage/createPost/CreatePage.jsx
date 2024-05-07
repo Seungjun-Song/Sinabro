@@ -12,7 +12,6 @@ import CreateFeadbackPost from './CreateFeadbackPost';
 import TeamChoiceBox from './TeamChoiceBox';
 
 import { GlobalColor } from '../../services/color';
-import { useSelector } from 'react-redux';
 
 const Back = styled.div`
     height: 100%;
