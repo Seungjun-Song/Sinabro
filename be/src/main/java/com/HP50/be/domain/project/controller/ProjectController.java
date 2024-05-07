@@ -5,6 +5,8 @@ import com.HP50.be.domain.project.service.ProjectService;
 import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
+import com.HP50.be.global.jwt.JwtConstants;
+import com.HP50.be.global.jwt.JwtUtil;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.InputStream;
@@ -25,6 +28,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ProjectController {
     private final ProjectService service;
+    private final JwtUtil jwtUtil;
     // 팀 정보 조회
     @GetMapping
     public ResponseEntity<Object> getTeamInfo(@RequestParam Integer projectId){
@@ -34,9 +38,14 @@ public class ProjectController {
     }
     // 프로젝트 생성
     @PostMapping("/projects")
-    public ResponseEntity<Object> createProject(@RequestBody ProjectCreateRequestDto requestDto){
-        int reader = requestDto.getMemberId();
-        boolean project = service.createProject(requestDto);
+    public ResponseEntity<Object> createProject(@CookieValue (JwtConstants.JWT_HEADER) String token,
+                                                @RequestPart(name = "project")ProjectCreateRequestDto requestDto,
+                                                @RequestPart(name = "projectImg", required = false) MultipartFile imgFile
+    ){
+        // 생성한 사람이 리더
+        Integer reader = jwtUtil.getMemberId(token);
+
+        boolean project = service.createProject(requestDto,reader,imgFile);
         if(project){
         return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));}
         else{

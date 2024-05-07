@@ -11,10 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjectCreateRequestDto {
-    Integer memberId;
     String projectName;
     String projectInfo;
-    String projectImg;
+//    String projectImg; Multipart로 받아야함.
     String projectRepo;
     List<TechStackSimpleDto> memberList;
 }

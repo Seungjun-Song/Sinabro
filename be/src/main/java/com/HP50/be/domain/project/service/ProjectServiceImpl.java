@@ -25,9 +25,11 @@ import com.HP50.be.global.jwt.JwtUtil;
 import com.jcraft.jsch.Session;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService{
@@ -58,7 +61,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
     // 프로젝트 생성
     @Override
-    public boolean createProject(ProjectCreateRequestDto requestDto) {
+    public boolean createProject(ProjectCreateRequestDto requestDto, int reader, MultipartFile imgFile) {
         //안쓰는 포트 get
         Port unUse = portCustomRepository.getUnUse();
         if(unUse==null){
@@ -66,17 +69,23 @@ public class ProjectServiceImpl implements ProjectService{
         }
         //진행 중 상태 가져오기
         SubCategory status = subCategoryRepository.findById(502).orElseThrow(()-> new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY));
+        
+        //이미지 저장 - S3 수정 필요
+        System.out.println("imgFile = " + imgFile.toString());
+
 
         // 프로젝트 DTO 생성 후 Entity로 변환
         ProjectDto projectDto = ProjectDto.builder()
                 .projectName(requestDto.getProjectName())
                 .projectInfo(requestDto.getProjectInfo())
-                .projectImg(requestDto.getProjectImg())
+                .projectImg(null)//수정 필요!!!!!!!!!!!!!!!!!!!
                 .projectRepo(requestDto.getProjectRepo())
                 .projectDbPort(unUse.getPortId())
                 .subCategory(status)
                 .build();
+
         Project project = projectDto.toEntity(projectDto);
+
         //  팀원 생성 + 꼭 TechStack 지정 해줘야함.
         List<Integer> memberList = requestDto.getMemberList().stream()
                 .map(TechStackSimpleDto::getMemberId)
@@ -87,8 +96,9 @@ public class ProjectServiceImpl implements ProjectService{
                         TechStackSimpleDto::getMemberId,
                         TechStackSimpleDto::getCategoryId
                 ));
-        int reader = requestDto.getMemberId(); //리더
+
         Map<Integer, Member> membersMap = memberCustomRepository.getMembersMap(memberList);
+
         for(Integer id:memberList){
             Member member = membersMap.get(id);
             Teammate teammate = Teammate.builder()
