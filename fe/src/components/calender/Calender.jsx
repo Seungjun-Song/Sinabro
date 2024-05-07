@@ -22,9 +22,12 @@ const IconBox = styled.div`
 `
 
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
+
+    const isDark = useSelector(state =>state.isDark.isDark)
+
     return (
         <div className="header row">
-            <div className="col col-start">
+            <div className="col col-start" style={{color: `${isDark ? 'black' : 'white'}`}}>
                 <span className="text">
                     <span className="text month">
                         {format(currentMonth, 'yyyy')}년
@@ -32,9 +35,9 @@ const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
                     {'  '}{format(currentMonth, 'M')}월
                 </span>
             </div>
-            <div className="col col-end">
-                <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} style={{ height: '1rem' }} />
-                <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} style={{ height: '1rem' }} />
+            <div className="col col-end" style={{color: `${isDark ? 'black' : 'white'}`}}>
+                <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} style={{ height: '1rem', color: `${isDark ? '#A8A8A8' : 'white'}` }} />
+                <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} style={{ height: '1rem', color: `${isDark ? '#A8A8A8' : 'white'}` }} />
             </div>
         </div>
     );
@@ -44,9 +47,11 @@ const RenderDays = () => {
     const days = [];
     const date = ['Sun', 'Mon', 'Thu', 'Wed', 'Thrs', 'Fri', 'Sat'];
 
+    const isDark = useSelector(state =>state.isDark.isDark)
+
     for (let i = 0; i < 7; i++) {
         days.push(
-            <div className="col" key={i}>
+            <div className="col" key={i} style={{backgroundColor: `${!isDark? 'white' : '#BAB2FF'}`}}>
                 {date[i]}
             </div>,
         );
@@ -55,16 +60,19 @@ const RenderDays = () => {
     return <div className="days row">{days}</div>;
 };
 
+
 const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart);
     const endDate = endOfWeek(monthEnd);
-
+    
     const totalWeeks = differenceInWeeks(endDate, startDate);
     const rowHeight = totalWeeks === 5 ? '13vh' : '15.4vh';
-
+    
     const toDoList = useSelector(state => state.toDoList.value);
+    
+    const isDark = useSelector(state =>state.isDark.isDark)
 
     const dispatch = useDispatch()
 
@@ -167,7 +175,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
             day = addDays(day, 1);
         }
         rows.push(
-            <div className="row" style={{ height: rowHeight }} key={day}>
+            <div className="row" style={{ height: rowHeight, backgroundColor: `${isDark ? 'white' : '#F1F1F1'}` }} key={day}>
                 {days}
             </div>
         );
@@ -179,6 +187,8 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
 export const Calender = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const isDark = useSelector(state =>state.isDark.isDark)
 
     const dispatch = useDispatch();
 
@@ -200,8 +210,8 @@ export const Calender = () => {
     }, []);
 
     return (
-        <div className="calendar" style={{ height: '100%', width: '100%', padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <IconBox style={{ display: 'flex', color: '#564CAD', width: '100%', justifyContent: 'center' }}>
+        <div className="calendar" style={{ height: '100%', width: '100%', padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: `${isDark ? 'white' : '#404040'}` }}>
+            <IconBox style={{ display: 'flex', color: `${isDark ? '#564CAD' : 'white'}`, width: '100%', justifyContent: 'center' }}>
                 <FontAwesomeIcon icon={faTimesCircle} style={{ cursor: 'pointer' }} onClick={() => dispatch(toggleProjectCalenderState())} />
             </IconBox>
             <RenderHeader
