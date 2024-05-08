@@ -78,7 +78,9 @@ public enum StatusCode {
     GIT_CLONE_FAIL(false, 1506, "Git Clone 실패"),
     MYSQL_START_FAIL(false, 1507, "MySQL 실행 실패"),
     CONTAINER_START_FAIL(false, 1508, "Container 재실행 실패"),
-    MYSQL_RESTART_FAIL(false, 1509, "MySQL 재실행 실패")
+    MYSQL_RESTART_FAIL(false, 1509, "MySQL 재실행 실패"),
+    CONTAINER_STOP_FAIL(false, 1510, "Container 중지 실패"),
+    CHANGE_DARK_MODE_FAIL(false, 1511, "DarkMode 변경 실패")
     ;
 
 

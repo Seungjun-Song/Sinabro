@@ -7,20 +7,9 @@ import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
 import com.HP50.be.global.jwt.JwtConstants;
 import com.HP50.be.global.jwt.JwtUtil;
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @RestController
@@ -81,11 +70,28 @@ public class ProjectController {
         return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
-    @GetMapping("/projects")
-    private ResponseEntity<Object> enterProject() {
-        ProjectEnterDto projectEnterDto = service.enterProject();
+    // 프로젝트 입장
+    @PostMapping("/projects/enter")
+    public ResponseEntity<Object> enterProject(@CookieValue(JwtConstants.JWT_HEADER) String token, @RequestBody ProjectEnterRequestDto projectEnterRequestDto) {
+        ProjectEnterDto projectEnterDto = service.enterProject(token, projectEnterRequestDto);
 
         return ResponseEntity.ok(new BaseResponse<>(projectEnterDto));
+    }
+
+    // 프로젝트 퇴장
+    @PostMapping("/projects/exit")
+    public ResponseEntity<Object> exitProject(@CookieValue(JwtConstants.JWT_HEADER) String token) {
+        service.exitProject(token);
+
+        return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
+    }
+
+    // 다크 모드
+    @PostMapping("/projects/darkMode")
+    public ResponseEntity<Object> projectDarkMode(@CookieValue(JwtConstants.JWT_HEADER) String token) {
+        service.projectDarkMode(token);
+
+        return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
 }

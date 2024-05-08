@@ -42,6 +42,9 @@ public class Member extends BaseTimeEntity {
     @Column
     private String memberImg;
 
+    @Column
+    private String codeServerName;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -56,4 +59,9 @@ public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
+
+    public void updateCodeServerName(String codeServerName) {
+        this.codeServerName = codeServerName;
+    }
+    
 }

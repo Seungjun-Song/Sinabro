@@ -10,6 +10,7 @@ import com.HP50.be.domain.member.repository.MemberRepository;
 import com.HP50.be.domain.member.repository.TechStackCustomRepository;
 import com.HP50.be.domain.port.entity.Port;
 import com.HP50.be.domain.port.repository.PortCustomRepository;
+import com.HP50.be.domain.port.repository.PortRepository;
 import com.HP50.be.domain.project.dto.*;
 import com.HP50.be.domain.project.entity.Project;
 import com.HP50.be.domain.project.entity.Teammate;
@@ -29,11 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,6 +48,7 @@ public class ProjectServiceImpl implements ProjectService{
     private final SubCategoryRepository subCategoryRepository;
     private final TeammateRepository teammateRepository;
     private final PjtTechStackRepository pjtTechStackRepository;
+    private final PortRepository portRepository;
     private final PortCustomRepository portCustomRepository;
     private final MemberCustomRepository memberCustomRepository;
     private final TechStackCustomRepository techStackCustomRepository;
@@ -126,7 +128,7 @@ public class ProjectServiceImpl implements ProjectService{
         // 저장
         projectRepository.save(project);
         return true;
-        
+
     }
     // 팀원 추가
 
@@ -194,32 +196,122 @@ public class ProjectServiceImpl implements ProjectService{
 
     // 프로젝트 입장
     @Override
-    public ProjectEnterDto enterProject() {
-//        String token = "";
-//        Integer memberId = jwtUtil.getMemberId(token);
-        Integer memberId = 3; // 후에 UUID 변환 후 따로 저장 해놔야됨
-        Integer dbPort = 40000;
-        String repoUrl = "https://github.com/Seungjun-Song/gollajyu"; // 실제 깃허브에서 가져온 repoUrl로 바꿔야 함
-        String repoName = repoUrl.split("/")[repoUrl.split("/").length - 1]; // 사용자가 선택한 repoUrl에서 제일 마지막 부분 추출
+    public ProjectEnterDto enterProject(String token, ProjectEnterRequestDto projectEnterRequestDto) {
+        Integer memberId = jwtUtil.getMemberId(token); // accessToken에서 memberId 추출
+        String repoUrl = projectEnterRequestDto.getRepoUrl();
+        String repoName = repoUrl.split("/")[repoUrl.split("/").length - 1].replace(".git", "");
 
-        Session session = jschUtil.createSession();
-
-        String isContainerExistsCommand = "docker inspect --format='{{.State.Health.Status}}' code-server-" + memberId;
-        if(!jschUtil.executeCommand(session, isContainerExistsCommand)) {
-            System.out.println("컨테이너 없음");
-            runContainer(session, memberId, dbPort, repoUrl);
-        } else {
-            System.out.println("컨테이너 있음");
-            startContainer(session, memberId);
+        // 기존에 codeServerName을 가지고 있으면 바로 입장 시키고 없으면 UUID를 이용해 새로운 codeServerName을 만들어서 할당하는 로직
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
+        String codeServerName = member.getCodeServerName();
+        if (codeServerName == null || codeServerName.isEmpty()) {
+            UUID uuid = UUID.randomUUID();
+            codeServerName = "code-server-" + uuid;
+            member.updateCodeServerName(codeServerName);
+            memberRepository.save(member);
         }
 
+        // 기존에 할당된 포트가 있으면 그대로 사용하고 없으면 새로운 포트를 할당하는 로직
+        Port port = portCustomRepository.findExistingPortByMemberId(memberId);
+        if(port == null){
+            port = portCustomRepository.getUnUse();
+            if(port == null) {
+                throw new BaseException(StatusCode.NOT_EXIST_PORT);
+            }
+
+            port = Port.builder()
+                    .portId(port.getPortId())
+                    .member(member)
+                    .portUse(true)
+                    .build();
+            portRepository.save(port);
+        }
+        Integer dbPort = port.getPortId();
+
+        // SSH 세션 생성
+        Session session = jschUtil.createSession();
+
+        // 컨테이너가 존재하는지 확인
+        String isContainerExistsCommand = "docker inspect --format='{{.State.Health.Status}}' " + codeServerName;
+        if(!jschUtil.executeCommand(session, isContainerExistsCommand)) {
+            // 컨테이너가 존재하지 않으면 docker run 프로세스 실행
+            log.info("컨테이너 없음");
+            runContainer(session, codeServerName, dbPort, repoUrl);
+        } else {
+            // 컨테이너가 존재하면 docker start 프로세스 실행
+            log.info("컨테이너 있음");
+            startContainer(session, codeServerName, repoUrl);
+        }
+
+        // 리버스 프록시 설정
+        String nginxUpdateCommand = "sudo python3 nginx_updater.py";
+        if(!jschUtil.executeCommand(session, nginxUpdateCommand)) {
+            throw new BaseException(StatusCode.NGINX_UPDATE_FAIL);
+        }
+
+        // 깃 클론 전 디렉토리 존재 여부 확인
+        String checkDirCommand = "docker exec " + codeServerName + " /bin/bash -c '[ -d \"/home/coder/code-server/" + repoName + "\" ] && echo \"exists\" || echo \"not exists\"'";
+        if(!jschUtil.executeCommandAndGetOutput(session, checkDirCommand).trim().equals("exists")) {
+            // 깃 클론
+            String gitCloneCommand = "docker exec " + codeServerName + " git clone " + repoUrl;
+            if(!jschUtil.executeCommand(session, gitCloneCommand)) {
+                throw new BaseException(StatusCode.GIT_CLONE_FAIL);
+            }
+        }
+
+        // 깃 config 세팅
+        String userName = jwtUtil.getMemberName(token);
+        String userEmail = jwtUtil.getEmail(token);
+        String gitConfigSettingCommand = "docker exec " + codeServerName + " /bin/bash -c 'git config --global user.name " + userName + "; git config --global user.email " + userEmail + "'";
+        if(!jschUtil.executeCommand(session, gitConfigSettingCommand)) {
+            throw new BaseException(StatusCode.GIT_CLONE_FAIL);
+        }
+
+        // SSH 세션 종료
         session.disconnect();
 
         return ProjectEnterDto.builder()
-                .url("https://k10e103.p.ssafy.io/code-server-" + memberId + "/?folder=/home/coder/code-server/" + repoName)
+                .url("https://k10e103.p.ssafy.io/" + codeServerName + "/?folder=/home/coder/code-server/" + repoName)
                 .dbPort(dbPort)
                 .build();
     }
+
+    // 프로젝트 퇴장
+    @Override
+    public void exitProject(String token) {
+        Integer memberId = jwtUtil.getMemberId(token); // accessToken에서 memberId 추출
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
+        String codeServerName = member.getCodeServerName();
+
+        Session session = jschUtil.createSession();
+
+        // 테마를 토글하는 명령
+        String stopCommand = "docker stop " + codeServerName;
+        if (!jschUtil.executeCommand(session, stopCommand)) {
+            throw new BaseException(StatusCode.CONTAINER_STOP_FAIL);
+        }
+
+        session.disconnect();
+    }
+
+    // 프로젝트 다크모드
+    @Override
+    public void projectDarkMode(String token) {
+        Integer memberId = jwtUtil.getMemberId(token); // accessToken에서 memberId 추출
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
+        String codeServerName = member.getCodeServerName();
+
+        Session session = jschUtil.createSession();
+
+        // 테마를 토글하는 명령
+        String toggleThemeCommand = "docker exec " + codeServerName + " /bin/bash -c \"sed -i 's|\\\"Visual Studio Dark\\\"|\\\"Visual Studio Light\\\"|;t;s|\\\"Visual Studio Light\\\"|\\\"Visual Studio Dark\\\"|' /home/coder/.local/share/code-server/User/settings.json\"";
+        if (!jschUtil.executeCommand(session, toggleThemeCommand)) {
+            throw new BaseException(StatusCode.CHANGE_DARK_MODE_FAIL);
+        }
+
+        session.disconnect();
+    }
+
 
     @Override
     public ResponseEntity<?> getProjectListInMember(String token) {
@@ -237,53 +329,49 @@ public class ProjectServiceImpl implements ProjectService{
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(projectListResponseDtos));
     }
 
-    public void runContainer(Session session, Integer memberId, Integer dbPort, String repoUrl) {
-        String runCommand = "docker run --name code-server-" + memberId + " -d -p :80 -p " + dbPort + ":3306 code-server --bind-addr=0.0.0.0:80";
+    // 컨테이너 생성 프로세스 
+    public void runContainer(Session session, String codeServerName, Integer dbPort, String repoUrl) {
+        // 컨테이너 생성 및 실행
+        String runCommand = "docker run --name " + codeServerName + " -d -p :80 -p " + dbPort + ":3306 code-server --bind-addr=0.0.0.0:80";
         if(!jschUtil.executeCommand(session, runCommand)) {
             throw new BaseException(StatusCode.CONTAINER_RUN_FAIL);
         }
 
+        // 컨테이너 헬스 체크(실행 중인지 켜졌는지 실행 실패 했는지 확인)
         int retryCount = 0;
         int maxRetryCount = 10; // 최대 10번 시도 (약 10초)
-        String isContainerReadyCommand = "docker inspect --format='{{.State.Health.Status}}' code-server-" + memberId;
+        String isContainerReadyCommand = "docker inspect --format='{{.State.Health.Status}}' " + codeServerName;
         while (!jschUtil.isContainerReady(session, isContainerReadyCommand) && retryCount < maxRetryCount) {
             retryCount++;
         }
+        log.info(retryCount == maxRetryCount ? "컨테이너가 준비되지 않음" : "컨테이너 준비 완료");
 
-        System.out.println(retryCount == maxRetryCount ? "컨테이너가 준비되지 않음" : "컨테이너 준비 완료");
-
-        String nginxUpdateCommand = "sudo python3 nginx_updater.py";
-        if(!jschUtil.executeCommand(session, nginxUpdateCommand)) {
-            throw new BaseException(StatusCode.NGINX_UPDATE_FAIL);
-        }
-
-        String gitCloneCommand = "docker exec code-server-" + memberId + " git clone " + repoUrl;
-        if(!jschUtil.executeCommand(session, gitCloneCommand)) {
-            throw new BaseException(StatusCode.GIT_CLONE_FAIL);
-        }
-
-        String mysqlStartCommand = "docker exec code-server-" + memberId + " /start_mysql.sh";
+        // mysql 실행
+        String mysqlStartCommand = "docker exec " + codeServerName + " /start_mysql.sh";
         if(!jschUtil.executeCommand(session, mysqlStartCommand)) {
             throw new BaseException(StatusCode.MYSQL_START_FAIL);
         }
     }
 
-    public void startContainer(Session session, Integer memberId) {
-        String startCommand = "docker start code-server-" + memberId;
+    // 컨테이너 실행 프로세스
+    public void startContainer(Session session, String codeServerName, String repoUrl) {
+        // 컨테이너 실행
+        String startCommand = "docker start " + codeServerName;
         if(!jschUtil.executeCommand(session, startCommand)) {
             throw new BaseException(StatusCode.CONTAINER_START_FAIL);
         }
 
+        // 컨테이너 헬스 체크(실행 중인지 켜졌는지 실행 실패 했는지 확인)
         int retryCount = 0;
         int maxRetryCount = 10; // 최대 10번 시도 (약 10초)
-        String isContainerReadyCommand = "docker inspect --format='{{.State.Health.Status}}' code-server-" + memberId;
+        String isContainerReadyCommand = "docker inspect --format='{{.State.Health.Status}}' " + codeServerName;
         while (!jschUtil.isContainerReady(session, isContainerReadyCommand) && retryCount < maxRetryCount) {
             retryCount++;
         }
+        log.info(retryCount == maxRetryCount ? "컨테이너가 준비되지 않음" : "컨테이너 준비 완료");
 
-        System.out.println(retryCount == maxRetryCount ? "컨테이너가 준비되지 않음" : "컨테이너 준비 완료");
-
-        String mysqlRestartCommand = "docker exec code-server-" + memberId + " /restart_mysql.sh";
+        // mysql 재실행
+        String mysqlRestartCommand = "docker exec " + codeServerName + " /restart_mysql.sh";
         if(!jschUtil.executeCommand(session, mysqlRestartCommand)) {
             throw new BaseException(StatusCode.MYSQL_RESTART_FAIL);
         }
