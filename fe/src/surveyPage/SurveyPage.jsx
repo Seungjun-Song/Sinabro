@@ -291,10 +291,11 @@ const SurveyPage = () => {
   const chooseSubSkill = async () => {
     const subCategoryIds = choiceResults.map(item => item.subCategoryId)
     setMyStack(subCategoryIds)
-    console.log(myStack)
+    
     try {
+      console.log(myStack)
       const res = await axios.post(`${back_url}/members`, {
-        subCategoryId: myStack, // 실제로 받는 바디가 뭔지 확인 필요, 배열에 서브스킬 추가해야함
+        subCategoryId: subCategoryIds,
       })
       console.log(res.data)
       navigate('/mainPage')
@@ -302,7 +303,7 @@ const SurveyPage = () => {
     catch (err) {
       console.error(err)
     }
-  }
+  }  
 
   return (
     <>
