@@ -16,6 +16,9 @@ public class BoardDetailResponseDto {
     @Schema(name = "게시판의 고유 번호", example = "127")
     private Integer boardId;
 
+    @Schema(example = "94429120")
+    private Integer memberId;
+
     @Schema(name = "게시글을 작성한 멤버의 이름", example = "jongkookE")
     private String memberName;
 
