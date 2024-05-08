@@ -1,4 +1,7 @@
 package com.HP50.be.domain.community.repository;
 
-public interface CommentRepository {
+import com.HP50.be.domain.community.entity.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CommentRepository extends JpaRepository<Comment, Integer> {
 }

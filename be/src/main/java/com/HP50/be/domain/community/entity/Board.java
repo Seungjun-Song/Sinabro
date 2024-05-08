@@ -55,11 +55,11 @@ public class Board extends BaseTimeEntity {
     private boolean communityProgress;
 
     @Column
-    private int requiredPeopleBackEnd;
+    private Integer requiredPeopleBackEnd;
 
     @Column
-    private int requiredPeopleFrontEnd;
+    private Integer requiredPeopleFrontEnd;
 
     @Column
-    private int requiredPeopleFullStack;
+    private Integer requiredPeopleFullStack;
 }

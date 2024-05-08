@@ -15,7 +15,7 @@ public class BoardFilterRequestDto {
     @Schema(example = "501")
     private Integer subCategoryCalender;
 
-    // 100 = 프론트 , 200 = 백, 300 = 풀스택, 0 = 모두 다
+    // 100 = 프론트 , 200 = 백, 300 = 풀스택
     @Schema(example = "100")
     private Integer categoryJob;
 

@@ -14,6 +14,4 @@ public class ProjectListResponseDto {
     private String projectImg;
     private String projectRepo;
     private SubCategory subCategory;
-
-
 }

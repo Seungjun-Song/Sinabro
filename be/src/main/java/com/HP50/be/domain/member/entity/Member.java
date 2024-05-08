@@ -2,6 +2,7 @@ package com.HP50.be.domain.member.entity;
 
 
 import com.HP50.be.domain.code.entity.Category;
+import com.HP50.be.domain.community.entity.Comment;
 import com.HP50.be.domain.project.entity.Teammate;
 import com.HP50.be.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -49,12 +50,18 @@ public class Member extends BaseTimeEntity {
     private Category category;
 
     @OneToMany(mappedBy = "member")
+    @Builder.Default
     private List<Teammate> teammates = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
+    @Builder.Default
     private List<TechStack> techStacks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments = new ArrayList<>();
 
     public void updateCodeServerName(String codeServerName) {
         this.codeServerName = codeServerName;
     }
+    
 }

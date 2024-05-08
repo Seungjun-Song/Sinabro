@@ -110,8 +110,10 @@ public class JschUtil {
         return sb;
     }
 
-    // 깃 클론 전 디렉토리 존재 여부 확인
-    public String checkDirCommand(Session session, String command) {
+    /*
+        소나큐브에서 결과 확인하기 위해서 필요 + 추가
+     */
+    public String executeCommandAndGetOutput(Session session, String command) {
         try {
             Channel channel = session.openChannel("exec");
             ((ChannelExec) channel).setCommand(command); // 실행할 명령 설정
