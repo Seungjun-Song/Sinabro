@@ -1,7 +1,3 @@
-package com.HP50.be.domain.code.repository;
-
-import com.HP50.be.domain.code.entity.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface CategoryRepository extends JpaRepository<Category, Integer> {
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:84b4ab8d586678752af4e42e908008665629cb1c34df9be7a3bccd6bfaf9d461
+size 237
