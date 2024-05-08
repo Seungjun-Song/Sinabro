@@ -64,6 +64,9 @@ public enum StatusCode {
     FAIL_API_REQUEST(false,1007,"소나큐브 API요청을 실패했습니다."),
     REQUIRE_PAYMENT(false,1008,"소나큐브를 이용하기 위해선 결제가 필요합니다."),
     RUNNING_SONARQUBE(false,1009,"소나큐브가 작동중입니다. 잠시 후 요청을 다시 보내주세요."),
+    
+    // Community(1100)
+    NOT_EXIST_BOARD(false, 1101, "존재하지 않는 게시글입니다"),
 
     // Jsch (1500)
     SESSION_CONNECT_FAIL(false, 1500, "Session 접속 실패"),

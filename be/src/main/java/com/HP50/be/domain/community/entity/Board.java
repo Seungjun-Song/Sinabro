@@ -8,6 +8,7 @@ import com.HP50.be.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,6 +33,9 @@ public class Board extends BaseTimeEntity {
     @JoinColumn(name= "subcategory_id")
     private SubCategory subCategory;
 
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
     @Column(length = 500)
     private String projectLink;
 
@@ -49,4 +53,13 @@ public class Board extends BaseTimeEntity {
 
     @Column(columnDefinition = "tinyint")
     private boolean communityProgress;
+
+    @Column
+    private Integer requiredPeopleBackEnd;
+
+    @Column
+    private Integer requiredPeopleFrontEnd;
+
+    @Column
+    private Integer requiredPeopleFullStack;
 }
