@@ -1,12 +1,15 @@
 import { getAuth, signOut } from "firebase/auth";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import app from "../firebase";
 import { clearUser } from "../store/userSlice";
 import ChatBot from "../components/chatbot/ChatBot";
 import { useNavigate } from "react-router-dom";
+import { setProjectRoomId } from "../store/projectRoomIdSlice";
 
 const TestPage = () => {
+
+    const [roomId, setRoomId] = useState(99)
 
     const userInfo = useSelector(state => (state.user))
     const auth = getAuth(app);
@@ -32,13 +35,14 @@ const TestPage = () => {
             <div>
                 <h1>TestPage</h1>
                 <p> Your Name is {userInfo.currentUser.displayName}</p>
+                <input type="text" placeholder="입장할 프로젝트 번호를 숫자로 입력하세요" onChange={(e) => {setRoomId(e.target.value), dispatch(setProjectRoomId(e.target.value))}}/>
             </div>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 <button onClick={handleLogout}>This button is logout function</button>
                 <button onClick={() => navigate('/survey')}>설문 페이지</button>
                 <button onClick={() => navigate('/mypage')}>마이 페이지</button>
                 <button onClick={() => navigate('/TeamSpacePage')}>팀스페이스 페이지</button>
-                <button onClick={() => navigate('/project')}>프로젝트 페이지</button>
+                <button onClick={() => navigate(`/project/${roomId}`)}>프로젝트 페이지</button>
                 <button onClick={() => navigate('/communityMainPage', { state: { kind: "member", page: 1 } })}>커뮤니티</button>
                 <button onClick={() => navigate('/TeamSpaceDetailPage')}>팀스페이스 디테일 페이지</button>
                 <button onClick={() => navigate('/Mainpage')}>메인페이지</button>

@@ -25,7 +25,7 @@ const ProjectCreateBtn = ({ isDark }) => {
 
     const createProject = async () => {
         try {
-            await axios.post(`${back_url}/teams/projects`, {
+            await axios.post(`${back_url}/teams/projects`, { // 쿠키 제대로 받아지면 실행되는지 확인해야함
                 memberId: createProjectInfo.value.memberId,
                 projectName: createProjectInfo.value.projectName,
                 projectInfo: createProjectInfo.value.projectInfo,

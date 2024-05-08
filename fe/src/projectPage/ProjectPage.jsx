@@ -8,6 +8,7 @@ import { getDatabase, onValue, ref } from 'firebase/database';
 import { setNewMessageState } from '../store/newMessageSlice';
 import { changeProjectChatState } from '../store/projectChatShow';
 import WebRTC from '../components/webrtc/WebRTC';
+import { clearProjectRoomId } from '../store/projectRoomIdSlice';
 
 const ProjectContainer = styled.div`
   position: relative; /* 부모 컨테이너를 기준으로 자식 요소의 위치를 설정하기 위해 */
@@ -15,6 +16,8 @@ const ProjectContainer = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  min-height: 600px;
+  min-width: 700px;
 `;
 
 const ProjectMainContainer = styled.div`
@@ -78,6 +81,9 @@ const ProjectPage = () => {
         }, 3000);
       }
     });
+    return () => {
+      dispatch(clearProjectRoomId()) // 프로젝트 페이지를 떠나면 프로젝트 Id를 삭제
+    }
   }, []);
 
   const newChatState = () => {

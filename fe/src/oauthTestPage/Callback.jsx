@@ -39,6 +39,7 @@ const Callback = () => {
                         displayName: res.data.result.memberName,
                         token: res.data.result.jwtAccessToken,
                         newer: res.data.result.newer,
+                        photoURL: res.data.result.memberImg
                     }))
 
                     if(res.data.result.newer == true){

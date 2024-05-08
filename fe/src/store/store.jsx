@@ -12,6 +12,7 @@ import projectCreateSlice from "./projectCreateSlice";
 import userSearchSlice from "./userSearchSlice";
 import inviteUserSlice from "./inviteUserSlice";
 import invitedUserListSlice from "./invitedUserListSlice";
+import projectRoomIdSlice from "./projectRoomIdSlice";
 
 const reducers = combineReducers({
   user: userSlice,
@@ -25,6 +26,7 @@ const reducers = combineReducers({
   userSearch: userSearchSlice,
   inviteUser: inviteUserSlice,
   invitedUserList: invitedUserListSlice,
+  projectRoomId: projectRoomIdSlice,
 });
 
 const persistConfig = {

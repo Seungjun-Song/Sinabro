@@ -18,7 +18,8 @@ export const userSlice =  createSlice({
             state.currentUser.uid = action.payload.uid
             state.currentUser.displayName = action.payload.displayName
             state.currentUser.token = action.payload.token
-            state.currentUser.newer = action.payload.newer;
+            state.currentUser.newer = action.payload.newer
+            state.currentUser.photoURL = action.payload.photoURL
         },
         clearUser: (state) => {
             state.currentUser = {}

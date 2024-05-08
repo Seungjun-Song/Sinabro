@@ -126,8 +126,8 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
                     >
                         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                             {toDoList.map((item, index) => {
-                                const itemStartDate = item.start ? new Date(item.start) : null;
-                                const itemEndDate = item.end ? new Date(item.end) : null;
+                                const itemStartDate = item.calenderStartDt ? new Date(item.calenderStartDt) : null;
+                                const itemEndDate = item.calenderEndDt ? new Date(item.calenderEndDt) : null;
                                 const today = new Date(day);
 
                                 if (itemStartDate && itemEndDate) {
@@ -139,24 +139,24 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
                                                 overlay={<Tooltip>
                                                     <div style={{ height: '100%', width: '100%' }}>
                                                         <div style={{ width: '100%', borderBottom: '2px solid #D1D1D1', color: '#D1D1D1', fontWeight: 'bold' }}>
-                                                            {item.work}
+                                                            {item.calenderName}
                                                         </div>
                                                         <div style={{ width: '100%', borderBottom: '2px solid #D1D1D1', color: '#D1D1D1', fontWeight: 'bold' }}>
-                                                            {item.worker}
+                                                            {item.memberName}
                                                         </div>
                                                         <div>
-                                                            <div>{fromatDated(new Date(item.start))} ~ {fromatDated(new Date(item.end))}</div>
+                                                            <div>{fromatDated(new Date(item.calenderStartDt))} ~ {fromatDated(new Date(item.calenderEndDt))}</div>
                                                         </div>
                                                     </div>
                                                 </Tooltip>}
                                             >
-                                                {item.state ?
+                                                {item.subCategoryId === 501 ?
                                                     <div style={{ fontSize: '11px', backgroundColor: '#e8e6f4', borderRadius: '2rem', padding: '0 0.4rem', margin: '0.1rem 0.1rem', boxShadow: '1px 1px 1px 0px #564CAD', textDecoration: 'line-through' }}>
-                                                        {truncate(item.work, 10)}
+                                                        {truncate(item.calenderName, 10)}
                                                     </div>
                                                     :
                                                     <div style={{ fontSize: '11px', backgroundColor: '#e8e6f4', borderRadius: '2rem', padding: '0 0.4rem', margin: '0.1rem 0.1rem', boxShadow: '1px 1px 1px 0px #564CAD' }}>
-                                                        {truncate(item.work, 10)}
+                                                        {truncate(item.calenderName, 10)}
                                                     </div>
                                                 }
                                             </OverlayTrigger>

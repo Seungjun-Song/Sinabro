@@ -4,7 +4,7 @@ import { GlobalColor } from "../../services/color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios'; // axios import 추가
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveProjectRepo } from "../../store/projectCreateSlice";
 
 const token = "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";
@@ -15,6 +15,8 @@ const ProjectGitConnect = ({ isDark }) => {
 
   const dispatch = useDispatch()
 
+  const userInfo = useSelector(state => state.user)
+
   const handleRepository = (repo) => {
     setData(repo);
     dispatch(saveProjectRepo(repo))
@@ -23,7 +25,7 @@ const ProjectGitConnect = ({ isDark }) => {
   const getUserRepositories = async () => {
     try {
       const response = await axios.get(
-        `https://api.github.com/users/cho1jaeseong/repos`, // 실제 유저의 깃 아이디가 있어야함
+        `https://api.github.com/users/${userInfo.currentUser.displayName}/repos`, // 실제 유저의 깃 아이디가 있어야함
         {
           headers: {
             Authorization: `token ${token}`,
@@ -99,7 +101,7 @@ const ProjectGitConnect = ({ isDark }) => {
                         color: isDark ? "white" : "black",
                       }}
                     >
-                      나의 레퍼지토리 목록 불러오기
+                      나의 레포지토리 목록 불러오기
                     </div>
                   </motion.div>
                 )}

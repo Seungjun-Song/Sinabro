@@ -7,6 +7,7 @@ import Chat from '../components/chat/Chat'
 import { useDispatch, useSelector } from 'react-redux';
 import { setChatState, setIsNotificationOn, setProjectRightPanelState } from '../store/newMessageSlice';
 import { changeProjectChatState } from '../store/projectChatShow';
+import './style.css'
 
 const ProjectPageRightPanelContainer = styled.div`
     height: 100%;
@@ -106,7 +107,7 @@ const ProjectPageRightPanel = () => {
     return (
         <>
             {isSidePanelOpen ?
-                <ProjectPageRightPanelContainer isDark={isDark}>
+                <ProjectPageRightPanelContainer isDark={isDark} className='hide-all-panel'>
                     <UpperBox>
                         <IconHoverBox isDark={isDark}>
                             <FontAwesomeIcon icon={faChevronRight} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
