@@ -26,8 +26,8 @@ const Callback = () => {
     
             if(codeParam){
                 setCode(codeParam)
-                //axios.get(`http://localhost:8080/api/oauth2/${codeParam}`)
-                axios.get(`https://k10e103.p.ssafy.io/api/oauth2/${codeParam}`)
+                axios.get(`http://localhost:8080/api/oauth2/${codeParam}`)
+                //axios.get(`https://k10e103.p.ssafy.io/api/oauth2/${codeParam}`)
                 .then((res) => {
                     // console.log(res.data)
                     // console.log(res.data.result.jwtAccessToken);

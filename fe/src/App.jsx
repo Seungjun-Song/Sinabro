@@ -28,6 +28,7 @@ import ProjectPage from "./projectPage/ProjectPage";
 import { Calender } from "./components/calender/Calender";
 import BoardingPage from "./boardingPage/BoardingPage";
 import { AnimatePresence } from "framer-motion";
+import SonarqubePage from "./SonarqubePage/SonarqubePage";
 const api = "https://k10e103.p.ssafy.io/"
 const App = () => {
   const dispatch = useDispatch();
@@ -94,6 +95,8 @@ const App = () => {
       <Route path="/oauthTest" element={<OauthTest />} />
       <Route path="/callback" element={<Callback />} />
 
+
+      <Route path="/SonarQube" element={<SonarqubePage />} />
     </Routes>
   );
 };

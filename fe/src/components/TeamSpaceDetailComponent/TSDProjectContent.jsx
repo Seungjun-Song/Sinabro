@@ -4,8 +4,10 @@ import Projectexplanation from "./Projectexplanation";
 import TSDUserModal from "./TSDUserModal";
 import { AnimatePresence } from "framer-motion";
 import { GlobalColor } from "../../services/color";
+import { Calender } from "../calender/Calender";
+import Todo from "./Todo";
 
-const TSDProjectContent = ({ whatInfo,isDark }) => {
+const TSDProjectContent = ({ whatInfo, isDark }) => {
   const [whatUser, setWhatUser] = useState(false);
   return (
     <>
@@ -22,11 +24,16 @@ const TSDProjectContent = ({ whatInfo,isDark }) => {
           borderRadius: "1.5rem",
           width: "100%",
           overflowX: "auto",
-          backgroundColor : isDark ? GlobalColor.colors.primary_black50 :"white"
+          backgroundColor: isDark
+            ? GlobalColor.colors.primary_black50
+            : "white",
         }}
       >
         {whatInfo == "설명" && <Projectexplanation isDark={isDark} />}
-        {whatInfo == "팀원" && <ProjectTeam  isDark={isDark} setWhatUser={setWhatUser} />}
+        {whatInfo == "팀원" && (
+          <ProjectTeam isDark={isDark} setWhatUser={setWhatUser} />
+        )}
+        {whatInfo == "일정" && <Todo />}
         <AnimatePresence>
           {whatUser && (
             <TSDUserModal whatUser={whatUser} setWhatUser={setWhatUser} />

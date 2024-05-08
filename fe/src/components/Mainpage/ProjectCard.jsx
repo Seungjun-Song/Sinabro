@@ -30,7 +30,7 @@ const ProjectCard = ({ item ,isDark}) => {
             borderRadius: "1rem",
             width: "17rem",
             position: "relative",
-            color: isDark ?  "white":GlobalColor.colors.primary_black50,
+            color: isDark ?  "white":"black",
             backgroundColor: isDark ? GlobalColor.colors.primary_black50 :"white"
           }}
         >
