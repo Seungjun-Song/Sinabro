@@ -289,13 +289,13 @@ const SurveyPage = () => {
   }
 
   const chooseSubSkill = async () => {
-    const subCategoryIds = choiceResults.map(item => item.subCategoryId)
+    const subCategoryIds = choiceResults.map(item => ({ subCategoryId: item.subCategoryId })) 
     setMyStack(subCategoryIds)
     
     try {
       console.log(myStack)
       const res = await axios.post(`${back_url}/members`, {
-        subCategoryId: subCategoryIds,
+        subCategoryId: myStack,
       })
       console.log(res.data)
       navigate('/mainPage')
@@ -303,7 +303,8 @@ const SurveyPage = () => {
     catch (err) {
       console.error(err)
     }
-  }  
+  }
+  
 
   return (
     <>
