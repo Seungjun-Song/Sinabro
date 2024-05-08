@@ -3,8 +3,10 @@ package com.HP50.be.domain.community.dto;
 import com.HP50.be.domain.code.dto.TagDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.Setter;
 
 import java.util.List;
+import java.util.Optional;
 
 @Data
 public class BoardInsertRequestDto {
@@ -26,7 +28,7 @@ public class BoardInsertRequestDto {
     private String projectLink;
 
     @Schema(description = "팀 구해요 일 경우는 null", example = "11")
-    private Integer projectId;
+    private Optional<Integer> projectId;
 
     @Schema(example = "401", description = "401 = 팀원 구해요" +
             "402 = 팀 원해요" +
@@ -43,4 +45,5 @@ public class BoardInsertRequestDto {
     private Integer requiredFullStack;
 
     private List<TagDto> boardTag;
+
 }

@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -123,40 +124,37 @@ public class BoardServiceImpl implements BoardService {
         Integer memberId = jwtUtil.getMemberId(token);
         // board 가 0 이라면 save
         // 0 이 아니라면 update 분기처리
+        Optional<Integer> projectId =  boardInsertRequestDto.getProjectId();
+
         Integer boardId = boardInsertRequestDto.getBoardId();
         SubCategory subCategory = subCategoryService.findById(boardInsertRequestDto.getSubCategoryId());
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
-        Project project = projectRepository.findById(boardInsertRequestDto.getProjectId())
-                .orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
+
 
         String toJson = new Gson().toJson(boardInsertRequestDto.getBoardTag());
 
-
-        // builder 패턴 진행 중에 boardId 를 넣어주고와 넣어주지 않음의 차이
-        if(boardId == 0) return Board.builder()
+        Board board = Board.builder()
                 .member(member)
                 .boardTitle(boardInsertRequestDto.getBoardTitle())
                 .boardContent(boardInsertRequestDto.getBoardContent())
                 .boardTag(toJson)
                 .boardImg(boardInsertRequestDto.getBoardImg())
                 .communityProgress(true)
-                .project(project)
                 .subCategory(subCategory)
                 .build();
 
-        else return Board.builder()
-                .boardId(boardInsertRequestDto.getBoardId()) // 여기서 update 함을 처리
-                .member(member)
-                .boardTitle(boardInsertRequestDto.getBoardTitle())
-                .boardContent(boardInsertRequestDto.getBoardContent())
-                .boardTag(toJson)
-                .boardImg(boardInsertRequestDto.getBoardImg())
-                .communityProgress(true)
-                .project(project)
-                .subCategory(subCategory)
-                .build();
+        // NullPointerException 을 방지
+        if(projectId != null) {
+            Integer pID = projectId.orElse(null);
+            Project project = projectRepository.findById(pID).orElseThrow(() -> new BaseException(StatusCode.BAD_REQUEST));
+            board.setProject(project);
+        }
 
+        // boardId 가 0 이면 새로운 데이터 삽입 아니라면 업데이트
+        if(boardId != 0)  board.setBoardId(boardInsertRequestDto.getBoardId());
+
+        return board;
     }
 
 }

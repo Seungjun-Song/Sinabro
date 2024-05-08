@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Board extends BaseTimeEntity {
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer boardId;
@@ -25,6 +26,7 @@ public class Board extends BaseTimeEntity {
     @JoinColumn(name= "member_id")
     private Member member;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
