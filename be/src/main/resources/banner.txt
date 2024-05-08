@@ -1,5 +1,10 @@
+
+
    ${AnsiColor.BRIGHT_YELLOW}✧	${AnsiColor.BRIGHT_WHITE}.  ♡ ${AnsiColor.BRIGHT_WHITE}ᕬ ᕬ ♡ 		${AnsiColor.BRIGHT_YELLOW}+${AnsiColor.BRIGHT_WHITE}
-･ﾟ	  + ♡ ( ${AnsiColor.RED}⌯${AnsiColor.BRIGHT_WHITE}＇^＇${AnsiColor.RED}⌯${AnsiColor.BRIGHT_WHITE}) ♡ +  ･ﾟ
+･ﾟ	  ${AnsiColor.BRIGHT_CYAN}+${AnsiColor.BRIGHT_WHITE} ♡ ( ${AnsiColor.RED}⌯${AnsiColor.BRIGHT_WHITE}＇^＇${AnsiColor.RED}⌯${AnsiColor.BRIGHT_WHITE}) ♡ +  ･ﾟ
 	┏━♡━━━━ U ━━ U━━━━ ♡━┓  + ✧
   ${AnsiColor.BRIGHT_YELLOW}･ﾟ${AnsiColor.BRIGHT_WHITE}♡    ${AnsiColor.BRIGHT_RED}S ${AnsiColor.BRIGHT_YELLOW}i ${AnsiColor.BRIGHT_GREEN}n ${AnsiColor.BRIGHT_CYAN}a ${AnsiColor.BLUE}b ${AnsiColor.BRIGHT_MAGENTA}r ${AnsiColor.BRIGHT_WHITE}o 　 ♡
 +	┗━♡━━━━━━━━━━━━━━━━♡━┛  ${AnsiColor.BRIGHT_YELLOW}･ﾟ${AnsiColor.BRIGHT_WHITE}
+              ･          ${AnsiColor.BRIGHT_CYAN}✧${AnsiColor.BRIGHT_WHITE}     ･
+     ･${AnsiColor.BRIGHT_MAGENTA}ﾟ${AnsiColor.BRIGHT_WHITE}          +
+
