@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface CategoryService {
-    ResponseEntity<BaseResponse<?>> savePersonalDuty(CategoryRequestDto dto);
+    ResponseEntity<BaseResponse<?>> savePersonalDuty(String token, CategoryRequestDto dto);
 
     List<CategoryResponseDto> findAllJob();
 }

@@ -31,33 +31,33 @@ public class BoardCustomRepository {
     private final CategoryRepository categoryRepository;
     private final JwtUtil jwtUtil;
 
-    public Slice<Board> findByConditions(BoardFilterRequestDto boardFilterRequestDto, Pageable pageable) {
-        Integer subCategoryBoard = boardFilterRequestDto.getSubCategoryBoard();
-        Integer subCategoryCalender = boardFilterRequestDto.getSubCategoryCalender();
-        Integer categoryJob = boardFilterRequestDto.getCategoryJob();
-        String searchTitle = boardFilterRequestDto.getSearchTitle();
+    public Slice<Board> findByConditions(Integer boards,
+                                         Integer calender,
+                                         Integer job,
+                                         String keyword,
+                                         Pageable pageable) {
 
-        SubCategory subCategory = subCategoryService.findById(subCategoryBoard);
+        SubCategory subCategory = subCategoryService.findById(boards);
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (subCategoryBoard != null && subCategoryBoard != 0) {
+        if (boards != null && boards != 0) {
             builder.and(board.subCategory.eq(subCategory));
         }
 
-        if (subCategoryCalender != null && subCategoryCalender != 0) {
-            if (subCategoryCalender == 502) builder.and(board.communityProgress.eq(true));
-            else if (subCategoryCalender == 503) builder.and(board.communityProgress.eq(false));
+        if (calender != null && calender != 0) {
+            if (calender == 502) builder.and(board.communityProgress.eq(true));
+            else if (calender == 503) builder.and(board.communityProgress.eq(false));
         }
 
-        if (categoryJob != null && categoryJob != 0) {
-            if (categoryJob == 100) builder.and(board.requiredPeopleFrontEnd.gt(0));
-            if (categoryJob == 200) builder.and(board.requiredPeopleBackEnd.gt(0));
-            if (categoryJob == 300) builder.and(board.requiredPeopleFullStack.gt(0));
+        if (job != null && job != 0) {
+            if (job == 100) builder.and(board.requiredPeopleFrontEnd.gt(0));
+            if (job == 200) builder.and(board.requiredPeopleBackEnd.gt(0));
+            if (job == 300) builder.and(board.requiredPeopleFullStack.gt(0));
         }
 
-        if (searchTitle != null && !searchTitle.isEmpty()) {
-            builder.and(board.boardTitle.like("%" + searchTitle + "%"));
+        if (keyword != null && !keyword.isEmpty()) {
+            builder.and(board.boardTitle.like("%" + keyword + "%"));
         }
 
         List<Board> results = queryFactory
@@ -68,8 +68,8 @@ public class BoardCustomRepository {
                 .fetch();
         boolean hasNext = results.size() > pageable.getPageSize();
 
-        List<Board> boards = hasNext ? results.subList(0, pageable.getPageSize()) : results;
+        List<Board> boardList = hasNext ? results.subList(0, pageable.getPageSize()) : results;
 
-        return new SliceImpl<>(boards, pageable, hasNext);
+        return new SliceImpl<>(boardList, pageable, hasNext);
     }
 }

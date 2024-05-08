@@ -7,6 +7,7 @@ import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.jwt.JwtConstants;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +25,13 @@ public class CommunityController {
     private final CommentService commentService;
 
     @Operation(summary = "댓글 저장")
-    @PostMapping
+    @PostMapping("/comment")
     public ResponseEntity<BaseResponse<StatusCode>> saveComment(@RequestBody CommentRequestDto commentRequestDto){
         return commentService.save(commentRequestDto);
     }
-    @Operation(summary = "게시글 저장")
+    @Operation(summary = "게시글 저장", description = "boardId = 0 INSERT, 기존에 존재하는 값이면 UPDATE ")
     @ApiResponse(responseCode = "100", description = "성공하였습니다.")
-    @PostMapping("/comment")
+    @PostMapping
     public ResponseEntity<BaseResponse<StatusCode>> insertBoard(@CookieValue(JwtConstants.JWT_HEADER) String token,
                                                                   @RequestBody BoardInsertRequestDto boardInsertRequestDto){
         return boardService.insertBoard(token, boardInsertRequestDto);
@@ -38,10 +39,17 @@ public class CommunityController {
 
     // 스웨거에 return 형식을 보여주기 위해서는 ? 를 사용하면 안되고 아래와 같이 명시적으로 기입해줘야함
     @Operation(summary = "게시글 가져오기")
+    @Parameter(name = "catBoard", example = "401", description = "0이면 필터 X")
+    @Parameter(name = "catCalender", example = "501", description = "0이면 필터 X")
+    @Parameter(name = "catJob", example = "100", description = "0이면 필터 X")
+    @Parameter(name = "keyword", example = "백엔", description = "공백이면 필터 X")
     @GetMapping
-    public ResponseEntity<BaseResponse<List<BoardListResponseDto>>> findByConditons(@RequestBody BoardFilterRequestDto boardFilterRequestDto,
-                                                                                    @RequestParam Integer page){
-        return boardService.findByConditions(boardFilterRequestDto, page);
+    public ResponseEntity<BaseResponse<BoardPaginationResponseDto>> findByConditons(@RequestParam Integer catBoard,
+                                                                                    @RequestParam Integer catCalender,
+                                                                                    @RequestParam Integer catJob,
+                                                                                    @RequestParam String keyword,
+                                                                                    @RequestParam int page){
+        return ResponseEntity.ok().body(new BaseResponse<>(boardService.findByConditions(catBoard, catCalender, catJob, keyword, page)));
     }
 
     @Operation(summary = "상세 게시글 조회")

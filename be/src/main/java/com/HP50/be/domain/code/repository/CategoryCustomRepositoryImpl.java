@@ -35,14 +35,14 @@ public class CategoryCustomRepositoryImpl implements CategoryCustomRepository{
 
     @Override
     @Transactional
-    public ResponseEntity<BaseResponse<?>> savePersonalDuty(CategoryRequestDto dto) {
+    public ResponseEntity<BaseResponse<?>> savePersonalDuty(String token, CategoryRequestDto dto) {
 
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new BaseException(StatusCode.BAD_REQUEST));
 
         queryFactory
                 .update(member)
-                .where(member.memberId.eq(jwtUtil.getMemberId(dto.getToken())))
+                .where(member.memberId.eq(jwtUtil.getMemberId(token)))
                 .set(member.category, category)
                 .execute();
 

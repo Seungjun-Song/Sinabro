@@ -48,26 +48,31 @@ public class MemberController {
             @ApiResponse(responseCode = "203", description = "알수없는 에러가 발생했습니다.")
     })
     @PutMapping
-    public ResponseEntity<BaseResponse<?>> updateCategoryInMember(@RequestBody CategoryRequestDto dto){
-        return categoryService.savePersonalDuty(dto);
+    public ResponseEntity<BaseResponse<?>> updateCategoryInMember(@CookieValue(JwtConstants.JWT_HEADER) String token,
+                                                                  @RequestBody CategoryRequestDto dto){
+        return categoryService.savePersonalDuty(token, dto);
     }
 
+    @Operation(summary = "멤버의 기술스택 저장")
     @PostMapping
     public ResponseEntity<?> saveTechStack(@CookieValue(JwtConstants.JWT_HEADER) String token,
                                            @RequestBody List<TechStackSaveRequestDto> dtos){
         return techStackService.save(token, dtos);
     }
 
+    @Operation(summary = "멤버의 기술스택 삭제", description = "쿠키 전달없이 techStackId만 전달해주시면 됩니다.")
     @DeleteMapping
     public ResponseEntity<?> deleteTechStack(@RequestBody List<TechStackDeleteRequestDto> techStackIds){
         return techStackService.delete(techStackIds);
     }
 
+    @Operation(summary = "멤버의 프로필 조회", description = "자기자신 및 다른사람의 프로필 조회가능")
     @GetMapping("/{memberId}")
     public ProfileResponseDto findMemberProfile(@PathVariable Integer memberId){
         return memberService.findMemberProfile(memberId);
     }
 
+    @Operation(summary = "자신의 모든 프로젝트 나열")
     @GetMapping("/projects")
     public ResponseEntity<?> getMyProjectList(@CookieValue(JwtConstants.JWT_HEADER) String token){
         return projectService.getProjectListInMember(token);

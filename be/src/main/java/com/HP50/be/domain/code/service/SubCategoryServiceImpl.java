@@ -19,8 +19,7 @@ public class SubCategoryServiceImpl implements SubCategoryService{
 
     @Override
     public SubCategory findById(Integer id) {
-    return subCategoryRepository.findById(id).orElseThrow(() ->
-            new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY));
+        return subCategoryRepository.findById(id).orElse(null);
     }
 
     @Override

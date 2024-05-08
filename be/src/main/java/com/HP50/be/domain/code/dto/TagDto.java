@@ -8,12 +8,6 @@ import lombok.Setter;
 @Data
 @Builder
 public class TagDto {
-    @Schema(example = "101")
-    private Integer subCategoryId;
-
     @Schema(example = "React")
     private String subCategoryName;
-
-    @Schema(example = "100")
-    private Integer categoryId;
 }
