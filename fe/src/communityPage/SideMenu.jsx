@@ -61,30 +61,42 @@ const menuMotion = {
     transition: { duration: 0.3 }
 };
 
-const SideMenu = ({selected, setSelected, isDark, setCurrentPage}) => {
+const SideMenu = ({selected, setSelected, isDark, setCurrentPage, proceedOption, setProceedOption, teamOption, setTeamOption}) => {
 
     const changeMenu = (kind) => {
         setSelected(kind);
         setCurrentPage(1);
+        //토글 초기화
+        if(kind.name === "team" || kind.name === "member"){
+            setProceedOption({id: 502, name: "모집 중"})
+        }
+        else{
+            setProceedOption({id: 502, name: "구걸 중"})
+        }
+
+        if(kind.name === "member" || kind.name === "feadback"){
+            setTeamOption({id: 0, name: "분야선택"})
+        }
+        
     }
     return (
         <MenuList 
             {...menuMotion}
             style={{fontFamily: "Pretendard Medium"}}
         >
-            <Menu onClick={() => {changeMenu("member")}}
-                    selected={selected === "member"}
+            <Menu onClick={() => {changeMenu({id: 401, name: "member"})}}
+                    selected={selected.name === "member"}
                     isDark={isDark}>
                 팀원 구해요
             </Menu>
-            <Menu onClick={() => changeMenu("team")}
-                    selected={selected === "team"}
+            <Menu onClick={() => changeMenu({id: 402, name: "team"})}
+                    selected={selected.name === "team"}
                     isDark={isDark}
                 >
                 팀 구해요
             </Menu>
-            <Menu onClick={() => changeMenu("feadback")}
-                    selected={selected === "feadback"}
+            <Menu onClick={() => changeMenu({id: 403, name: "feadback"})}
+                    selected={selected.name === "feadback"}
                     isDark={isDark}>
                 피드백 원해요
             </Menu>

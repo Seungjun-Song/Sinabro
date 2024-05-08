@@ -12,6 +12,7 @@ import CodeTestPage from "./testPage/CodeTestPage";
 import SurveyPage from "./surveyPage/SurveyPage";
 import MyPage from "./myPage/MyPage";
 import TeamSpacePage from "./teamspacePage/TeamSpacePage";
+import axios from "axios";
 
 import CommunityMainPage from "./communityPage/communityList/CommunityMainPage";
 import CreatePost from "./communityPage/createPost/CreatePage";
@@ -66,6 +67,9 @@ const App = () => {
 //   {React.cloneElement(element, { key: location.pathname })}
 // </AnimatePresence>
   const location = useLocation();
+
+  // axios.defaults.withCredentials = true; 
+
   return (
    
     <Routes>

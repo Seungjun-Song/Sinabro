@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import axios from 'axios';
 
 import Navbar from "../../components/navs/Navbar";
 import SideMenu from '../SideMenu';
@@ -10,6 +11,7 @@ import CommunityTeamPage from './CommunityTeamPage';
 import CommunityFeadBackPage from './CommunityFeadbackPage';
 import Pagination from './Pagination';
 import { GlobalColor } from '../../services/color';
+import getEnv from '../../utils/getEnv';
 
 const Community = styled.div`
 display: flex;
@@ -24,6 +26,10 @@ margin: 3.5rem 0 0 0;
 transition: 0.3s;
 `
 
+const MainBox = styled.div`
+    width: 100%;
+    padding: 0 0 0 10rem;
+`
 
 const CommunityMainPage = () => {
     const location = useLocation();
@@ -31,143 +37,42 @@ const CommunityMainPage = () => {
 
     const isDark = useSelector(state =>state.isDark.isDark);
 
-    const [selected, setSelected] = useState(data.kind);
+    const [selected, setSelected] = useState({id: data.kind.id, name: data.kind.name});
     const [currentPage, setCurrentPage] = useState(data.page);
-    const [proceedOption, setProceedOption] = useState("모집 중");
-    const [teamOption, setTeamOption] = useState("분야 선택");
+    const [proceedOption, setProceedOption] = useState({id: 502, name: "모집 중"});
+    const [teamOption, setTeamOption] = useState({id: 0, name: "분야 선택"});
 
-    const didMountSelected = useRef(false);
-    const didMountPage = useRef(false);
+    const back_url = getEnv('BACK_URL')
 
-    const [postList, setPostList] = useState([
-        {
-            id: 1,
-            title: "웹 프로젝트 팀원 구합니다!",
-            content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-            hash: ["spring boot", "커피", "백엔드"],
-            writer: "sil",
-            time: "2024-01-03",
-            proceed: true,
-        },
-        {
-            id: 2,
-            title: "웹 프로젝트 팀원 구합니다!",
-            content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-            hash: ["spring boot", "커피", "백엔드"],
-            writer: "sil",
-            time: "2024-01-03",
-            proceed: false,
-        },
-        {
-            id: 3,
-            title: "웹 프로젝트 팀원 구합니다!",
-            content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-            hash: ["spring boot", "커피", "백엔드"],
-            writer: "sil",
-            time: "2024-01-03",
-            proceed: false,
-        },
-        {
-            id: 4,
-            title: "웹 프로젝트 팀원 구합니다!",
-            content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-            hash: ["spring boot", "커피", "백엔드"],
-            writer: "sil",
-            time: "2024-01-03",
-            proceed: true,
-        },
-
-    ])
+    const [postList, setPostList] = useState([])
 
     useEffect(() =>{
-        if(didMountSelected.current) {
-            
-        setPostList([
-            {
-                id: 1,
-                title: "사이드 메뉴 눌렀을 때 변환 테스트",
-                content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-                hash: ["spring boot", "커피", "백엔드"],
-                writer: "sil",
-                time: "2024-01-03",
-                proceed: true,
-            },
-            {
-                id: 2,
-                title: "웹 프로젝트 팀원 구합니다!",
-                content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-                hash: ["spring boot", "커피", "백엔드"],
-                writer: "sil",
-                time: "2024-01-03",
-                proceed: false,
-            },
-            {
-                id: 3,
-                title: "웹 프로젝트 팀원 구합니다!",
-                content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-                hash: ["spring boot", "커피", "백엔드"],
-                writer: "sil",
-                time: "2024-01-03",
-                proceed: false,
-            },
-            {
-                id: 4,
-                title: "웹 프로젝트 팀원 구합니다!",
-                content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-                hash: ["spring boot", "커피", "백엔드"],
-                writer: "sil",
-                time: "2024-01-03",
-                proceed: true,
-            },
-    
-        ])
-        }
-        else didMountSelected.current = true;
-    }, [selected, currentPage])
+        axios.get(`${back_url}/communities?catBoard=${selected.id}&catCalender=${proceedOption.id}&catJob=${teamOption.id}&keyword=&page=0`)
+        .then(res => {
+            const totalData = res.data.result.boardListResponseDto;
+            setPostList([]);
+            totalData.forEach((data, index) => {
+                console.log(data);
+                const newPost = {
+                    id: data.boardId,
+                    title: data.boardTitle,
+                    content: data.boardContent,
+                    hash: ["spring boot", "커피", "백엔드"],
+                    writer: data.memberName,
+                    time: data.updateDttm,
+                    proceed: data.communityProgress,
+                };
 
-    // useEffect(() => {
-    //     if(didMountPage.current) {
-    //     setPostList([
-    //         {
-    //             id: 1,
-    //             title: "페이지 바꼈을 때 변환 테스트",
-    //             content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-    //             hash: ["spring boot", "커피", "백엔드"],
-    //             writer: "sil",
-    //             time: "2024-01-03",
-    //             proceed: true,
-    //         },
-    //         {
-    //             id: 2,
-    //             title: "웹 프로젝트 팀원 구합니다!",
-    //             content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-    //             hash: ["spring boot", "커피", "백엔드"],
-    //             writer: "sil",
-    //             time: "2024-01-03",
-    //             proceed: false,
-    //         },
-    //         {
-    //             id: 3,
-    //             title: "웹 프로젝트 팀원 구합니다!",
-    //             content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-    //             hash: ["spring boot", "커피", "백엔드"],
-    //             writer: "sil",
-    //             time: "2024-01-03",
-    //             proceed: false,
-    //         },
-    //         {
-    //             id: 4,
-    //             title: "웹 프로젝트 팀원 구합니다!",
-    //             content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-    //             hash: ["spring boot", "커피", "백엔드"],
-    //             writer: "sil",
-    //             time: "2024-01-03",
-    //             proceed: true,
-    //         },
-    
-    //     ])}
-    //     else didMountPage.current = true;
-    // }, [currentPage])
+                setPostList(prevPostList => [...prevPostList, newPost]);
+            })
+
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+        console.log("postList", postList)
+    }, [selected, proceedOption, teamOption, currentPage])
 
 
     return (
@@ -182,11 +87,15 @@ const CommunityMainPage = () => {
                 setSelected={setSelected}
                 isDark={isDark}
                 setCurrentPage={setCurrentPage}
+                proceedOption={proceedOption}
+                setProceedOption={setProceedOption}
+                teamOption={teamOption}
+                setTeamOption={setTeamOption}
             >
             </SideMenu>
 
-            <div>
-            {selected === "member" ? (
+            <MainBox>
+            {selected.name === "member" ? (
                 <CommunityMemberPage
                     isDark={isDark}
                     postList={postList}
@@ -197,14 +106,16 @@ const CommunityMainPage = () => {
                 />
             ) : ("")}
 
-            {selected === "team" ? (
+            {selected.name === "team" ? (
                 <CommunityTeamPage
                     isDark={isDark}
                     postList={postList}
+                    proceedOption={proceedOption}
+                    setProceedOption={setProceedOption}
                 />
             ) : ("")}
 
-            {selected === "feadback" ? (
+            {selected.name === "feadback" ? (
                 <CommunityFeadBackPage
                     isDark={isDark}
                     postList={postList}
@@ -224,7 +135,7 @@ const CommunityMainPage = () => {
                 setCurrentPage={setCurrentPage}
             >
             </Pagination>
-            </div>
+            </MainBox>
         </Community>
 
         </>

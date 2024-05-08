@@ -194,7 +194,8 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
             requiredFullStack: 0,
             boardTag: ["kk", "kkl"],
         },
-        {withCredentials: true})
+        // {withCredentials: true}
+        )
         .then(response => {
             console.log("save");
             navigate('/communityMainPage', {state: {kind: "member"}});

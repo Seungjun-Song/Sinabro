@@ -166,7 +166,7 @@ const Post = ({post, kind, isDark}) => {
 
             <PlusInfo>
                 <Hashs>
-                    {post.hash.map((tag, index) => {
+                    {post.hash && post.hash.length > 0 && post.hash.map((tag, index) => {
 
                         return( 
                             <Hash 
