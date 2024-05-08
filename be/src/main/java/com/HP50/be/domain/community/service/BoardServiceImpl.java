@@ -58,9 +58,9 @@ public class BoardServiceImpl implements BoardService {
         TagDto[] tagDtoArray = new Gson().fromJson(board.getBoardTag(), TagDto[].class);
         List<TagDto> tagDtoList = List.of(tagDtoArray);
 
-        String toJson = new Gson().toJson(board.getBoardTag());
         BoardDetailResponseDto boardDetailResponseDto = BoardDetailResponseDto.builder()
                 .boardId(board.getBoardId())
+                .memberId(board.getMember().getMemberId())
                 .memberName(board.getMember().getMemberName())
                 .boardTitle(board.getBoardTitle())
                 .boardContent(board.getBoardContent())
@@ -70,6 +70,7 @@ public class BoardServiceImpl implements BoardService {
                 .commentResponseDtos(board.getComments().stream()
                         .map(entity -> CommentResponseDto.builder()
                                 .memberId(entity.getMember().getMemberId())
+                                .commentId(entity.getCommentId())
                                 .commentContent(entity.getCommentContent())
                                 .memberName(entity.getMember().getMemberName())
                                 .memberImg(entity.getMember().getMemberImg())
@@ -78,8 +79,6 @@ public class BoardServiceImpl implements BoardService {
                 .createdDttm(board.getCreatedDttm())
                 .updatedDttm(board.getUpdatedDttm())
                 .build();
-
-
 
         return ResponseEntity.ok().body(new BaseResponse<>(boardDetailResponseDto));
     }
