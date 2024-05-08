@@ -294,9 +294,13 @@ const ProjectPageLeftPanel = () => {
     }
     
     const removeSchedule = async (idx) => {
+
+        const calenderIdToRemove = toDoList[idx]?.calenderId
+        console.log(calenderIdToRemove)
+
         try {
             const res = await axios.delete(`${back_url}/schedules`, { // 제대로 작동하는지 확인
-                calenderId: toDoList[idx]?.calenderId,
+                calenderId: calenderIdToRemove,
                 projectId: projectRoomId
             })
             console.log(res.data)
