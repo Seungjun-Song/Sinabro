@@ -11,7 +11,7 @@ import SearchBox from './SearchBox'
 const MemberPage = styled.div`
     display: flex;        
     flex-direction: column;
-    width: 50%;
+    width: 70%;
     margin-right : 20rem;
     margin-top : 4rem;
 `
@@ -33,7 +33,7 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityTeamPage = ({isDark}) => {
+const CommunityTeamPage = ({isDark, postList}) => {
     const [searchWord, setSearchWord] = useState("");
     const [proceedOption, setProceedOption] = useState("모집 중");
     const [proceedToggle, setProceedToggle] = useState(false);
@@ -94,6 +94,7 @@ const CommunityTeamPage = ({isDark}) => {
             <Posts
                 kind={"team"}
                 isDark={isDark}
+                postList={postList}
                 >
             </Posts>
         </MemberPage>

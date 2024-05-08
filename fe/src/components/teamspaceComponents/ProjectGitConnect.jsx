@@ -3,30 +3,37 @@ import { useState } from "react";
 import { GlobalColor } from "../../services/color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import axios from 'axios'; // axios import 추가
+import { useDispatch, useSelector } from "react-redux";
+import { saveProjectRepo } from "../../store/projectCreateSlice";
+
 const token = "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";
+
 const ProjectGitConnect = ({ isDark }) => {
   const [isData, setIsData] = useState(null);
   const [data, setData] = useState();
+
+  const dispatch = useDispatch()
+
+  const userInfo = useSelector(state => state.user)
+
   const handleRepository = (repo) => {
     setData(repo);
+    dispatch(saveProjectRepo(repo))
   };
-  const fetchUserRepositories = async () => {
+
+  const getUserRepositories = async () => {
     try {
-      const response = await fetch(
-        `https://api.github.com/users/cho1jaeseong/repos`,
+      const response = await axios.get(
+        `https://api.github.com/users/${userInfo.currentUser.displayName}/repos`, // 실제 유저의 깃 아이디가 있어야함
         {
           headers: {
             Authorization: `token ${token}`,
           },
         }
       );
-      if (!response.ok) {
-        throw new Error("Failed to fetch user repositories");
-      }
-      const repositories = await response.json();
-      console.log(repositories);
-      setIsData(repositories);
-      return repositories;
+      setIsData(response.data);
+      return response.data;
     } catch (error) {
       console.error("Error fetching user repositories:", error);
       return null;
@@ -45,17 +52,15 @@ const ProjectGitConnect = ({ isDark }) => {
     >
       <div
         style={{
-          // padding: "1rem",
-          borderLeftWidth: "5px", // 왼쪽 테두리 두께
-          borderLeftColor: isDark ? "#a098c5" : "#3f2b96", // 왼쪽 테두리 색상
-          borderLeftStyle: "solid", // 왼쪽 테두리 스타일
           padding: "1rem",
+          borderLeftWidth: "5px",
+          borderLeftColor: isDark ? "#a098c5" : "#3f2b96",
+          borderLeftStyle: "solid",
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
         }}
       >
-        {/* <img style={{}} src="images/GitHub.png" /> */}
         <h4 style={{ margin: 0, color: isDark ? "white" : "black" }}>
           Git Repository 연결
         </h4>
@@ -86,7 +91,7 @@ const ProjectGitConnect = ({ isDark }) => {
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 5 }}
-                    onClick={() => fetchUserRepositories()}
+                    onClick={() => getUserRepositories()}
                     whileHover={{ cursor: "pointer", y: -3 }}
                     style={{ display: "flex", gap: 20, width: "100%" }}
                   >
@@ -96,7 +101,7 @@ const ProjectGitConnect = ({ isDark }) => {
                         color: isDark ? "white" : "black",
                       }}
                     >
-                      나의 레퍼지토리 목록 불러오기
+                      나의 레포지토리 목록 불러오기
                     </div>
                   </motion.div>
                 )}
@@ -117,8 +122,8 @@ const ProjectGitConnect = ({ isDark }) => {
                       visible: {
                         opacity: 1,
                         transition: {
-                          delay: 0.5, // 요소들이 등장하기 전의 지연 시간
-                          staggerChildren: 0.5, // 요소들이 점차적으로 등장하는 간격
+                          delay: 0.5,
+                          staggerChildren: 0.5,
                         },
                       },
                     }}
@@ -126,7 +131,6 @@ const ProjectGitConnect = ({ isDark }) => {
                     <div
                       style={{
                         padding: "0.75rem",
-                        // fontWeight: "bold",
                         fontSize: "1.2rem",
                         color: isDark ? "white" : "black",
                       }}

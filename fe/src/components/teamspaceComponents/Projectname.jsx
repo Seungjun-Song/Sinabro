@@ -2,6 +2,11 @@ import styled from "styled-components";
 import "./Projectname.css";
 import { motion } from "framer-motion";
 import { GlobalColor } from "../../services/color";
+import { useDispatch } from "react-redux";
+import { saveProjectImg, saveProjectName } from "../../store/projectCreateSlice";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import app from "../../firebase";
+
 const ProjectNameContainer = styled.div`
   display: flex;
   gap: 5rem;
@@ -23,7 +28,7 @@ const Image = styled.img`
 `;
 const Input = styled.input`
   border: none;
-  color: ${(props) => (props.isDark ? "black": "white" )};
+  color: ${(props) => (props.isDark ? "black" : "white")};
   outline: none;
   background-color: ${(props) => (props.isDark ? "white" : "#564CAD")};
 
@@ -32,7 +37,7 @@ const Input = styled.input`
   }
 `;
 
-const Button = styled(motion.button)`
+const Button = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,13 +46,41 @@ const Button = styled(motion.button)`
   border: none;
   border-radius: 10px;
   padding: 1rem;
-
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: scale(1.05);
+  }
+  cursor: pointer;
   &.shadow {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
   }
 `;
 
-const ProjectName = ({ setProjectName, projectName, isDark }) => {
+const ProjectName = ({ setProjectName, projectName, isDark, setImageUrl, imgUrl }) => {
+
+  const dispatch = useDispatch()
+
+  const settingProjectName = (e) => {
+    dispatch(saveProjectName(e.target.value))
+    setProjectName(e.target.value)
+  }
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+
+    // Firebase Storage에 이미지 업로드
+    const storage = getStorage(app);
+    const storageRef = ref(storage, file.name);
+    await uploadBytes(storageRef, file);
+
+    // 업로드된 이미지의 다운로드 URL 받아오기
+    const imageUrl = await getDownloadURL(storageRef);
+
+    // 다운로드 URL을 state에 저장
+    setImageUrl(imageUrl);
+    dispatch(saveProjectImg(imageUrl))
+  };
+
   return (
     <ProjectNameContainer>
       <ImageContainer>
@@ -58,9 +91,9 @@ const ProjectName = ({ setProjectName, projectName, isDark }) => {
             alignItems: "center",
           }}
         >
-          <Image className="shadow" src="/images/pjtimg.png" />
+          <Image className="shadow" src={imgUrl} />
           <Button
-            whileHover={{ y: -5 }}
+            // whileHover={{ y: -5 }}
             className="shadow mt-3"
             style={{
               backgroundColor: isDark
@@ -68,15 +101,16 @@ const ProjectName = ({ setProjectName, projectName, isDark }) => {
                 : "white",
             }}
           >
-            <h5
+            <input type="file" style={{ display: 'none' }} onChange={handleImageChange} />
+            {/* <h5
               style={{
                 fontSize: "1rem",
                 marginBottom: 0,
                 color: isDark ? "white" : "black",
               }}
-            >
+            > */}
               대표이미지 설정
-            </h5>
+            {/* </h5> */}
           </Button>
         </div>
       </ImageContainer>
@@ -101,7 +135,7 @@ const ProjectName = ({ setProjectName, projectName, isDark }) => {
         >
           <Input
             isDark={isDark}
-            onChange={(event) => setProjectName(event.target.value)}
+            onChange={e => settingProjectName(e)}
             placeholder="프로젝트 명을 입력해 주세요!"
             value={projectName}
           />

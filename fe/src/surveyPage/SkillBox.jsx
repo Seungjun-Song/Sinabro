@@ -28,6 +28,7 @@ const Box = styled.div`
 `;
 
 const SkillBox = ({ iconName, borderColor, text, checked }) => {
+
   let icon;
   switch (iconName) {
     case 'computer':

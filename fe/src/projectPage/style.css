@@ -1,0 +1,11 @@
+@media (max-width: 1200px) {
+    .hide-content-text {
+        display: none;
+    }
+}
+
+@media (max-width: 850px) {
+    .hide-all-panel {
+        display: none;
+    }
+}

@@ -6,6 +6,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { getDatabase, ref, push, onValue } from "firebase/database";
 import app from "../../firebase";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const IconHoverBox = styled.div`
     transition: transform 0.3 ease;
@@ -25,10 +26,13 @@ const ChatBot = () => {
         dangerouslyAllowBrowser: true,
     });
 
+    const isDark = !useSelector(state => state.isDark.isDark)
+    const projectRoomId = useSelector(state => state.projectRoomId.value)
+
     useEffect(() => {
         // Fetch chat history from Firebase Realtime Database
         const db = getDatabase();
-        const chatRef = ref(db, "chatBotChats");
+        const chatRef = ref(db, `chatBotChats/${projectRoomId}`);
         onValue(chatRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -83,7 +87,7 @@ const ChatBot = () => {
 
         // Save the chat message to Firebase Realtime Database
         const db = getDatabase();
-        const chatRef = ref(db, "chatBotChats");
+        const chatRef = ref(db, `chatBotChats/${projectRoomId}`);
         push(chatRef, {
             role: "user",
             content: text
@@ -107,7 +111,7 @@ const ChatBot = () => {
                             :
                             <div className="d-flex flex-column" style={{ width: "100%" }}>
                                 <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', maxWidth: '12rem', fontWeight: 'bold' }}>{ }</div>
-                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0.5rem 0.5rem 0.5rem 0', maxWidth: '12rem', border: '2px solid #D6D6D6' }}>{item.content}</div>
+                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0 0.5rem 0.5rem 0.5rem', maxWidth: '12rem', border: '2px solid #D6D6D6', backgroundColor: `${isDark ? 'white' : '#D6D6D6'}` }}>{item.content}</div>
                             </div>
                         }
                     </div>))}

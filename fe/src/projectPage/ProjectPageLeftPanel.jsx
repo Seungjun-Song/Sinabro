@@ -5,11 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faCalendar, faPlusCircle, faTimesCircle, faSpinner, faCheck } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ko } from 'date-fns/locale'
+import { ko, tr } from 'date-fns/locale'
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProjectCalenderState, toggleProjectCalenderState } from '../store/projectCalenderSlice';
-import { addToDoList, changeState, delToDOlist, removeToDoItem } from '../store/toDoListSlice';
+import { addToDoList, changeState, delToDOlist, removeToDoItem, setToDoList } from '../store/toDoListSlice';
 import { changeScheduleModalState } from '../store/addScheduleModalHandleSlice';
+import './style.css'
+import axios from 'axios';
+import getEnv from '../utils/getEnv';
 
 const ProjectPageLeftPanelContainer = styled.div`
     height: 100%;
@@ -17,6 +20,7 @@ const ProjectPageLeftPanelContainer = styled.div`
     display: flex;
     flex-direction: column;
     border-right: 2px solid #B8B8B8;
+    background-color: ${({ isDark }) => (isDark ? 'white' : '#404040')};
 `;
 
 const ProjectPageLeftPanelClosedContainer = styled.div`
@@ -37,8 +41,8 @@ const ProjectNameBox = styled.div`
     margin-left: 1rem;
     margin-right: 1rem;
     border-bottom: 2px solid #B8B8B8;
-    color: #564CAD;
     font-weight: bold;
+    color: ${({ isDark }) => isDark ? '#564CAD' : 'white'};
 `;
 
 const CalendarBox = styled.div`
@@ -48,8 +52,8 @@ const CalendarBox = styled.div`
     align-items: center;
     margin-left: 1.2rem;
     margin-right: 1.2rem;
-    color: #564CAD;
     font-weight: bold;
+    color: ${({ isDark }) => isDark ? '#564CAD' : 'white'};
 `;
 
 const ToDoListBox = styled.div`
@@ -67,9 +71,9 @@ const TodayBox = styled.div`
 `;
 
 const DayText = styled.div`
-    color: #535353;
     font-size: 1.2rem;
     margin-bottom: 1rem;
+    color: ${({ isDark }) => !isDark ? 'white' : '#535353'};
 `;
 
 const ListBox = styled.div`
@@ -87,7 +91,6 @@ const ContentBox = styled.div`
     display: flex;
     border-left: 1rem solid #3EC8AF;
     border-radius: 0.5rem;
-    box-shadow: 2px 2px 1px 2px #B8B8B8;
     transition: transform 0.3s ease;
     &:hover {
         transform: scale(1.05);
@@ -182,21 +185,42 @@ const ProjectPageLeftPanel = () => {
     const [toDoText, setToDoText] = useState('')
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    const [selectedWorker, setSelectedWorker] = useState('');
+    // const [selectedWorker, setSelectedWorker] = useState(''); // 자기 일정만 추가할 수 있음
     const dispatch = useDispatch();
 
     const toDoList = useSelector(state => (state.toDoList.value))
 
     const modalState = useSelector(state => (state.addScheduleModalHandle.value))
 
+    const isDark = !useSelector(state => state.isDark.isDark)
+
+    const projectRoomId = useSelector(state => state.projectRoomId.value)
+    const userInfo = useSelector(state => state.user)
+
     useEffect(() => {
         if (modalState) {
             handleShowModal()
         }
         else {
-            handleCloseModal
+            handleCloseModal()
         }
     }, [modalState])
+
+    useEffect(() => {
+        const setProjectSchedules = async () => {
+            try {
+                const res = await axios.get(`${back_url}/schedules/${projectRoomId}`) // 쿠키 되면 제대로 받아지는지 확인
+                dispatch(setToDoList(res.data.result))
+            }
+            catch (err) {
+                console.error(err)
+            }
+        }
+        setProjectSchedules()
+        return () => {
+            dispatch(delToDOlist()) // 언마운트시 리덕스에 저장된 일정 삭제
+        }
+    }, [])
 
     const handleSidePanel = () => {
         setIsSidePanelOpen(!isSidePanelOpen)
@@ -211,33 +235,77 @@ const ProjectPageLeftPanel = () => {
         setShowModal(true)
         dispatch(changeProjectCalenderState(true))
         setToDoText('')
-        setSelectedWorker('')
+        // setSelectedWorker('') // 자기 일정만 추가할 수 있음
         setStartDate(null)
         setEndDate(null)
     };
 
-    const workers = ['worker1', 'worker2']
+    // const workers = ['worker1', 'worker2']
 
     const truncate = (str, n) => {
         return str?.length > n ? str.substr(0, n - 1) + "..." : str
     }
 
-    const handleWorkerSelectChange = (e) => {
-        setSelectedWorker(e.target.value);
-    };
+    // const handleWorkerSelectChange = (e) => { // 자기 일정만 추가할 수 있음
+    //     setSelectedWorker(e.target.value);
+    // };
 
-    const addSchedule = () => {
-        if (toDoText !== '' && workers !== '' && startDate !== null && endDate !== null) {
-            const schedule = {
-                work: toDoText,
-                worker: selectedWorker,
-                start: startDate,
-                end: endDate,
-                state: false,
+    const back_url = getEnv('BACK_URL')
+
+    const addSchedule = async () => {
+        if (toDoText !== '' && startDate !== null && endDate !== null) {
+            // const schedule = {
+            //     projectId: projectRoomId,
+            //     managerId: userInfo.currentUser.uid,
+            //     calenderStartDt: startDate,
+            //     calenderEndDt: endDate,
+            //     calenderName: toDoText,
+            //     subCategoryId: 502,
+            //     memberImg: userInfo.currentUser.photoURL,
+            //     memberName: userInfo.currentUser.displayName,
+            // }
+
+            // dispatch(addToDoList(schedule)) // 스케쥴 제대로 받아올 수 있으면 주석처리된 코드는 필요없음
+
+            try {
+                const res = await axios.post(`${back_url}/schedules`, { // 쿠키 되면 제대로 받아지는지 확인
+                    projectId: projectRoomId, 
+                    managerId: userInfo.currentUser.uid,
+                    calenderStartDt: startDate,
+                    calenderEndDt: endDate,
+                    calenderName: toDoText,
+                })
+                console.log(res.data)
             }
-            dispatch(addToDoList(schedule))
+            catch (err) {
+                console.error(err)
+            }
+
+            try {
+                const res = await axios.get(`${back_url}/schedules/${projectRoomId}`)
+                dispatch(setToDoList(res.data.result))
+            }
+            catch (err) {
+                console.error(err)
+            }
+
             handleCloseModal()
         }
+    }
+
+    const removeSchedule = async (idx) => {
+        try {
+            const res = await axios.delete(`${back_url}/schedules`, { // 제대로 작동하는지 확인
+                calenderId: toDoList[idx].calenderId,
+                projectId: projectRoomId
+            })
+            console.log(res.data)
+        }
+        catch (err) {
+            console.error(err)
+        } 
+
+        dispatch(removeToDoItem(idx))
     }
 
     const fromatDated = (date) => {
@@ -250,14 +318,14 @@ const ProjectPageLeftPanel = () => {
     return (
         <>
             {isSidePanelOpen ? (
-                <ProjectPageLeftPanelContainer>
-                    <ProjectNameBox>
+                <ProjectPageLeftPanelContainer isDark={isDark} className='hide-all-panel'>
+                    <ProjectNameBox isDark={isDark}>
                         Project Name
                         <IconHoverBox>
                             <FontAwesomeIcon icon={faChevronLeft} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
                         </IconHoverBox>
                     </ProjectNameBox>
-                    <CalendarBox>
+                    <CalendarBox isDark={isDark}>
                         <IconHoverBox>
                             <FontAwesomeIcon icon={faCalendar} onClick={() => dispatch(toggleProjectCalenderState())} style={{ cursor: 'pointer' }} />
                         </IconHoverBox>
@@ -269,12 +337,12 @@ const ProjectPageLeftPanel = () => {
                         <TodayBox>
                             {/* <button onClick={() => dispatch(delToDOlist())}>test</button> */}
                             {/* toDoList 삭제 버튼 */}
-                            <DayText>오늘 할 일</DayText>
+                            <DayText isDark={isDark}>오늘 할 일</DayText>
                             <ListBox>
                                 {/* 오늘의 할 일 목록 출력 */}
                                 {toDoList.map((item, index) => {
-                                    const itemStartDate = item.start ? new Date(item.start) : null
-                                    const itemEndDate = item.end ? new Date(item.end) : null
+                                    const itemStartDate = item.calenderStartDt ? new Date(item.calenderStartDt) : null
+                                    const itemEndDate = item.calenderEndDt ? new Date(item.calenderEndDt) : null
                                     const today = new Date()
                                     today.setHours(0, 0, 0, 0)
 
@@ -283,24 +351,24 @@ const ProjectPageLeftPanel = () => {
                                         // 오늘 날짜인 경우에만 출력
                                         if (itemStartDate <= today && today <= itemEndDate) {
                                             return (
-                                                <ContentBox key={index} onClick={() => dispatch(changeProjectCalenderState(true))}>
-                                                    <UserImg src='/images/user1.png' />
-                                                    <InnerTextBox>
-                                                        <div style={{ fontSize: '1rem' }}>{truncate(item.work, 10)}</div>
-                                                        <div>{item.worker}</div>
+                                                <ContentBox className='shadow' key={index} style={{ backgroundColor: 'white' }} onClick={() => dispatch(changeProjectCalenderState(true))}>
+                                                    <UserImg src={item.memberImg} />
+                                                    <InnerTextBox className='hide-content-text'>
+                                                        <div style={{ fontSize: '1rem' }}>{truncate(item.calenderName, 10)}</div>
+                                                        <div>{item.memberName}</div>
                                                         <div>{fromatDated(itemStartDate)} ~ {fromatDated(itemEndDate)}</div>
                                                     </InnerTextBox>
                                                     <IconBox>
                                                         <IconHoverBox style={{ marginLeft: 'auto', marginTop: '0.2rem', marginRight: '0.2rem', color: '#3EC8AF', cursor: 'pointer' }} >
-                                                            <FontAwesomeIcon icon={faTimesCircle} onClick={() => dispatch(removeToDoItem(index))} />
+                                                            <FontAwesomeIcon icon={faTimesCircle} onClick={() => dispatch(removeSchedule(index))} />
                                                         </IconHoverBox>
-                                                        {item.state ?
+                                                        {item.subCategoryId === 503 ?
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: 501 }))} />
                                                             </IconHoverBox>
                                                             :
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: 503 }))} />
                                                             </IconHoverBox>
                                                         }
                                                     </IconBox>
@@ -316,11 +384,11 @@ const ProjectPageLeftPanel = () => {
                             </ListBox>
                         </TodayBox>
                         <TodayBox>
-                            <DayText>내일 할 일</DayText>
+                            <DayText isDark={isDark}>내일 할 일</DayText>
                             <ListBox>
                                 {toDoList.map((item, index) => {
-                                    const itemStartDate = item.start ? new Date(item.start) : null
-                                    const itemEndDate = item.end ? new Date(item.end) : null
+                                    const itemStartDate = item.calenderStartDt ? new Date(item.calenderStartDt) : null
+                                    const itemEndDate = item.calenderEndDt ? new Date(item.calenderEndDt) : null
                                     const tomorrow = new Date()
                                     tomorrow.setDate(tomorrow.getDate() + 1) // 내일 날짜로 설정
                                     tomorrow.setHours(0, 0, 0, 0); // 시간을 0시 0분 0초로 설정
@@ -329,24 +397,24 @@ const ProjectPageLeftPanel = () => {
                                         // 내일 날짜인 경우에만 출력
                                         if (itemStartDate <= tomorrow && tomorrow <= itemEndDate) {
                                             return (
-                                                <ContentBox key={index} onClick={() => dispatch(changeProjectCalenderState(true))}>
-                                                    <UserImg src='/images/user1.png' />
-                                                    <InnerTextBox>
-                                                        <div style={{ fontSize: '1rem' }}>{truncate(item.work, 10)}</div>
-                                                        <div>{item.worker}</div>
+                                                <ContentBox className='shadow' key={index} style={{ backgroundColor: 'white' }} onClick={() => dispatch(changeProjectCalenderState(true))}>
+                                                    <UserImg src={item.memberImg} />
+                                                    <InnerTextBox className='hide-content-text'>
+                                                        <div style={{ fontSize: '1rem' }}>{truncate(item.calenderName, 10)}</div>
+                                                        <div>{item.memberName}</div>
                                                         <div>{fromatDated(itemStartDate)} ~ {fromatDated(itemEndDate)}</div>
                                                     </InnerTextBox>
                                                     <IconBox>
                                                         <IconHoverBox style={{ marginLeft: 'auto', marginTop: '0.2rem', marginRight: '0.2rem', color: '#3EC8AF', cursor: 'pointer' }} >
-                                                            <FontAwesomeIcon icon={faTimesCircle} onClick={() => dispatch(removeToDoItem(index))} />
+                                                            <FontAwesomeIcon icon={faTimesCircle} onClick={() => dispatch(removeSchedule(index))} />
                                                         </IconHoverBox>
-                                                        {item.state ?
+                                                        {item.subCategoryId === 503 ?
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: 501 }))} />
                                                             </IconHoverBox>
                                                             :
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: !item.state }))} />
+                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: 503 }))} />
                                                             </IconHoverBox>
                                                         }
                                                     </IconBox>
@@ -380,7 +448,7 @@ const ProjectPageLeftPanel = () => {
                             <Form.Label>할 일</Form.Label>
                             <Form.Control type="text" placeholder="할 일을 입력하세요" value={toDoText} onChange={e => setToDoText(e.target.value)} />
                         </Form.Group>
-                        <Form.Group style={{ marginBottom: '1rem' }}>
+                        {/* <Form.Group style={{ marginBottom: '1rem' }}>
                             <Form.Label>작업자</Form.Label>
                             <Form.Select value={selectedWorker} onChange={handleWorkerSelectChange}>
                                 <option value="">작업자를 선택하세요</option>
@@ -388,7 +456,7 @@ const ProjectPageLeftPanel = () => {
                                     <option key={index} value={worker}>{worker}</option>
                                 ))}
                             </Form.Select>
-                        </Form.Group>
+                        </Form.Group> */}
                         <Form.Group style={{ marginBottom: '1rem' }}>
                             <Form.Label style={{ marginRight: '1rem' }}>시작 날짜</Form.Label>
                             <DatePicker

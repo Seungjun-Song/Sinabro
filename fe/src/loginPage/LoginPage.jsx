@@ -11,7 +11,7 @@ const LoginPage = () => {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const [errorFromSubmit, setErrorFromSubmit] =useState("")
-    const dispatch = useDispatch
+    const dispatch = useDispatch()
     const auth = getAuth(app)
 
     const {register, watch, formState:{errors}, handleSubmit} = useForm()
@@ -19,8 +19,13 @@ const LoginPage = () => {
 
     const onSubmit = async(data) => {
         try {
+            console.log(data)
             setLoading(true)
             await signInWithEmailAndPassword(auth, data.email, data.password)
+            dispatch(setUser({
+                uid: data.email,
+                displaayName: data.password,
+            }))
         }
         catch (error) {
             console.error(error)

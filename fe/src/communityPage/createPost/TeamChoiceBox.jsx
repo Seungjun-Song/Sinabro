@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from "framer-motion";
 
 import TeamListBox from './TeamListBox';
@@ -16,7 +16,7 @@ const TeamChoice = styled.div`
 
     width: 17%;
     
-    background: rgba(240, 240, 240, 1);
+    background: rgba(245, 248, 255, 1);
     color: rgba(86, 76, 173, 1);
 
     border: 0px solid black;
@@ -29,14 +29,37 @@ const DropDownPage = styled.div`
   position: absolute; /* 절대 위치 지정 */
   z-index: 999;
 
+  border: 0px solid black;
+  border-radius: 10px;
+
   top: 8.8rem;
-  width: 9%;
+  width: 15%;
 `;
+
+const ToggleBox = styled.div`
+  display: flex;
+  gap: 1rem;
+`
 
 const DropDownButton = styled.div``;
 
 const TeamChoiceBox = () => {
     const [dropDown, setDropDown] = useState(false);
+
+    const teamRef = useRef();
+
+    useEffect(() => {
+      function handleClikcOutside(event){
+          if(teamRef.current && !teamRef.current.contains(event.target)){
+            setDropDown(false);
+          }
+      }
+
+      document.addEventListener("mousedown", handleClikcOutside);
+      return () => {
+          document.removeEventListener("mousedown", handleClikcOutside);
+      }
+  }, [setDropDown]);
 
     const teamList = [
         {
@@ -55,11 +78,10 @@ const TeamChoiceBox = () => {
     
     return(
         <TeamChoice
-          onClick={() => {
-            setDropDown(!dropDown);
-          }}
+          ref={teamRef}
         >
-            <div>팀 선택하기</div>
+            <ToggleBox onClick={() => setDropDown(!dropDown)}>
+            팀 선택하기
             <DropDownButton
           >
             <motion.div
@@ -69,6 +91,7 @@ const TeamChoiceBox = () => {
               <FontAwesomeIcon icon={faCaretDown} />
             </motion.div>
           </DropDownButton>
+          </ToggleBox>
 
           <DropDownPage>
             <AnimatePresence>

@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components'
 import { motion } from "framer-motion";
 import { GlobalColor } from '../../services/color';
 
+import Jobs from './Jobs';
+
 const Detail = styled(motion.div)`
     font-family: Pretendard Medium;
 
@@ -53,6 +55,9 @@ const Proceed = styled.div`
 `
 
 const Title = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: start;
     font-family: Pretendard SemiBold;
 `
 
@@ -148,6 +153,11 @@ const Post = ({post, kind, isDark}) => {
                 <Title>
                     {post.title}
                 </Title>
+
+                <Jobs
+                    kind={kind}
+                >
+                </Jobs>
             </MainInfo>
 
             <Content>

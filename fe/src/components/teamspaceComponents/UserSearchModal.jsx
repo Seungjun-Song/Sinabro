@@ -6,6 +6,13 @@ import { motion } from "framer-motion";
 import { GlobalColor } from "../../services/color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUserSearch } from "../../store/userSearchSlice";
+import { addProjectMemberList } from "../../store/projectCreateSlice";
+import { clearInviteUser } from "../../store/inviteUserSlice";
+import { addInvitedUserList } from "../../store/invitedUserListSlice";
+
 const UserSearchModal = ({ setIsModalOpen, projectName, isDark }) => {
   const [userName, setUserName] = useState("");
   const handleChange = (event) => {
@@ -13,6 +20,27 @@ const UserSearchModal = ({ setIsModalOpen, projectName, isDark }) => {
     setUserName(event.target.value); // 입력값으로 username 상태를 업데이트
     // console.log(userName)
   };
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearUserSearch()) // 모달이 언마운트되면 검색 결과를 제거
+    }
+  }, [])
+
+  const invitedUser = useSelector(state => state.inviteUser)
+
+  const invitingUser = () => {
+    dispatch(addProjectMemberList({
+      memberId: invitedUser.value.memberId,
+      categoryId: null,
+    }))
+    dispatch(addInvitedUserList(invitedUser.value))
+    dispatch(clearInviteUser())
+    setIsModalOpen(false)
+  }  
+
   return (
     <motion.div
       onClick={() => setIsModalOpen(false)}
@@ -68,6 +96,7 @@ const UserSearchModal = ({ setIsModalOpen, projectName, isDark }) => {
               justifyContent: "center",
               alignItems: "center",
             }}
+            onClick={invitingUser}
           >
             <h3 style={{ margin: 0, color: "white" }}>초대</h3>
           </motion.div>

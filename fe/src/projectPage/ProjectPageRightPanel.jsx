@@ -7,11 +7,13 @@ import Chat from '../components/chat/Chat'
 import { useDispatch, useSelector } from 'react-redux';
 import { setChatState, setIsNotificationOn, setProjectRightPanelState } from '../store/newMessageSlice';
 import { changeProjectChatState } from '../store/projectChatShow';
+import './style.css'
 
 const ProjectPageRightPanelContainer = styled.div`
     height: 100%;
     width: 30%;
     border-left: 2px solid #B8B8B8;
+    background-color: ${({isDark}) => !isDark? '#404040' : 'white'};
 `
 
 const ProjectPageRightPanelClosedContainer = styled.div`
@@ -59,6 +61,8 @@ const IconHoverBox = styled.div`
     &:hover{
         transform: scale(1.2)
     }
+    color: #564CAD;
+    color: ${({isDark}) => isDark ? '#564CAD' : 'white' };
 `
 
 const ProjectPageRightPanel = () => {
@@ -68,6 +72,8 @@ const ProjectPageRightPanel = () => {
     const [isSidePanelOpen, setIsSidePanelOpen] = useState(true)
     const [isChatsNow, setIsChatsNow] = useState(true)
     const [isNotification, setIsNotification] = useState(true)
+
+    const isDark = !useSelector(state =>state.isDark.isDark)
 
     const states = useSelector(state => state.newMessage)
     const chatOpenForced = useSelector(state => state.projectChatShow.value)
@@ -101,25 +107,15 @@ const ProjectPageRightPanel = () => {
     return (
         <>
             {isSidePanelOpen ?
-                <ProjectPageRightPanelContainer>
+                <ProjectPageRightPanelContainer isDark={isDark} className='hide-all-panel'>
                     <UpperBox>
-                        <IconHoverBox>
+                        <IconHoverBox isDark={isDark}>
                             <FontAwesomeIcon icon={faChevronRight} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
                         </IconHoverBox>
                         <ChatImgBox>
-                            {isNotification ?
-                                <>
-                                    <IconHoverBox>
-                                        <FontAwesomeIcon icon={faBell} style={{justifySelf: 'center', height: '1.2rem', cursor: 'pointer', color: '#3EC8AF' }} onClick={() => setIsNotification(false)} />
-                                    </IconHoverBox>
-                                </>
-                                :
-                                <>
-                                    <IconHoverBox>
-                                        <FontAwesomeIcon icon={faBellSlash} style={{ height: '1.2rem', cursor: 'pointer', color: '#3EC8AF' }} flip='horizontal' onClick={() => setIsNotification(true)} />
-                                    </IconHoverBox>
-                                </>
-                            }
+                            <IconHoverBox>
+                                <FontAwesomeIcon icon={faBell} style={{ justifySelf: 'center', height: '1.2rem', cursor: 'pointer', color: isNotification ? '#3EC8AF' : 'grey' }} onClick={() => setIsNotification(!isNotification)} />
+                            </IconHoverBox>
                             {isChatsNow ?
                                 <>
                                     <IconHoverBox>

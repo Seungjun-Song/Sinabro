@@ -11,7 +11,7 @@ import SearchBox from './SearchBox'
 const MemberPage = styled.div`
     display: flex;        
     flex-direction: column;
-    width: 50%;
+    width: 70%;
     margin-right : 20rem;
     margin-top : 4rem;
 `
@@ -33,10 +33,8 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityFeadBackPage = ({isDark}) => {
+const CommunityFeadBackPage = ({isDark, postList,  proceedOption, setProceedOption, teamOption, setTeamOption}) => {
     const [searchWord, setSearchWord] = useState("");
-    const [proceedOption, setProceedOption] = useState("구걸 중");
-    const [teamOption, setTeamOption] = useState("팀 선택");
     const [proceedToggle, setProceedToggle] = useState(false);
     const [teamToggle, setTeamToggle] = useState(false);
 
@@ -124,7 +122,8 @@ const CommunityFeadBackPage = ({isDark}) => {
 
             <Posts
                 kind={"feadback"}
-                isDark={isDark}>
+                isDark={isDark}
+                postList={postList}>
             </Posts>
         </MemberPage>
     )

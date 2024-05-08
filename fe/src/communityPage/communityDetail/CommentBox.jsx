@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useState } from 'react'
 
 import HoverInfoBox from './HoverInfoBox'
+import { useSelector } from 'react-redux'
 
 const Comment = styled(motion.div)`
     display: flex;
@@ -55,10 +56,26 @@ const Content = styled.div`
     padding: 0.5rem 0 0 1rem;
 `
 
+const PlusBox = styled.div`
+    display: flex;
+    justify-content: right;
+    gap: 1rem; 
+`
+
 const Date = styled.div`
     text-align: right;
     //color: rgba(0, 0, 0, 0.5);
     font-size: 0.8rem;
+`
+
+const DeleteButton = styled.div`
+    background: red;
+    border: 0px solid red;
+    border-radius: 5px;
+    padding: 0.1rem 0.3rem;
+    font-size: 0.9rem;
+
+    cursor: pointer;
 `
 
 const ProfileBox = styled.div`
@@ -84,6 +101,8 @@ const CommentBox = ({comment, index}) => {
     //const [ profileHover, setProfileHover ] = useState(false);
     const [ profileClick, setProfileClick ] = useState(false);
 
+    const userInfo = useSelector(state => state.user.currentUser);
+    
     const hoverTurnOff = () =>{
       //  setHoverPointer(true);
         setHoverState(false);
@@ -102,6 +121,10 @@ const CommentBox = ({comment, index}) => {
         else{
             setHoverState(true);
         }
+    }
+
+    const deleteComment = () => {
+
     }
 
     return(
@@ -129,9 +152,18 @@ const CommentBox = ({comment, index}) => {
                 <Content>
                     {comment.content}
                 </Content>
+                <PlusBox>
                 <Date>
                     {comment.date}
                 </Date>
+                {comment.writerId === userInfo.uid &&
+                    <DeleteButton
+                        onClick={() => deleteComment()}
+                    >
+                        삭제
+                    </DeleteButton>
+                }
+                </PlusBox>
             </CommentInfo>
         </Comment>
     )

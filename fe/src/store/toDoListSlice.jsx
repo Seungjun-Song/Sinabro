@@ -27,7 +27,7 @@ export const toDoListSlice =  createSlice({
         changeState: (state, action) => {
             const {index, changeValue} = action.payload
             if (index >= 0 && index < state.value.length) {
-                state.value[index].state = changeValue
+                state.value[index].subCategoryId = changeValue
             }
         },
     },

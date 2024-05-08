@@ -3,23 +3,83 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import UserVideoComponent from './UserVideoComponent';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMicrophone, faSignOut, faHeadphonesSimple } from '@fortawesome/free-solid-svg-icons';
+import getEnv from '../../utils/getEnv';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleisDarkState } from '../../store/isDarkSlice';
+import { DarkModeSwitch } from "react-toggle-dark-mode";
+import { motion } from "framer-motion";
+import './styles.css'
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/'; //'https://demos.openvidu.io/' //http://localhost:5000/
+const NavContainer = styled.div`
+    width: 100vw;
+    height: 8%;
+    background-color: #564CAD;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    min-width: 700px;
+`
+
+const NavRigthBox = styled.div`
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 1rem;
+    margin-left: auto;
+`
+
+const UserImage = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const IconHoverBox = styled.div`
+    transition: transform 0.3 ease;
+    &:hover{
+        transform: scale(1.2)
+    }
+`
+
+const RightNavContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin: 0 1rem;
+`;
 
 export default function WebRTC() {
     const [mySessionId, setMySessionId] = useState('SessionA');
-    const [myUserName, setMyUserName] = useState(`Participant${Math.floor(Math.random() * 100)}`);
+    const [myUserName, setMyUserName] = useState(`Participant${Math.floor(Math.random() * 100)}`); // 실제 유저의 정보를 넘겨줘야함
     const [session, setSession] = useState(undefined);
     const [mainStreamManager, setMainStreamManager] = useState(undefined);
     const [publisher, setPublisher] = useState(undefined);
     const [subscribers, setSubscribers] = useState([]);
     const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
-    const [printId1, setPrintId1] = useState(null)
-    const [printId2, setPrintId2] = useState(null)
+    const [sessionId, setSessionId] = useState('');
+    const [tokenId, setTokenId] = useState('');
+
+    const [isMicOn, setIsMicOn] = useState(true)
+    const [isPhoneOn, setIsPhoneOn] = useState(true)
+
+    const dispatch = useDispatch()
+
+    const isDark = useSelector(state => state.isDark.isDark)
+    const projectRoomId = useSelector(state => state.projectRoomId.value)
+
+    const toggleDarkMode = () => {
+        dispatch(toggleisDarkState())
+    }
 
     const navigate = useNavigate()
 
     const OV = useRef(new OpenVidu());
+
+    const back_url = getEnv('BACK_URL')
 
     useEffect(() => {
         const joinSession = async () => {
@@ -47,11 +107,12 @@ export default function WebRTC() {
             if (session) {
                 session.disconnect();
             }
-            OV.current = new OpenVidu();
-            setSession(undefined);
-            setSubscribers([]);
-            setMainStreamManager(undefined);
-            setPublisher(undefined);
+            leaveSession()
+            // OV.current = new OpenVidu();
+            // setSession(undefined);
+            // setSubscribers([]);
+            // setMainStreamManager(undefined);
+            // setPublisher(undefined);
         };
     }, []);
 
@@ -90,48 +151,29 @@ export default function WebRTC() {
     }, [session, myUserName]);
 
     const leaveSession = useCallback(() => {
-        if (session) {
-            session.disconnect();
-        }
-        OV.current = new OpenVidu();
-        setSession(undefined);
-        setSubscribers([]);
-        setMySessionId('SessionA');
-        setMyUserName('Participant' + Math.floor(Math.random() * 100));
-        setMainStreamManager(undefined);
-        setPublisher(undefined);
-        navigate('/')
-    }, [session]);
-
-    const switchCamera = useCallback(async () => {
-        try {
-            const devices = await OV.current.getDevices();
-            const videoDevices = devices.filter(device => device.kind === 'videoinput');
-
-            if (videoDevices && videoDevices.length > 1) {
-                const newVideoDevice = videoDevices.filter(device => device.deviceId !== currentVideoDevice.deviceId);
-
-                if (newVideoDevice.length > 0) {
-                    const newPublisher = OV.current.initPublisher(undefined, {
-                        videoSource: newVideoDevice[0].deviceId,
-                        publishAudio: true,
-                        publishVideo: true,
-                        mirror: true,
-                    });
-
-                    if (session) {
-                        await session.unpublish(mainStreamManager);
-                        await session.publish(newPublisher);
-                        setCurrentVideoDevice(newVideoDevice[0]);
-                        setMainStreamManager(newPublisher);
-                        setPublisher(newPublisher);
-                    }
+        axios.post(`${back_url}/room/exit`, {
+            sessionId: sessionId,
+            connectionId: tokenId,
+        })
+            .then(response => {
+                // 성공적으로 요청이 처리된 경우
+                if (session) {
+                    session.disconnect();
                 }
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }, [currentVideoDevice, session, mainStreamManager]);
+                OV.current = new OpenVidu();
+                setSession(undefined);
+                setSubscribers([]);
+                setMySessionId('SessionA');
+                setMyUserName('');
+                setMainStreamManager(undefined);
+                setPublisher(undefined);
+                navigate('/');
+            })
+            .catch(err => {
+                // 요청이 실패한 경우
+                console.error("Error occurred during post request", err);
+            });
+    }, [session, sessionId, tokenId]);
 
     const deleteSubscriber = useCallback((streamManager) => {
         setSubscribers((prevSubscribers) => {
@@ -146,98 +188,106 @@ export default function WebRTC() {
         });
     }, []);
 
-    // const getToken = useCallback(async () => {
-    //     return createSession(mySessionId).then(sessionId =>
-    //         createToken(sessionId),
-    //     );
-    // }, [mySessionId]);
-    
-    const getToken = useCallback(async () => {
-
-        try {
-            const response = await axios.post('https://k10e103.p.ssafy.io/api/room', {
-                projectId: 3
-            })
-            if (response.data.isSuccess) {
+    const getToken = async () => {
+        const res = await axios.post(`${back_url}/room`, {
+            projectId: projectRoomId 
+        })
+        if (res.data.isSuccess === true) {
+            const token = res.data.result.connectionToken
+            setSessionId(token.match(/sessionId=([^&]+)/)[1])
+            setTokenId(token.match(/token=([^&]+)/)[1])
+            return token
+        }
+        else {
+            try {
+                const response = await axios.post(`${back_url}/room/enter`, {
+                    projectId: projectRoomId 
+                })
                 const token = response.data.result
+                setSessionId(token.match(/sessionId=([^&]+)/)[1])
+                setTokenId(token.match(/token=([^&]+)/)[1])
                 return token
             }
-            else {
-                try {
-                    const response = await axios.post('https://k10e103.p.ssafy.io/api/room/enter', {
-                        projectId: 3
-                    })
-        
-                    const token = response.data.result
-                    console.log(response)
-                    return token;
-                } catch (error) {
-                    console.error('Error while fetching token:', error)
-                    throw error
-                }
+            catch (err) {
+                console.error(err)
             }
-        } catch (error) {
-            console.error(error)
         }
-    }, [])
+    }
 
-    const createSession = async (sessionId) => {
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
-            headers: { 'Content-Type': 'application/json', },
-        });
-        return response.data;
+    useEffect(() => {
+        const handleBeforeUnload = (e) => {
+            // 뒤로가기나 새로고침 시 경고 표시
+            e.preventDefault();
+            e.returnValue = '';
+        };
+
+        // 페이지 이탈 시 경고 표시
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            // 컴포넌트 언마운트 시 이벤트 리스너 제거
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
+    const toggleMicrophone = () => {
+        if (publisher) {
+            const newValue = !isMicOn;
+            publisher.publishAudio(newValue);
+            setIsMicOn(newValue);
+        }
     };
 
-    const createToken = async (sessionId) => {
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
-            headers: { 'Content-Type': 'application/json', },
+    const toggleAllSubscribersAudio = () => {
+        subscribers.forEach(subscriber => {
+            subscriber.subscribeToAudio(!isPhoneOn);
         });
-        setPrintId2(response.data)
-        return response.data;
+        setIsPhoneOn(!isPhoneOn);
     };
 
     return (
-        <div className="container">
-            <p>{printId2}</p>
-            <div id="session">
-                <div id="session-header">
-                    <h1 id="session-title">{mySessionId}</h1>
-                    <input
-                        className="btn btn-large btn-danger"
-                        type="button"
-                        id="buttonLeaveSession"
-                        onClick={leaveSession}
-                        value="Leave session"
-                    />
-                    <input
-                        className="btn btn-large btn-success"
-                        type="button"
-                        id="buttonSwitchCamera"
-                        onClick={switchCamera}
-                        value="Switch Camera"
-                    />
-                </div>
-
-                {mainStreamManager !== undefined ? (
-                    <div id="main-video" className="col-md-6">
-                        <UserVideoComponent streamManager={mainStreamManager} />
-                    </div>
+        <NavContainer>
+            <IconHoverBox>
+                <FontAwesomeIcon icon={faSignOut} style={{ color: 'white', cursor: 'pointer' }} flip='horizontal' onClick={leaveSession} />
+            </IconHoverBox>
+            <NavRigthBox>
+                <FontAwesomeIcon
+                    icon={faMicrophone}
+                    style={{ color: isMicOn ? 'white' : 'grey', cursor: 'pointer', height: '1rem', width: '1rem' }}
+                    onClick={toggleMicrophone}
+                />
+                <FontAwesomeIcon
+                    icon={faHeadphonesSimple}
+                    style={{ color: isPhoneOn ? 'white' : 'grey', cursor: 'pointer', height: '1rem', width: '1rem' }}
+                    onClick={toggleAllSubscribersAudio}
+                />
+                {publisher !== undefined ? (
+                    <UserImage>
+                        <UserVideoComponent
+                            streamManager={publisher}
+                            path={'/images/user1.png'} />
+                    </UserImage>
                 ) : null}
-                <div id="video-container" className="col-md-6">
-                    {publisher !== undefined ? (
-                        <div className="stream-container col-md-6 col-xs-6" onClick={() => handleMainVideoStream(publisher)}>
-                            <UserVideoComponent
-                                streamManager={publisher} />
-                        </div>
-                    ) : null}
-                    {subscribers.map((sub, i) => (
-                        <div key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => handleMainVideoStream(sub)}>
-                            <span>{sub.id}</span>
-                            <UserVideoComponent streamManager={sub} />
-                        </div>
-                    ))}
+                {subscribers.map((sub, i) => (
+                    <UserImage key={sub.id}>
+                        <UserVideoComponent streamManager={sub} path={'/images/user1.png'} />
+                    </UserImage>
+                ))}
+            </NavRigthBox>
+            <RightNavContainer>
+                <div className="switch" style={{ border: 'solid 2px white' }} data-isOn={isDark} onClick={toggleDarkMode}>
+                    <motion.div className="handle" layout onClick={toggleDarkMode} >
+                        <DarkModeSwitch
+                            style={{}}
+                            checked={isDark}
+                            onChange={toggleDarkMode}
+                            size={18}
+                            sunColor=" rgb(81, 81, 81)"
+                            moonColor="white"
+                        />
+                    </motion.div>
                 </div>
-            </div>
-        </div>
+            </RightNavContainer >
+        </NavContainer >
     );
 }

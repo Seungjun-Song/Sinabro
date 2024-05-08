@@ -8,6 +8,11 @@ import addScheduleModalHandleSlice from "./addScheduleModalHandleSlice";
 import newMessageSlice from "./newMessageSlice";
 import projectChatShowSlice from "./projectChatShow";
 import isDarkSlice from "./isDarkSlice";
+import projectCreateSlice from "./projectCreateSlice";
+import userSearchSlice from "./userSearchSlice";
+import inviteUserSlice from "./inviteUserSlice";
+import invitedUserListSlice from "./invitedUserListSlice";
+import projectRoomIdSlice from "./projectRoomIdSlice";
 
 const reducers = combineReducers({
   user: userSlice,
@@ -17,6 +22,11 @@ const reducers = combineReducers({
   newMessage: newMessageSlice,
   projectChatShow: projectChatShowSlice,
   isDark : isDarkSlice,
+  projectCreate: projectCreateSlice,
+  userSearch: userSearchSlice,
+  inviteUser: inviteUserSlice,
+  invitedUserList: invitedUserListSlice,
+  projectRoomId: projectRoomIdSlice,
 });
 
 const persistConfig = {
