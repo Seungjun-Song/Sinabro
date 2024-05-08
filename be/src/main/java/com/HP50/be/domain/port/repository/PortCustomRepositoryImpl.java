@@ -17,4 +17,11 @@ public class PortCustomRepositoryImpl implements PortCustomRepository {
                 .where(port.portUse.eq(false))
                 .fetchFirst();
     }
+
+    @Override
+    public Port findExistingPortByMemberId(Integer memberId) {
+        return queryFactory.selectFrom(port)
+                .where(port.member.memberId.eq(memberId))
+                .fetchFirst();
+    }
 }

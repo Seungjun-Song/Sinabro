@@ -1,11 +1,7 @@
 package com.HP50.be.domain.project.service;
 
 import com.HP50.be.domain.project.dto.*;
-import com.HP50.be.domain.project.entity.Project;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 public interface ProjectService {
     // 프로젝트 정보 확인
@@ -19,7 +15,11 @@ public interface ProjectService {
     // 원격 레포 연결
     boolean updateRepo(GitRepoRequestDto requestDto);
     // 프로젝트 입장
-    ProjectEnterDto enterProject();
+    ProjectEnterDto enterProject(String token, ProjectEnterRequestDto projectEnterRequestDto);
+    // 프로젝트 퇴장
+    void exitProject(String token);
+    // 프로젝트 다크모드
+    void projectDarkMode(String token);
 
     ResponseEntity<?> getProjectListInMember(String token);
 }

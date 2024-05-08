@@ -2,6 +2,7 @@ package com.HP50.be.global.common;
 
 import com.HP50.be.global.exception.BaseException;
 import com.jcraft.jsch.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Component
+@Slf4j
 public class JschUtil {
     @Value("${host}")
     private String host;
@@ -33,6 +35,7 @@ public class JschUtil {
         }
     }
 
+    // 컨테이너 헬스 체크(실행 중인지 켜졌는지 실행 실패 했는지 확인)
     public boolean isContainerReady(Session session, String command) {
         try {
             Channel channel = session.openChannel("exec");
@@ -42,7 +45,7 @@ public class JschUtil {
 
             InputStream in = channel.getInputStream(); // 표준 출력 스트림
             StringBuilder status = getStringBuilder(in); // 표준 출력 내용
-            System.out.println("status = " + status);
+            log.info("status = {}", status);
 
             channel.disconnect();
 
@@ -73,9 +76,9 @@ public class JschUtil {
             StringBuilder errorOutput = getStringBuilder(err); // 표준 오류 내용
 
             logCommandResults(command, output, errorOutput, channel.getExitStatus()); // 명령 결과 로깅
-            
+
             channel.disconnect(); // 채널 연결 해제
-            
+
             return channel.getExitStatus() == 0; // 명령 실행 성공 여부 반환(성공 시 true)
         } catch (JSchException e) {
             throw new BaseException(StatusCode.CHANNEL_CONNECT_FAIL); // 채널 연결 실패 시 예외 처리
@@ -86,12 +89,12 @@ public class JschUtil {
 
     // 명령 결과 로깅
     private void logCommandResults(String command, StringBuilder output, StringBuilder errorOutput, int exitStatus) {
-        System.out.println("=================================================");
-        System.out.println("Command: " + command);
-        System.out.println("Output: " + output);
-        System.out.println("Error: " + errorOutput);
-        System.out.println(exitStatus == 0 ? "성공" : "실패");
-        System.out.println("=================================================");
+        log.info("=================================================");
+        log.info("Command: {}", command);
+        log.info("Output: {}", output);
+        log.info("Error: {}", errorOutput);
+        log.info(exitStatus == 0 ? "성공" : "실패");
+        log.info("=================================================");
     }
 
     // 스트림으로부터 데이터를 읽어 StringBuilder 객체로 반환
@@ -105,5 +108,31 @@ public class JschUtil {
         }
 
         return sb;
+    }
+
+    // 깃 클론 전 디렉토리 존재 여부 확인
+    public String checkDirCommand(Session session, String command) {
+        try {
+            Channel channel = session.openChannel("exec");
+            ((ChannelExec) channel).setCommand(command); // 실행할 명령 설정
+
+            channel.connect(); // 채널 연결
+
+            InputStream in = channel.getInputStream(); // 표준 출력 스트림
+            InputStream err = ((ChannelExec) channel).getErrStream(); // 표준 오류 스트림
+
+            StringBuilder output = getStringBuilder(in); // 표준 출력 내용
+            StringBuilder errorOutput = getStringBuilder(err); // 표준 오류 내용
+
+            logCommandResults(command, output, errorOutput, channel.getExitStatus()); // 명령 결과 로깅
+
+            channel.disconnect(); // 채널 연결 해제
+
+            return output.toString();
+        } catch (JSchException e) {
+            throw new BaseException(StatusCode.CHANNEL_CONNECT_FAIL); // 채널 연결 실패 시 예외 처리
+        } catch (IOException e) {
+            throw new BaseException(StatusCode.STREAM_HANDLING_FAIL); // 스트림 처리 실패 시 예외 처리
+        }
     }
 }
