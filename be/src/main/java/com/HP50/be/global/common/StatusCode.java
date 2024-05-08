@@ -67,6 +67,9 @@ public enum StatusCode {
     
     // Community(1100)
     NOT_EXIST_BOARD(false, 1101, "존재하지 않는 게시글입니다"),
+    //Payment(1200)
+    ALREADY_PAYED(false,1201,"이미 결제한 프로젝트입니다."),
+    FAIL_SAVE_PAYMENT(false,1201,"결제 정보 저장에 실패했습니다."),
 
     // Jsch (1500)
     SESSION_CONNECT_FAIL(false, 1500, "Session 접속 실패"),

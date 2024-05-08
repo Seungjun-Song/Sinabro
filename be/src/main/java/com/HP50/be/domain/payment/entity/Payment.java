@@ -16,16 +16,22 @@ import java.time.LocalDateTime;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer paymentId;
+    private Integer paymentId; //자체 생성 ID
 
     @Column
-    private Integer paymentAmount;
+    private Integer paymentAmount; //결제 금액
 
     @Column
-    private String paymentField;
+    private String paymentCard; //카드 이름
 
     @Column
-    private String paymentMethod;
+    private String paymentMethod; //결제 방식
+
+    @Column
+    private String paymentImpUid;//imp uid
+
+    @Column
+    private PaymentStatus paymentStatus; //상태
 
     @CreatedDate
     @Column(updatable = false)

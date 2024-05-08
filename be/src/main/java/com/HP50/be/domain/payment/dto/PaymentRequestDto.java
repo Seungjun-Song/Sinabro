@@ -7,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentRequestDto {
-    String tmp;
-
+    Integer projectId;
+    Integer paymentAmount;//금액
 }
