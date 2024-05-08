@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { motion } from "framer-motion"
 import { useState } from 'react';
 import axios from 'axios';
+import { faDesktop, faCog, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
 import CkEditor from './CkEditor';
 
@@ -138,7 +139,6 @@ const headerMotion = {
 }
 
 const axiosInstance = axios.create({
-    baseURL: 'https://k10e103.p.ssafy.io/api',
     headers: {
         'Content-Type': 'application/json',
         'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJjb21wYW55IjoiSFA1MCIsIm1lbWJlcklkIjo5NDQyOTEyMCwiZW1haWwiOiJ3aGRybnJkbDc4OUBuYXZlci5jb20iLCJtZW1iZXJOYW1lIjoiSm9uZ0tvb2tFIiwibWVtYmVyR2l0IjoiaHR0cHM6Ly9naXRodWIuY29tL0pvbmdLb29rRSIsIm1lbWJlckltZyI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS85NDQyOTEyMD92PTQiLCJpYXQiOjE3MTQ3MTM2NTEsImV4cCI6MTc1MDcxMzY1MX0.SrKj_R2pOGU6FpRn38U4jeqUCeuo0woyVd5J3fEBt4g'
@@ -151,31 +151,50 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
 
     const back_url = getEnv('BACK_URL')
 
-    const [ jobInfo, setJobInfo ] = useState({
-        backTarget: 0,
-        backTotal: 0,
-        frontTotal: 0,
-        frontTarget: 0,
-    })
+    // const [ jobInfo, setJobInfo ] = useState({
+    //     backTarget: 0,
+    //     backTotal: 0,
+    //     frontTotal: 0,
+    //     frontTarget: 0,
+    // })
+
+    const [ jobInfo, setJobInfo ] = useState([
+        {
+            id: 1,
+            name: "백",
+            borderColor: "#315DCC",
+            icon: faCog,
+            target: 0,
+            total: 0,
+        },
+        {
+            id: 2, 
+            name: "프론트",
+            borderColor: "#3DC7AE",
+            icon: faDesktop,
+            target: 0,
+            total: 0,
+        }
+
+    ])
 
     const submit = () =>{
-        axios.post(`${back_url}/communities/comment`, {
+
+        console.log(jobInfo[0].target);
+        axios.post(`${back_url}/communities`, {
             boardId: 0,
-            boardTitle: "업데이트 되나요?.",
-            boardContent: "되라/저희는 백엔드 3명에 프론트 2명입니다 한분만 와주세요",
+            boardTitle: postContent.title,
+            boardContent: postContent.content,
             boardImg: "https://firebase.com/v4/jbbbejqhuabsaskdb.jpg",
             projectLink: "https://k10e103.p.ssafy.io/my-code-server",
             projectId: 1,
             subCategoryId: 401,
-            requiredbackEnd: 2,
-            requiredFrontEnd: 1,
+            requiredbackEnd: 0, //parseInt(jobInfo[0].target),
+            requiredFrontEnd: 0, //parseInt(jobInfo[1].target),
             requiredFullStack: 0,
-            boardTag: [{
-                subCategoryId: 101,
-                subCategoryName: "React",
-                categoryId: 100
-            }],
-        })
+            boardTag: ["kk", "kkl"],
+        },
+        {withCredentials: true})
         .then(response => {
             console.log("save");
             navigate('/communityMainPage', {state: {kind: "member"}});

@@ -33,6 +33,14 @@ const Job = styled.div`
     `}
 
 `
+
+const InputBox = styled.input`
+    width: 0.5rem;
+    border: none;
+    padding: 0;
+
+`
+
 const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
     const [jobList, setJobList] = useState([
         {
@@ -52,7 +60,7 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
     ])
 
     const selectJob = (job, index) =>{
-        console.log("selectJob", job);
+        //console.log("selectJob", job);
         
         setJobList(jobList.map((v, i)=>{
             if( index !== i){
@@ -62,25 +70,40 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
                 return {...v, selected: !job.selected}
             }
         }))
-
-        // if(name === "백"){
-        //     setJobInfo((prevState) => {
-        //         return{...prevState, backSelected: !jobInfo.backSelected}
-        //     })
-        // }
-        // else if(name === "프론트"){
-        //     setJobInfo((prevState) => {
-        //         return{...prevState, frontSelected: !jobInfo.frontSelected}
-        //     })
-        // }
     }
 
+    const changeTargetVal = (data, index) => {
+        setJobInfo(jobInfo.map((v, i) => {
+            if(index !== i ){
+                return v;
+            }
+            else{
+                if(data.nativeEvent.data == null)
+                    return {...v, target: ""}
+                else
+                    return{...v, target: data.nativeEvent.data};
+            }
+        }))
+    
 
+    }
+
+    const changeTotalVal = (data, index) => {
+        setJobInfo(jobInfo.map((v, i)=>{
+            if(index !== i){
+                return v;
+            }
+            else{
+                return{...v, total: data.nativeEvent.data}
+            }
+        }))
+
+    }
     return(
         <JobBox>
             {kind == "member" && 
             <>
-                {jobList.map((job, index) => (
+                {jobInfo.map((job, index) => (
                 <Job
                     borderColor={job.borderColor}
                 >
@@ -88,7 +111,16 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
                     <div>
                     {job.name}
                     </div>
-                    {1} / {1}
+                    <InputBox
+                        value={job.total}
+                        onChange={(data) => changeTotalVal(data, index)}
+                    >
+                    </InputBox> / 
+                    <InputBox
+                        value={job.target}
+                        onChange={(data) => changeTargetVal(data, index)}
+                    >
+                    </InputBox>
                 </Job>
             ))}               
             
@@ -111,7 +143,7 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
                 ))}   
             </>
             }
-
+        6명 이하 인원만 가능해요!
         </JobBox>
     )
 }

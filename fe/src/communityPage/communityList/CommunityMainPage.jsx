@@ -81,6 +81,7 @@ const CommunityMainPage = () => {
 
     useEffect(() =>{
         if(didMountSelected.current) {
+            
         setPostList([
             {
                 id: 1,
@@ -119,53 +120,54 @@ const CommunityMainPage = () => {
                 proceed: true,
             },
     
-        ])}
+        ])
+        }
         else didMountSelected.current = true;
-    }, [selected])
+    }, [selected, currentPage])
 
-    useEffect(() => {
-        if(didMountPage.current) {
-        setPostList([
-            {
-                id: 1,
-                title: "페이지 바꼈을 때 변환 테스트",
-                content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-                hash: ["spring boot", "커피", "백엔드"],
-                writer: "sil",
-                time: "2024-01-03",
-                proceed: true,
-            },
-            {
-                id: 2,
-                title: "웹 프로젝트 팀원 구합니다!",
-                content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-                hash: ["spring boot", "커피", "백엔드"],
-                writer: "sil",
-                time: "2024-01-03",
-                proceed: false,
-            },
-            {
-                id: 3,
-                title: "웹 프로젝트 팀원 구합니다!",
-                content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-                hash: ["spring boot", "커피", "백엔드"],
-                writer: "sil",
-                time: "2024-01-03",
-                proceed: false,
-            },
-            {
-                id: 4,
-                title: "웹 프로젝트 팀원 구합니다!",
-                content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-                hash: ["spring boot", "커피", "백엔드"],
-                writer: "sil",
-                time: "2024-01-03",
-                proceed: true,
-            },
+    // useEffect(() => {
+    //     if(didMountPage.current) {
+    //     setPostList([
+    //         {
+    //             id: 1,
+    //             title: "페이지 바꼈을 때 변환 테스트",
+    //             content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
+    //             hash: ["spring boot", "커피", "백엔드"],
+    //             writer: "sil",
+    //             time: "2024-01-03",
+    //             proceed: true,
+    //         },
+    //         {
+    //             id: 2,
+    //             title: "웹 프로젝트 팀원 구합니다!",
+    //             content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
+    //             hash: ["spring boot", "커피", "백엔드"],
+    //             writer: "sil",
+    //             time: "2024-01-03",
+    //             proceed: false,
+    //         },
+    //         {
+    //             id: 3,
+    //             title: "웹 프로젝트 팀원 구합니다!",
+    //             content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
+    //             hash: ["spring boot", "커피", "백엔드"],
+    //             writer: "sil",
+    //             time: "2024-01-03",
+    //             proceed: false,
+    //         },
+    //         {
+    //             id: 4,
+    //             title: "웹 프로젝트 팀원 구합니다!",
+    //             content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
+    //             hash: ["spring boot", "커피", "백엔드"],
+    //             writer: "sil",
+    //             time: "2024-01-03",
+    //             proceed: true,
+    //         },
     
-        ])}
-        else didMountPage.current = true;
-    }, [currentPage])
+    //     ])}
+    //     else didMountPage.current = true;
+    // }, [currentPage])
 
 
     return (
