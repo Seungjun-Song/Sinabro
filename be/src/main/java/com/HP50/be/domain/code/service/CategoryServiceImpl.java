@@ -1,6 +1,7 @@
 package com.HP50.be.domain.code.service;
 
 import com.HP50.be.domain.code.dto.CategoryRequestDto;
+import com.HP50.be.domain.code.dto.CategoryResponseDto;
 import com.HP50.be.domain.code.entity.Category;
 import com.HP50.be.domain.code.repository.CategoryCustomRepository;
 import com.HP50.be.domain.code.repository.CategoryRepository;
@@ -14,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService{
@@ -24,4 +27,10 @@ public class CategoryServiceImpl implements CategoryService{
     public ResponseEntity<BaseResponse<?>> savePersonalDuty(CategoryRequestDto dto) {
         return categoryCustomRepository.savePersonalDuty(dto);
     }
+
+    @Override
+    public List<CategoryResponseDto> findAllJob() {
+        return categoryCustomRepository.findAllJob();
+    }
+
 }
