@@ -175,7 +175,9 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
                 subCategoryName: "React",
                 categoryId: 100
             }],
-        })
+        },
+        {withCredentials: true}
+        )
         .then(response => {
             console.log("save");
             navigate('/communityMainPage', {state: {kind: "member"}});
