@@ -251,7 +251,7 @@ public class ProjectServiceImpl implements ProjectService{
 
         // 깃 클론 전 디렉토리 존재 여부 확인
         String checkDirCommand = "docker exec " + codeServerName + " /bin/bash -c '[ -d \"/home/coder/code-server/" + repoName + "\" ] && echo \"exists\" || echo \"not exists\"'";
-        if(!jschUtil.checkDirCommand(session, checkDirCommand).trim().equals("exists")) {
+        if(!jschUtil.executeCommandAndGetOutput(session, checkDirCommand).trim().equals("exists")) {
             // 깃 클론
             String gitCloneCommand = "docker exec " + codeServerName + " git clone " + repoUrl;
             if(!jschUtil.executeCommand(session, gitCloneCommand)) {
