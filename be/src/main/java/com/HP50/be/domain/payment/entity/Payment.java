@@ -31,7 +31,7 @@ public class Payment {
     @Column(updatable = false)
     private LocalDateTime createdDttm;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "project_id")
     private Project project;
 }

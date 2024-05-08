@@ -106,4 +106,27 @@ public class JschUtil {
 
         return sb;
     }
+    /*
+        소나큐브에서 결과 확인하기 위해서 필요 + 추가
+     */
+    public String executeCommandAndGetOutput(Session session, String command) {
+        try {
+            Channel channel = session.openChannel("exec");
+            ((ChannelExec) channel).setCommand(command); // 실행할 명령 설정
+
+            channel.connect(); // 채널 연결
+
+            InputStream in = channel.getInputStream(); // 표준 출력 스트림
+            InputStream err = ((ChannelExec) channel).getErrStream(); // 표준 오류 스트림
+
+            StringBuilder output = getStringBuilder(in); // 표준 출력 내용
+            channel.disconnect(); // 채널 연결 해제
+
+            return output.toString();
+        } catch (JSchException e) {
+            throw new BaseException(StatusCode.CHANNEL_CONNECT_FAIL); // 채널 연결 실패 시 예외 처리
+        } catch (IOException e) {
+            throw new BaseException(StatusCode.STREAM_HANDLING_FAIL); // 스트림 처리 실패 시 예외 처리
+        }
+    }
 }

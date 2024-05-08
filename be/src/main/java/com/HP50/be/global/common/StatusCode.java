@@ -61,6 +61,9 @@ public enum StatusCode {
     FAIL_DELETE_REPO(false,1004,"정적분석 레포 삭제에 실패했습니다."),
     FAIL_CHMOD_REPO(false,1005,"깃 파일 권한 설정에 실패했습니다."),
     FAIL_BUILD_REPO(false,1006,"깃 파일 권한 빌드에 실패했습니다."),
+    FAIL_API_REQUEST(false,1007,"소나큐브 API요청을 실패했습니다."),
+    REQUIRE_PAYMENT(false,1008,"소나큐브를 이용하기 위해선 결제가 필요합니다."),
+    RUNNING_SONARQUBE(false,1009,"소나큐브가 작동중입니다. 잠시 후 요청을 다시 보내주세요."),
 
     // Jsch (1500)
     SESSION_CONNECT_FAIL(false, 1500, "Session 접속 실패"),
