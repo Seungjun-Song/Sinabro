@@ -291,7 +291,7 @@ const SurveyPage = () => {
   const chooseSubSkill = async () => {
     const subCategoryIds = choiceResults.map(item => item.subCategoryId)
     setMyStack(subCategoryIds)
-    
+    console.log(myStack)
     try {
       const res = await axios.post(`${back_url}/members`, {
         subCategoryId: myStack, // 실제로 받는 바디가 뭔지 확인 필요, 배열에 서브스킬 추가해야함
@@ -470,7 +470,7 @@ const SurveyPage = () => {
                   )}
                 </MainContainer>
                 <SendButtonContainer>
-                  <SendButton onClick={chooseSubSkill}>
+                  <SendButton onClick={() => chooseSubSkill()}>
                     완료
                   </SendButton>
                 </SendButtonContainer>
