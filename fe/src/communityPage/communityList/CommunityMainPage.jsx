@@ -33,6 +33,8 @@ const CommunityMainPage = () => {
 
     const [selected, setSelected] = useState(data.kind);
     const [currentPage, setCurrentPage] = useState(data.page);
+    const [proceedOption, setProceedOption] = useState("모집 중");
+    const [teamOption, setTeamOption] = useState("분야 선택");
 
     const didMountSelected = useRef(false);
     const didMountPage = useRef(false);
@@ -121,7 +123,7 @@ const CommunityMainPage = () => {
         else didMountSelected.current = true;
     }, [selected])
 
-    useEffect(() =>{
+    useEffect(() => {
         if(didMountPage.current) {
         setPostList([
             {
@@ -167,7 +169,9 @@ const CommunityMainPage = () => {
 
 
     return (
-        <>{console.log(currentPage)}
+        <>{console.log("didMountPage", didMountPage)}
+        {console.log("didMountSelect", didMountSelected)}
+        
         <Navbar>
         </Navbar>
         <Community
@@ -186,6 +190,10 @@ const CommunityMainPage = () => {
                 <CommunityMemberPage
                     isDark={isDark}
                     postList={postList}
+                    proceedOption={proceedOption}
+                    setProceedOption={setProceedOption}
+                    teamOption={teamOption}
+                    setTeamOption={setTeamOption}
                 />
             ) : ("")}
 
@@ -200,6 +208,10 @@ const CommunityMainPage = () => {
                 <CommunityFeadBackPage
                     isDark={isDark}
                     postList={postList}
+                    proceedOption={proceedOption}
+                    setProceedOption={setProceedOption}
+                    teamOption={teamOption}
+                    setTeamOption={setTeamOption}
                 />
             ) : ("")}
 
@@ -211,7 +223,6 @@ const CommunityMainPage = () => {
                 selected={selected}
                 setCurrentPage={setCurrentPage}
             >
-
             </Pagination>
             </div>
         </Community>

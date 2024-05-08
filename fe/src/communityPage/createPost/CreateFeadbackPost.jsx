@@ -6,6 +6,7 @@ import { useState } from 'react';
 import CkEditor from './CkEditor';
 
 import { GlobalColor } from '../../services/color';
+import CreateJobsBox from './CreateJobsBox';
 
 const MemberPost = styled.div`
     display: flex;
@@ -21,8 +22,10 @@ const MemberPost = styled.div`
 const Header = styled(motion.div)`
 
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
 
     width: 100%;
 
@@ -134,6 +137,11 @@ const headerMotion = {
 const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
     const navigate = useNavigate();
 
+    const [ jobInfo, setJobInfo ] = useState({
+        backSelected: false,
+        frontSelected: false,
+    })
+
     const submit = () =>{
         //TODO: axios 게시물 저장
 
@@ -160,10 +168,16 @@ const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
                 <Title
                     placeholder='제목을 입력하세요'
                     value={postContent.title}
-                    onChange={postContent.title}
+                    onChange={onChangeTitle}
                     isDark={isDark}
                     >
                 </Title>
+                <CreateJobsBox
+                    kind={"feadback"}
+                    jobSelected={jobInfo}
+                    setJobSelected={setJobInfo}
+                >
+                </CreateJobsBox>
             </Header>
 
             <Content>
