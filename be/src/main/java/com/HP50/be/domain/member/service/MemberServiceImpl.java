@@ -74,4 +74,9 @@ public class MemberServiceImpl implements MemberService {
                 .build();
         return profileResponseDto;
     }
+
+    @Override
+    public Member findById(Integer memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
+    }
 }

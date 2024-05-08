@@ -61,6 +61,9 @@ public enum StatusCode {
     FAIL_DELETE_REPO(false,1004,"정적분석 레포 삭제에 실패했습니다."),
     FAIL_CHMOD_REPO(false,1005,"깃 파일 권한 설정에 실패했습니다."),
     FAIL_BUILD_REPO(false,1006,"깃 파일 권한 빌드에 실패했습니다."),
+    
+    // Community(1100)
+    NOT_EXIST_BOARD(false, 1101, "존재하지 않는 게시글입니다"),
 
     // Jsch (1500)
     SESSION_CONNECT_FAIL(false, 1500, "Session 접속 실패"),

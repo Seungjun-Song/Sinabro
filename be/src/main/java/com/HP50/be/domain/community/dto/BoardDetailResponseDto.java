@@ -34,7 +34,9 @@ public class BoardDetailResponseDto {
     @Schema(name = "마지막으로 수정된 시간", example = "2024-05-03 17:57:46.782102")
     private LocalDateTime updatedDttm;
 
-    private SubCategoryResponseDto subCategory;
+    private SubCategory subCategory;
 
     private List<TagDto> tagDtos;
+
+    private List<CommentResponseDto> commentResponseDtos;
 }
