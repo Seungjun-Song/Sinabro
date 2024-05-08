@@ -362,13 +362,13 @@ const ProjectPageLeftPanel = () => {
                                                         <IconHoverBox style={{ marginLeft: 'auto', marginTop: '0.2rem', marginRight: '0.2rem', color: '#3EC8AF', cursor: 'pointer' }} >
                                                             <FontAwesomeIcon icon={faTimesCircle} onClick={() => dispatch(removeSchedule(index))} />
                                                         </IconHoverBox>
-                                                        {item.subCategoryId === 501 ?
+                                                        {item.subCategoryId === 503 ?
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: 502 }))} />
+                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: 501 }))} />
                                                             </IconHoverBox>
                                                             :
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: 501 }))} />
+                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: 503 }))} />
                                                             </IconHoverBox>
                                                         }
                                                     </IconBox>
@@ -408,13 +408,13 @@ const ProjectPageLeftPanel = () => {
                                                         <IconHoverBox style={{ marginLeft: 'auto', marginTop: '0.2rem', marginRight: '0.2rem', color: '#3EC8AF', cursor: 'pointer' }} >
                                                             <FontAwesomeIcon icon={faTimesCircle} onClick={() => dispatch(removeSchedule(index))} />
                                                         </IconHoverBox>
-                                                        {item.subCategoryId === 501 ?
+                                                        {item.subCategoryId === 503 ?
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: 502 }))} />
+                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: 501 }))} />
                                                             </IconHoverBox>
                                                             :
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: 501 }))} />
+                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: 503 }))} />
                                                             </IconHoverBox>
                                                         }
                                                     </IconBox>

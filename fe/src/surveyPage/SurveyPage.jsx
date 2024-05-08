@@ -279,7 +279,7 @@ const SurveyPage = () => {
   const chooseSkill = async () => {
     try {
       const res = await axios.put(`${back_url}/members`, {
-        categoryId: categoryId // 실제로 받는 바디가 뭔지 확인 필요
+        categoryId // 실제로 받는 바디가 뭔지 확인 필요
       })
       console.log(res.data)
     }
