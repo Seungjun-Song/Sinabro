@@ -12,6 +12,8 @@ import java.time.LocalDate;
 public class CalenderDto {
     Integer calenderId;
     Integer memberId;
+    String memberImg;
+    String memberName;
     Integer subCategoryId;
     LocalDate calenderStartDt;
     LocalDate calenderEndDt;

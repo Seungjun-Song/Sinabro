@@ -59,6 +59,8 @@ public class CalenderCustomRepositoryImpl implements CalenderCustomRepository{
                                 CalenderDto.class,
                                 calender.calenderId.as("calenderId"),
                                 calender.member.memberId.as("memberId"),//담당자
+                                calender.member.memberImg.as("memberImg"),
+                                calender.member.memberName.as("memberName"),
                                 calender.subCategory.subCategoryId.as("subCategoryId"),
                                 calender.calenderStartDt.as("calenderStartDt"),
                                 calender.calenderEndDt.as("calenderEndDt"),
