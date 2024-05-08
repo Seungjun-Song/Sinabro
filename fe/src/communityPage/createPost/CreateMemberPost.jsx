@@ -159,7 +159,7 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
     })
 
     const submit = () =>{
-        axiosInstance.post(`/communities/comment`, {
+        axios.post(`${back_url}/communities/comment`, {
             boardId: 0,
             boardTitle: "업데이트 되나요?.",
             boardContent: "되라/저희는 백엔드 3명에 프론트 2명입니다 한분만 와주세요",
