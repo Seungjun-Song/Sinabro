@@ -84,14 +84,13 @@ const CreatePage = () => {
     const data = location.state;
 
     const [ selected, setSelected ] = useState(data.kind);
-
     const [ postContent, setPostContent ] = useState({
         title: '',
         content: '',
         tag: ''
     });
 
-    const isDark = useSelector(state =>state.isDark.isDark);
+    const isdark = useSelector(state =>state.isDark.isDark);
 
     const changeOption = (option) => {
         setSelected(option);
@@ -103,9 +102,9 @@ const CreatePage = () => {
         <>
             <Navbar>
             </Navbar>
-            <Back style={{transition:"0.3s"}} isDark={isDark}>
+            <Back style={{transition:"0.3s"}} isDark={isdark}>
             <Create
-                isDark={isDark}
+                isDark={isdark}
             >
                 <Header
                     {...headerMotion}
@@ -131,14 +130,14 @@ const CreatePage = () => {
 
                 {selected === "member" ? (
                     <CreateMemberPost
-                        isDark={isDark}
+                        isdark={isdark}
                         postContent={postContent}
                         setPostContent={setPostContent}
                     />
                 ) : ("")}
                 {selected === "team" ? (
                     <CreateTeamPost
-                        isDark={isDark}
+                        isdark={isdark}
                         postContent={postContent}
                         setPostContent={setPostContent}
                         
@@ -146,7 +145,7 @@ const CreatePage = () => {
                 ) : ("")}
                 {selected === "feadback" ? (
                     <CreateFeadbackPost
-                        isDark={isDark}
+                        isdark={isdark}
                         postContent={postContent}
                         setPostContent={setPostContent}
                     />

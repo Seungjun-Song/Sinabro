@@ -2,7 +2,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-const Section3 = ({ section3Ref }) => {
+const Section3 = ({ section3Ref ,scroll,setScroll }) => {
   const [isHover, setIsHover] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const imglist = [
@@ -409,23 +409,23 @@ const Section3 = ({ section3Ref }) => {
           >
             <img
               style={{
-                width: "30rem",
-                height: "21rem",
+                width: "28rem",
+                height: "15.5rem",
                 position: "absolute",
-                top: "25%",
-                left: "15%",
+                top: "30%",
+                left: "20%",
               }}
-              src="/images/pngegg.png"
+              src="/images/pngwing.com.png"
             />
             {/* {currentIndex === 0  && } */}
             <AnimatePresence mode="wait">
               <motion.img
                 style={{
-                  width: "28rem",
-                  // height: "6rem",
+                  width: "26.2rem",
+                  // height: "16rem",
                   position: "absolute",
-                  top: "26.5%",
-                  left: "17.2%",
+                  top: "31.1%",
+                  left: "22.2%",
                 }}
                 src={imglist[currentIndex]}
                 key={imglist[currentIndex]}

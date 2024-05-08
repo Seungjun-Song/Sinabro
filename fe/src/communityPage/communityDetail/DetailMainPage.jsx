@@ -10,6 +10,7 @@ import DetailTeam from './DetailTeam';
 import DetailFeadback from './DetailFeadback';
 import { GlobalColor } from '../../services/color';
 
+
 const Community = styled.div`
     display: flex;
     align-items: start;

@@ -3,10 +3,13 @@ import styled, { css } from 'styled-components'
 import { useNavigate } from 'react-router';
 import { motion } from "framer-motion"
 import { useState } from 'react';
+import axios from 'axios';
 
 import CkEditor from './CkEditor';
 
 import { GlobalColor } from '../../services/color';
+import CreateJobsBox from './CreateJobsBox';
+import getEnv from '../../utils/getEnv';
 
 const MemberPost = styled.div`
     display: flex;
@@ -22,12 +25,13 @@ const MemberPost = styled.div`
 const Header = styled(motion.div)`
 
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
-
+    flex-direction: column;
+    gap: 1rem;
     width: 100%;
 
-    margin: 1rem 0 2rem 0;
+    margin: 1rem 0 1rem 0;
 `
 
 const Title = styled.input`
@@ -133,14 +137,54 @@ const headerMotion = {
     transition: { duration: 0.3 }
 }
 
+const axiosInstance = axios.create({
+    baseURL: 'https://k10e103.p.ssafy.io/api',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJjb21wYW55IjoiSFA1MCIsIm1lbWJlcklkIjo5NDQyOTEyMCwiZW1haWwiOiJ3aGRybnJkbDc4OUBuYXZlci5jb20iLCJtZW1iZXJOYW1lIjoiSm9uZ0tvb2tFIiwibWVtYmVyR2l0IjoiaHR0cHM6Ly9naXRodWIuY29tL0pvbmdLb29rRSIsIm1lbWJlckltZyI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS85NDQyOTEyMD92PTQiLCJpYXQiOjE3MTQ3MTM2NTEsImV4cCI6MTc1MDcxMzY1MX0.SrKj_R2pOGU6FpRn38U4jeqUCeuo0woyVd5J3fEBt4g'
+    }
+})
+
 
 const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
     const navigate = useNavigate();
 
-    const submit = () =>{
-        //TODO: axios 게시물 저장
+    const back_url = getEnv('BACK_URL')
 
-        navigate('/communityMainPage', {state: {kind: "member"}});
+    const [ jobInfo, setJobInfo ] = useState({
+        backTarget: 0,
+        backTotal: 0,
+        frontTotal: 0,
+        frontTarget: 0,
+    })
+
+    const submit = () =>{
+        axios.post(`${back_url}/communities/comment`, {
+            boardId: 0,
+            boardTitle: "업데이트 되나요?.",
+            boardContent: "되라/저희는 백엔드 3명에 프론트 2명입니다 한분만 와주세요",
+            boardImg: "https://firebase.com/v4/jbbbejqhuabsaskdb.jpg",
+            projectLink: "https://k10e103.p.ssafy.io/my-code-server",
+            projectId: 1,
+            subCategoryId: 401,
+            requiredbackEnd: 2,
+            requiredFrontEnd: 1,
+            requiredFullStack: 0,
+            boardTag: [{
+                subCategoryId: 101,
+                subCategoryName: "React",
+                categoryId: 100
+            }],
+        })
+        .then(response => {
+            console.log("save");
+            navigate('/communityMainPage', {state: {kind: "member"}});
+        })
+        .catch(err => {
+            console.log(err);
+        });
+        
+    
     }
 
     const onChangeTitle = (e) =>{
@@ -166,6 +210,12 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
                     onChange={onChangeTitle}
                     isDark={isDark}>
                 </Title>
+                <CreateJobsBox
+                    kind={"member"}
+                    jobInfo={jobInfo}
+                    setJobInfo={setJobInfo}
+                >
+                </CreateJobsBox>
             </Header>
 
             <Content>

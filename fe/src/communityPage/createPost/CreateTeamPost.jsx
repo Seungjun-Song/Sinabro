@@ -132,7 +132,7 @@ const headerMotion = {
     transition: { duration: 0.3 }
 }
 
-const CreateTeamPost = ({ isDark, postContent, setPostContent }) => {
+const CreateTeamPost = ({ isdark, postContent, setPostContent }) => {
     const navigate = useNavigate();
 
     const submit = () =>{
@@ -162,7 +162,7 @@ const CreateTeamPost = ({ isDark, postContent, setPostContent }) => {
                     placeholder='제목을 입력하세요'
                     value={postContent.title}
                     onChange={onChangeTitle}
-                    isDark={isDark}>
+                    isDark={isdark}>
                 </Title>
             </Header>
 
@@ -170,13 +170,13 @@ const CreateTeamPost = ({ isDark, postContent, setPostContent }) => {
                 <CkEditor
                     postContent={postContent}
                     setPostContent={setPostContent}
-                    isDark={isDark}
+                    isDark={isdark}
                 />
                 <Tag
                     placeholder='표현하고 싶은 태그를 입력해주세요 ! 태그는 스페이스로 구분됩니다. 😃'
                     value={postContent.tag}
                     onChange={onChangeTag}
-                    isDark={isDark}>
+                    isDark={isdark}>
                 </Tag>
             </Content>
 

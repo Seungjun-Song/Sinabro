@@ -36,10 +36,13 @@ const Callback = () => {
                     console.log(res.data.result)
                     dispatch(setUser({
                         uid: res.data.result.memberId,
+                        photoURL: res.data.memberImg,
                         displayName: res.data.result.memberName,
                         token: res.data.result.jwtAccessToken,
                         newer: res.data.result.newer,
-                        photoURL: res.data.result.memberImg
+                        photoURL: res.data.result.memberImg,
+                        memberEmail: res.data.result.memberEmail,
+                        memberGit: res.data.result.memberGit
                     }))
 
                     if(res.data.result.newer == true){
