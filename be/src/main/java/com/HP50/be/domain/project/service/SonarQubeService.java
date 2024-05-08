@@ -1,8 +1,3 @@
-package com.HP50.be.domain.project.service;
-
-import com.HP50.be.domain.project.dto.SonarRequestDto;
-import com.jcraft.jsch.Session;
-public interface SonarQubeService {
-    void executeSonarScanner(Integer projectId,String folderName);
-    boolean executeCommand(Session session, String command)throws Exception;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:664f4c8c494523310873c73b1079734e8bfbe43fb700011bf798551ec270da32
+size 314
