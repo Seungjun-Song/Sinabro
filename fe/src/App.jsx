@@ -81,7 +81,7 @@ const App = () => {
       <Route path="/communityDetail" element={<DetailMainPage/>}/>
       <Route path="/TeamSpaceDetailPage" element={<TeamSpaceDetailPage />} />
       <Route path="/Mainpage" element={<Mainpage />} />
-      <Route path="/project" element={<ProjectPage />} />
+      <Route path="/project/:roomId" element={<ProjectPage />} />
       <Route path="/calender" element={<Calender />} />
       <Route path="/rtc" element={<WebRTC />} />
 

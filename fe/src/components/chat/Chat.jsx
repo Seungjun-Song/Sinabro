@@ -25,12 +25,13 @@ const Chat = () => {
     const currentTime = new Date().toISOString()
     const [beforeUser, setBeforeUser] = useState("")
 
-    const isDark = !useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state => state.isDark.isDark)
+    const projectRoomId = useSelector(state => state.projectRoomId.value)
 
     useEffect(() => {
         // Firebase Realtime Database에서 채팅 메시지를 가져와서 설정합니다.
         const db = getDatabase();
-        const chatRef = ref(db, "chats");
+        const chatRef = ref(db, `chats/${projectRoomId}`);
         onValue(chatRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -58,7 +59,7 @@ const Chat = () => {
     const sendMessage = () => {
         if (message.trim() !== "") {
             const db = getDatabase();
-            const chatRef = ref(db, "chats");
+            const chatRef = ref(db, `chats/${projectRoomId}`);
             push(chatRef, {
                 message: message,
                 sender: userInfo.currentUser.uid,

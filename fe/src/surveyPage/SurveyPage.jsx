@@ -9,6 +9,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector } from "react-redux";
+import getEnv from "../utils/getEnv";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const SurveyContainer = styled.div`
   width: 100vw;
   height: 100vh;
@@ -186,12 +189,13 @@ const dataList = [
   },
 ];
 const SurveyPage = () => {
-  const isDark = useSelector(state =>state.isDark.isDark)
+  const isDark = useSelector(state => state.isDark.isDark)
   const [isSelected, setIsSelected] = useState(false);
   const [isFeSelected, setFeIsSelected] = useState(false);
   const [isBeSelected, setBeIsSelected] = useState(false);
   const [isFullSelected, setFullIsSelected] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [categoryId, setCategoryId] = useState(null)
   const [whatSearch, setWhatSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [choiceResults, setChoiceResults] = useState([]);
@@ -199,6 +203,7 @@ const SurveyPage = () => {
     if (!isSelected) {
       setIsSelected(!isSelected);
       setFeIsSelected(!isFeSelected);
+      setCategoryId(100)
     } else {
       if (isFeSelected) {
         setIsSelected(!isSelected);
@@ -211,6 +216,7 @@ const SurveyPage = () => {
     if (!isSelected) {
       setIsSelected(!isSelected);
       setBeIsSelected(!isBeSelected);
+      setCategoryId(200)
     } else {
       if (isBeSelected) {
         setIsSelected(!isSelected);
@@ -223,6 +229,7 @@ const SurveyPage = () => {
     if (!isSelected) {
       setIsSelected(!isSelected);
       setFullIsSelected(!isFullSelected);
+      setCategoryId(300)
     } else {
       if (isFullSelected) {
         setIsSelected(!isSelected);
@@ -252,6 +259,35 @@ const SurveyPage = () => {
     // choiceResults 상태를 새로운 배열로 업데이트합니다.
     setChoiceResults(updatedResults);
   };
+
+  const back_url = getEnv('BACK_URL')
+
+  const navigate = useNavigate()
+
+  const chooseSkill = async () => {
+    try {
+      const res = await axios.put(`${back_url}/members`, {
+        categoryId: categoryId // 실제로 받는 바디가 뭔지 확인 필요
+      })
+      console.log(res.data)
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
+
+  const chooseSubSkill = async () => {
+    try {
+      const res = await axios.post(`${back_url}/members`, {
+        subCategoryId: [], // 실제로 받는 바디가 뭔지 확인 필요, 배열에 서브스킬 추가해야함
+      })
+      console.log(res.data)
+      navigate('/mainPage')
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <>
@@ -330,7 +366,7 @@ const SurveyPage = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 5 }}
                         transition={{ duration: 0.3 }}
-                        onClick={() => setIsChecked(true)}
+                        onClick={() => { setIsChecked(true), chooseSkill() }}
                       >
                         다음
                       </SendButton>
@@ -419,7 +455,9 @@ const SurveyPage = () => {
                   )}
                 </MainContainer>
                 <SendButtonContainer>
-                  <SendButton>완료</SendButton>
+                  <SendButton onClick={chooseSubSkill}>
+                    완료
+                  </SendButton>
                 </SendButtonContainer>
               </>
             )}

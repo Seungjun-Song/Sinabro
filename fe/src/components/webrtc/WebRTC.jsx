@@ -20,6 +20,7 @@ const NavContainer = styled.div`
     display: flex;
     align-items: center;
     padding: 0.5rem 1rem;
+    min-width: 700px;
 `
 
 const NavRigthBox = styled.div`
@@ -68,6 +69,7 @@ export default function WebRTC() {
     const dispatch = useDispatch()
 
     const isDark = useSelector(state => state.isDark.isDark)
+    const projectRoomId = useSelector(state => state.projectRoomId.value)
 
     const toggleDarkMode = () => {
         dispatch(toggleisDarkState())
@@ -188,7 +190,7 @@ export default function WebRTC() {
 
     const getToken = async () => {
         const res = await axios.post(`${back_url}/room`, {
-            projectId: 49 // 실제 프로젝트 아이디로 변경해야함
+            projectId: projectRoomId 
         })
         if (res.data.isSuccess === true) {
             const token = res.data.result.connectionToken
@@ -199,7 +201,7 @@ export default function WebRTC() {
         else {
             try {
                 const response = await axios.post(`${back_url}/room/enter`, {
-                    projectId: 49 // 실제 프로젝트 아이디로 변경해야함
+                    projectId: projectRoomId 
                 })
                 const token = response.data.result
                 setSessionId(token.match(/sessionId=([^&]+)/)[1])
