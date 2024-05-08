@@ -279,7 +279,7 @@ const SurveyPage = () => {
   const chooseSkill = async () => {
     try {
       const res = await axios.put(`${back_url}/members`, {
-        categoryId // 실제로 받는 바디가 뭔지 확인 필요
+        categoryId: categoryId // 실제로 받는 바디가 뭔지 확인 필요
       })
       console.log(res.data)
     }
@@ -294,9 +294,7 @@ const SurveyPage = () => {
     
     try {
       console.log(myStack)
-      const res = await axios.post(`${back_url}/members`, {
-        subCategoryId: myStack,
-      })
+      const res = await axios.post(`${back_url}/members`, myStack)
       console.log(res.data)
       navigate('/mainPage')
     }
@@ -305,7 +303,6 @@ const SurveyPage = () => {
     }
   }
   
-
   return (
     <>
       <Navbar></Navbar>
