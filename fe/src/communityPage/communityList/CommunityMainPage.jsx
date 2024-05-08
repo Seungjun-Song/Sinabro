@@ -169,9 +169,7 @@ const CommunityMainPage = () => {
 
 
     return (
-        <>{console.log("didMountPage", didMountPage)}
-        {console.log("didMountSelect", didMountSelected)}
-        
+        <>
         <Navbar>
         </Navbar>
         <Community
