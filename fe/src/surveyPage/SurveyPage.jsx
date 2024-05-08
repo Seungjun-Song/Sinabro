@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SkillBox from "./SkillBox";
 import Navbar from "../components/navs/Navbar";
@@ -154,38 +154,47 @@ const dataList = [
   {
     name: "React",
     img: "/images/react.png",
+    subCategoryId: 101,
   },
   {
     name: "Vue",
     img: "/images/vue.png",
+    subCategoryId: 102,
   },
   {
     name: "HTML",
     img: "/images/html.png",
+    subCategoryId: 103,
   },
   {
     name: "CSS",
     img: "/images/css.png",
+    subCategoryId: 104,
   },
   {
     name: "JavaScript",
     img: "/images/js.png",
+    subCategoryId: 105,
   },
   {
     name: "Java",
     img: "/images/java.png",
+    subCategoryId: 106,
   },
   {
     name: "Python",
     img: "/images/python.png",
+    subCategoryId: 107,
   },
   {
     name: "Spring",
     img: "/images/spring.png",
+    subCategoryId: 201,
   },
   {
     name: "Django",
     img: "/images/django.png",
+    subCategoryId: 202,
   },
 ];
 const SurveyPage = () => {
@@ -199,6 +208,11 @@ const SurveyPage = () => {
   const [whatSearch, setWhatSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [choiceResults, setChoiceResults] = useState([]);
+  
+  const [myStack, setMyStack] = useState([])
+
+  const back_url = getEnv('BACK_URL')
+
   const selectFeSkill = () => {
     if (!isSelected) {
       setIsSelected(!isSelected);
@@ -260,8 +274,6 @@ const SurveyPage = () => {
     setChoiceResults(updatedResults);
   };
 
-  const back_url = getEnv('BACK_URL')
-
   const navigate = useNavigate()
 
   const chooseSkill = async () => {
@@ -277,9 +289,12 @@ const SurveyPage = () => {
   }
 
   const chooseSubSkill = async () => {
+    const subCategoryIds = choiceResults.map(item => item.subCategoryId)
+    setMyStack(subCategoryIds)
+    
     try {
       const res = await axios.post(`${back_url}/members`, {
-        subCategoryId: [], // 실제로 받는 바디가 뭔지 확인 필요, 배열에 서브스킬 추가해야함
+        subCategoryId: myStack, // 실제로 받는 바디가 뭔지 확인 필요, 배열에 서브스킬 추가해야함
       })
       console.log(res.data)
       navigate('/mainPage')
