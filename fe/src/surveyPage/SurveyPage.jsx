@@ -208,8 +208,6 @@ const SurveyPage = () => {
   const [whatSearch, setWhatSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [choiceResults, setChoiceResults] = useState([]);
-  
-  const [myStack, setMyStack] = useState([])
 
   const back_url = getEnv('BACK_URL')
 
@@ -289,12 +287,11 @@ const SurveyPage = () => {
   }
 
   const chooseSubSkill = async () => {
-    const subCategoryIds = choiceResults.map(item => ({ subCategoryId: item.subCategoryId })) 
-    setMyStack(subCategoryIds)
-    
+    const subCategoryIds = choiceResults.map(item => ({ subCategoryId: item.subCategoryId }))
+    console.log(subCategoryIds)
+ 
     try {
-      console.log(myStack)
-      const res = await axios.post(`${back_url}/members`, myStack)
+      const res = await axios.post(`${back_url}/members`, subCategoryIds)
       console.log(res.data)
       navigate('/mainPage')
     }
