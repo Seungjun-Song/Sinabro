@@ -253,7 +253,7 @@ const ProjectPageLeftPanel = () => {
     const back_url = getEnv('BACK_URL')
 
     const addSchedule = async () => {
-        if (toDoText !== '' && workers !== '' && startDate !== null && endDate !== null) {
+        if (toDoText !== '' && startDate !== null && endDate !== null) {
             // const schedule = {
             //     projectId: projectRoomId,
             //     managerId: userInfo.currentUser.uid,
