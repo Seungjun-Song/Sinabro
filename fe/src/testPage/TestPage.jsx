@@ -58,6 +58,7 @@ const TestPage = () => {
                 {/* <button onClick={() => navigate("/oauth2/authorization/github/client_id=218c974f1409ed1c47b2")}>Github</button> */}
                 {/* <button onClick={() => navigate("/oauthTest")}>oauth 토큰 test</button> */}
             
+                <button onClick={() => navigate('/SonarQube')}>소나큐브</button>
             </div>
         </div>
     )
