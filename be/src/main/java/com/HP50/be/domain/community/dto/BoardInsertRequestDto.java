@@ -42,7 +42,5 @@ public class BoardInsertRequestDto {
     @Schema(example = "0")
     private Integer requiredFullStack;
 
-
     private List<TagDto> boardTag;
-
 }

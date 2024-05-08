@@ -78,13 +78,19 @@ public class BoardServiceImpl implements BoardService {
                 .updatedDttm(board.getUpdatedDttm())
                 .build();
 
+
+
         return ResponseEntity.ok().body(new BaseResponse<>(boardDetailResponseDto));
     }
 
     @Override
-    public ResponseEntity<BaseResponse<List<BoardListResponseDto>>> findByConditions(BoardFilterRequestDto boardFilterRequestDto, int page) {
-        PageRequest pageRequest = PageRequest.of(page, 20);
-        Slice<Board> boards = boardCustomRepository.findByConditions(boardFilterRequestDto, pageRequest);
+    public BoardPaginationResponseDto findByConditions(Integer catBoard,
+                                                       Integer calCalender,
+                                                       Integer catJob,
+                                                       String keyword,
+                                                       int page) {
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        Slice<Board> boards = boardCustomRepository.findByConditions(catBoard, calCalender, catJob, keyword, pageRequest);
         List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>();
 
         for(Board board: boards){
@@ -97,11 +103,15 @@ public class BoardServiceImpl implements BoardService {
                     .createdDttm(board.getCreatedDttm())
                     .updatedDttm(board.getUpdatedDttm())
                     .build();
-
             boardListResponseDtos.add(boardListResponseDto);
         }
 
-        return ResponseEntity.ok().body(new BaseResponse<>(boardListResponseDtos));
+        BoardPaginationResponseDto boardPaginationResponseDto = BoardPaginationResponseDto.builder()
+                .hasNext(boards.hasNext())
+                .boardListResponseDto(boardListResponseDtos)
+                .build();
+
+        return boardPaginationResponseDto;
     }
 
     @Override

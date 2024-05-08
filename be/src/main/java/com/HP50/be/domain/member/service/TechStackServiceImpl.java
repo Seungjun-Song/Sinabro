@@ -35,7 +35,6 @@ public class TechStackServiceImpl implements TechStackService{
 
         for(TechStackSaveRequestDto techStackRequestDto: techStackRequestDtos){
             SubCategory subCategory = subCategoryService.findById(techStackRequestDto.getSubCategoryId());
-
             TechStack techStack = TechStack.builder()
                     .member(member)
                     .subCategory(subCategory)
