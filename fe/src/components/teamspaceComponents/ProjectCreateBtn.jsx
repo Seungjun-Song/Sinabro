@@ -25,14 +25,14 @@ const ProjectCreateBtn = ({ isDark }) => {
 
     const createProject = async () => {
         try {
-            await axios.post(`${back_url}/teams/projects`, { // 쿠키 제대로 받아지면 실행되는지 확인해야함
-                memberId: createProjectInfo.value.memberId,
+            const res = await axios.post(`${back_url}/teams/projects`, { // 쿠키 제대로 받아지면 실행되는지 확인해야함
                 projectName: createProjectInfo.value.projectName,
                 projectInfo: createProjectInfo.value.projectInfo,
                 projectImg: createProjectInfo.value.projectImg,
                 projectRepo: createProjectInfo.value.projectRepo,
                 memberList: createProjectInfo.value.memberList,
             })
+            console.log(res.data)
         }
         catch (err) {
             console.error(err)
