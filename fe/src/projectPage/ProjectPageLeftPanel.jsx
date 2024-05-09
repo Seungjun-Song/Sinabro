@@ -13,6 +13,7 @@ import { changeScheduleModalState } from '../store/addScheduleModalHandleSlice';
 import './style.css'
 import axios from 'axios';
 import getEnv from '../utils/getEnv';
+import { formatDate } from 'date-fns';
 
 const ProjectPageLeftPanelContainer = styled.div`
     height: 100%;
@@ -266,13 +267,12 @@ const ProjectPageLeftPanel = () => {
             // }
 
             // dispatch(addToDoList(schedule)) // 스케쥴 제대로 받아올 수 있으면 주석처리된 코드는 필요없음
-
             try {
-                const res = await axios.post(`${back_url}/schedules`, { // 쿠키 되면 제대로 받아지는지 확인
+                const res = await axios.post(`${back_url}/schedules`, {
                     projectId: projectRoomId, 
                     managerId: userInfo.currentUser.uid,
-                    calenderStartDt: startDate,
-                    calenderEndDt: endDate,
+                    calenderStartDt: fromatDatedForBack(startDate),
+                    calenderEndDt: fromatDatedForBack(endDate),
                     calenderName: toDoText,
                 })
                 console.log(res.data)
@@ -297,10 +297,11 @@ const ProjectPageLeftPanel = () => {
 
         const calenderIdToRemove = toDoList[idx]?.calenderId
         console.log(calenderIdToRemove)
+        console.log(projectRoomId)
 
         try {
             const res = await axios.delete(`${back_url}/schedules`, { // 제대로 작동하는지 확인
-                calenderId: calenderIdToRemove.toString(),
+                calenderId: calenderIdToRemove,
                 projectId: projectRoomId
             })
             console.log(res.data)
@@ -317,6 +318,13 @@ const ProjectPageLeftPanel = () => {
         const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고, 두 자리로 만들기 위해 padStart 사용
         const day = date.getDate().toString().padStart(2, '0'); // 일도 두 자리로 만들기 위해 padStart 사용
         return `${month}.${day}`;
+    }
+
+    const fromatDatedForBack = (date) => {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고, 두 자리로 만들기 위해 padStart 사용
+        const day = date.getDate().toString().padStart(2, '0'); // 일도 두 자리로 만들기 위해 padStart 사용
+        return `${year}-${month}-${day}`;
     }
 
     return (
