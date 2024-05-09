@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import Team from "./Team";
 import Go from "./../../../public/image/nav/goTeamSpace.png";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setMyCurrentProject } from "../../store/myCurrentProjectSlice";
 
 const Box = styled(motion.div)`
   background-color: rgba(244, 249, 255, 1);
@@ -16,6 +20,8 @@ const Box = styled(motion.div)`
 `;
 const TeamList = styled.div`
   margin-bottom: 20px;
+
+  cursor: pointer;
 `;
 
 const Create = styled.div`
@@ -29,24 +35,31 @@ const Create = styled.div`
   width: 13rem;
   height: 3rem;
   padding: 1rem;
+
+  cursor: pointer;
 `;
 
 const DropTeam = () => {
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const myProjectList = useSelector(state => state.myProjectList.value) // 잘 들어오는지 확인, 페이지 이동 잘 되는지 확인
+
   //TODO : team list를 받아 와야함
-  const teamList = [
-    {
-      id: 1,
-      name: "7lans",
-      pjtimg: "",
-      date: "2024-02-01",
-    },
-    {
-      id: 2,
-      name: "minuet",
-      pjtimg: "",
-      date: "2024-02-01",
-    },
-  ];
+  // const teamList = [
+  //   {
+  //     id: 1,
+  //     name: "7lans",
+  //     pjtimg: "",
+  //     date: "2024-02-01",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "minuet",
+  //     pjtimg: "",
+  //     date: "2024-02-01",
+  //   },
+  // ];
 
   return (
     <Box
@@ -68,8 +81,8 @@ const DropTeam = () => {
       {/* <li>7lans</li>
             <li>minuet</li> */}
       {/* <Team></Team> */}
-      {teamList.map((team, index) => (
-        <TeamList>
+      {myProjectList.map((team, index) => (
+        <TeamList onClick={() => {dispatch(setMyCurrentProject(team)), useNavigate(`/TeamSpaceDetailPage/${team.projectId}`)}}>
           <motion.div
             key={index}
             variants={{
@@ -93,7 +106,7 @@ const DropTeam = () => {
           animate="visible"
         transition={{delay : 0.2 * 3 , duration:0.2}}
       >
-        <Create>
+        <Create onClick={() => navigate('/TeamSpacePage')}>
           프로젝트 생성하기
           <img src={Go}></img>
         </Create>

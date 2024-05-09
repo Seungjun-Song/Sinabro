@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import WhatPos from "./WhatPos";
 import WhatPosCard from "./WhatPosCard";
 import FakeWhatPos from "./FakeWhatPos";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import getEnv from "../../utils/getEnv";
 
 const DUMMY_DATA = [
   {
@@ -33,6 +36,22 @@ const DUMMY_DATA = [
 
 const ProjectTeam = ({ setWhatUser, isDark }) => {
   const displayedRoles = [];
+
+  const myCurrentProject = useSelector(state => state.myCurrentProject.value)
+  const back_url = getEnv('BACK_URL')
+
+  useEffect(() => {
+    const getProjectInfo = async () => {
+      try {
+        const res = await axios.get(`${back_url}/teams?${myCurrentProject.projectId}`)
+        console.log(res.data)
+      }
+      catch (err) {
+        console.error(err)
+      }
+    }
+    getProjectInfo()
+  }, [])
 
   return (
     <motion.div

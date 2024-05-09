@@ -1,16 +1,25 @@
+import React from "react";
 import { faCircleRight } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useState } from "react";
-const TSDProjectName = ({isDark}) => {
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+const TSDProjectName = ({ isDark }) => {
+
   const [isHover, setIsHover] = useState(false);
+
+  const navigate = useNavigate()
+
+  const myCurrentProject = useSelector(state => state.myCurrentProject.value)
 
   return (
     <>
       <motion.div
-        initial={{opacity:0 , y:10}}
-        animate={{opacity:1,y:0}}
-        exit={{opacity:0,y:10}}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 10 }}
         style={{
           display: "flex",
           width: "70%",
@@ -26,23 +35,24 @@ const TSDProjectName = ({isDark}) => {
           <img
             className="shadow"
             style={{ width: "8rem" }}
-            src="/images/pjtimg.png"
+            src={myCurrentProject?.projectImg}
           />
           <div
-            style={{ display: "flex", flexDirection: "column", gap: "1rem" ,color: isDark ? 'white' :"black" }}
+            style={{ display: "flex", flexDirection: "column", gap: "1rem", color: isDark ? 'white' : "black" }}
           >
-            <h5 style={{margin:0}}>프로젝트 명</h5>
-            <h3 style={{ fontWeight: "bold" ,margin:0}}>GRABBERS</h3>
+            <h5 style={{ margin: 0 }}>프로젝트 명</h5>
+            <h3 style={{ fontWeight: "bold", margin: 0 }}>{myCurrentProject?.projectName}</h3>
           </div>
         </div>
         <motion.div
           onHoverStart={() => setIsHover(true)}
           onHoverEnd={() => setIsHover(false)}
+          onClick={() => navigate(`/project/${myCurrentProject?.projectId}`)}
           whileHover={{
             cursor: "pointer",
             backgroundColor: "#304895",
             color: "white",
-            x:7
+            x: 7
           }}
           style={{
             display: "flex",
@@ -52,7 +62,7 @@ const TSDProjectName = ({isDark}) => {
             border: "solid 3px #304895",
             borderRadius: "1rem",
             justifyContent: "center",
-            color : isDark ? "white" :"black"
+            color: isDark ? "white" : "black"
           }}
         >
           프로젝트로 이동
