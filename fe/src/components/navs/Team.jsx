@@ -48,11 +48,11 @@ const Team = ({ team }) => {
   return (
     <TeamDetail>
       <TotalInfo>
-        <TeamImage src={TempImg}></TeamImage>
+        <TeamImage src={team.projectImg}></TeamImage>
 
         <TeamInfo>
-          <TeamName>{team.name}</TeamName>
-          <TeamDate>{team.date}</TeamDate>
+          <TeamName>{team.projectName}</TeamName>
+          {/* <TeamDate>{team.date}</TeamDate> */}
         </TeamInfo>
       </TotalInfo>
       <PjtLink src={Go}></PjtLink>
