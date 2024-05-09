@@ -28,8 +28,6 @@ import static com.HP50.be.domain.community.entity.QBoard.board;
 public class BoardCustomRepository {
     private final JPAQueryFactory queryFactory;
     private final SubCategoryService subCategoryService;
-    private final CategoryRepository categoryRepository;
-    private final JwtUtil jwtUtil;
 
     public Slice<Board> findByConditions(Integer boards,
                                          Integer calender,

@@ -1,20 +1,23 @@
 package com.HP50.be.domain.community.service;
 
+import com.HP50.be.domain.community.dto.CommentPaginationResponseDto;
 import com.HP50.be.domain.community.dto.CommentRequestDto;
 import com.HP50.be.domain.community.dto.CommentResponseDto;
 import com.HP50.be.domain.community.entity.Board;
 import com.HP50.be.domain.community.entity.Comment;
-import com.HP50.be.domain.community.repository.BoardRepository;
+import com.HP50.be.domain.community.repository.CommentCustomRepository;
 import com.HP50.be.domain.community.repository.CommentRepository;
 import com.HP50.be.domain.member.entity.Member;
-import com.HP50.be.domain.member.repository.MemberRepository;
 import com.HP50.be.domain.member.service.MemberService;
 import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.StatusCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +26,8 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final MemberService memberService;
     private final BoardService boardService;
+    private final CommentCustomRepository commentCustomRepository;
+
     @Override
     public ResponseEntity<BaseResponse<StatusCode>> save(CommentRequestDto commentRequestDto) {
         Member member = memberService.findById(commentRequestDto.getMemberId());
@@ -43,12 +48,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentResponseDto> findCommentInBoard(Integer boardId) {
-        Board board = boardService.findById(boardId);
-        List<Comment> comments = commentRepository.findCommentsByBoard(board);
+    public CommentPaginationResponseDto findCommentInBoard(Integer boardId, int page) {
+        PageRequest pageRequest = PageRequest.of(page, 5);
+
+        Slice<Comment> comments = commentCustomRepository.findCommentByBoard(boardId, pageRequest);
+
         List<CommentResponseDto> commentResponseDtos = comments.stream()
                 .map(comment -> CommentResponseDto.builder()
-                        .memberId(comment.getMember().getMemberId())
+                        .memberId(comment.getCommentId())
                         .commentId(comment.getCommentId())
                         .commentContent(comment.getCommentContent())
                         .memberName(comment.getMember().getMemberName())
@@ -56,6 +63,11 @@ public class CommentServiceImpl implements CommentService {
                         .createdDttm(comment.getCreatedDttm())
                         .build()).toList();
 
-        return commentResponseDtos;
+        CommentPaginationResponseDto commentPaginationResponseDto = CommentPaginationResponseDto.builder()
+                .hasNext(comments.hasNext())
+                .commentResponseDtos(commentResponseDtos)
+                .build();
+
+        return commentPaginationResponseDto;
     }
 }

@@ -1,5 +1,6 @@
 package com.HP50.be.domain.community.service;
 
+import com.HP50.be.domain.community.dto.CommentPaginationResponseDto;
 import com.HP50.be.domain.community.dto.CommentRequestDto;
 import com.HP50.be.domain.community.dto.CommentResponseDto;
 import com.HP50.be.global.common.BaseResponse;
@@ -12,5 +13,5 @@ import java.util.List;
 public interface CommentService {
     ResponseEntity<BaseResponse<StatusCode>> save(CommentRequestDto commentRequestDto);
     void deleteComment(Integer commentId);
-    List<CommentResponseDto> findCommentInBoard(Integer boardId);
+    CommentPaginationResponseDto findCommentInBoard(Integer boardId, int page);
 }
