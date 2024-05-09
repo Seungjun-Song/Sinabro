@@ -33,4 +33,9 @@ public class CommentServiceImpl implements CommentService {
 
         return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
+
+    @Override
+    public void deleteComment(Integer commentId) {
+        commentRepository.deleteById(commentId);
+    }
 }

@@ -135,6 +135,11 @@ public class BoardServiceImpl implements BoardService {
         return boardRepository.findById(boardId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_BOARD));
     }
 
+    @Override
+    public void deleteBoard(Integer boardId) {
+        boardRepository.deleteById(boardId);
+    }
+
     public Board transferToBoard(String token, BoardInsertRequestDto boardInsertRequestDto){
         Integer memberId = jwtUtil.getMemberId(token);
         // board 가 0 이라면 save

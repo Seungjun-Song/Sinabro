@@ -19,4 +19,5 @@ public interface BoardService {
                                                  String keyword,
                                                  int page);
     Board findById(Integer boardId);
+    void deleteBoard(Integer boardId);
 }

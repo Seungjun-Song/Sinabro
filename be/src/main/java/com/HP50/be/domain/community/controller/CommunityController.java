@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,5 +60,20 @@ public class CommunityController {
             ){
         return boardService.findBoardDetail(boardId);
     }
+
+    @Operation(summary = "게시물 삭제")
+    @DeleteMapping("/boards/{boardId}")
+    public ResponseEntity<BaseResponse<StatusCode>> deleteBoard(@PathVariable Integer boardId){
+        boardService.deleteBoard(boardId);
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
+    }
+
+    @Operation(summary = "댓글 삭제")
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<BaseResponse<StatusCode>> deleteComment(@PathVariable Integer commentId){
+        commentService.deleteComment(commentId);
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
+    }
+
 
 }
