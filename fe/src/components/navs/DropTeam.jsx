@@ -82,7 +82,7 @@ const DropTeam = () => {
             <li>minuet</li> */}
       {/* <Team></Team> */}
       {myProjectList?.map((team, index) => (
-        <TeamList onClick={() => {dispatch(setMyCurrentProject(team)), useNavigate(`/TeamSpaceDetailPage/${team.projectId}`)}}>
+        <TeamList onClick={() => {dispatch(setMyCurrentProject(team)), navigate(`/TeamSpaceDetailPage/${team.projectId}`)}}>
           <motion.div
             key={index}
             variants={{
