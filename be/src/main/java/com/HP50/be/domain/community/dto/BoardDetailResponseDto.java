@@ -56,6 +56,4 @@ public class BoardDetailResponseDto {
     private SubCategory subCategory;
 
     private List<TagDto> tagDtos;
-
-    private List<CommentResponseDto> commentResponseDtos;
 }

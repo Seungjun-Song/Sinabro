@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,12 +53,18 @@ public class CommunityController {
     }
 
     @Operation(summary = "상세 게시글 조회")
-    @GetMapping("/{boardId}")
-    public ResponseEntity<BaseResponse<BoardDetailResponseDto>> findBoardDetail(
-            @PathVariable Integer boardId
-            ){
+    @GetMapping("/boards/{boardId}")
+    public ResponseEntity<BaseResponse<BoardDetailResponseDto>> findBoardDetail(@PathVariable Integer boardId){
         return boardService.findBoardDetail(boardId);
     }
+
+    @Operation(summary = "게시글의 댓글 조회")
+    @GetMapping("/comments/{boardId}/{page}")
+    public ResponseEntity<BaseResponse<CommentPaginationResponseDto>> findCommentInBoard(@PathVariable Integer boardId,
+                                                                                         @PathVariable int page){
+        return ResponseEntity.ok().body(new BaseResponse<>(commentService.findCommentInBoard(boardId, page)));
+    }
+
 
     @Operation(summary = "게시물 삭제")
     @DeleteMapping("/boards/{boardId}")
