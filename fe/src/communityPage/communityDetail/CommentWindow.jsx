@@ -86,7 +86,7 @@ const Comments = styled.div`
 `
 
 const CommentWindow = ({ isDark, commentDate, boardId, setCommentDate }) => {
-    const [ newComment, setNewComment ] = useState({});
+    const [ newComment, setNewComment ] = useState("");
 
     const back_url = getEnv('BACK_URL')
 
@@ -104,9 +104,8 @@ const CommentWindow = ({ isDark, commentDate, boardId, setCommentDate }) => {
         })
         .then(res => {
             //성공 시 보여지는 것 갱신
-            //setCommentDate(prevCommentList => [...prevCommentList, res]);
-            setCommentDate([]);
             setNewComment("")
+            console.log(boardId)
         })
         .catch(err => {
             console.log(err);

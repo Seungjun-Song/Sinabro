@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from 'react'
+import axios from 'axios'
 
 import HoverInfoBox from './HoverInfoBox'
 import { useSelector } from 'react-redux'
 import CalTime from '../CalTime'
+import getEnv from '../../utils/getEnv'
 
 const Comment = styled(motion.div)`
     display: flex;
@@ -108,6 +110,7 @@ const CommentBox = ({comment, index}) => {
     const [ profileClick, setProfileClick ] = useState(false);
 
     const userInfo = useSelector(state => state.user.currentUser);
+    const back_url = getEnv('BACK_URL')
     
     const fullDate = new Date(comment.createdDttm);
     const finalDate = CalTime(fullDate);
@@ -133,7 +136,14 @@ const CommentBox = ({comment, index}) => {
     }
 
     const deleteComment = () => {
-
+        console.log(comment)
+        axios.delete(`${back_url}/communities/comments/${comment.commentId}`)
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     return(

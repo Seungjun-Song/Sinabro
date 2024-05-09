@@ -1,10 +1,12 @@
 import styled, { css } from 'styled-components'
 import { motion } from "framer-motion";
-
+import axios from 'axios';
 import DetailProceed from './DetailProceed'
 import Jobs from './../communityList/Jobs'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+
+import getEnv from '../../utils/getEnv';
 
 const Header = styled(motion.div)`
     display: flex;
@@ -110,13 +112,21 @@ const headerMotion = {
 const DetailHeader = ({kind, detailData, isDark}) => {
 
     const userInfo = useSelector(state => state.user.currentUser);
+    const back_url = getEnv('BACK_URL')
 
     const navigate = useNavigate();
 
     const deletePost = () => {
-
-        
-        navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } })
+        axios.delete(`${back_url}/communities/boards/${detailData.id}`)
+        .then((res) => {
+            console.log(res);
+            navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } })
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    //    console.log(detailData.id)      
+        //navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } })
     }
     return(
         <Header

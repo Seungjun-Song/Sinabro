@@ -44,17 +44,16 @@ const DetailMainPage = () => {
 
     useEffect(() => {  
 
-      axios.get(`${back_url}/communities/${postId}`)
+        //게시글 조회
+      axios.get(`${back_url}/communities/boards/${postId}`)
       .then(res => {
         const getData = res.data.result;
 
         const fullDate = new Date(getData.updatedDttm);
         const finalDate = CalTime(fullDate);
 
-       // console.log(getData.commentResponseDtos)
-
         setPost({
-            id: getData.boardId,
+            id: postId,
             title:getData.boardTitle,
             content: getData.boardContent,
             hash: [ "temp", "temp"],
@@ -68,15 +67,22 @@ const DetailMainPage = () => {
 
         })
 
-        //댓글
-        setCommentDate(getData.commentResponseDtos);
-
       })
       .catch(err => {
         console.log(err);
       })
-    }, [commentDate])
+    }, [])
 
+    useEffect(() => {
+        //댓글 조회
+        axios.get(`${back_url}/communities/comments/${postId}/0`)
+        .then((res) => {
+            //console.log(res.data.result.commentResponseDtos);
+            setCommentDate(res.data.result.commentResponseDtos);
+        })
+        .catch((err) => {
+        })
+    }, [])
     return (
         <>
         <Navbar>

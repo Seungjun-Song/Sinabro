@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { setUser } from "../store/userSlice";
+import getEnv from "../utils/getEnv";
 
 const Callback = () => {
     const [code, setCode ] = useState('');
