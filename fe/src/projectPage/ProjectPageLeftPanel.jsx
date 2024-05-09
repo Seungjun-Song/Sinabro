@@ -10,10 +10,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeProjectCalenderState, toggleProjectCalenderState } from '../store/projectCalenderSlice';
 import { addToDoList, changeState, delToDOlist, removeToDoItem, setToDoList } from '../store/toDoListSlice';
 import { changeScheduleModalState } from '../store/addScheduleModalHandleSlice';
-import './style.css'
 import axios from 'axios';
 import getEnv from '../utils/getEnv';
 import { formatDate } from 'date-fns';
+
+import './style.css'
 
 const ProjectPageLeftPanelContainer = styled.div`
     height: 100%;
@@ -30,8 +31,8 @@ const ProjectPageLeftPanelClosedContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #564CAD;
     border-right: 2px solid #B8B8B8;
+    background-color: ${({ isDark }) => (isDark ? 'white' : '#404040')};
 `;
 
 const ProjectNameBox = styled.div`
@@ -460,9 +461,9 @@ const ProjectPageLeftPanel = () => {
                     </ToDoListBox>
                 </ProjectPageLeftPanelContainer>
             ) : (
-                <ProjectPageLeftPanelClosedContainer>
+                <ProjectPageLeftPanelClosedContainer isDark={isDark}>
                     <IconHoverBox>
-                        <FontAwesomeIcon icon={faChevronRight} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
+                        <FontAwesomeIcon icon={faChevronRight} onClick={handleSidePanel} style={{ cursor: 'pointer', color: isDark ? '#564CAD' : 'white' }} />
                     </IconHoverBox>
                 </ProjectPageLeftPanelClosedContainer>
             )}

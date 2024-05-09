@@ -22,8 +22,8 @@ const ProjectPageRightPanelClosedContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #564CAD;
     border-left: 2px solid #B8B8B8;
+    background-color: ${({isDark}) => !isDark? '#404040' : 'white'};
 `
 
 const UpperBox = styled.div`
@@ -61,8 +61,6 @@ const IconHoverBox = styled.div`
     &:hover{
         transform: scale(1.2)
     }
-    color: #564CAD;
-    color: ${({isDark}) => isDark ? '#564CAD' : 'white' };
 `
 
 const ProjectPageRightPanel = () => {
@@ -146,9 +144,9 @@ const ProjectPageRightPanel = () => {
                     </MainBox>
                 </ProjectPageRightPanelContainer>
                 :
-                <ProjectPageRightPanelClosedContainer>
+                <ProjectPageRightPanelClosedContainer isDark={isDark}>
                     <IconHoverBox>
-                        <FontAwesomeIcon icon={faChevronLeft} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
+                        <FontAwesomeIcon icon={faChevronLeft} onClick={handleSidePanel} style={{ cursor: 'pointer', color: isDark ? '#564CAD' : 'white' }} />
                     </IconHoverBox>
                 </ProjectPageRightPanelClosedContainer>
             }
