@@ -67,7 +67,6 @@ public class BoardServiceImpl implements BoardService {
                 .boardContent(board.getBoardContent())
                 .subCategory(board.getSubCategory())
                 .communityProgress(board.isCommunityProgress())
-                .projectId(board.getProject().getProjectId())
                 .requiredBackEnd(Optional.ofNullable(board.getRequiredPeopleBackEnd()))
                 .requiredFrontEnd(Optional.ofNullable(board.getRequiredPeopleFrontEnd()))
                 .recruitedPeopleBackEnd(Optional.ofNullable(board.getRecruitedPeopleBackEnd()))
@@ -85,6 +84,10 @@ public class BoardServiceImpl implements BoardService {
                 .createdDttm(board.getCreatedDttm())
                 .updatedDttm(board.getUpdatedDttm())
                 .build();
+
+        if((board.getProject() != null)) {
+            boardDetailResponseDto.setBoardId(board.getProject().getProjectId());
+        }
 
         return ResponseEntity.ok().body(new BaseResponse<>(boardDetailResponseDto));
     }
@@ -111,8 +114,8 @@ public class BoardServiceImpl implements BoardService {
                     .communityProgress(board.isCommunityProgress())
                     .recruitedPeopleFrontEnd(Optional.ofNullable(board.getRecruitedPeopleFrontEnd()))
                     .recruitedPeopleBackEnd(Optional.ofNullable(board.getRecruitedPeopleBackEnd()))
-                    .requiredBackEnd(Optional.ofNullable(board.getRecruitedPeopleBackEnd()))
-                    .requiredFrontEnd(Optional.ofNullable(board.getRequiredPeopleFrontEnd()))
+                    .requiredPeopleFrontEnd(Optional.ofNullable(board.getRequiredPeopleFrontEnd()))
+                    .requiredPeopleBackEnd(Optional.ofNullable(board.getRequiredPeopleBackEnd()))
                     .createdDttm(board.getCreatedDttm())
                     .updatedDttm(board.getUpdatedDttm())
                     .build();
@@ -130,6 +133,11 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Board findById(Integer boardId) {
         return boardRepository.findById(boardId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_BOARD));
+    }
+
+    @Override
+    public void deleteBoard(Integer boardId) {
+        boardRepository.deleteById(boardId);
     }
 
     public Board transferToBoard(String token, BoardInsertRequestDto boardInsertRequestDto){
@@ -160,15 +168,19 @@ public class BoardServiceImpl implements BoardService {
         // null 값이 들어온다면 board 에 저장할때 null 을 저장
         if(boardInsertRequestDto.getRecruitedPeopleBackEnd() != null)
             board.setRecruitedPeopleBackEnd(boardInsertRequestDto.getRecruitedPeopleBackEnd().get());
+//            board.setRecruitedPeopleBackEnd(0);
 
         if(boardInsertRequestDto.getRecruitedPeopleFrontEnd() != null)
             board.setRecruitedPeopleFrontEnd(boardInsertRequestDto.getRecruitedPeopleFrontEnd().get());
+//            board.setRecruitedPeopleFrontEnd(0);
 
         if(boardInsertRequestDto.getRequiredPeopleBackEnd() != null)
             board.setRequiredPeopleBackEnd(boardInsertRequestDto.getRequiredPeopleBackEnd().get());
+//            board.setRequiredPeopleBackEnd(0);
 
         if(boardInsertRequestDto.getRequiredPeopleFrontEnd() != null)
             board.setRequiredPeopleFrontEnd(boardInsertRequestDto.getRequiredPeopleFrontEnd().get());
+//            board.setRequiredPeopleFrontEnd(0);
 
 
 

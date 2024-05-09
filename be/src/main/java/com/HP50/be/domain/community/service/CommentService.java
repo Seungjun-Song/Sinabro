@@ -8,4 +8,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface CommentService {
     ResponseEntity<BaseResponse<StatusCode>> save(CommentRequestDto commentRequestDto);
+    void deleteComment(Integer commentId);
 }

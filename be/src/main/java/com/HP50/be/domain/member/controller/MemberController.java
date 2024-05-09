@@ -10,6 +10,7 @@ import com.HP50.be.domain.member.service.MemberService;
 import com.HP50.be.domain.member.service.TechStackService;
 import com.HP50.be.domain.project.service.ProjectService;
 import com.HP50.be.global.common.BaseResponse;
+import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.jwt.JwtConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -76,5 +77,12 @@ public class MemberController {
     @GetMapping("/projects")
     public ResponseEntity<?> getMyProjectList(@CookieValue(JwtConstants.JWT_HEADER) String token){
         return projectService.getProjectListInMember(token);
+    }
+
+    @Operation(summary = "멤버 삭제")
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<BaseResponse<StatusCode>> deleteComment(@PathVariable Integer memberId){
+        memberService.deleteMember(memberId);
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 }

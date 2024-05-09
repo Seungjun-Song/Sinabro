@@ -35,16 +35,16 @@ public class BoardInsertRequestDto {
     private Integer subCategoryId;
 
     @Schema(example = "2")
-    private Optional<Integer> requiredPeopleBackEnd;
+    private Optional<Integer> requiredPeopleBackEnd = Optional.of(0);
 
     @Schema(example = "1")
-    private Optional<Integer> requiredPeopleFrontEnd;
+    private Optional<Integer> requiredPeopleFrontEnd = Optional.of(0);
 
     @Schema(example = "0")
-    private Optional<Integer> recruitedPeopleBackEnd;
+    private Optional<Integer> recruitedPeopleBackEnd = Optional.of(0);
 
     @Schema(example = "0")
-    private Optional<Integer> recruitedPeopleFrontEnd;
+    private Optional<Integer> recruitedPeopleFrontEnd = Optional.of(0);
 
 
     private List<TagDto> boardTag;

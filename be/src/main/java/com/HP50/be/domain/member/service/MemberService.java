@@ -8,4 +8,5 @@ public interface MemberService {
     SearchMemberResponseDto searchMember(String keyword, int page);
     ProfileResponseDto findMemberProfile(Integer memberId);
     Member findById(Integer memberId);
+    void deleteMember(Integer memberId);
 }
