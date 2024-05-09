@@ -39,10 +39,10 @@ public class BoardListResponseDto {
     private List<TagDto> tagDtos;
 
     @Schema(example = "2")
-    private Optional<Integer> requiredBackEnd;
+    private Optional<Integer> requiredPeopleBackEnd;
 
     @Schema(example = "1")
-    private Optional<Integer> requiredFrontEnd;
+    private Optional<Integer> requiredPeopleFrontEnd;
 
     @Schema(example = "0")
     private Optional<Integer> recruitedPeopleBackEnd;
