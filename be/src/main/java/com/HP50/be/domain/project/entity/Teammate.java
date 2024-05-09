@@ -1,5 +1,6 @@
 package com.HP50.be.domain.project.entity;
 
+import com.HP50.be.domain.code.entity.Category;
 import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.member.entity.TechStack;
@@ -31,6 +32,7 @@ public class Teammate extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private String teammateRole;//담당 분야
     private Boolean teammateReader;
 
     @OneToMany(mappedBy = "teammate",cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
