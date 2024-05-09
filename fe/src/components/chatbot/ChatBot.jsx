@@ -26,12 +26,13 @@ const ChatBot = () => {
         dangerouslyAllowBrowser: true,
     });
 
-    const isDark = !useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state => state.isDark.isDark)
+    const projectRoomId = useSelector(state => state.projectRoomId.value)
 
     useEffect(() => {
         // Fetch chat history from Firebase Realtime Database
         const db = getDatabase();
-        const chatRef = ref(db, "chatBotChats");
+        const chatRef = ref(db, `chatBotChats/${projectRoomId}`);
         onValue(chatRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -86,7 +87,7 @@ const ChatBot = () => {
 
         // Save the chat message to Firebase Realtime Database
         const db = getDatabase();
-        const chatRef = ref(db, "chatBotChats");
+        const chatRef = ref(db, `chatBotChats/${projectRoomId}`);
         push(chatRef, {
             role: "user",
             content: text

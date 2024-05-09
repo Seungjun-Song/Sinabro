@@ -38,6 +38,7 @@
     "react-animated-numbers": "^0.18.0",
     "react-bootstrap": "^2.10.1",
     "react-cookie": "^7.1.4",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.6",

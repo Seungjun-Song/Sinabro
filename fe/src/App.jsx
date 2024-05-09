@@ -29,6 +29,7 @@ import ProjectPage from "./projectPage/ProjectPage";
 import { Calender } from "./components/calender/Calender";
 import BoardingPage from "./boardingPage/BoardingPage";
 import { AnimatePresence } from "framer-motion";
+import SonarqubePage from "./SonarqubePage/SonarqubePage";
 const api = "https://k10e103.p.ssafy.io/"
 const App = () => {
   const dispatch = useDispatch();
@@ -83,9 +84,9 @@ const App = () => {
       <Route path="/communityMainPage" element={<CommunityMainPage/>}/>
       <Route path="/createPost" element={<CreatePost/>}/>
       <Route path="/communityDetail" element={<DetailMainPage/>}/>
-      <Route path="/TeamSpaceDetailPage" element={<TeamSpaceDetailPage />} />
+      <Route path="/TeamSpaceDetailPage/:projectId" element={<TeamSpaceDetailPage />} />
       <Route path="/Mainpage" element={<Mainpage />} />
-      <Route path="/project" element={<ProjectPage />} />
+      <Route path="/project/:roomId" element={<ProjectPage />} />
       <Route path="/calender" element={<Calender />} />
       <Route path="/rtc" element={<WebRTC />} />
 
@@ -98,6 +99,8 @@ const App = () => {
       <Route path="/oauthTest" element={<OauthTest />} />
       <Route path="/callback" element={<Callback />} />
 
+
+      <Route path="/SonarQube" element={<SonarqubePage />} />
     </Routes>
   );
 };

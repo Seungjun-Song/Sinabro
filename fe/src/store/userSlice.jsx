@@ -22,6 +22,7 @@ export const userSlice =  createSlice({
             state.currentUser.displayName = action.payload.displayName
             state.currentUser.token = action.payload.token
             state.currentUser.newer = action.payload.newer
+            state.currentUser.photoURL = action.payload.photoURL
             state.currentUser.memberEmail = action.payload.memberEmail
             state.currentUser.memberGit = action.payload.memberGit
         },

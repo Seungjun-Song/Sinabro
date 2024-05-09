@@ -7,6 +7,7 @@ import Chat from '../components/chat/Chat'
 import { useDispatch, useSelector } from 'react-redux';
 import { setChatState, setIsNotificationOn, setProjectRightPanelState } from '../store/newMessageSlice';
 import { changeProjectChatState } from '../store/projectChatShow';
+import './style.css'
 
 const ProjectPageRightPanelContainer = styled.div`
     height: 100%;
@@ -21,8 +22,8 @@ const ProjectPageRightPanelClosedContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #564CAD;
     border-left: 2px solid #B8B8B8;
+    background-color: ${({isDark}) => !isDark? '#404040' : 'white'};
 `
 
 const UpperBox = styled.div`
@@ -60,8 +61,6 @@ const IconHoverBox = styled.div`
     &:hover{
         transform: scale(1.2)
     }
-    color: #564CAD;
-    color: ${({isDark}) => isDark ? '#564CAD' : 'white' };
 `
 
 const ProjectPageRightPanel = () => {
@@ -106,10 +105,10 @@ const ProjectPageRightPanel = () => {
     return (
         <>
             {isSidePanelOpen ?
-                <ProjectPageRightPanelContainer isDark={isDark}>
+                <ProjectPageRightPanelContainer isDark={isDark} className='hide-all-panel'>
                     <UpperBox>
                         <IconHoverBox isDark={isDark}>
-                            <FontAwesomeIcon icon={faChevronRight} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
+                            <FontAwesomeIcon icon={faChevronRight} onClick={handleSidePanel} style={{ cursor: 'pointer', color: isDark ? '#564CAD' : 'white' }} />
                         </IconHoverBox>
                         <ChatImgBox>
                             <IconHoverBox>
@@ -145,9 +144,9 @@ const ProjectPageRightPanel = () => {
                     </MainBox>
                 </ProjectPageRightPanelContainer>
                 :
-                <ProjectPageRightPanelClosedContainer>
+                <ProjectPageRightPanelClosedContainer isDark={isDark}>
                     <IconHoverBox>
-                        <FontAwesomeIcon icon={faChevronLeft} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
+                        <FontAwesomeIcon icon={faChevronLeft} onClick={handleSidePanel} style={{ cursor: 'pointer', color: isDark ? '#564CAD' : 'white' }} />
                     </IconHoverBox>
                 </ProjectPageRightPanelClosedContainer>
             }
