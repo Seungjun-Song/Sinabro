@@ -31,6 +31,7 @@ public class CommentCustomRepository {
         List<Comment> results = queryFactory
                 .selectFrom(comment)
                 .where(comment.board.eq(board))
+                .orderBy(comment.commentId.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();

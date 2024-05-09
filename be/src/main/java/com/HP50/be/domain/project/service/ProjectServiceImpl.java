@@ -28,6 +28,9 @@ import com.jcraft.jsch.Session;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -343,6 +346,31 @@ public class ProjectServiceImpl implements ProjectService{
                         .build())
                 .toList();
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(projectListResponseDtos));
+    }
+
+    @Override
+    public ProjectCompletedPaginationResponseDto findProjectSliceSix(int page) {
+        PageRequest pageRequest = PageRequest.of(page, 10);
+
+        Slice<Project> projects = projectCustomRepository.findProjectSliceSix(pageRequest);
+
+        List<ProjectListResponseDto> projectListResponseDtos =  projects.stream()
+                .map(project -> ProjectListResponseDto.builder()
+                        .projectId(project.getProjectId())
+                        .projectName(project.getProjectName())
+                        .projectInfo(project.getProjectInfo())
+                        .projectImg(project.getProjectImg())
+                        .projectRepo(project.getProjectRepo())
+                        .subCategory(project.getSubCategory())
+                        .build()).toList();
+
+        ProjectCompletedPaginationResponseDto projectCompletedPaginationResponseDto
+                = ProjectCompletedPaginationResponseDto.builder()
+                .hasNext(projects.hasNext())
+                .projectListResponseDtos(projectListResponseDtos)
+                .build();
+
+        return projectCompletedPaginationResponseDto;
     }
 
     // 컨테이너 생성 프로세스 
