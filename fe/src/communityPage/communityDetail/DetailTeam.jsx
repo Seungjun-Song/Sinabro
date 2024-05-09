@@ -42,7 +42,7 @@ const DetailTeam = ({ isDark }) => {
             isDark={isDark}
         >
             <DetailHeader
-                kind="team"
+                kind={{id: 402, name: "team"}}
                 detailData={detailData}
                 isDark={isDark}
             />
@@ -51,7 +51,7 @@ const DetailTeam = ({ isDark }) => {
             
             <DetailMiddle
                 detailData={detailData}
-                kind="team"
+                kind={{id: 402, name: "team"}}
                 isDark={isDark}
             />
             

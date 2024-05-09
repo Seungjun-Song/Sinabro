@@ -83,7 +83,7 @@ const CreatePage = () => {
     const location = useLocation();
     const data = location.state;
 
-    const [ selected, setSelected ] = useState(data.kind);
+    const [ selected, setSelected ] = useState({id: data.kind.id, name: data.kind.name});
     const [ postContent, setPostContent ] = useState({
         title: '',
         content: '',
@@ -110,32 +110,32 @@ const CreatePage = () => {
                     {...headerMotion}
                 >
                     <Options>
-                    <Option onClick={() => changeOption("member")}
-                        selected={selected === "member"}>
+                    <Option onClick={() => changeOption({id: 401, name: "member"})}
+                        selected={selected.name === "member"}>
                         팀원 구해요
                     </Option>
-                    <Option onClick={() => changeOption("team")}
-                        selected={selected === "team"}>
+                    <Option onClick={() => changeOption({id: 402, name: "team"})}
+                        selected={selected.name === "team"}>
                         팀 구해요
                     </Option>
-                    <Option onClick={() => changeOption("feadback")}
-                        selected={selected === "feadback"}>
+                    <Option onClick={() => changeOption({id: 403, name: "feadback"})}
+                        selected={selected.name === "feadback"}>
                         피드백 원해요
                     </Option>
                     </Options>
-                    {selected === "member" || selected === "feadback" ? (
+                    {selected.name === "member" || selected.name === "feadback" ? (
                         <TeamChoiceBox/>
                     ) : ("")}
                 </Header>
 
-                {selected === "member" ? (
+                {selected.name === "member" ? (
                     <CreateMemberPost
                         isdark={isdark}
                         postContent={postContent}
                         setPostContent={setPostContent}
                     />
                 ) : ("")}
-                {selected === "team" ? (
+                {selected.name === "team" ? (
                     <CreateTeamPost
                         isdark={isdark}
                         postContent={postContent}
@@ -143,7 +143,7 @@ const CreatePage = () => {
                         
                     />
                 ) : ("")}
-                {selected === "feadback" ? (
+                {selected.name === "feadback" ? (
                     <CreateFeadbackPost
                         isdark={isdark}
                         postContent={postContent}

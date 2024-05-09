@@ -123,7 +123,7 @@ const Post = ({post, kind, isDark}) => {
 
     return(
         <Detail 
-            onClick={() => navigate('/communityDetail', {state: {kind: kind} })}
+            onClick={() => navigate('/communityDetail', {state: {kind: kind, postId: post.id} })}
             whileHover={{ cursor: "pointer", y: -3, scale: 1.05}}
             transition={{ type: "spring", stiffness: 100 }}
         >
@@ -132,7 +132,7 @@ const Post = ({post, kind, isDark}) => {
                     proceed={post.proceed === false}
                     isDark={isDark}
                 >
-                    {kind === "member" || kind === "team" ?
+                    {kind.name === "member" || kind.name === "team" ?
                     (<>
                         {post.proceed === true ? 
                             (<>모집 중</>)

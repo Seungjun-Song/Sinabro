@@ -49,7 +49,7 @@ const DetailFeadback = ({ isDark }) => {
             isDark={isDark}
         >
             <DetailHeader
-                kind="feadback"
+                kind={{id: 403, name: "feadback"}}
                 detailData={detailData}
                 isDark={isDark}
             />
@@ -58,7 +58,7 @@ const DetailFeadback = ({ isDark }) => {
             <DetailMiddle
                 detailData={detailData}
                 pjtData={projectData}
-                kind="feadback"
+                kind={{id: 403, name: "feadback"}}
                 isDark={isDark}
             />
             

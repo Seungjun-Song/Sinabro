@@ -77,7 +77,7 @@ const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
         </Content>
         <Bottom>
             <Hashs>
-                {detailData.hash.map((tag, index) => {
+                {detailData && detailData.length > 0 && detailData.hash.map((tag, index) => {
 
                     return( 
                         <Hash key={index}
@@ -88,7 +88,7 @@ const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
                 })}
             </Hashs>
 
-            {kind === "team" ? (
+            {kind.name === "team" ? (
                 <WriterLinkBox
                     detailData={detailData}
                 />

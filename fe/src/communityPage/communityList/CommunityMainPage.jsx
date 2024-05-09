@@ -48,11 +48,12 @@ const CommunityMainPage = () => {
 
     useEffect(() =>{
         axios.get(`${back_url}/communities?catBoard=${selected.id}&catCalender=${proceedOption.id}&catJob=${teamOption.id}&keyword=&page=0`)
+        //axios.get(`${back_url}/communities?catBoard=0&catCalender=0&catJob=0&keyword=&page=0`)
         .then(res => {
             const totalData = res.data.result.boardListResponseDto;
             setPostList([]);
+            console.log(totalData);
             totalData.forEach((data, index) => {
-                console.log(data);
                 const newPost = {
                     id: data.boardId,
                     title: data.boardTitle,
@@ -70,8 +71,6 @@ const CommunityMainPage = () => {
         .catch(err => {
             console.log(err);
         })
-
-        console.log("postList", postList)
     }, [selected, proceedOption, teamOption, currentPage])
 
 

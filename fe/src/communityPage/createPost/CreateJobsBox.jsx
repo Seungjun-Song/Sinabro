@@ -27,7 +27,7 @@ const Job = styled.div`
 
     cursor: pointer;
 
-    ${props => props.selected === "true" && css`
+    ${props => props.selected && css`
         background: ${props => props.borderColor};
         color: white;
     `}
@@ -42,32 +42,15 @@ const InputBox = styled.input`
 `
 
 const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
-    const [jobList, setJobList] = useState([
-        {
-            id: 1,
-            name: "백",
-            borderColor: "#315DCC",
-            icon: faCog,
-            selected: false,
-        }, 
-        {
-            id: 2, 
-            name: "프론트",
-            borderColor: "#3DC7AE",
-            icon: faDesktop,
-            selected: false,
-        }
-    ])
 
     const selectJob = (job, index) =>{
-        //console.log("selectJob", job);
-        
-        setJobList(jobList.map((v, i)=>{
+       
+        setJobInfo(jobInfo.map((v, i)=>{
             if( index !== i){
                 return v;
             }
             else{
-                return {...v, selected: !job.selected}
+                return {...v, selected: 1-job.selected}
             }
         }))
     }
@@ -101,7 +84,7 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
     }
     return(
         <JobBox>
-            {kind == "member" && 
+            {kind.name == "member" && 
             <>
                 {jobInfo.map((job, index) => (
                 <Job
@@ -123,27 +106,26 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
                     </InputBox>
                 </Job>
             ))}               
-            
+            6명 이하 인원만 가능해요!
             </>}
             
-            {kind == "feadback" &&
+            {kind.name == "feadback" &&
             <>
-                {jobList.map((job, index) => (
+                {jobInfo.map((job, index) => (
                 <Job
                     borderColor={job.borderColor}
-                    selected={job.selected.toString()}
+                    selected={job.selected === 1}
                     onClick={() => selectJob(job, index)}
                 >
                     {job.icon && <FontAwesomeIcon icon={job.icon} style={{ fontSize: '10px' }} />}
                     <div>
                     {job.name}
-                    {job.selected.toString()}
                     </div>
                 </Job>
                 ))}   
             </>
             }
-        6명 이하 인원만 가능해요!
+        
         </JobBox>
     )
 }

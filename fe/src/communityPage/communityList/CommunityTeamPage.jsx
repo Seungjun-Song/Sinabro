@@ -85,13 +85,13 @@ const CommunityTeamPage = ({isDark, postList, proceedOption, setProceedOption}) 
 
                 </Option>
                 <WriteButton
-                    kind={"team"}
+                    kind={{id: 402, name: "team"}}
                     isDark={isDark}
                 />
             </Select>
 
             <Posts
-                kind={"team"}
+                kind={{id: 402, name: "team"}}
                 isDark={isDark}
                 postList={postList}
                 >

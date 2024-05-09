@@ -116,7 +116,7 @@ const DetailHeader = ({kind, detailData, isDark}) => {
     const deletePost = () => {
 
         
-        navigate('/communityMainPage', { state: { kind: "member", page: 1 } })
+        navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } })
     }
     return(
         <Header

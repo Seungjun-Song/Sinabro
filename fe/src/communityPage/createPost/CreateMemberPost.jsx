@@ -179,8 +179,10 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
     ])
 
     const submit = () =>{
+        //태그 정리
+        const tagList = postContent.tag.split(" ");
+        //console.log(tagList);
 
-        console.log(jobInfo[0].target);
         axios.post(`${back_url}/communities`, {
             boardId: 0,
             boardTitle: postContent.title,
@@ -189,16 +191,16 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
             projectLink: "https://k10e103.p.ssafy.io/my-code-server",
             projectId: 1,
             subCategoryId: 401,
-            requiredbackEnd: 0, //parseInt(jobInfo[0].target),
-            requiredFrontEnd: 0, //parseInt(jobInfo[1].target),
+            requiredbackEnd: 2, //parseInt(jobInfo[0].target),
+            requiredFrontEnd: 1, //parseInt(jobInfo[1].target),
             requiredFullStack: 0,
-            boardTag: ["kk", "kkl"],
+            boardTag: tagList,
         },
-        // {withCredentials: true}
+        {withCredentials: true}
         )
         .then(response => {
             console.log("save");
-            navigate('/communityMainPage', {state: {kind: "member"}});
+            navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } });
         })
         .catch(err => {
             console.log(err);
@@ -231,7 +233,7 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
                     isDark={isDark}>
                 </Title>
                 <CreateJobsBox
-                    kind={"member"}
+                    kind={{id: 401, name: "member"}}
                     jobInfo={jobInfo}
                     setJobInfo={setJobInfo}
                 >
@@ -259,7 +261,7 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
                         whileHover={{
                             scale: 1.1,
                         }}
-                        onClick={() => navigate('/communityMainPage', {state: {kind: "member"}})}>
+                        onClick={() => navigate('/communityMainPage', {state: {kind: {id: 401, name: "member"}}})}>
                         취소
                     </Cancel>
                     <Save 

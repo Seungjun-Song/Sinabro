@@ -6,6 +6,8 @@ import CkEditor from './CkEditor';
 import { useState } from 'react';
 
 import { GlobalColor } from '../../services/color';
+import getEnv from '../../utils/getEnv';
+import axios from 'axios';
 
 const MemberPost = styled.div`
     display: flex;
@@ -135,10 +137,30 @@ const headerMotion = {
 const CreateTeamPost = ({ isdark, postContent, setPostContent }) => {
     const navigate = useNavigate();
 
-    const submit = () =>{
-        //TODO: axios 게시물 저장
+    const back_url = getEnv('BACK_URL');
 
-        navigate('/communityMainPage', {state: {kind: "team"}});
+    const submit = () =>{
+        
+        axios.post(`${back_url}/communities`, {
+            boardId: 0,
+            boardTitle: postContent.title,
+            boardContent: postContent.content,
+            boardImg: "https://firebase.com/v4/jbbbejqhuabsaskdb.jpg",
+            projectLink: "https://k10e103.p.ssafy.io/my-code-server",
+            projectId: 1,
+            subCategoryId: 402,
+            boardTag: ["kk", "kkl"],
+        },
+        {withCredentials: true}
+        )
+        .then(res => {
+            navigate('/communityMainPage', { state: { kind: {id: 402, name: "team"}, page: 1 } });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+        navigate('/communityMainPage', {state: {kind: {id: 402, name: "team"}}});
     }
 
     const onChangeTitle = (e) =>{
@@ -186,7 +208,7 @@ const CreateTeamPost = ({ isdark, postContent, setPostContent }) => {
                         whileHover={{
                             scale: 1.1,
                         }}
-                        onClick={() => navigate('/communityMainPage', {state: {kind: "team"}})}>
+                        onClick={() => navigate('/communityMainPage', {state: {kind: {id: 402, name: "team"}}})}>
                         취소
                     </Cancel>
                     <Save 
