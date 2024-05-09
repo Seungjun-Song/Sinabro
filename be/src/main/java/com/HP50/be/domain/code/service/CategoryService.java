@@ -1,15 +1,3 @@
-package com.HP50.be.domain.code.service;
-
-import com.HP50.be.domain.code.dto.CategoryRequestDto;
-import com.HP50.be.domain.code.dto.CategoryResponseDto;
-import com.HP50.be.domain.code.entity.Category;
-import com.HP50.be.global.common.BaseResponse;
-import org.springframework.http.ResponseEntity;
-
-import java.util.List;
-
-public interface CategoryService {
-    ResponseEntity<BaseResponse<?>> savePersonalDuty(String token, CategoryRequestDto dto);
-
-    List<CategoryResponseDto> findAllJob();
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:18f053f517817bb7c42fec2c6a102561d2786f1fafad3d9251e5a97d728a162c
+size 468
