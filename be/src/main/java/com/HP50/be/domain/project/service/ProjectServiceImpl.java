@@ -333,7 +333,7 @@ public class ProjectServiceImpl implements ProjectService{
 
 
     @Override
-    public ResponseEntity<?> getProjectListInMember(String token) {
+    public List<ProjectListResponseDto> getProjectListInMember(String token) {
         Member member = memberRepository.findById(jwtUtil.getMemberId(token)).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         List<ProjectListResponseDto> projectListResponseDtos = member.getTeammates().stream()
                 .map(project -> ProjectListResponseDto.builder()
@@ -345,8 +345,9 @@ public class ProjectServiceImpl implements ProjectService{
                         .subCategory(project.getProject().getSubCategory())
                         .build())
                 .toList();
-        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(projectListResponseDtos));
+        return projectListResponseDtos;
     }
+
 
     @Override
     public ProjectCompletedPaginationResponseDto findProjectSliceSix(int page) {

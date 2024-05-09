@@ -29,7 +29,7 @@ public class TechStackServiceImpl implements TechStackService{
     private final SubCategoryService subCategoryService;
     private final JwtUtil jwtUtil;
     @Override
-    public ResponseEntity<?> save(String token, List<TechStackSaveRequestDto> techStackRequestDtos) {
+    public void save(String token, List<TechStackSaveRequestDto> techStackRequestDtos) {
         Integer memberId = jwtUtil.getMemberId(token);
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
 
@@ -42,14 +42,10 @@ public class TechStackServiceImpl implements TechStackService{
                     .build();
             techStackRepository.save(techStack);
         }
-
-        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
     @Override
-    public ResponseEntity<?> delete(List<TechStackDeleteRequestDto> techStackIds) {
+    public void delete(List<TechStackDeleteRequestDto> techStackIds) {
         for(TechStackDeleteRequestDto dto: techStackIds) techStackRepository.deleteById(dto.getTechStackId());
-
-        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 }

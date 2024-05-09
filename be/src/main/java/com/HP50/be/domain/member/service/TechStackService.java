@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface TechStackService {
-    ResponseEntity<?> save(String token, List<TechStackSaveRequestDto> TechStackDtos);
-    ResponseEntity<?> delete(List<TechStackDeleteRequestDto> techStackIds);
+    void save(String token, List<TechStackSaveRequestDto> TechStackDtos);
+    void delete(List<TechStackDeleteRequestDto> techStackIds);
 
 }

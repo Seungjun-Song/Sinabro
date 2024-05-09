@@ -35,7 +35,7 @@ public class CategoryCustomRepositoryImpl implements CategoryCustomRepository{
 
     @Override
     @Transactional
-    public ResponseEntity<BaseResponse<?>> savePersonalDuty(String token, CategoryRequestDto dto) {
+    public void savePersonalDuty(String token, CategoryRequestDto dto) {
 
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new BaseException(StatusCode.BAD_REQUEST));
@@ -46,7 +46,6 @@ public class CategoryCustomRepositoryImpl implements CategoryCustomRepository{
                 .set(member.category, category)
                 .execute();
 
-        return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
     @Override

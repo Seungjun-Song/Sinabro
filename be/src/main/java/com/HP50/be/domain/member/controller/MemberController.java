@@ -8,6 +8,7 @@ import com.HP50.be.domain.member.dto.TechStackDeleteRequestDto;
 import com.HP50.be.domain.member.dto.TechStackSaveRequestDto;
 import com.HP50.be.domain.member.service.MemberService;
 import com.HP50.be.domain.member.service.TechStackService;
+import com.HP50.be.domain.project.dto.ProjectListResponseDto;
 import com.HP50.be.domain.project.service.ProjectService;
 import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.StatusCode;
@@ -49,34 +50,37 @@ public class MemberController {
             @ApiResponse(responseCode = "203", description = "알수없는 에러가 발생했습니다.")
     })
     @PutMapping
-    public ResponseEntity<BaseResponse<?>> updateCategoryInMember(@CookieValue(JwtConstants.JWT_HEADER) String token,
+    public ResponseEntity<BaseResponse<StatusCode>> updateCategoryInMember(@CookieValue(JwtConstants.JWT_HEADER) String token,
                                                                   @RequestBody CategoryRequestDto dto){
-        return categoryService.savePersonalDuty(token, dto);
+        categoryService.savePersonalDuty(token, dto);
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
     @Operation(summary = "멤버의 기술스택 저장")
     @PostMapping
-    public ResponseEntity<?> saveTechStack(@CookieValue(JwtConstants.JWT_HEADER) String token,
+    public ResponseEntity<BaseResponse<StatusCode>> saveTechStack(@CookieValue(JwtConstants.JWT_HEADER) String token,
                                            @RequestBody List<TechStackSaveRequestDto> dtos){
-        return techStackService.save(token, dtos);
+        techStackService.save(token, dtos);
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
     @Operation(summary = "멤버의 기술스택 삭제", description = "쿠키 전달없이 techStackId만 전달해주시면 됩니다.")
     @DeleteMapping
-    public ResponseEntity<?> deleteTechStack(@RequestBody List<TechStackDeleteRequestDto> techStackIds){
-        return techStackService.delete(techStackIds);
+    public ResponseEntity<BaseResponse<StatusCode>> deleteTechStack(@RequestBody List<TechStackDeleteRequestDto> techStackIds){
+        techStackService.delete(techStackIds);
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
     @Operation(summary = "멤버의 프로필 조회", description = "자기자신 및 다른사람의 프로필 조회가능")
     @GetMapping("/{memberId}")
-    public ProfileResponseDto findMemberProfile(@PathVariable Integer memberId){
-        return memberService.findMemberProfile(memberId);
+    public ResponseEntity<BaseResponse<ProfileResponseDto>> findMemberProfile(@PathVariable Integer memberId){
+        return ResponseEntity.ok().body(new BaseResponse<>(memberService.findMemberProfile(memberId)));
     }
 
     @Operation(summary = "자신의 모든 프로젝트 나열")
     @GetMapping("/projects")
-    public ResponseEntity<?> getMyProjectList(@CookieValue(JwtConstants.JWT_HEADER) String token){
-        return projectService.getProjectListInMember(token);
+    public ResponseEntity<BaseResponse<List<ProjectListResponseDto>>> getMyProjectList(@CookieValue(JwtConstants.JWT_HEADER) String token){
+        return ResponseEntity.ok().body(new BaseResponse<>(projectService.getProjectListInMember(token)));
     }
 
     @Operation(summary = "멤버 삭제")

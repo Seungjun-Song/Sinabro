@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface CategoryCustomRepository {
-    ResponseEntity<BaseResponse<?>> savePersonalDuty(String token, CategoryRequestDto dto);
+    void savePersonalDuty(String token, CategoryRequestDto dto);
     List<CategoryResponseDto> findAllJob();
     List<SubCategoryTechStackDto> findAllBySubCategoryIdLessThan301();
 

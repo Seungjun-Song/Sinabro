@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,14 +29,16 @@ public class CommunityController {
     @Operation(summary = "댓글 저장")
     @PostMapping("/comment")
     public ResponseEntity<BaseResponse<StatusCode>> saveComment(@RequestBody CommentRequestDto commentRequestDto){
-        return commentService.save(commentRequestDto);
+        commentService.save(commentRequestDto);
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
     @Operation(summary = "게시글 저장", description = "boardId = 0 INSERT, 기존에 존재하는 값이면 UPDATE ")
     @ApiResponse(responseCode = "100", description = "성공하였습니다.")
     @PostMapping
     public ResponseEntity<BaseResponse<StatusCode>> insertBoard(@CookieValue(JwtConstants.JWT_HEADER) String token,
                                                                   @RequestBody BoardInsertRequestDto boardInsertRequestDto){
-        return boardService.insertBoard(token, boardInsertRequestDto);
+        boardService.insertBoard(token, boardInsertRequestDto);
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
     // 스웨거에 return 형식을 보여주기 위해서는 ? 를 사용하면 안되고 아래와 같이 명시적으로 기입해줘야함
@@ -55,14 +59,13 @@ public class CommunityController {
     @Operation(summary = "상세 게시글 조회")
     @GetMapping("/boards/{boardId}")
     public ResponseEntity<BaseResponse<BoardDetailResponseDto>> findBoardDetail(@PathVariable Integer boardId){
-        return boardService.findBoardDetail(boardId);
+        return ResponseEntity.ok().body(new BaseResponse<>(boardService.findBoardDetail(boardId)));
     }
 
     @Operation(summary = "게시글의 댓글 조회")
     @GetMapping("/comments/{boardId}/{page}")
-    public ResponseEntity<BaseResponse<CommentPaginationResponseDto>> findCommentInBoard(@PathVariable Integer boardId,
-                                                                                         @PathVariable int page){
-        return ResponseEntity.ok().body(new BaseResponse<>(commentService.findCommentInBoard(boardId, page)));
+    public BaseResponse<CommentPaginationResponseDto> findCommentInBoard(@PathVariable Integer boardId, @PathVariable int page){
+        return new BaseResponse<>(commentService.findCommentInBoard(boardId, page));
     }
 
 
