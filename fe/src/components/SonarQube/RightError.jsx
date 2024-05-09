@@ -87,7 +87,6 @@ const danger_list = {
 };
 
 const RightError = ({ isSelect,isDark }) => {
-  console.log(isSelect);
   const [isCopy, setIsCopy] = useState(false);
   const handleCopy = () => {
     setIsCopy(true); // isCopy 상태를 true로 설정
