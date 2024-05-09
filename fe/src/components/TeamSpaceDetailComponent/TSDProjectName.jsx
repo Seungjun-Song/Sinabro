@@ -3,14 +3,16 @@ import { faCircleRight } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setProjectRoomId } from "../../store/projectRoomIdSlice";
 
 const TSDProjectName = ({ isDark }) => {
 
   const [isHover, setIsHover] = useState(false);
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const myCurrentProject = useSelector(state => state.myCurrentProject.value)
 
@@ -47,7 +49,7 @@ const TSDProjectName = ({ isDark }) => {
         <motion.div
           onHoverStart={() => setIsHover(true)}
           onHoverEnd={() => setIsHover(false)}
-          onClick={() => navigate(`/project/${myCurrentProject?.projectId}`)}
+          onClick={() => {dispatch(setProjectRoomId(myCurrentProject?.projectId)), navigate(`/project/${myCurrentProject?.projectId}`)}}
           whileHover={{
             cursor: "pointer",
             backgroundColor: "#304895",
