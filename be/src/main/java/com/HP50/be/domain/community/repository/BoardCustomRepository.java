@@ -64,7 +64,9 @@ public class BoardCustomRepository {
                 .where(builder)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
+                .orderBy(board.createdDttm.desc())
                 .fetch();
+
         boolean hasNext = results.size() > pageable.getPageSize();
 
         List<Board> boardList = hasNext ? results.subList(0, pageable.getPageSize()) : results;

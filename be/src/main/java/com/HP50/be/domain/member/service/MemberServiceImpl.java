@@ -48,7 +48,11 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
 
         List<TechStackResponseDto> techStackResponseDtos =  member.getTechStacks().stream()
-                .map(techStack -> techStack.toResponseDto(member))
+                .map(techStack -> TechStackResponseDto.builder()
+                        .techStackId(techStack.getTechStackId())
+                        .subCategoryId(techStack.getSubCategory().getSubCategoryId())
+                        .subCategoryName(techStack.getSubCategoryName())
+                        .build())
                 .toList();
 
         List<ProjectDto> projectDtos = member.getTeammates().stream()

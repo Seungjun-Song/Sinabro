@@ -28,8 +28,4 @@ public class TechStack {
     @Column(length = 50)
     private String subCategoryName;
 
-
-    public TechStackResponseDto toResponseDto(Member member){
-        return null;
-    }
 }
