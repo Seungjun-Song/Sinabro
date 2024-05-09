@@ -122,7 +122,7 @@ export default function WebRTC() {
         if (session) {
             getToken().then(async (token) => {
                 try {
-                    await session.connect(token, { clientData: myUserName });
+                    await session.connect(token, { clientData: userInfo.currentUser.photoURL });
 
                     let publisher = await OV.current.initPublisherAsync(undefined, {
                         audioSource: undefined,
@@ -265,15 +265,12 @@ export default function WebRTC() {
                 />
                 {publisher !== undefined ? (
                     <UserImage>
-                        <UserVideoComponent
-                            streamManager={publisher}
-                            path={userInfo.currentUser.photoURL} />
+                        <UserVideoComponent streamManager={publisher}/>
                     </UserImage>
                 ) : null}
                 {subscribers.map((sub, i) => (
                     <UserImage key={sub.id}>
-                        <UserVideoComponent streamManager={sub} path={'/images/user1.png'} />
-                        {console.log(sub)}
+                        <UserVideoComponent streamManager={sub}/>
                     </UserImage>
                 ))}
             </NavRigthBox>
