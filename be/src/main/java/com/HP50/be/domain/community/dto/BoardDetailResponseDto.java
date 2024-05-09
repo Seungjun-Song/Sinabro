@@ -9,6 +9,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -39,6 +40,18 @@ public class BoardDetailResponseDto {
 
     @Schema(name = "마지막으로 수정된 시간", example = "2024-05-03 17:57:46.782102")
     private LocalDateTime updatedDttm;
+
+    @Schema(example = "2")
+    private Optional<Integer> requiredBackEnd;
+
+    @Schema(example = "1")
+    private Optional<Integer> requiredFrontEnd;
+
+    @Schema(example = "0")
+    private Optional<Integer> recruitedPeopleBackEnd;
+
+    @Schema(example = "0")
+    private Optional<Integer> recruitedPeopleFrontEnd;
 
     private SubCategory subCategory;
 

@@ -53,7 +53,6 @@ public class BoardCustomRepository {
         if (job != null && job != 0) {
             if (job == 100) builder.and(board.requiredPeopleFrontEnd.gt(0));
             if (job == 200) builder.and(board.requiredPeopleBackEnd.gt(0));
-            if (job == 300) builder.and(board.requiredPeopleFullStack.gt(0));
         }
 
         if (keyword != null && !keyword.isEmpty()) {

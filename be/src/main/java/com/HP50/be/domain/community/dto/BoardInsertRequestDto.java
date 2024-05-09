@@ -3,7 +3,6 @@ package com.HP50.be.domain.community.dto;
 import com.HP50.be.domain.code.dto.TagDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,13 +35,17 @@ public class BoardInsertRequestDto {
     private Integer subCategoryId;
 
     @Schema(example = "2")
-    private Integer requiredbackEnd;
+    private Optional<Integer> requiredPeopleBackEnd;
 
     @Schema(example = "1")
-    private Integer requiredFrontEnd;
+    private Optional<Integer> requiredPeopleFrontEnd;
 
     @Schema(example = "0")
-    private Integer requiredFullStack;
+    private Optional<Integer> recruitedPeopleBackEnd;
+
+    @Schema(example = "0")
+    private Optional<Integer> recruitedPeopleFrontEnd;
+
 
     private List<TagDto> boardTag;
 

@@ -68,6 +68,10 @@ public class BoardServiceImpl implements BoardService {
                 .subCategory(board.getSubCategory())
                 .communityProgress(board.isCommunityProgress())
                 .projectId(board.getProject().getProjectId())
+                .requiredBackEnd(Optional.ofNullable(board.getRequiredPeopleBackEnd()))
+                .requiredFrontEnd(Optional.ofNullable(board.getRequiredPeopleFrontEnd()))
+                .recruitedPeopleBackEnd(Optional.ofNullable(board.getRecruitedPeopleBackEnd()))
+                .recruitedPeopleFrontEnd(Optional.ofNullable(board.getRecruitedPeopleBackEnd()))
                 .tagDtos(tagDtoList)
                 .commentResponseDtos(board.getComments().stream()
                         .map(entity -> CommentResponseDto.builder()
@@ -92,10 +96,9 @@ public class BoardServiceImpl implements BoardService {
                                                        String keyword,
                                                        int page) {
         PageRequest pageRequest = PageRequest.of(page, 10);
+
         Slice<Board> boards = boardCustomRepository.findByConditions(catBoard, calCalender, catJob, keyword, pageRequest);
         List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>();
-
-
 
         for(Board board: boards){
             List<TagDto> tagDtos = Arrays.stream(new Gson().fromJson(board.getBoardTag(), TagDto[].class)).toList();
@@ -106,10 +109,13 @@ public class BoardServiceImpl implements BoardService {
                     .boardContent(board.getBoardContent())
                     .tagDtos(tagDtos)
                     .communityProgress(board.isCommunityProgress())
+                    .recruitedPeopleFrontEnd(Optional.ofNullable(board.getRecruitedPeopleFrontEnd()))
+                    .recruitedPeopleBackEnd(Optional.ofNullable(board.getRecruitedPeopleBackEnd()))
+                    .requiredBackEnd(Optional.ofNullable(board.getRecruitedPeopleBackEnd()))
+                    .requiredFrontEnd(Optional.ofNullable(board.getRequiredPeopleFrontEnd()))
                     .createdDttm(board.getCreatedDttm())
                     .updatedDttm(board.getUpdatedDttm())
                     .build();
-
             boardListResponseDtos.add(boardListResponseDto);
         }
 
@@ -149,6 +155,22 @@ public class BoardServiceImpl implements BoardService {
                 .communityProgress(true)
                 .subCategory(subCategory)
                 .build();
+
+
+        // null 값이 들어온다면 board 에 저장할때 null 을 저장
+        if(boardInsertRequestDto.getRecruitedPeopleBackEnd() != null)
+            board.setRecruitedPeopleBackEnd(boardInsertRequestDto.getRecruitedPeopleBackEnd().get());
+
+        if(boardInsertRequestDto.getRecruitedPeopleFrontEnd() != null)
+            board.setRecruitedPeopleFrontEnd(boardInsertRequestDto.getRecruitedPeopleFrontEnd().get());
+
+        if(boardInsertRequestDto.getRequiredPeopleBackEnd() != null)
+            board.setRequiredPeopleBackEnd(boardInsertRequestDto.getRequiredPeopleBackEnd().get());
+
+        if(boardInsertRequestDto.getRequiredPeopleFrontEnd() != null)
+            board.setRequiredPeopleFrontEnd(boardInsertRequestDto.getRequiredPeopleFrontEnd().get());
+
+
 
         // NullPointerException 을 방지
         if(projectId != null) {

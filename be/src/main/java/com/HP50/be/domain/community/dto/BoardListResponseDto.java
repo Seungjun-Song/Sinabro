@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -36,4 +37,16 @@ public class BoardListResponseDto {
     private SubCategoryResponseDto subCategory;
 
     private List<TagDto> tagDtos;
+
+    @Schema(example = "2")
+    private Optional<Integer> requiredBackEnd;
+
+    @Schema(example = "1")
+    private Optional<Integer> requiredFrontEnd;
+
+    @Schema(example = "0")
+    private Optional<Integer> recruitedPeopleBackEnd;
+
+    @Schema(example = "0")
+    private Optional<Integer> recruitedPeopleFrontEnd;
 }
