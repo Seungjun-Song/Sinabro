@@ -1,11 +1,3 @@
-package com.HP50.be.domain.community.service;
-
-import com.HP50.be.domain.community.dto.CommentRequestDto;
-import com.HP50.be.global.common.BaseResponse;
-import com.HP50.be.global.common.StatusCode;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-public interface CommentService {
-    ResponseEntity<BaseResponse<StatusCode>> save(CommentRequestDto commentRequestDto);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:c4d11c5e873a2973e3afa9ef07b17d537440b010052a8449c01a594fa517ef8b
+size 458
