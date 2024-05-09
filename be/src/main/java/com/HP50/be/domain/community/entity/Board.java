@@ -1,3 +1,67 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:17541ff9de42854c1ab87022822bdcc0b08fbbbff8738d2c6e8bcc2925cc2a6b
-size 1482
+
+package com.HP50.be.domain.community.entity;
+
+import com.HP50.be.domain.code.entity.SubCategory;
+import com.HP50.be.domain.member.entity.Member;
+import com.HP50.be.domain.project.entity.Project;
+import com.HP50.be.global.common.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Board extends BaseTimeEntity {
+    @Setter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer boardId;
+
+    @ManyToOne
+    @JoinColumn(name= "member_id")
+    private Member member;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @ManyToOne
+    @JoinColumn(name= "subcategory_id")
+    private SubCategory subCategory;
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
+    @Column(length = 500)
+    private String projectLink;
+
+    @Column(length = 500)
+    private String boardTitle;
+
+    @Column(length = 500)
+    private String boardContent;
+
+    @Column(columnDefinition = "JSON")
+    private String boardTag;
+
+    @Column
+    private String boardImg;
+
+    @Column(columnDefinition = "tinyint")
+    private boolean communityProgress;
+
+    @Column
+    private Integer requiredPeopleBackEnd;
+
+    @Column
+    private Integer requiredPeopleFrontEnd;
+
+    @Column
+    private Integer requiredPeopleFullStack;
+}
