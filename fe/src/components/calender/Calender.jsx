@@ -65,7 +65,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
+    const endDate = endOfWeek(monthEnd); // 해당 월의 마지막 주의 마지막 날짜를 구합니다.
     
     const totalWeeks = differenceInWeeks(endDate, startDate);
     const rowHeight = totalWeeks === 5 ? '13vh' : '15.4vh';
@@ -82,8 +82,8 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
 
     const fromatDated = (date) => {
         const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고, 두 자리로 만들기 위해 padStart 사용
-        const day = date.getDate().toString().padStart(2, '0'); // 일도 두 자리로 만들기 위해 padStart 사용
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
         return `${month}.${day}`;
     }
 
@@ -100,7 +100,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
                 <div
                     className={`col cell ${!isSameMonth(day, monthStart)
                         ? 'disabled'
-                        : isSameDay(day, selectedDate)
+                        : isSameDay(addDays(day, 1), selectedDate)
                             ? 'selected'
                             : format(currentMonth, 'M') !== format(day, 'M')
                                 ? 'not-valid'
@@ -127,8 +127,8 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
                         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                             {toDoList.map((item, index) => {
                                 const itemStartDate = item.calenderStartDt ? new Date(item.calenderStartDt) : null;
-                                const itemEndDate = item.calenderEndDt ? new Date(item.calenderEndDt) : null;
-                                const today = new Date(day);
+                                const itemEndDate = item.calenderEndDt ? addDays(new Date(item.calenderEndDt), 1) : null; // 하루를 추가하여 마지막 날도 포함
+                                const today = addDays(new Date(day), 1);
 
                                 if (itemStartDate && itemEndDate) {
                                     if (itemStartDate <= today && today <= itemEndDate) {
@@ -183,6 +183,8 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
     }
     return <div className="body" style={{ height: '100%' }}>{rows}</div>;
 };
+
+
 
 export const Calender = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
