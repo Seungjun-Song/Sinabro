@@ -243,8 +243,14 @@ public class ProjectServiceImpl implements ProjectService{
             startContainer(session, codeServerName);
         }
 
+        // 리버스 프록시 설정
+        String nginxUpdateCommand = "sudo python3 nginx_updater.py";
+        if(!jschUtil.executeCommand(session, nginxUpdateCommand)) {
+            throw new BaseException(StatusCode.NGINX_UPDATE_FAIL);
+        }
+
         // 동적 포트 할당 조회
-        String getPortCommand = "docker port " + codeServerName + " 80";
+        String getPortCommand = "docker port " + codeServerName + " 3000";
         String dynamicPort = jschUtil.executeCommandAndGetOutput(session, getPortCommand).split("\n")[0].split(":")[1];
         log.info("dynamicPort : {}", dynamicPort);
 
@@ -270,7 +276,8 @@ public class ProjectServiceImpl implements ProjectService{
         session.disconnect();
 
         return ProjectEnterDto.builder()
-                .url("http://k10e103.p.ssafy.io:" + dynamicPort + "/?folder=/home/coder/code-server/" + repoName)
+                .url("https://k10e103.p.ssafy.io/" + codeServerName + "/?folder=/home/coder/code-server/" + repoName)
+                .previewUrl("http://k10e103.p.ssafy.io:" + dynamicPort)
                 .dbPort(dbPort)
                 .build();
     }
