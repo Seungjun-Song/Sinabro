@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +67,7 @@ public class BoardServiceImpl implements BoardService {
                 .boardContent(board.getBoardContent())
                 .subCategory(board.getSubCategory())
                 .communityProgress(board.isCommunityProgress())
+                .projectId(board.getProject().getProjectId())
                 .tagDtos(tagDtoList)
                 .commentResponseDtos(board.getComments().stream()
                         .map(entity -> CommentResponseDto.builder()
@@ -93,16 +95,21 @@ public class BoardServiceImpl implements BoardService {
         Slice<Board> boards = boardCustomRepository.findByConditions(catBoard, calCalender, catJob, keyword, pageRequest);
         List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>();
 
+
+
         for(Board board: boards){
+            List<TagDto> tagDtos = Arrays.stream(new Gson().fromJson(board.getBoardTag(), TagDto[].class)).toList();
             BoardListResponseDto boardListResponseDto = BoardListResponseDto.builder()
                     .boardId(board.getBoardId())
                     .memberName(board.getMember().getMemberName())
                     .boardTitle(board.getBoardTitle())
                     .boardContent(board.getBoardContent())
+                    .tagDtos(tagDtos)
                     .communityProgress(board.isCommunityProgress())
                     .createdDttm(board.getCreatedDttm())
                     .updatedDttm(board.getUpdatedDttm())
                     .build();
+
             boardListResponseDtos.add(boardListResponseDto);
         }
 
