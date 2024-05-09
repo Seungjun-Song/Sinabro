@@ -8,8 +8,11 @@ import com.HP50.be.domain.openVidu.service.OpenViduService;
 import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
+import com.HP50.be.global.jwt.JwtConstants;
+import com.HP50.be.global.jwt.JwtUtil;
 import io.openvidu.java.client.*;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,13 +25,14 @@ import java.util.*;
 @RequestMapping("/room")
 public class OpenViduController {
     private final OpenViduService service;
-
+    private final JwtUtil jwtUtil;
     private OpenVidu openvidu;
 
     @Autowired
-    public OpenViduController(OpenViduService service) {
+    public OpenViduController(OpenViduService service,JwtUtil jwtUtil) {
         this.service = service;
         this.openvidu = service.getOpenvidu();
+        this.jwtUtil = jwtUtil;
     }
     /**
         OpenVidu에 참여하기 위해서는 SessionConnection Token이 필요
@@ -39,10 +43,10 @@ public class OpenViduController {
         세션 만들기
      */
     @PostMapping
-    public ResponseEntity<Object> createRoom( @RequestBody RoomRequestDto dto) throws OpenViduJavaClientException, OpenViduHttpException {
-
-        int memberId = 1;//JWT 설정 필요
-        String nickname = "김윤민2"; // JWT 처리
+    public ResponseEntity<Object> createRoom(@CookieValue (JwtConstants.JWT_HEADER)String token,
+            @RequestBody RoomRequestDto dto) throws OpenViduJavaClientException, OpenViduHttpException {
+        String nickname = jwtUtil.getMemberName(token);
+        String memberImg = jwtUtil.getMemberImg(token);
 
         //UUID 생성후
         UUID uuid = UUID.randomUUID();
@@ -82,11 +86,13 @@ public class OpenViduController {
         세션 입장
      */
     @PostMapping("/enter")
-    public ResponseEntity<Object> enterRoom(@RequestBody RoomRequestDto dto) throws OpenViduJavaClientException, OpenViduHttpException {
+    public ResponseEntity<Object> enterRoom(@CookieValue (JwtConstants.JWT_HEADER)String token,
+                                            @RequestBody RoomRequestDto dto) throws OpenViduJavaClientException, OpenViduHttpException {
         log.info("room enter info {} ", dto);
 
         String sessionId = service.findByProjectId(dto.getProjectId());
-        String nickname = "김윤민"; //JWT 처리 필요
+
+        String nickname = jwtUtil.getMemberName(token);
 
         //sessionId 사용하여 OpenVidu에서 해당 세션 get|
         log.info(sessionId);
