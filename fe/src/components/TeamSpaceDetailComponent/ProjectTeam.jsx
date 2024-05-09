@@ -39,12 +39,16 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
 
   const myCurrentProject = useSelector(state => state.myCurrentProject.value)
   const back_url = getEnv('BACK_URL')
+  
+  const [teamInfo, setTeamInfo] = useState([])
 
   useEffect(() => {
     const getProjectInfo = async () => {
       try {
-        const res = await axios.get(`${back_url}/teams?${myCurrentProject.projectId}`)
-        console.log(res.data)
+        const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`)
+        const transformedTeamInfo = res.data.teammateInfoList.map(item => ({...item, teammateRole: convertTeammateRole(item.teammateRole)}))
+        console.log(transformedTeamInfo)
+        setTeamInfo(transformedTeamInfo)
       }
       catch (err) {
         console.error(err)
@@ -52,6 +56,19 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
     }
     getProjectInfo()
   }, [])
+
+  const convertTeammateRole = (originalRole) => {
+    switch (originalRole) {
+      case "프론트엔드":
+        return "FE";
+      case "백엔드":
+        return "BE";
+      case "풀스택":
+        return "FULL";
+      default:
+        return originalRole;
+    }
+  }
 
   return (
     <motion.div
@@ -67,9 +84,9 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
         },
       }}
     >
-      {DUMMY_DATA.map((item, index) => {
-        if (!displayedRoles.includes(item.job)) {
-          displayedRoles.push(item.job); // 역할을 추가합니다.
+      {teamInfo.map((item, index) => {
+        if (!displayedRoles.includes(item.teammateRole)) {
+          displayedRoles.push(item.teammateRole); // 역할을 추가합니다.
           return (
             <motion.div
               key={index}
@@ -84,13 +101,13 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 visible: { opacity: 1, y: 0 },
               }}
             >
-              <WhatPos item={item.job} isDark={isDark} />
+              <WhatPos item={item.teammateRole} isDark={isDark} />
               <WhatPosCard
                 isDark={isDark}
                 setWhatUser={setWhatUser}
-                item={item.job}
-                state={item.state}
-                name={item.name}
+                item={item.teammateRole}
+                state={item.teamReader ? 'Reader' : 'Member'}
+                name={item.memberName}
               />
             </motion.div>
           );
@@ -113,9 +130,9 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
               <WhatPosCard
                 isDark={isDark}
                 setWhatUser={setWhatUser}
-                item={item.job}
-                state={item.state}
-                name={item.name}
+                item={item.teammateRole}
+                state={item.teamReader ? 'Reader' : 'Member'}
+                name={item.memberName}
               />
             </motion.div>
           );

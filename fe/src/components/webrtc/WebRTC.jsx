@@ -169,7 +169,7 @@ export default function WebRTC() {
                 setMyUserName('');
                 setMainStreamManager(undefined);
                 setPublisher(undefined);
-                navigate('/');
+                navigate('/Mainpage');
             })
             .catch(err => {
                 // 요청이 실패한 경우
