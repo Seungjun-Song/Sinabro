@@ -1,16 +1,3 @@
-const day_list = [ "Today", "D+1", "D+2", "D+3","D+4","D+5","D+6","D+7"];
-const Todo = () => {
-  return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <div>이번주 할것!</div>
-      <div style={{ display: "flex", width: "100%", height: "100%" }}>
-        {day_list.map((item) => (
-          <div style={{ width: "14%", height: "100%", textAlign: "center" }}>
-            {item}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-export default Todo;
+version https://git-lfs.github.com/spec/v1
+oid sha256:b89b200eb0327b31028044300e978fcc97df0846abe850c7d73d4276fc0aef60
+size 11258
