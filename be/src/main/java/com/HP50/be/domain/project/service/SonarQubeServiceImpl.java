@@ -198,6 +198,13 @@ public class SonarQubeServiceImpl implements SonarQubeService{
         }
         return result;
     }
+    /**
+        이슈 상태 변경 ( bulk_change )
+     */
+    @Override
+    public void changeIssuesStatus(String issues, String doTransition) {
+
+    }
 
     /**
      * Jsch로 이슈 코드 가져옴
