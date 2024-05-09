@@ -23,7 +23,7 @@ import static com.HP50.be.domain.project.entity.QTeammate.teammate;
 public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
     private final JPAQueryFactory queryFactory;
     @Override
-    public ProjectInfoDto getTeamInfo(int projectId,int memberId) {
+    public ProjectInfoDto getTeamInfo(int projectId) {
         //1. 프로젝트 정보 가져오기
         ProjectInfoDto result = queryFactory.select(
                         Projections.constructor(
@@ -48,7 +48,8 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
                                 teammate.member.memberId.as("memberId"),
                                 teammate.member.memberName.as("memberName"),
                                 teammate.member.memberImg.as("memberImg"),
-                                teammate.teammateReader.as("teamReader")
+                                teammate.teammateReader.as("teamReader"),
+                                teammate.teammateRole.as("teammateRole")
                         )
                 ).from(teammate)
                 .where(project.projectId.eq(projectId)).fetch();

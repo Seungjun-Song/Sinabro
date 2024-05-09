@@ -1,5 +1,6 @@
 package com.HP50.be.domain.project.service;
 
+import com.HP50.be.domain.code.entity.Category;
 import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.code.repository.CategoryRepository;
 import com.HP50.be.domain.code.repository.SubCategoryRepository;
@@ -58,8 +59,8 @@ public class ProjectServiceImpl implements ProjectService{
     private final JschUtil jschUtil;
 
     @Override
-    public ProjectInfoDto getTeamInfo(int memberId, int projectId) {
-        return projectCustomRepository.getTeamInfo(projectId,memberId);
+    public ProjectInfoDto getTeamInfo(int projectId) {
+        return projectCustomRepository.getTeamInfo(projectId);
     }
     // 프로젝트 생성
     @Override
@@ -99,11 +100,7 @@ public class ProjectServiceImpl implements ProjectService{
 
         for(Integer id:memberList){
             Member member = membersMap.get(id);
-            Teammate teammate = Teammate.builder()
-                    .project(project)
-                    .member(member)
-                    .teammateReader(reader == id)
-                    .build();
+            Integer memberId = member.getMemberId();
             //멤버의 카테고리 가져오고
             Integer categoryId = member.getCategory().getCategoryId();
             //만약 해당 멤버의 카테고리가 풀스택이라면 List에서 선택한걸 가져오도록 지정.
@@ -114,11 +111,30 @@ public class ProjectServiceImpl implements ProjectService{
                 selectCategoryId = categoryId;
             }
             //1. 해당 멤버의 해당 소분류 기술스택을 다 가져온다. ( 기준 : memberId & categoryId )
-            List<TechStack> techStacks = techStackCustomRepository.getByMemberIdAndCategoryId(id,selectCategoryId);
+            List<TechStack> techStacks = new ArrayList<>();
+            //근데 만약 선택한게 풀스택이면 100,200둘다 겟
+            if(selectCategoryId==300){
+                List<TechStack> frontStack = techStackCustomRepository.getByMemberIdAndCategoryId(memberId, 100);
+                List<TechStack> backStack = techStackCustomRepository.getByMemberIdAndCategoryId(memberId, 200);
+                // frontStack과 backStack을 합치기
+                techStacks = Stream.concat(frontStack.stream(), backStack.stream())
+                        .collect(Collectors.toList());
+            }else{//아니면 해당하는것만 겟
+                techStacks = techStackCustomRepository.getByMemberIdAndCategoryId(memberId, selectCategoryId);
+            }
+
 
             if(techStacks.isEmpty()){
                 throw new BaseException(StatusCode.NOT_EXIST_STACK);
             }
+            //2. 선택한 카테고리로 teammateRole 지정.
+            Category category = categoryRepository.findById(selectCategoryId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_CATEGORY));
+            Teammate teammate = Teammate.builder()
+                    .project(project)
+                    .member(member)
+                    .teammateReader(reader == id)
+                    .teammateRole(category.getCategoryName())
+                    .build();
             // techStack to PjtTechStack
             teammate.addTechStacks(techStacks,teammate);
 

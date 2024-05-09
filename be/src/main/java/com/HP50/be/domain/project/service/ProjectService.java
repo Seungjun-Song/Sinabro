@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface ProjectService {
     // 프로젝트 정보 확인
-    ProjectInfoDto getTeamInfo(int memberId, int projectId);
+    ProjectInfoDto getTeamInfo(int memberId);
     // 프로젝트 생성
     boolean createProject(ProjectCreateRequestDto requestDto, int reader);
     // 팀원 추가
