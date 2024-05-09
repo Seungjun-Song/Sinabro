@@ -350,7 +350,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public ProjectCompletedPaginationResponseDto findProjectSliceSix(int page) {
-        PageRequest pageRequest = PageRequest.of(page, 10);
+        PageRequest pageRequest = PageRequest.of(page, 6);
 
         Slice<Project> projects = projectCustomRepository.findProjectSliceSix(pageRequest);
 
