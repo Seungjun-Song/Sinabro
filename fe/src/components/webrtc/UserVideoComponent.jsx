@@ -6,7 +6,7 @@ export default function UserVideoComponent({ streamManager, path }) {
 
     const getNicknameTag = () => {
         // Gets the nickName of the user
-        return JSON.parse(streamManager.stream.connection.data).clientData;
+        return JSON.parse(streamManager.stream.connection.data).nickname;
     }
 
     return (
@@ -17,7 +17,7 @@ export default function UserVideoComponent({ streamManager, path }) {
                     <div style={{ height: '0', width: '0' }}>
                         <OpenViduVideoComponent streamManager={streamManager} />
                     </div>
-                    {/* <div><p>{getNicknameTag()}</p></div> */}
+                    <div><p>{getNicknameTag()}</p></div>
                     <img src={path} alt="" style={{ height: '40px', borderRadius: '50%' }} />
                 </div>
             ) : null}

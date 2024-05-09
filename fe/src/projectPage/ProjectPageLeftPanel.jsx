@@ -270,7 +270,7 @@ const ProjectPageLeftPanel = () => {
             // dispatch(addToDoList(schedule)) // 스케쥴 제대로 받아올 수 있으면 주석처리된 코드는 필요없음
             try {
                 const res = await axios.post(`${back_url}/schedules`, {
-                    projectId: projectRoomId, 
+                    projectId: projectRoomId,
                     managerId: userInfo.currentUser.uid,
                     calenderStartDt: fromatDatedForBack(startDate),
                     calenderEndDt: fromatDatedForBack(endDate),
@@ -293,23 +293,25 @@ const ProjectPageLeftPanel = () => {
             handleCloseModal()
         }
     }
-    
+
     const removeSchedule = async (idx) => {
 
         const calenderIdToRemove = toDoList[idx]?.calenderId
         console.log(calenderIdToRemove)
         console.log(projectRoomId)
-        const data = {
-            calenderId: calenderIdToRemove,
-            projectId: projectRoomId
-        }
+
         try {
-            const res = await axios.delete(`${back_url}/schedules`, data)
+            const res = await axios.delete(`${back_url}/schedules`, {
+                data: {
+                    calenderId: calenderIdToRemove,
+                    projectId: projectRoomId
+                }
+            })
             console.log(res.data)
         }
         catch (err) {
             console.error(err)
-        } 
+        }
 
         dispatch(removeToDoItem(idx))
     }
@@ -393,11 +395,11 @@ const ProjectPageLeftPanel = () => {
                                                         </IconHoverBox>
                                                         {item.subCategoryId === 503 ?
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faCheck} onClick={() => {dispatch(changeState({ index: index, changeValue: 501 })), changeMySchedule(index, 501)}} />
+                                                                <FontAwesomeIcon icon={faCheck} onClick={() => { dispatch(changeState({ index: index, changeValue: 501 })), changeMySchedule(index, 501) }} />
                                                             </IconHoverBox>
                                                             :
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => {dispatch(changeState({ index: index, changeValue: 503 })), changeMySchedule(index, 503)}} />
+                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => { dispatch(changeState({ index: index, changeValue: 503 })), changeMySchedule(index, 503) }} />
                                                             </IconHoverBox>
                                                         }
                                                     </IconBox>
@@ -439,11 +441,11 @@ const ProjectPageLeftPanel = () => {
                                                         </IconHoverBox>
                                                         {item.subCategoryId === 503 ?
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faCheck} onClick={() => {dispatch(changeState({ index: index, changeValue: 501 })), changeMySchedule(index, 501)}} />
+                                                                <FontAwesomeIcon icon={faCheck} onClick={() => { dispatch(changeState({ index: index, changeValue: 501 })), changeMySchedule(index, 501) }} />
                                                             </IconHoverBox>
                                                             :
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => {dispatch(changeState({ index: index, changeValue: 503 })), changeMySchedule(index, 503)}} />
+                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => { dispatch(changeState({ index: index, changeValue: 503 })), changeMySchedule(index, 503) }} />
                                                             </IconHoverBox>
                                                         }
                                                     </IconBox>
