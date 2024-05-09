@@ -23,7 +23,8 @@ const TSDProjectContent = ({ whatInfo, isDark }) => {
           border: "1px solid #554BAC", // 투명한 테두리 설정
           borderRadius: "1.5rem",
           width: "100%",
-          overflowX: "auto",
+          overflowX: whatInfo === "일정" ? "" : "auto",
+          // overflowY: whatInfo === "일정" ? "auto" : "",
           backgroundColor: isDark
             ? GlobalColor.colors.primary_black50
             : "white",
@@ -33,7 +34,7 @@ const TSDProjectContent = ({ whatInfo, isDark }) => {
         {whatInfo == "팀원" && (
           <ProjectTeam isDark={isDark} setWhatUser={setWhatUser} />
         )}
-        {whatInfo == "일정" && <Todo />}
+        {whatInfo == "일정" && <Todo isDark={isDark} />}
         <AnimatePresence>
           {whatUser && (
             <TSDUserModal whatUser={whatUser} setWhatUser={setWhatUser} />

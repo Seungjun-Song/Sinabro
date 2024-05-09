@@ -3,7 +3,7 @@ import { useState } from "react";
 import { GlobalColor } from "../../services/color";
 
 const TSDProjectInfo = ({ whatInfo, setWhatInfo,isDark }) => {
-  const list = ["설명", "팀원", "일정"];
+  const list = ["설명", "팀원", "일정" ,"소나큐브"];
 
   return (
     <AnimatePresence>
