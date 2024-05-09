@@ -99,17 +99,12 @@ public class SonarQubeController {
         String doTransition = dto.getIssueStatus();
 
         StringBuilder request = new StringBuilder();
-        request.append("http://k10e103.p.ssafy.io:9000/api/issues/bulk_change");
-        StringBuilder jsonBody = new StringBuilder();
-        jsonBody.append("{").append("\n")
-                .append("\"issues\":\"").append(issues).append("\",\n")
-                .append("\"do_transition\":\"").append("resolve").append("\",\n")
-                .append("\"resolution\":\"").append("FIXED")
-                .append("\"\n}");
+        request.append("http://k10e103.p.ssafy.io:9000/api/issues/bulk_change?")
+                .append("issues=").append(issues).append("&")
+                .append("do_transition=").append(doTransition);
 
-        System.out.println("jsonBody = " + jsonBody);
 
-        String responseBody = getResponseBody(request, HttpMethod.POST, jsonBody.toString());
+        String responseBody = getResponseBody(request, HttpMethod.POST, "");
         System.out.println("responseBody = " + responseBody);
 
         return null;
