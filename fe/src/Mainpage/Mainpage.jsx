@@ -11,7 +11,9 @@ import data from "./data";
 import { AnimatePresence, motion, useIsPresent } from "framer-motion";
 import { useEffect } from "react";
 import { GlobalColor } from "../services/color";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import getEnv from "../utils/getEnv";
+import { setMyProjectList } from "../store/myProjectListSlice";
 
 const Mainpage = () => {
   const isDark = useSelector(state =>state.isDark.isDark)
@@ -37,6 +39,24 @@ const Mainpage = () => {
   // // accessToken 값을 가져오기
   // const accessToken = urlParams.get("accessToken");
   // console.log(accessToken); // 예: "37173713"
+
+  const back_url = getEnv('BACK_URL')
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const getMyProjects = async () => { // 작동하는지 확인
+      try {
+        const res = await axios.get(`${back_url}/members/projects`) 
+        console.log(res.data)
+        dispatch(setMyProjectList(res.data))
+      }
+      catch (err) {
+        console.error(err)
+      }
+    }
+    getMyProjects()
+  }, [])
+
   return (
     <>
       <Navbar />

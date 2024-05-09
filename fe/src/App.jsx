@@ -80,7 +80,7 @@ const App = () => {
       <Route path="/communityMainPage" element={<CommunityMainPage/>}/>
       <Route path="/createPost" element={<CreatePost/>}/>
       <Route path="/communityDetail" element={<DetailMainPage/>}/>
-      <Route path="/TeamSpaceDetailPage" element={<TeamSpaceDetailPage />} />
+      <Route path="/TeamSpaceDetailPage/:projectId" element={<TeamSpaceDetailPage />} />
       <Route path="/Mainpage" element={<Mainpage />} />
       <Route path="/project/:roomId" element={<ProjectPage />} />
       <Route path="/calender" element={<Calender />} />

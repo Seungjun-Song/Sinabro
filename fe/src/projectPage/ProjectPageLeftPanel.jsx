@@ -313,6 +313,22 @@ const ProjectPageLeftPanel = () => {
         dispatch(removeToDoItem(idx))
     }
 
+    const changeMySchedule = async (idx, state) => { // 수정 되는지 확인 필요
+        const calenderIdToRemove = toDoList[idx]?.calenderId
+
+        try {
+            const res = await axios.put(`${back_url}/schedules`, {
+                calenderId: calenderIdToRemove,
+                projectId: projectRoomId,
+                subCategoryId: state
+            })
+            console.log(res.data)
+        }
+        catch (err) {
+            console.error(err)
+        }
+    }
+
     const fromatDated = (date) => {
         const year = date.getFullYear();
         const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고, 두 자리로 만들기 위해 padStart 사용
@@ -376,11 +392,11 @@ const ProjectPageLeftPanel = () => {
                                                         </IconHoverBox>
                                                         {item.subCategoryId === 503 ?
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: 501 }))} />
+                                                                <FontAwesomeIcon icon={faCheck} onClick={() => {dispatch(changeState({ index: index, changeValue: 501 })), changeMySchedule(index, 501)}} />
                                                             </IconHoverBox>
                                                             :
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: 503 }))} />
+                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => {dispatch(changeState({ index: index, changeValue: 503 })), changeMySchedule(index, 503)}} />
                                                             </IconHoverBox>
                                                         }
                                                     </IconBox>
@@ -422,11 +438,11 @@ const ProjectPageLeftPanel = () => {
                                                         </IconHoverBox>
                                                         {item.subCategoryId === 503 ?
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faCheck} onClick={() => dispatch(changeState({ index: index, changeValue: 501 }))} />
+                                                                <FontAwesomeIcon icon={faCheck} onClick={() => {dispatch(changeState({ index: index, changeValue: 501 })), changeMySchedule(index, 501)}} />
                                                             </IconHoverBox>
                                                             :
                                                             <IconHoverBox style={{ marginTop: 'auto', marginBottom: '1rem', color: '#564CAD', cursor: 'pointer' }}>
-                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => dispatch(changeState({ index: index, changeValue: 503 }))} />
+                                                                <FontAwesomeIcon icon={faSpinner} onClick={() => {dispatch(changeState({ index: index, changeValue: 503 })), changeMySchedule(index, 503)}} />
                                                             </IconHoverBox>
                                                         }
                                                     </IconBox>
