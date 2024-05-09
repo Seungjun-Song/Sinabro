@@ -1,3 +1,37 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c3c97e25637d80ca5b45d2a3f8c715af2981299bc8d21d2eb0a6fe9584b9fc0c
-size 773
+package com.HP50.be.domain.payment.entity;
+
+import com.HP50.be.domain.member.entity.Member;
+import com.HP50.be.domain.project.entity.Project;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer paymentId;
+
+    @Column
+    private Integer paymentAmount;
+
+    @Column
+    private String paymentField;
+
+    @Column
+    private String paymentMethod;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDttm;
+
+    @OneToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+}

@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:22624729e735b09f4a1cc199d1c19cbec1d2f700e564e396efdf0834d76aad9e
-size 415
+package com.HP50.be.domain.community.service;
+
+import com.HP50.be.domain.community.dto.CommentRequestDto;
+import com.HP50.be.global.common.BaseResponse;
+import com.HP50.be.global.common.StatusCode;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+public interface CommentService {
+    ResponseEntity<BaseResponse<StatusCode>> save(CommentRequestDto commentRequestDto);
+}
