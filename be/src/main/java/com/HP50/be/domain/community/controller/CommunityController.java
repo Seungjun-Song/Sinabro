@@ -54,12 +54,17 @@ public class CommunityController {
     }
 
     @Operation(summary = "상세 게시글 조회")
-    @GetMapping("/{boardId}")
-    public ResponseEntity<BaseResponse<BoardDetailResponseDto>> findBoardDetail(
-            @PathVariable Integer boardId
-            ){
+    @GetMapping("/boards/{boardId}")
+    public ResponseEntity<BaseResponse<BoardDetailResponseDto>> findBoardDetail(@PathVariable Integer boardId){
         return boardService.findBoardDetail(boardId);
     }
+
+    @Operation(summary = "게시글의 댓글 조회")
+    @GetMapping("/comments/{boardId}")
+    public ResponseEntity<BaseResponse<List<CommentResponseDto>>> findCommentInBoard(@PathVariable Integer boardId){
+        return ResponseEntity.ok().body(new BaseResponse<>(commentService.findCommentInBoard(boardId)));
+    }
+
 
     @Operation(summary = "게시물 삭제")
     @DeleteMapping("/boards/{boardId}")

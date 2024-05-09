@@ -36,7 +36,7 @@ public class Board extends BaseTimeEntity {
     @JoinColumn(name= "subcategory_id")
     private SubCategory subCategory;
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     @Column(length = 500)
