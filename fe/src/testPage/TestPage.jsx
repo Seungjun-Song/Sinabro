@@ -55,7 +55,7 @@ const TestPage = () => {
                 <button onClick={() => navigate('/mypage')}>마이 페이지</button>
                 <button onClick={() => navigate('/TeamSpacePage')}>팀스페이스 페이지</button>
                 <button onClick={() => navigate(`/project/${roomId}`)}>프로젝트 페이지</button>
-                <button onClick={() => navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } })}
+                <button onClick={() => navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } })}></button>
                 <button onClick={() => navigate(`/project/${roomId}`)}>프로젝트 페이지</button>
                 <button onClick={() => navigate('/communityMainPage', { state: { kind: "member", page: 1 } })}>커뮤니티</button>
                 <button onClick={() => navigate('/TeamSpaceDetailPage')}>팀스페이스 디테일 페이지</button>
