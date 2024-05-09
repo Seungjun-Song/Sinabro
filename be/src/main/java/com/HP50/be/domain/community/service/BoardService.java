@@ -1,22 +1,3 @@
-package com.HP50.be.domain.community.service;
-
-import com.HP50.be.domain.community.dto.*;
-import com.HP50.be.domain.community.entity.Board;
-import com.HP50.be.global.common.BaseResponse;
-import com.HP50.be.global.common.StatusCode;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
-
-public interface BoardService {
-    ResponseEntity<BaseResponse<StatusCode>> insertBoard(String token, BoardInsertRequestDto boardInsertRequestDto);
-    ResponseEntity<BaseResponse<BoardDetailResponseDto>> findBoardDetail(Integer boardId);
-    BoardPaginationResponseDto findByConditions( Integer catBoard,
-                                                 Integer catCalender,
-                                                 Integer catJob,
-                                                 String keyword,
-                                                 int page);
-    Board findById(Integer boardId);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:fc34ab19be0253aabca1003688626d79aeab12370492fb26e1e467c434ddcc37
+size 1021
