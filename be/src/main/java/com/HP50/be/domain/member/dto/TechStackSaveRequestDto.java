@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8d1f0d195a7d4e73d6694fcc14d2206ad35f5660a0792a1cfc3371172230b924
-size 361
+package com.HP50.be.domain.member.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class TechStackSaveRequestDto {
+    @Schema(example = "101")
+    private Integer subCategoryId;
+}
