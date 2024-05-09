@@ -161,7 +161,7 @@ const Post = ({post, kind, isDark}) => {
             </MainInfo>
 
             <Content>
-                {post.content}
+            {new DOMParser().parseFromString(post.content, "text/html").body.textContent}
             </Content>
 
             <PlusInfo>

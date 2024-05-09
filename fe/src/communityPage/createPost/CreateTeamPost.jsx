@@ -142,7 +142,7 @@ const CreateTeamPost = ({ isdark, postContent, setPostContent }) => {
     const submit = () =>{
         
         axios.post(`${back_url}/communities`, {
-            boardId: 0,
+            boardId: postContent.id,
             boardTitle: postContent.title,
             boardContent: postContent.content,
             boardImg: "https://firebase.com/v4/jbbbejqhuabsaskdb.jpg",

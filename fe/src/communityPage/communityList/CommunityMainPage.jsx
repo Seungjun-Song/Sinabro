@@ -12,6 +12,7 @@ import CommunityFeadBackPage from './CommunityFeadbackPage';
 import Pagination from './Pagination';
 import { GlobalColor } from '../../services/color';
 import getEnv from '../../utils/getEnv';
+import CalTime from '../CalTime';
 
 const Community = styled.div`
 display: flex;
@@ -53,14 +54,20 @@ const CommunityMainPage = () => {
             const totalData = res.data.result.boardListResponseDto;
             setPostList([]);
             console.log(totalData);
+
             totalData.forEach((data, index) => {
+                //시간 계산해서 넣기
+                //오늘 올라온거라면 n시간 전, n분 전 표시
+                const fullDate = new Date(data.updatedDttm);
+                const finalDate = CalTime(fullDate);
+
                 const newPost = {
                     id: data.boardId,
                     title: data.boardTitle,
                     content: data.boardContent,
                     hash: ["spring boot", "커피", "백엔드"],
                     writer: data.memberName,
-                    time: data.updateDttm,
+                    time: finalDate,
                     proceed: data.communityProgress,
                 };
 

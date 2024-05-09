@@ -180,11 +180,10 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
 
     const submit = () =>{
         //태그 정리
-        const tagList = postContent.tag.split(" ");
+        //const tagList = postContent.tag.split(" ");
         //console.log(tagList);
-
         axios.post(`${back_url}/communities`, {
-            boardId: 0,
+            boardId: postContent.id,
             boardTitle: postContent.title,
             boardContent: postContent.content,
             boardImg: "https://firebase.com/v4/jbbbejqhuabsaskdb.jpg",
@@ -194,7 +193,7 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
             requiredbackEnd: 2, //parseInt(jobInfo[0].target),
             requiredFrontEnd: 1, //parseInt(jobInfo[1].target),
             requiredFullStack: 0,
-            boardTag: tagList,
+            boardTag: ["kk", "kkl"],
         },
         {withCredentials: true}
         )

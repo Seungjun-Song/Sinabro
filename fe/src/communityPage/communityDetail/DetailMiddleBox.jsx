@@ -73,7 +73,7 @@ const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
         {...middleMotion}
     >
         <Content>
-            {detailData.content}
+            {new DOMParser().parseFromString(detailData.content, "text/html").body.textContent}
         </Content>
         <Bottom>
             <Hashs>

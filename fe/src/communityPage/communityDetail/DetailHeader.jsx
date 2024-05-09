@@ -151,7 +151,7 @@ const DetailHeader = ({kind, detailData, isDark}) => {
             {detailData.memberId === userInfo.uid &&
                 <Buttons>
                 <ModifyButton
-                    onClick={() => navigate('/createPost', {state: {kind: kind}})}
+                    onClick={() => navigate('/createPost', {state: {kind: kind, isCreate: false, detailData: detailData}})}
                 >
                     수정
                 </ModifyButton>

@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components'
 import { motion } from "framer-motion"
 import { useSelector } from "react-redux";
@@ -85,10 +85,23 @@ const CreatePage = () => {
 
     const [ selected, setSelected ] = useState({id: data.kind.id, name: data.kind.name});
     const [ postContent, setPostContent ] = useState({
+        id: 0,
         title: '',
         content: '',
         tag: ''
     });
+
+    useEffect(() => {
+        if(!data.isCreate){
+            const post = data.detailData;
+            setPostContent({
+                id: post.id,
+                title: post.title,
+                content: post.content,
+                tag: ["임시", "데이터"],
+            })
+        }
+    }, [])
 
     const isdark = useSelector(state =>state.isDark.isDark);
 
