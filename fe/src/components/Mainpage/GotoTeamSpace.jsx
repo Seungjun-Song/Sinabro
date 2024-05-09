@@ -118,7 +118,7 @@ export default (props) => {
 
         <div className="slideC">
           {props.data.map((item, i) => (
-            <React.Fragment key={item.id}>
+            <React.Fragment key={item.projectId}>
               <motion.div
                 whileHover={{
                   cursor: "pointer",
@@ -140,7 +140,7 @@ export default (props) => {
                 <div
                   className="reflection"
                   style={{
-                    backgroundImage: `linear-gradient(to bottom,  rgba(255, 255, 255, 0.678), rgb(255, 255, 255)), url('${item.img}')`,
+                    backgroundImage: `linear-gradient(to bottom,  rgba(255, 255, 255, 0.678), rgb(255, 255, 255)), url('${item.projectImg}')`,
                     transform: "scaleY(-1)",
                     ...getStyles(i),
                   }}
@@ -177,7 +177,7 @@ const SliderContent = (props) => {
   //   console.log(props);
   return (
     <div className="sliderContent">
-      <img style={{ width: "12rem", height: "12rem" }} src={props.img} />
+      <img style={{ width: "12rem", height: "12rem" }} src={props.projectImg} />
     </div>
   );
 };

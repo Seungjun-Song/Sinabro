@@ -90,7 +90,7 @@ const InfoTag = styled.div`
   flex-wrap: wrap;
 `;
 
-const MyPageSidePanel = ({ isDark }) => {
+const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
   const [selectedImage, setSelectedImage] = useState(
     "/images/default_my_image.png"
   );
@@ -117,10 +117,12 @@ const MyPageSidePanel = ({ isDark }) => {
       exit={{ opacity: 0, y: 5 }}
       transition={{ duration: 0.3 }}
     >
-      <SkillArea>Fix Plz</SkillArea>
+      <SkillArea>{userfind.memberJob}</SkillArea>
       <MyImage src={selectedImage} />
-      <MyName style={{ color: isDark ? "white" : "black" }}>Fix Plz</MyName>
-      <WithOur>Fix Plz</WithOur>
+      <MyName style={{ color: isDark ? "white" : "black" }}>
+        {userfind.nickname}
+      </MyName>
+      <WithOur></WithOur>   
       <EditButton>
         <input
           type="file"
@@ -137,13 +139,17 @@ const MyPageSidePanel = ({ isDark }) => {
             color={isDark ? "white" : "black"}
           />
           <InfoTag style={{ color: isDark ? "white" : "black" }}>
-            https://github.com/fixplz
+            {userfind.memberGit}
           </InfoTag>
         </MyInfoInnerBox>
         <MyInfoInnerBox>
-          <FontAwesomeIcon icon={faAt} size="2xl" color={isDark ? "white" : "black"} />
+          <FontAwesomeIcon
+            icon={faAt}
+            size="2xl"
+            color={isDark ? "white" : "black"}
+          />
           <InfoTag style={{ color: isDark ? "white" : "black" }}>
-            fixplz@fix.plz
+            {userfind.memberEmail == null ? "None" : userfind.memberEmail}
           </InfoTag>
         </MyInfoInnerBox>
       </MyInfoBox>

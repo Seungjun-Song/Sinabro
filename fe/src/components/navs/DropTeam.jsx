@@ -44,7 +44,7 @@ const DropTeam = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const myProjectList = useSelector(state => state.myProjectList.value) // 잘 들어오는지 확인, 페이지 이동 잘 되는지 확인
-
+  // console.log(myProjectList)
   //TODO : team list를 받아 와야함
   // const teamList = [
   //   {
@@ -104,7 +104,7 @@ const DropTeam = () => {
           }}
           initial="hidden"
           animate="visible"
-        transition={{delay : 0.2 * 3 , duration:0.2}}
+        transition={{delay : 0.1*(myProjectList.length+1) , duration:0.2}}
       >
         <Create onClick={() => navigate('/TeamSpacePage')}>
           프로젝트 생성하기
