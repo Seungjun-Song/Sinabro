@@ -41,7 +41,6 @@ public class SonarQubeController {
         sonarQubeService.executeSonarScanner(dto.getProjectId(),dto.getFolderName());
         return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
     }
-
     /**
      * 소나큐브 결과 상태 확인.
      * ok가 결과로 나온다면 소나큐브 작동 완료
