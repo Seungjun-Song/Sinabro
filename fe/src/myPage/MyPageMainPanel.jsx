@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 // Import scrollbar styles
 import "./scrollbar.css";
 import { GlobalColor } from "../services/color";
+import { useSelector } from "react-redux";
 const SearchContainerRightSide = styled.div`
   height: 100%;
   width: 2rem;
@@ -155,7 +156,6 @@ const MemoryGraphButton = styled.div`
   cursor: pointer;
 `;
 const SkillDetail = styled.div`
-  
   padding: 0.2rem;
   padding-left: 0.8rem;
   padding-right: 0.8rem;
@@ -234,14 +234,22 @@ const DUMMY_DATA = [
     img: "/images/pjt5.png",
   },
 ];
-const MyPageMainPanel = ({isDark}) => {
+const MyPageMainPanel = ({ isDark, userfind }) => {
   const [isSideBoxVisible, setIsSidePanelVisible] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [whatSearch, setWhatSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [choiceResults, setChoiceResults] = useState([]);
+  const initialChoiceResults =
+    userfind.techStacks &&
+    userfind.techStacks.length === 1 &&
+    userfind.techStacks[0] === null
+      ? []
+      : userfind.techStacks;
+  const [choiceResults, setChoiceResults] = useState(initialChoiceResults);
+  console.log(choiceResults);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+  const myProjectList = useSelector((state) => state.myProjectList.value); // 잘 들어오는지 확인, 페이지 이동 잘 되는지 확인
   const handleDelete = (item) => {
     // choiceResults에서 item.name과 같은 항목을 제외한 나머지를 새로운 배열로 만듭니다.
     const updatedResults = choiceResults.filter(
@@ -270,7 +278,7 @@ const MyPageMainPanel = ({isDark}) => {
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 5 }}
-        transition={{ duration: 0.3 ,delay:0.3}}
+        transition={{ duration: 0.3, delay: 0.3 }}
         style={{ height: "12rem" }}
       >
         <InnerText>Skills</InnerText>
@@ -286,9 +294,16 @@ const MyPageMainPanel = ({isDark}) => {
                   transition={{ duration: 0.3 }}
                 >
                   {" "}
-                  <SkillDetail style={{background: isDark ?GlobalColor.colors.primary_black50: "#f2f2f2" ,color: isDark ? "white" :"black"}}>
+                  <SkillDetail
+                    style={{
+                      background: isDark
+                        ? GlobalColor.colors.primary_black50
+                        : "#f2f2f2",
+                      color: isDark ? "white" : "black",
+                    }}
+                  >
                     {/* {없을 때 띄울 글자 생각해야함} */}
-                    {item.name}
+                    {item.subCategoryName}
                     <SkillDelBtn onClick={() => handleDelete(item)}>
                       X
                     </SkillDelBtn>
@@ -297,7 +312,17 @@ const MyPageMainPanel = ({isDark}) => {
               ))}
             </AnimatePresence>
 
-            <SearchInput style={{backgroundColor: isDark ? GlobalColor.colors.primary_black : "white",transition:"0.3s" , color:isDark ?"white" :"black"}} onChange={handleChange} value={whatSearch} />
+            <SearchInput
+              style={{
+                backgroundColor: isDark
+                  ? GlobalColor.colors.primary_black
+                  : "white",
+                transition: "0.3s",
+                color: isDark ? "white" : "black",
+              }}
+              onChange={handleChange}
+              value={whatSearch}
+            />
           </SearchContainerLeftSide>
           <SearchContainerRightSide>
             <SearchIcon icon={faSearch} />
@@ -335,7 +360,7 @@ const MyPageMainPanel = ({isDark}) => {
                   padding: "0 1rem",
                   height: "1.3rem",
                   fontSize: "1rem",
-                  color : isDark ?"white" :"black",
+                  color: isDark ? "white" : "black",
                   // backgroundColor: isDark ? GlobalColor.colors.primary_black50  : "white",
                 }}
                 key={index}
@@ -357,26 +382,33 @@ const MyPageMainPanel = ({isDark}) => {
         <InnerText>Works</InnerText>
         <InnerBox style={{ padding: "0", gap: "0" }}>
           {/* Works 내용 */}
-          {DUMMY_DATA.map((item, index) => (
+          {myProjectList.map((item, index) => (
             <PjtImg
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               key={index}
-              src={item.img}
-              transition={{ delay: index * 0.1+0.6 }} 
+              src={item.projectImg}
+              transition={{ delay: index * 0.1 + 0.6 }}
             />
           ))}
+          {myProjectList.length == 0 && (
+            <div style={{ padding: "1rem", fontSize: "1.2rem" }}>
+              아직 작업물이 없습니다. 시나브로와 함께해요!
+            </div>
+          )}
         </InnerBox>
       </InnerArea>
       <InnerArea>
-        <InnerText >Memory Graph</InnerText>
+        <InnerText>Memory Graph</InnerText>
         <MemoryGraphContainer>
           <MemoryGraphMainBox
             onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
           ></MemoryGraphMainBox>
           {isSideBoxVisible && (
             <MemoryGraphSideBox>
-              <MemoryGraphDescribeBox  style={{color:isDark ? "white" :"black"}}>
+              <MemoryGraphDescribeBox
+                style={{ color: isDark ? "white" : "black" }}
+              >
                 <h1>제목</h1>
                 내용내용내용내용내용내용 내용내용내용내용내용내용
                 내용내용내용내용내용내용 내용내용내용내용내용내용

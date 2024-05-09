@@ -57,7 +57,7 @@ const Jobs = ({kind}) => {
 
     return(
         <JobBox>
-            {kind == "member" && 
+            {kind.name == "member" && 
             <>
                 {memeberJobList.map((job, index) => (
                 <Job
@@ -73,7 +73,7 @@ const Jobs = ({kind}) => {
             
             </>}
             
-            {kind == "feadback" &&
+            {kind.name == "feadback" &&
             <>
                 {FeadbackJobList.map((job, index) => (
                 <Job

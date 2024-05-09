@@ -47,7 +47,7 @@ const ProceedOption = ({proceedOption, proceedToggle, setProceedOption, setProce
             whileHover={{ cursor: "pointer", y: -3}}
             isDark={isDark}
         >
-        {proceedOption}
+        {proceedOption.name}
         <motion.div
             transition={{ duration: 0.3}}
             animate={{rotate: proceedToggle ? 180 : 0}}

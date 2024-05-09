@@ -6,11 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { setUser } from "../store/userSlice";
+import getEnv from "../utils/getEnv";
 
 const Callback = () => {
     const [code, setCode ] = useState('');
 
     const userInfo = useSelector(state => state.user.currentUser);
+
+    const back_url = getEnv('BACK_URL');
 
     const navigate = useNavigate();
     const dispatch = useDispatch()
@@ -26,8 +29,8 @@ const Callback = () => {
     
             if(codeParam){
                 setCode(codeParam)
-                //axios.get(`http://localhost:8080/api/oauth2/${codeParam}`)
-                axios.get(`https://k10e103.p.ssafy.io/api/oauth2/${codeParam}`)
+                axios.get(`${back_url}/oauth2/${codeParam}`)
+                //axios.get(`https://k10e103.p.ssafy.io/api/oauth2/${codeParam}`)
                 .then((res) => {
                     // console.log(res.data)
                     // console.log(res.data.result.jwtAccessToken);

@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import styled, { css } from 'styled-components'
 import { motion } from "framer-motion";
+import axios from 'axios';
 
 import WriterImg from '/image/nav/tempPjtImg.png'
 import CommentBox from './CommentBox'
 
 import { GlobalColor } from '../../services/color';
+import getEnv from '../../utils/getEnv';
+import { useSelector } from 'react-redux';
 
 const Window = styled.div`
     display: flex;
@@ -82,35 +85,32 @@ const Comments = styled.div`
     margin: 0 0 2rem 0;
 `
 
-const CommentWindow = ({ isDark }) => {
-    const [count, setCount] = useState(0);
+const CommentWindow = ({ isDark, commentDate, boardId, setCommentDate }) => {
+    const [ newComment, setNewComment ] = useState("");
 
-    const commentDate = [
-        {
-            id: 1,
-            writerId: 64572911,
-            writerImg: WriterImg,
-            writerName: "이름이 깁니다",
-            content: "어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?어쩌라구요. 텍스트가 만약 길어진다면?",
-            date: "2024-01-01"
-        },
-        {
-            id: 2,
-            writerId: 1,
-            writerImg: WriterImg,
-            writerName: "seo",
-            content: "어쩌라구요",
-            date: "2024-01-01"
-        },
-        {
-            id: 2,
-            writerId: 1,
-            writerImg: WriterImg,
-            writerName: "eun",
-            content: "어쩌라구요",
-            date: "2024-01-01"
-        },
-    ]
+    const back_url = getEnv('BACK_URL')
+
+    const userInfo = useSelector(state => state.user.currentUser);
+    
+    const onChange= (data) =>{
+        setNewComment(data.target.value);
+    }
+
+    const submit = () => {
+        axios.post(`${back_url}/communities/comment`, {
+            "memberId": userInfo.uid,
+            "commentContent": newComment,
+            "boardId": boardId
+        })
+        .then(res => {
+            //성공 시 보여지는 것 갱신
+            setNewComment("")
+            console.log(boardId)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
 
     return(
         <Window>
@@ -120,7 +120,9 @@ const CommentWindow = ({ isDark }) => {
             <Inputzon>
                 <Input
                     placeholder='댓글을 입력해 프로젝트에 참여해보세요 ! '
-                    isDark={isDark}    
+                    isDark={isDark}   
+                    onChange={onChange} 
+                    value={newComment}
                 >
                         
                 </Input>
@@ -133,12 +135,13 @@ const CommentWindow = ({ isDark }) => {
                         border: "2px solid rgba(150, 143, 216, 1)",
                         
                     }}
+                    onClick={() => submit()}
                 >
                     등록
                 </Submit>
             </Inputzon>
             <Comments>
-                {commentDate.map((comment, index) => (
+                {commentDate && commentDate.length > 0 && commentDate.map((comment, index) => (
                     <CommentBox
                         comment={comment}
                         key={index}

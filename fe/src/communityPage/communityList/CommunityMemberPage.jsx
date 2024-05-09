@@ -102,7 +102,7 @@ const CommunityMemberPage = ({ isDark, postList, proceedOption, setProceedOption
                     proceedToggle={proceedToggle}
                     setProceedOption={setProceedOption}
                     setProceedToggle={setProceedToggle}
-                    kind={"member"}
+                    kind={{id: 401, name: "member"}}
                     isDark={isDark}
                 />
                 </div>
@@ -113,20 +113,20 @@ const CommunityMemberPage = ({ isDark, postList, proceedOption, setProceedOption
                     teamToggle={teamToggle}
                     setTeamOption={setTeamOption}
                     setTeamToggle={setTeamToggle}
-                    kind={"member"}
+                    kind={{id: 401, name: "member"}}
                     isDark={isDark}
                 />
                 </div>
                 </Option>
 
                 <WriteButton
-                    kind={"member"}
+                    kind={{id: 401, name: "member"}}
                     isDark={isDark}
                 />
             </Select>
 
             <Posts
-                kind={"member"}
+                kind={{id: 401, name: "member"}}
                 isDark={isDark}
                 postList={postList}
                 >

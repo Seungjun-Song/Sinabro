@@ -33,9 +33,8 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityTeamPage = ({isDark, postList}) => {
+const CommunityTeamPage = ({isDark, postList, proceedOption, setProceedOption}) => {
     const [searchWord, setSearchWord] = useState("");
-    const [proceedOption, setProceedOption] = useState("모집 중");
     const [proceedToggle, setProceedToggle] = useState(false);
 
     const proceedRef = useRef();
@@ -79,20 +78,20 @@ const CommunityTeamPage = ({isDark, postList}) => {
                     proceedToggle={proceedToggle}
                     setProceedOption={setProceedOption}
                     setProceedToggle={setProceedToggle}
-                    kind={"team"}
+                    kind={{id: 402, name: "team"}}
                     isDark={isDark}
                 />
                 </div>
 
                 </Option>
                 <WriteButton
-                    kind={"team"}
+                    kind={{id: 402, name: "team"}}
                     isDark={isDark}
                 />
             </Select>
 
             <Posts
-                kind={"team"}
+                kind={{id: 402, name: "team"}}
                 isDark={isDark}
                 postList={postList}
                 >
