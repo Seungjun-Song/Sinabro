@@ -46,7 +46,8 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
     const getProjectInfo = async () => {
       try {
         const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`)
-        const transformedTeamInfo = res.data.teammateInfoList.map(item => ({...item, teammateRole: convertTeammateRole(item.teammateRole)}))
+        console.log(res.data)
+        const transformedTeamInfo = res.data.teammateInfoList?.map(item => ({...item, teammateRole: convertTeammateRole(item.teammateRole)}))
         console.log(transformedTeamInfo)
         setTeamInfo(transformedTeamInfo)
       }
