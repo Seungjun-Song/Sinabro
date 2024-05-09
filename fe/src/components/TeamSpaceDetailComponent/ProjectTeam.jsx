@@ -56,7 +56,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
       }
     }
     getProjectInfo()
-  }, [])
+  }, [myCurrentProject])
 
   const convertTeammateRole = (originalRole) => {
     switch (originalRole) {
