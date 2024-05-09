@@ -8,6 +8,7 @@ import com.HP50.be.global.exception.BaseException;
 import com.HP50.be.global.jwt.JwtConstants;
 import com.HP50.be.global.jwt.JwtUtil;
 import io.jsonwebtoken.Jwt;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -91,4 +92,10 @@ public class ProjectController {
         return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
+
+    @Operation(summary = "우리 사이트에서 완성된 프로젝트 목록")
+    @GetMapping("/projects/{page}")
+    public ResponseEntity<BaseResponse<ProjectCompletedPaginationResponseDto>> getCompletedProjects(@PathVariable int page){
+        return ResponseEntity.ok().body(new BaseResponse<>(service.findProjectSliceSix(page)));
+    }
 }

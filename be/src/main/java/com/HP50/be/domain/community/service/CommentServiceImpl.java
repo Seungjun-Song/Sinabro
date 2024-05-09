@@ -49,7 +49,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentPaginationResponseDto findCommentInBoard(Integer boardId, int page) {
-        PageRequest pageRequest = PageRequest.of(page, 5);
+        PageRequest pageRequest = PageRequest.of(page, 10);
 
         Slice<Comment> comments = commentCustomRepository.findCommentByBoard(boardId, pageRequest);
 

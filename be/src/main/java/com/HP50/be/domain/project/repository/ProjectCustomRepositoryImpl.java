@@ -1,12 +1,17 @@
 package com.HP50.be.domain.project.repository;
 
+import com.HP50.be.domain.community.entity.Comment;
 import com.HP50.be.domain.project.dto.PjtTechInfo;
 import com.HP50.be.domain.project.dto.ProjectInfoDto;
 import com.HP50.be.domain.project.dto.TeammateInfo;
+import com.HP50.be.domain.project.entity.Project;
 import com.HP50.be.domain.project.entity.Teammate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,6 +27,7 @@ import static com.HP50.be.domain.project.entity.QTeammate.teammate;
 @RequiredArgsConstructor
 public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
     private final JPAQueryFactory queryFactory;
+    private final ProjectRepository projectRepository;
     @Override
     public ProjectInfoDto getTeamInfo(int projectId) {
         //1. 프로젝트 정보 가져오기
@@ -95,5 +101,23 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
                 .join(teammate.project, project)
                 .where(teammate.member.memberId.eq(memberId).and(teammate.project.projectId.eq(projectId)))
                 .fetchFirst() != null;
+    }
+
+
+    // 메인페이지에 표시될 이 사이트 완성된 프로젝트 목록
+    @Override
+    public Slice<Project> findProjectSliceSix(Pageable pageable) {
+        List<Project> results = queryFactory.selectFrom(project)
+                .where(project.endDttm.isNotNull())
+                .orderBy(project.endDttm.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize() + 1)
+                .fetch();
+
+        boolean hasNext = results.size() > pageable.getPageSize();
+
+        List<Project> projects = hasNext ? results.subList(0, pageable.getPageSize()) : results;
+
+        return new SliceImpl<>(projects, pageable, hasNext);
     }
 }

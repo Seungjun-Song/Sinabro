@@ -1,7 +1,13 @@
 package com.HP50.be.domain.project.service;
 
+import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.project.dto.*;
+import com.HP50.be.domain.project.entity.Project;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 public interface ProjectService {
     // 프로젝트 정보 확인
@@ -22,4 +28,6 @@ public interface ProjectService {
     void projectDarkMode(String token);
 
     ResponseEntity<?> getProjectListInMember(String token);
+
+    ProjectCompletedPaginationResponseDto findProjectSliceSix(int page);
 }
