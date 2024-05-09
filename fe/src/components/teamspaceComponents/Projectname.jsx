@@ -33,7 +33,7 @@ const Input = styled.input`
   background-color: ${(props) => (props.isDark ? "white" : "#564CAD")};
 
   &::placeholder {
-    color: ${props => props.isDark ? "none" : "white"};
+    color: ${props => props.isDark ? "none" : "#d2d2d2"};
   }
 `;
 
