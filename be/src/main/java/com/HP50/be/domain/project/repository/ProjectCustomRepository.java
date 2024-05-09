@@ -1,9 +1,3 @@
-package com.HP50.be.domain.project.repository;
-
-import com.HP50.be.domain.project.dto.ProjectInfoDto;
-
-public interface ProjectCustomRepository {
-    public ProjectInfoDto getTeamInfo(int projectId, int memberId);
-    //프로젝트 멤버인지 확인
-    public boolean isTeammate(int memberId,int projectId);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f83a5bd3b13fc8872d81c444334f7a02b6733007131faac5f2d21a6c2829f49f
+size 286
