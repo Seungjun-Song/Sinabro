@@ -71,6 +71,8 @@ export default function WebRTC() {
     const isDark = useSelector(state => state.isDark.isDark)
     const projectRoomId = useSelector(state => state.projectRoomId.value)
 
+    const userInfo = useSelector(state => state.user)
+
     const toggleDarkMode = () => {
         dispatch(toggleisDarkState())
     }
@@ -265,12 +267,13 @@ export default function WebRTC() {
                     <UserImage>
                         <UserVideoComponent
                             streamManager={publisher}
-                            path={'/images/user1.png'} />
+                            path={userInfo.currentUser.projectImg} />
                     </UserImage>
                 ) : null}
                 {subscribers.map((sub, i) => (
                     <UserImage key={sub.id}>
                         <UserVideoComponent streamManager={sub} path={'/images/user1.png'} />
+                        {console.log(sub)}
                     </UserImage>
                 ))}
             </NavRigthBox>
