@@ -23,7 +23,7 @@ const Detail = styled.div`
 
 const Line = styled.hr`
 `
-const DetailFeadback = ({ isDark, detailData }) => {
+const DetailFeadback = ({ isDark, detailData, commentDate, setCommentDate }) => {
 
     const projectData = {
         id: 1,
@@ -54,6 +54,9 @@ const DetailFeadback = ({ isDark, detailData }) => {
 
             <CommentWindow
                 isDark={isDark}
+                commentDate={commentDate}
+                setCommentDate={setCommentDate}
+                boardId={detailData.id}
             />
         </Detail>
     )

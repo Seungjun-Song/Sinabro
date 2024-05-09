@@ -21,7 +21,7 @@ const Detail = styled.div`
 `
 const Line = styled.hr`
 `
-const DetailMember = ({ isDark, detailData }) => {
+const DetailMember = ({ isDark, detailData, commentDate, setCommentDate }) => {
 
     const projectData = {
         id: 1,
@@ -29,7 +29,7 @@ const DetailMember = ({ isDark, detailData }) => {
         projectImg: PjtImg,
 
     }
-    
+
     return(
         <Detail
             isDark={isDark}
@@ -52,6 +52,9 @@ const DetailMember = ({ isDark, detailData }) => {
 
             <CommentWindow
                 isDark={isDark}
+                commentDate={commentDate}
+                setCommentDate={setCommentDate}
+                boardId={detailData.id}
             />
         </Detail>
     )

@@ -36,6 +36,7 @@ const DetailMainPage = () => {
 
     const [selected, setSelected] = useState({id: data.kind.id, name: data.kind.name});
     const [ post, setPost ] = useState({});
+    const [ commentDate, setCommentDate ] = useState([]);
     const postId = data.postId;
     const isDark = useSelector(state =>state.isDark.isDark);
     
@@ -49,6 +50,8 @@ const DetailMainPage = () => {
 
         const fullDate = new Date(getData.updatedDttm);
         const finalDate = CalTime(fullDate);
+
+       // console.log(getData.commentResponseDtos)
 
         setPost({
             id: getData.boardId,
@@ -64,11 +67,15 @@ const DetailMainPage = () => {
             kind: "member"
 
         })
+
+        //댓글
+        setCommentDate(getData.commentResponseDtos);
+
       })
       .catch(err => {
         console.log(err);
       })
-    }, [])
+    }, [commentDate])
 
     return (
         <>
@@ -86,6 +93,8 @@ const DetailMainPage = () => {
                 <DetailMember
                     isDark={isDark}
                     detailData={post}
+                    commentDate={commentDate}
+                    setCommentDate={setCommentDate}
                 />
             ) : ("")}
 
@@ -93,6 +102,8 @@ const DetailMainPage = () => {
                 <DetailTeam
                     isDark={isDark}
                     detailData={post}
+                    commentDate={commentDate}
+                    setCommentDate={setCommentDate}
                 />
             ) : ("")}
 
@@ -100,6 +111,8 @@ const DetailMainPage = () => {
                 <DetailFeadback
                     isDark={isDark}
                     detailData={post}
+                    commentDate={commentDate}
+                    setCommentDate={setCommentDate}
                 />
             ) : ("")}
         </Community>
