@@ -173,7 +173,7 @@ const Post = ({post, kind, isDark}) => {
                                 key={index}
                                 isDark={isDark}
                             >
-                                {tag}
+                                {tag.subCategoryName}
                             </Hash>
                         )
                     })}
