@@ -46,7 +46,7 @@ const Mainpage = () => {
   useEffect(() => {
     const getMyProjects = async () => { // 작동하는지 확인
       try {
-        const res = await axios.get(`${back_url}/members/projects`) 
+        const res = await axios.get(`${back_url}/members/projects`, {withCredentials: true})
         console.log(res.data.result)
         dispatch(setMyProjectList(res.data.result))
       }
