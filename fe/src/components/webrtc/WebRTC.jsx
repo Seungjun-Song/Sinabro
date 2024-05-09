@@ -267,7 +267,7 @@ export default function WebRTC() {
                     <UserImage>
                         <UserVideoComponent
                             streamManager={publisher}
-                            path={userInfo.currentUser.projectImg} />
+                            path={userInfo.currentUser.photoURL} />
                     </UserImage>
                 ) : null}
                 {subscribers.map((sub, i) => (

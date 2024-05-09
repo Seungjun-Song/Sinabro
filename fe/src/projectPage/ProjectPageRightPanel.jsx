@@ -108,7 +108,7 @@ const ProjectPageRightPanel = () => {
                 <ProjectPageRightPanelContainer isDark={isDark} className='hide-all-panel'>
                     <UpperBox>
                         <IconHoverBox isDark={isDark}>
-                            <FontAwesomeIcon icon={faChevronRight} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
+                            <FontAwesomeIcon icon={faChevronRight} onClick={handleSidePanel} style={{ cursor: 'pointer', color: isDark ? '#564CAD' : 'white' }} />
                         </IconHoverBox>
                         <ChatImgBox>
                             <IconHoverBox>
