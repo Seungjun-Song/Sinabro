@@ -1,6 +1,7 @@
 package com.HP50.be.domain.payment.entity;
 
 import com.HP50.be.domain.member.entity.Member;
+import com.HP50.be.domain.payment.dto.PaymentValidateDto;
 import com.HP50.be.domain.project.entity.Project;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,4 +41,12 @@ public class Payment {
     @OneToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
+    public void updatePayment(PaymentValidateDto validateDto,String paymentMethod, String paymentCard){
+        this.paymentMethod = paymentMethod;
+        this.paymentCard = paymentCard;
+        this.paymentImpUid = validateDto.getPaymentImpUid();
+        this.paymentStatus = PaymentStatus.OK;
+
+    }
 }
