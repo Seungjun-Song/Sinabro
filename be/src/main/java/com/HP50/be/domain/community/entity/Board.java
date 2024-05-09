@@ -7,6 +7,7 @@ import com.HP50.be.domain.project.entity.Project;
 import com.HP50.be.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,12 +57,23 @@ public class Board extends BaseTimeEntity {
     @Column(columnDefinition = "tinyint")
     private boolean communityProgress;
 
+    @Setter
     @Column
+    @ColumnDefault("0")
+    private Integer recruitedPeopleBackEnd;
+
+    @Setter
+    @Column
+    @ColumnDefault("0")
+    private Integer recruitedPeopleFrontEnd;
+
+    @Setter
+    @Column
+    @ColumnDefault("0")
     private Integer requiredPeopleBackEnd;
 
+    @Setter
     @Column
+    @ColumnDefault("0")
     private Integer requiredPeopleFrontEnd;
-
-    @Column
-    private Integer requiredPeopleFullStack;
 }
