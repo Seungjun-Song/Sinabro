@@ -298,12 +298,12 @@ const ProjectPageLeftPanel = () => {
         const calenderIdToRemove = toDoList[idx]?.calenderId
         console.log(calenderIdToRemove)
         console.log(projectRoomId)
-
+        const data = {
+            calenderId: calenderIdToRemove,
+            projectId: projectRoomId
+        }
         try {
-            const res = await axios.delete(`${back_url}/schedules`, { // 제대로 작동하는지 확인
-                calenderId: calenderIdToRemove,
-                projectId: projectRoomId
-            })
+            const res = await axios.delete(`${back_url}/schedules`, data)
             console.log(res.data)
         }
         catch (err) {
