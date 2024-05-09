@@ -67,7 +67,16 @@ public enum StatusCode {
     
     // Community(1100)
     NOT_EXIST_BOARD(false, 1101, "존재하지 않는 게시글입니다"),
-
+    //Payment(1200)
+    ALREADY_PAID(false,1201,"이미 결제한 프로젝트입니다."),
+    FAIL_SAVE_PAYMENT(false,1202,"결제 정보 저장에 실패했습니다."),
+    NOT_EQUAL_MEMBER(false,1203,"결제를 신청한 멤버와 실제 결제를 진행한 멤버가 다른 멤버입니다."),
+    NOT_EXIST_PAYMENT(false,1204,"결제 정보가 존재하지 않습니다"),
+    NOT_EQUAL_ACOUNT(false,1205,"결제 금액이 일치하지 않습니다"),
+    STATUS_IS_NOT_PAID(false,1206,"결제 상태가 알맞지 않습니다"),
+    FAIL_VALIDATE_PAYMENT(false, 1207, "결제 검증에 실패했습니다"),
+    NOT_EXIST_PORTONE(false, 1208,"포트원에서 존재하지 않는 결제건입니다"),
+    FAIL_PORTONE_RESPONSE(false, 1209,"포트원에서 결제건에 대한 요청을 실패했습니다."),
     // Jsch (1500)
     SESSION_CONNECT_FAIL(false, 1500, "Session 접속 실패"),
     CHANNEL_CONNECT_FAIL(false, 1501, "Channel 접속 실패"),

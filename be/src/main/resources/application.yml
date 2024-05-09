@@ -56,7 +56,6 @@ openvidu:
   url: ${OPENVIDU_URL}
   secret: ${OPENVIDU_SECRET}
 
-sonar:
-  host: ${SONAR_HOST}
-  user: ${SONAR_USER}
-  key: ${SONAR_KEY}
+portOne:
+    api: ${PORT_API}
+    secret: ${PORT_SECERET_API}
