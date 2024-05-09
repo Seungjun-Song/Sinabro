@@ -255,11 +255,11 @@ public class ProjectServiceImpl implements ProjectService{
         if(!jschUtil.executeCommand(session, isContainerExistsCommand)) {
             // 컨테이너가 존재하지 않으면 docker run 프로세스 실행
             log.info("컨테이너 없음");
-            runContainer(session, codeServerName, dbPort, repoUrl);
+            runContainer(session, codeServerName, dbPort);
         } else {
             // 컨테이너가 존재하면 docker start 프로세스 실행
             log.info("컨테이너 있음");
-            startContainer(session, codeServerName, repoUrl);
+            startContainer(session, codeServerName);
         }
 
         // 리버스 프록시 설정
@@ -267,6 +267,11 @@ public class ProjectServiceImpl implements ProjectService{
         if(!jschUtil.executeCommand(session, nginxUpdateCommand)) {
             throw new BaseException(StatusCode.NGINX_UPDATE_FAIL);
         }
+
+        // 동적 포트 할당 조회
+        String getPortCommand = "docker port " + codeServerName + " 3000";
+        String dynamicPort = jschUtil.executeCommandAndGetOutput(session, getPortCommand).split("\n")[0].split(":")[1];
+        log.info("dynamicPort : {}", dynamicPort);
 
         // 깃 클론 전 디렉토리 존재 여부 확인
         String checkDirCommand = "docker exec " + codeServerName + " /bin/bash -c '[ -d \"/home/coder/code-server/" + repoName + "\" ] && echo \"exists\" || echo \"not exists\"'";
@@ -291,6 +296,7 @@ public class ProjectServiceImpl implements ProjectService{
 
         return ProjectEnterDto.builder()
                 .url("https://k10e103.p.ssafy.io/" + codeServerName + "/?folder=/home/coder/code-server/" + repoName)
+                .previewUrl("http://k10e103.p.ssafy.io:" + dynamicPort)
                 .dbPort(dbPort)
                 .build();
     }
@@ -375,9 +381,9 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     // 컨테이너 생성 프로세스 
-    public void runContainer(Session session, String codeServerName, Integer dbPort, String repoUrl) {
+    public void runContainer(Session session, String codeServerName, Integer dbPort) {
         // 컨테이너 생성 및 실행
-        String runCommand = "docker run --name " + codeServerName + " -d -p :80 -p " + dbPort + ":3306 code-server --bind-addr=0.0.0.0:80";
+        String runCommand = "docker run --name " + codeServerName + " -d -p :80 -p :3000 -p " + dbPort + ":3306 code-server --bind-addr=0.0.0.0:80";
         if(!jschUtil.executeCommand(session, runCommand)) {
             throw new BaseException(StatusCode.CONTAINER_RUN_FAIL);
         }
@@ -399,7 +405,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     // 컨테이너 실행 프로세스
-    public void startContainer(Session session, String codeServerName, String repoUrl) {
+    public void startContainer(Session session, String codeServerName) {
         // 컨테이너 실행
         String startCommand = "docker start " + codeServerName;
         if(!jschUtil.executeCommand(session, startCommand)) {
