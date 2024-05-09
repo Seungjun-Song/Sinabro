@@ -12,6 +12,7 @@ const BtnContainer = styled.div`
     border-radius: 7px;
     padding: 1rem 3rem;
     margin-bottom: 5rem;
+    margin-top: 3rem;
     transition: transform 0.3s ease;
     &:hover {
         transform: scale(1.05);
