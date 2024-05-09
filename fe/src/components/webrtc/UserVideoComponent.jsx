@@ -1,26 +1,3 @@
-import React from 'react';
-import OpenViduVideoComponent from './OvVideo';
-import './UserVideo.css';
-
-export default function UserVideoComponent({ streamManager, path }) {
-
-    const getNicknameTag = () => {
-        // Gets the nickName of the user
-        return JSON.parse(streamManager.stream.connection.data).clientData;
-    }
-
-    return (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {streamManager !== undefined ? (
-                <div>
-                    {/* <div className="streamcomponent"> */}
-                    <div style={{ height: '0', width: '0' }}>
-                        <OpenViduVideoComponent streamManager={streamManager} />
-                    </div>
-                    {/* <div><p>{getNicknameTag()}</p></div> */}
-                    <img src={path} alt="" style={{ height: '40px', borderRadius: '50%' }} />
-                </div>
-            ) : null}
-        </div>
-    );
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:17bdd1d378e661bde1f5929668f7336b236ae0242913e028aa902df638941fc1
+size 951
