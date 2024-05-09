@@ -47,7 +47,7 @@ const TeamOption = ({teamOption, teamToggle, setTeamOption, setTeamToggle, kind,
             whileHover={{cursor: "pointer", y: -3}}
             isDark={isDark}
             >
-        {teamOption}
+        {teamOption.name}
         <motion.div
             transition={{ duration: 0.3}}
             animate={{rotate: teamToggle ? 180 : 0}}

@@ -1,9 +1,12 @@
 import styled from 'styled-components'
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from 'react'
+import axios from 'axios'
 
 import HoverInfoBox from './HoverInfoBox'
 import { useSelector } from 'react-redux'
+import CalTime from '../CalTime'
+import getEnv from '../../utils/getEnv'
 
 const Comment = styled(motion.div)`
     display: flex;
@@ -27,6 +30,8 @@ const WriterInfo = styled.div`
 `
 
 const WriterProfile = styled(motion.img)`
+    width: 2rem;
+    border-radius: 10rem;
 `
 
 const WriterName = styled.div`
@@ -59,13 +64,16 @@ const Content = styled.div`
 const PlusBox = styled.div`
     display: flex;
     justify-content: right;
-    gap: 1rem; 
+    gap: 0.4rem; 
 `
 
-const Date = styled.div`
+const DateBox = styled.div`
     text-align: right;
     //color: rgba(0, 0, 0, 0.5);
     font-size: 0.8rem;
+
+    padding-top: 0.3rem;
+
 `
 
 const DeleteButton = styled.div`
@@ -102,7 +110,11 @@ const CommentBox = ({comment, index}) => {
     const [ profileClick, setProfileClick ] = useState(false);
 
     const userInfo = useSelector(state => state.user.currentUser);
+    const back_url = getEnv('BACK_URL')
     
+    const fullDate = new Date(comment.createdDttm);
+    const finalDate = CalTime(fullDate);
+
     const hoverTurnOff = () =>{
       //  setHoverPointer(true);
         setHoverState(false);
@@ -124,7 +136,14 @@ const CommentBox = ({comment, index}) => {
     }
 
     const deleteComment = () => {
-
+        console.log(comment)
+        axios.delete(`${back_url}/communities/comments/${comment.commentId}`)
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     return(
@@ -138,25 +157,25 @@ const CommentBox = ({comment, index}) => {
                     />
                 )}
                 <WriterProfile
-                    src={comment.writerImg}
+                    src={comment.memberImg}
                     whileHover={{ cursor: "pointer", y : -3}}
                     onMouseEnter={() => hoverTurnOn()}
                     onClick={() => profileClickEvent()}
                 />
                 </ProfileBox>
                 <WriterName>
-                    {comment.writerName}
+                    {comment.memberName}
                 </WriterName>
             </WriterInfo>
             <CommentInfo>
                 <Content>
-                    {comment.content}
+                    {comment.commentContent}
                 </Content>
                 <PlusBox>
-                <Date>
-                    {comment.date}
-                </Date>
-                {comment.writerId === userInfo.uid &&
+                <DateBox>
+                    {finalDate}
+                </DateBox>
+                {comment.memberId === userInfo.uid &&
                     <DeleteButton
                         onClick={() => deleteComment()}
                     >
