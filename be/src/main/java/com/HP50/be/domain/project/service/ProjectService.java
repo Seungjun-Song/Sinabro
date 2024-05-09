@@ -27,7 +27,7 @@ public interface ProjectService {
     // 프로젝트 다크모드
     void projectDarkMode(String token);
 
-    ResponseEntity<?> getProjectListInMember(String token);
+    List<ProjectListResponseDto> getProjectListInMember(String token);
 
     ProjectCompletedPaginationResponseDto findProjectSliceSix(int page);
 }

@@ -42,17 +42,16 @@ public class BoardServiceImpl implements BoardService {
     private final JwtUtil jwtUtil;
 
     @Override
-    public ResponseEntity<BaseResponse<StatusCode>> insertBoard(String token, BoardInsertRequestDto boardInsertRequestDto) {
+    public void insertBoard(String token, BoardInsertRequestDto boardInsertRequestDto) {
 
         Board board = this.transferToBoard(token, boardInsertRequestDto);
         // 기존에 존재하는 엔티티라면 update
         // 존재하지 않았던 엔티티라면 save
         boardRepository.save(board);
-        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
     @Override
-    public ResponseEntity<BaseResponse<BoardDetailResponseDto>> findBoardDetail(Integer boardId) {
+    public BoardDetailResponseDto findBoardDetail(Integer boardId) {
         Board board = this.findById(boardId);
 
         // 문자열로 넘어온 json 처럼 생긴 데이터를 TagDto로 변환하는 로직
@@ -80,7 +79,7 @@ public class BoardServiceImpl implements BoardService {
             boardDetailResponseDto.setBoardId(board.getProject().getProjectId());
         }
 
-        return ResponseEntity.ok().body(new BaseResponse<>(boardDetailResponseDto));
+        return boardDetailResponseDto;
     }
 
     @Override

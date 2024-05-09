@@ -24,8 +24,8 @@ public class CategoryServiceImpl implements CategoryService{
     private final JwtUtil jwtUtil;
 
     @Override
-    public ResponseEntity<BaseResponse<?>> savePersonalDuty(String token, CategoryRequestDto dto) {
-        return categoryCustomRepository.savePersonalDuty(token, dto);
+    public void savePersonalDuty(String token, CategoryRequestDto dto) {
+        categoryCustomRepository.savePersonalDuty(token, dto);
     }
 
     @Override

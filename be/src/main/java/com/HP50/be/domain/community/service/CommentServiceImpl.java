@@ -29,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentCustomRepository commentCustomRepository;
 
     @Override
-    public ResponseEntity<BaseResponse<StatusCode>> save(CommentRequestDto commentRequestDto) {
+    public void save(CommentRequestDto commentRequestDto) {
         Member member = memberService.findById(commentRequestDto.getMemberId());
         Board board = boardService.findById(commentRequestDto.getBoardId());
         Comment comment = Comment.builder()
@@ -38,8 +38,6 @@ public class CommentServiceImpl implements CommentService {
                 .member(member)
                 .build();
         commentRepository.save(comment);
-
-        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
     @Override

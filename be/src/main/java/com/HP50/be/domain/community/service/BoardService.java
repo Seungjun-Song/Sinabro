@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 public interface BoardService {
-    ResponseEntity<BaseResponse<StatusCode>> insertBoard(String token, BoardInsertRequestDto boardInsertRequestDto);
-    ResponseEntity<BaseResponse<BoardDetailResponseDto>> findBoardDetail(Integer boardId);
+    void insertBoard(String token, BoardInsertRequestDto boardInsertRequestDto);
+    BoardDetailResponseDto findBoardDetail(Integer boardId);
     BoardPaginationResponseDto findByConditions( Integer catBoard,
                                                  Integer catCalender,
                                                  Integer catJob,
