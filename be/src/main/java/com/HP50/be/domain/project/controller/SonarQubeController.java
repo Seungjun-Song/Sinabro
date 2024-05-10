@@ -87,6 +87,8 @@ public class SonarQubeController {
      */
     @PostMapping("/scan/status")
     public ResponseEntity<Object> changeIssueStatus(@RequestBody IssueStatusDto dto){
+        // --- 파라미터 준비 start ------
+        // 키로 parameter 생성 start ( ,로 구분 )
         List<String> keyList = dto.getKeyList();
         StringBuilder sb=  new StringBuilder();
         int size = keyList.size();
@@ -96,18 +98,37 @@ public class SonarQubeController {
             if(i!=size-1) sb.append(",");
         }
         String issues=sb.toString();
+        // 키로 parameter 생성 end
         String doTransition = dto.getIssueStatus();
+        //--- 파라미터 준비 end ------
 
+        // URL 준비 start
         StringBuilder request = new StringBuilder();
         request.append("http://k10e103.p.ssafy.io:9000/api/issues/bulk_change?")
                 .append("issues=").append(issues).append("&")
                 .append("do_transition=").append(doTransition);
-
-
+        // URL 준비 end
+        
+        // 요청 보냄
         String responseBody = getResponseBody(request, HttpMethod.POST, "");
-        System.out.println("responseBody = " + responseBody);
+        // Json 파싱 start
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(responseBody).getAsJsonObject();
+        int total = jsonObject.get("total").getAsInt();
+        int success = jsonObject.get("success").getAsInt();
+        int ignored = jsonObject.get("ignored").getAsInt();
+        int failures = jsonObject.get("failures").getAsInt();
+        // Json 파싱 end
 
-        return null;
+        // 반환 DTO 작성
+        SonarqubeBulkChangeResponse result = SonarqubeBulkChangeResponse.builder()
+                .total(total)
+                .success(success)
+                .ignored(ignored)
+                .failures(failures)
+                .build();
+
+        return ResponseEntity.ok(new BaseResponse<>(result));
     }
 
 
@@ -125,7 +146,9 @@ public class SonarQubeController {
         JsonParser parser = new JsonParser();
         return parser.parse(responseBody).getAsJsonObject();
     }
-
+    /*
+        응답 처리
+     */
     @NotNull
     private static String getResponseBody(StringBuilder sb,HttpMethod httpMethod,String jsonBody) {
         //헤더 설정
