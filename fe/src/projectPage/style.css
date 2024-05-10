@@ -1,11 +1,3 @@
-@media (max-width: 1200px) {
-    .hide-content-text {
-        display: none;
-    }
-}
-
-@media (max-width: 850px) {
-    .hide-all-panel {
-        display: none;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:1b9cf4696874dc395674d2d1bbe3103019fce6e16034bd0dba2313cc99bf4427
+size 237
