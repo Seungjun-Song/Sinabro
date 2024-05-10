@@ -25,6 +25,7 @@ public class PjtTechStackCustomRepositoryImpl implements PjtTechStackCustomRepos
                 .where(teammate.project.projectId.eq(projectId))
                 .fetch();
 
+        // 기술스택의 이름으로 distinct 를 진행해서 해당 프로젝트에 참여한 사람의 기술 스택을 중복제거하여 이름만 제공
         List<String> distinctNames = queryFactory.select(pjtTechStack.subcategoryName)
                 .where(pjtTechStack.teammate.in(teammateList))
                 .from(pjtTechStack)
