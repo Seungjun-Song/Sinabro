@@ -41,9 +41,23 @@ const ToggleBox = styled.div`
   gap: 1rem;
 `
 
+const SelectedTeamBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  width: 10rem;
+
+  background: rgba(245, 248, 255, 1);
+  text-align: center;
+  margin: 0.5rem auto 0 auto;
+  padding: 0.5rem auto 0.5rem auto;
+
+`
+
 const DropDownButton = styled.div``;
 
-const TeamChoiceBox = () => {
+const TeamChoiceBox = ({ selectedPjt, setSelectedPjt, myProjectList }) => {
     const [dropDown, setDropDown] = useState(false);
 
     const teamRef = useRef();
@@ -60,21 +74,6 @@ const TeamChoiceBox = () => {
           document.removeEventListener("mousedown", handleClikcOutside);
       }
   }, [setDropDown]);
-
-    const teamList = [
-        {
-          id: 1,
-          name: "7lans",
-          pjtimg: "",
-          date: "2024-02-01",
-        },
-        {
-          id: 2,
-          name: "minuet",
-          pjtimg: "",
-          date: "2024-02-01",
-        },
-    ];
     
     return(
         <TeamChoice
@@ -107,9 +106,19 @@ const TeamChoiceBox = () => {
                   animate="visible"
                   exit="hidden"
                 >
-                  <TeamListBox />
+                  <TeamListBox
+                    selectedPjt={selectedPjt}
+                    setSelectedPjt={setSelectedPjt}
+                    myProjectList={myProjectList}
+                  />
                 </motion.div>
               )}
+              {selectedPjt.id !== -1 && !dropDown &&
+                <SelectedTeamBox>
+                  <img src={selectedPjt.projectImg} style={{height: '3rem', borderRadius: '10rem', marginRight: '1rem'}}></img>
+                    {selectedPjt.name}
+                </SelectedTeamBox>
+              }
             </AnimatePresence>
           </DropDownPage>
         </TeamChoice>
