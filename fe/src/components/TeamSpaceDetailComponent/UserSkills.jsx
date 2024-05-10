@@ -42,7 +42,7 @@ const DUMMY_DATA = [
   },
 ];
 
-const UserSkills = ({}) => {
+const UserSkills = ({whatUser}) => {
   return (
     <motion.div
       className="col-12"
@@ -66,7 +66,7 @@ const UserSkills = ({}) => {
         hidden: { opacity: 0 },
       }}
     >
-      {DUMMY_DATA.map((item, index) => (
+      {whatUser.techStack.map((item, index) => (
         <motion.div
           key={item.id}
           variants={{
@@ -81,7 +81,7 @@ const UserSkills = ({}) => {
             alignItems: "center",
           }}
         >
-          <UserSkill skill={item.skill} />
+          <UserSkill item={item} />
         </motion.div>
       ))}
     </motion.div>

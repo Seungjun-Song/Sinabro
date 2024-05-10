@@ -5,7 +5,11 @@ import { useState } from "react";
 import { GlobalColor } from "../../services/color";
 const ProjectCard = ({ item ,isDark}) => {
   const [isHover, setIsHover] = useState(false);
-  
+  // console.log(item)
+  const renderHtml = (htmlString) => {
+    console.log(htmlString)
+    return { __html: htmlString };
+  };
   return (
     <>
       <div
@@ -49,7 +53,7 @@ const ProjectCard = ({ item ,isDark}) => {
               marginTop: "0.8rem",
             }}
           >
-            {/* {item.startday}~{item.endday} */}
+            {item.createdDt}~{item.endDt}
           </h5>
           {/* <div style={{ height: "5rem" }}>{item.projectinfo}</div> */}
           <div
@@ -60,22 +64,25 @@ const ProjectCard = ({ item ,isDark}) => {
               height: "3rem",
             }}
           >
-            {/* {item.skills.map((skill, index) => (
+            {item.techStackResponseDtoList.map((skill, index) => (
               <div
                 key={index}
                 className="shadow"
                 style={{
                   backgroundColor: "#909EE7",
                   color: "white",
-                  padding: "0.25rem 0.64rem",
-                  fontSize: "0.75rem",
+                  padding: "0rem .64rem",
+                  fontSize: "0.7rem",
                   borderRadius: "1rem",
-                  height: "1.5rem",
+                  height: "1.2rem",
+                  display:"flex",
+                  justifyContent:"center",
+                  alignItems:"center",
                 }}
               >
-                {skill}
+                {skill.techStackName}
               </div>
-            ))} */}
+            ))}
           </div>
           <AnimatePresence>
             {isHover && (
@@ -113,7 +120,7 @@ const ProjectCard = ({ item ,isDark}) => {
                     marginTop: "0.8rem",
                   }}
                 >
-                  {item.startday}~{item.endday}
+                  {item.createdDt}~{item.endDt}
                 </h5> */}
                 <motion.div
                   transition={{ duration: 0.2, delay: 0.4 }}
@@ -122,7 +129,7 @@ const ProjectCard = ({ item ,isDark}) => {
                   exit={{ y: 10, opacity: 0 }} // 사라질 때 opacity를 0으로 설정
                   style={{ width: "100%", height: "80%", overflow: "auto" }}
                 >
-                  {item.projectInfo}
+                  <div>{item.projectInfo.replace(/<br\s*[/]?>/gi, '\n')}</div>
                 </motion.div>
                 <motion.div
                   transition={{ duration: 0.2, delay: 0.6 }}

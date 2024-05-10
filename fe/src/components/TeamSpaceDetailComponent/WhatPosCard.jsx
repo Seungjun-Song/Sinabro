@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-const WhatPosCard = ({ item, state, name, setWhatUser ,isDark}) => {
+const WhatPosCard = ({ item, state, name, setWhatUser ,isDark ,memberImg,techStack,teammateRole,memberId}) => {
   const getColor = (item) => {
     // 여기에 item에 따라 적절한 색상을 반환하는 조건을 추가하세요
     // 예를 들어, item이 "A"일 때는 빨간색, "B"일 때는 파란색 등등...
@@ -27,7 +27,7 @@ const WhatPosCard = ({ item, state, name, setWhatUser ,isDark}) => {
     <>
       <motion.div
       layout
-        onClick={() => setWhatUser({ item: item, name: name, state: state })}
+        onClick={() => setWhatUser({ item: item, name: name, state: state,techStack:techStack,memberImg:memberImg ,teammateRole:teammateRole,memberId:memberId})}
         whileHover={{ cursor: "pointer", y: -7 }}
         className="shadow d-flex gap-3 "
         style={{
@@ -43,7 +43,7 @@ const WhatPosCard = ({ item, state, name, setWhatUser ,isDark}) => {
           backgroundColor :isDark ? "#323232" :"white"
         }}
       >
-        <img style={{ width: "6rem" }} src="/images/juheon.png" />
+        <img style={{ width: "6rem" }} src={memberImg} />
         <div style={{ color: getJobColor(item) }}>{state}</div>
         <h5 style={{ margin: 0 , color : isDark ? "white" :"black"}}>{name}</h5>
       </motion.div>
