@@ -123,6 +123,7 @@ public class SonarQubeServiceImpl implements SonarQubeService{
                 .page(page)
                 .totalPage(totalPage)
                 .effortTotal(effortTotal)
+                .total(total)
                 .issues(new ArrayList<>()).build();
 
         //이슈 하나씩 관리
