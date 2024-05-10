@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/memo")
 @RequiredArgsConstructor
@@ -17,7 +19,7 @@ public class MemoController {
 
     private final MemoService memoService;
     @GetMapping
-    public Flux<Memo> findAll(@AuthenticationPrincipal CustomOAuth2MemberDto dto){
+    public List<Memo> findAll(@AuthenticationPrincipal CustomOAuth2MemberDto dto){
         System.out.println(dto);
         return this.memoService.findAll();
     }
