@@ -3,6 +3,7 @@ package com.HP50.be.domain.payment.entity;
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.payment.dto.PaymentValidateDto;
 import com.HP50.be.domain.project.entity.Project;
+import com.HP50.be.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Payment {
+public class Payment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer paymentId; //자체 생성 ID
@@ -33,10 +34,6 @@ public class Payment {
 
     @Column
     private PaymentStatus paymentStatus; //상태
-
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdDttm;
 
     @OneToOne
     @JoinColumn(name = "project_id")
