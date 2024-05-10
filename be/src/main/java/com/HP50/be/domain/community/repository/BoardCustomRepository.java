@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.data.domain.Pageable;
 import java.util.List;
+import java.util.Random;
 
 import static com.HP50.be.domain.community.entity.QBoard.board;
 
@@ -71,4 +72,13 @@ public class BoardCustomRepository {
 
         return new SliceImpl<>(boardList, pageable, hasNext);
     }
+
+    public List<Board> getRandomBoardRequired(){
+        return queryFactory.selectFrom(board)
+                .where(board.subCategory.subCategoryId.eq(401))
+                .where(board.project.isNotNull())
+                .limit(10)
+                .fetch();
+    }
+
 }

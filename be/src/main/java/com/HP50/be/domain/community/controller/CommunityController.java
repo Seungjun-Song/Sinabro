@@ -83,5 +83,10 @@ public class CommunityController {
         return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
+    @Operation(summary = "메인페이지에서 띄어줄 전광판")
+    @GetMapping("/lightPlate")
+    public ResponseEntity<BaseResponse<List<BoardLightPlateResponseDto>>> getLightPlates(){
+        return ResponseEntity.ok().body(new BaseResponse<>(boardService.getLightPlateBoards()));
+    }
 
 }
