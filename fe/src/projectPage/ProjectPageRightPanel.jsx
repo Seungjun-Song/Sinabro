@@ -7,7 +7,7 @@ import Chat from '../components/chat/Chat'
 import { useDispatch, useSelector } from 'react-redux';
 import { setChatState, setIsNotificationOn, setProjectRightPanelState } from '../store/newMessageSlice';
 import { changeProjectChatState } from '../store/projectChatShow';
-import './style.css'
+import './ProjectStyles.css'
 
 const ProjectPageRightPanelContainer = styled.div`
     height: 100%;
