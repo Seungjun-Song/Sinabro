@@ -3,6 +3,9 @@ package com.HP50.be.domain.memoryGraph.service;
 import com.HP50.be.domain.memoryGraph.entity.Memo;
 import reactor.core.publisher.Flux;
 
+import java.util.List;
+
 public interface MemoService {
-    Flux<Memo> findAll();
+    List<Memo> findAll();
+    void saveMemo();
 }

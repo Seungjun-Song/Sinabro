@@ -69,7 +69,7 @@ public class BoardServiceImpl implements BoardService {
                 .requiredBackEnd(Optional.ofNullable(board.getRequiredPeopleBackEnd()))
                 .requiredFrontEnd(Optional.ofNullable(board.getRequiredPeopleFrontEnd()))
                 .recruitedPeopleBackEnd(Optional.ofNullable(board.getRecruitedPeopleBackEnd()))
-                .recruitedPeopleFrontEnd(Optional.ofNullable(board.getRecruitedPeopleBackEnd()))
+                .recruitedPeopleFrontEnd(Optional.ofNullable(board.getRecruitedPeopleFrontEnd()))
                 .tagDtos(tagDtoList)
                 .createdDttm(board.getCreatedDttm())
                 .updatedDttm(board.getUpdatedDttm())
