@@ -14,11 +14,15 @@ import java.util.List;
 @Builder
 @Node("Memo")
 public class Memo {
+
     @Id
-    private final String title;
+    private Integer identity ;
 
     @Property
-    private final String content;
+    private String title;
+
+    @Property
+    private String content;
 
     // 메모와 메모 간의 관계에서 나에게서 뻗어나가는 메모
     @Relationship(type = "out_going", direction = Relationship.Direction.OUTGOING)

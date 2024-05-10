@@ -9,6 +9,9 @@ import java.util.List;
 @Data
 @Builder
 public class MemoDto {
+
+    private Integer identity ;
+
     private final String title;
 
     private final String content;

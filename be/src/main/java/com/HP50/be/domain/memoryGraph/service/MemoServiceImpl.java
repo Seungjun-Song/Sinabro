@@ -1,5 +1,6 @@
 package com.HP50.be.domain.memoryGraph.service;
 
+import com.HP50.be.domain.memoryGraph.dto.MemoDto;
 import com.HP50.be.domain.memoryGraph.entity.Memo;
 import com.HP50.be.domain.memoryGraph.repository.MemoRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,13 @@ public class MemoServiceImpl implements MemoService {
     public List<Memo> findAll(){return this.memoRepository.findAll();}
 
     @Override
-    public void saveMemo() {
+    public void saveMemo(MemoDto memoDto) {
+        Memo memo = Memo.builder()
+                .identity(memoDto.getIdentity())
+                .title(memoDto.getTitle())
+                .content(memoDto.getContent())
+                        .build();
 
+        memoRepository.save(memo);
     }
 }
