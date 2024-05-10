@@ -223,7 +223,7 @@ const dataList = [
   },
 ];
 
-const MyPageMainPanel = ({ isDark, userfind,setUserFind,userInfo }) => {
+const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   const [isSideBoxVisible, setIsSidePanelVisible] = useState(false);
   const back_url = getEnv("BACK_URL");
   const [showModal, setShowModal] = useState(false);
@@ -233,14 +233,14 @@ const MyPageMainPanel = ({ isDark, userfind,setUserFind,userInfo }) => {
   const [choiceResults, setChoiceResults] = useState([]);
   const findUser = async () => {
     //   console.log(userInfo.uid);
-      try {
-        const res = await axios.get(`${back_url}/members/${userInfo.uid}`);
-        console.log(res);
-        // setUserFind(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+    try {
+      const res = await axios.get(`${back_url}/members/${userInfo.uid}`);
+      console.log(res);
+      setUserFind(res.data.result);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   useEffect(() => {
     setChoiceResults(userfind.techStacks);
     // console.log(userfind.techStacks)
@@ -258,16 +258,17 @@ const MyPageMainPanel = ({ isDark, userfind,setUserFind,userInfo }) => {
           },
         ],
       });
-      // console.log(res);
+      console.log(res);
     } catch (err) {
       console.error(err);
     }
   };
   const AddSkill = async (subCategoryId) => {
-    const subCategoryIds = [{ "subCategoryId": subCategoryId }];
+    const subCategoryIds = [{ subCategoryId: subCategoryId }];
     try {
-      const res = await axios.post(`${back_url}/members`, subCategoryIds,	
-      {withCredentials: true});
+      const res = await axios.post(`${back_url}/members`, subCategoryIds, {
+        withCredentials: true,
+      });
       // console.log(res);
     } catch (err) {
       console.error(err);
@@ -276,7 +277,7 @@ const MyPageMainPanel = ({ isDark, userfind,setUserFind,userInfo }) => {
   const handleDelete = (item) => {
     // choiceResults에서 item.name과 같은 항목을 제외한 나머지를 새로운 배열로 만듭니다.
     DelSkill(item.techStackId);
-    findUser()
+    findUser();
   };
 
   const handleChange = (event) => {
@@ -369,9 +370,7 @@ const MyPageMainPanel = ({ isDark, userfind,setUserFind,userInfo }) => {
             {searchResults.map((result, index) => (
               <motion.div
                 onClick={() => (
-                  setWhatSearch(""),
-                  AddSkill(result.subCategoryId),
-                  findUser()
+                  setWhatSearch(""), AddSkill(result.subCategoryId), findUser()
                 )}
                 transition={{ duration: 0.3 }}
                 whileHover={{

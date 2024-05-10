@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faAt } from "@fortawesome/free-solid-svg-icons";
+import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
+import { GlobalColor } from "../services/color";
 const MyPageSidePanelContainer = styled(motion.div)`
   display: flex;
   height: 100%;
@@ -95,19 +97,25 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
     "/images/default_my_image.png"
   );
 
-  const handleImageChange = async (event) => {
-    const file = event.target.files[0];
+  const handleImageChange = async () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = async (event) => {
+      const file = event.target.files[0];
 
-    // Firebase Storage에 이미지 업로드
-    const storage = getStorage(app);
-    const storageRef = ref(storage, file.name);
-    await uploadBytes(storageRef, file);
+      // Firebase Storage에 이미지 업로드
+      const storage = getStorage(app);
+      const storageRef = ref(storage, file.name);
+      await uploadBytes(storageRef, file);
 
-    // 업로드된 이미지의 다운로드 URL 받아오기
-    const imageUrl = await getDownloadURL(storageRef);
+      // 업로드된 이미지의 다운로드 URL 받아오기
+      const imageUrl = await getDownloadURL(storageRef);
 
-    // 다운로드 URL을 state에 저장
-    setSelectedImage(imageUrl);
+      // 다운로드 URL을 state에 저장
+      setSelectedImage(imageUrl);
+    };
+    input.click();
   };
 
   return (
@@ -118,7 +126,26 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
       transition={{ duration: 0.3 }}
     >
       <SkillArea>{userfind.memberJob}</SkillArea>
-      <MyImage src={userfind.memberImg} />
+      <div style={{ position: "relative" }}>
+        <MyImage src={userfind.memberImg} />
+        <motion.div
+          onClick={handleImageChange}
+          whileHover={{ color: "#BAB2FF" }}
+          className="shadow"
+          style={{
+            cursor: "pointer",
+            position: "absolute",
+            bottom: 0,
+            right: 0,
+            padding: "0.75rem",
+            borderRadius: "50%",
+            backgroundColor: "white",
+            display: "flex",
+          }}
+        >
+          <FontAwesomeIcon icon={faFaceSmile} />
+        </motion.div>
+      </div>
       <MyName style={{ color: isDark ? "white" : "black" }}>
         {userfind.nickname}
       </MyName>
