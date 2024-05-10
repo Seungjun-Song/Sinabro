@@ -10,6 +10,7 @@ import CreateMemberPost from './CreateMemberPost';
 import CreateTeamPost from './CreateTeamPost';
 import CreateFeadbackPost from './CreateFeadbackPost';
 import TeamChoiceBox from './TeamChoiceBox';
+import { faDesktop, faCog, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
 import { GlobalColor } from '../../services/color';
 
@@ -98,6 +99,25 @@ const CreatePage = () => {
         projectImg: "",
     });
 
+    const [ jobInfo, setJobInfo ] = useState([
+            {
+                id: 1,
+                name: "백",
+                borderColor: "#315DCC",
+                icon: faCog,
+                target: 0,
+                total: 0,
+            },
+            {
+                id: 2, 
+                name: "프론트",
+                borderColor: "#3DC7AE",
+                icon: faDesktop,
+                target: 0,
+                total: 0,
+            }
+    ]);
+
     useEffect(() => {//글 수정시 데이터 초기세팅
         if(!data.isCreate){
             const post = data.detailData;
@@ -115,6 +135,11 @@ const CreatePage = () => {
                 title: post.title,
                 content: post.content,
                 tag: tags,
+                // recruitedBack: post.recruitedBack,
+                // recruitedFront: post.recruitedFront,
+                // requiredBack: post.requiredBack,
+                // requiredFront: post.requiredFront,
+
             })
 
             //프로젝트 정보
@@ -131,6 +156,28 @@ const CreatePage = () => {
                         }
                     })
                 }
+            }
+
+            //인원수 정보
+            if(data.kind.name === "member"){
+                setJobInfo([
+                    {
+                        id: 1,
+                        name: "백",
+                        borderColor: "#315DCC",
+                        icon: faCog,
+                        target: post.requiredBack,
+                        total: post.recruitedBack,
+                    },
+                    {
+                        id: 2, 
+                        name: "프론트",
+                        borderColor: "#3DC7AE",
+                        icon: faDesktop,
+                        target: post.requiredFront,
+                        total: post.recruitedFront,
+                    }
+                ])
             }
         }
     }, [])
@@ -181,6 +228,8 @@ const CreatePage = () => {
                         postContent={postContent}
                         setPostContent={setPostContent}
                         selectedPjtId={selectedPjt.id}
+                        jobInfo={jobInfo}
+                        setJobInfo={setJobInfo}
                     />
                 ) : ("")}
                 {selected.name === "team" ? (

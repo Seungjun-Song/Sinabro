@@ -80,12 +80,15 @@ const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
         <Bottom>
             <Hashs>
                 {detailData.hash && detailData.hash.length > 0 && detailData.hash.map((tag, index) => {
-
                     return( 
-                        <Hash key={index}
+                        <>
+                        {tag.subCategoryName !== "" &&
+                            <Hash key={index}
                                 isDark={isDark}>
-                            {tag.subCategoryName}
-                        </Hash>
+                                {tag.subCategoryName}
+                            </Hash> 
+                        }                       
+                        </>
                     )
                 })}
             </Hashs>

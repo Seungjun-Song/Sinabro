@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 
 import { useNavigate } from 'react-router';
 import { motion } from "framer-motion"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { faDesktop, faCog, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
@@ -146,42 +146,16 @@ const axiosInstance = axios.create({
 })
 
 
-const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId }) => {
+const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId, jobInfo, setJobInfo }) => {
     const navigate = useNavigate();
 
     const back_url = getEnv('BACK_URL')
 
-    // const [ jobInfo, setJobInfo ] = useState({
-    //     backTarget: 0,
-    //     backTotal: 0,
-    //     frontTotal: 0,
-    //     frontTarget: 0,
-    // })
-
-    const [ jobInfo, setJobInfo ] = useState([
-        {
-            id: 1,
-            name: "백",
-            borderColor: "#315DCC",
-            icon: faCog,
-            target: 0,
-            total: 0,
-        },
-        {
-            id: 2, 
-            name: "프론트",
-            borderColor: "#3DC7AE",
-            icon: faDesktop,
-            target: 0,
-            total: 0,
-        }
-
-    ])
-
     const submit = () =>{
         //태그 정리
         const tagList = postContent.tag.split(" ");
-        console.log(tagList);
+
+        //중간이 아닌 공백 정리 필요
 
         if(selectedPjtId !== -1){
         axios.post(`${back_url}/communities`, {
@@ -192,8 +166,10 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId }
             projectLink: "https://k10e103.p.ssafy.io/my-code-server",
             projectId: selectedPjtId,
             subCategoryId: 401,
-            requiredbackEnd: 2, //parseInt(jobInfo[0].target),
-            requiredFrontEnd: 1, //parseInt(jobInfo[1].target),
+            requiredPeopleBackEnd: jobInfo[0].target, //parseInt(jobInfo[0].target),
+            requiredPeopleFrontEnd: jobInfo[1].target, //parseInt(jobInfo[1].target),
+            recruitedPeopleBackEnd: jobInfo[0].total,
+            recruitedPeopleFrontEnd: jobInfo[1].total,
             requiredFullStack: 0,
             boardTag: tagList,
         },
@@ -236,6 +212,8 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId }
                     kind={{id: 401, name: "member"}}
                     jobInfo={jobInfo}
                     setJobInfo={setJobInfo}
+                    postContent={postContent}
+                    setPostContent={setPostContent}
                 >
                 </CreateJobsBox>
             </Header>

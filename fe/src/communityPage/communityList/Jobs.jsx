@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
 import { faDesktop, faCog, faLeaf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useState } from 'react';
 
 const JobBox = styled.div`
     display: flex;
@@ -24,25 +25,11 @@ const Job = styled.div`
     box-shadow: 3px 4px 3px rgba(217, 217, 217, 1);
     font-size: 0.5rem;
 `
-const Jobs = ({kind}) => {
-    const memeberJobList = [
-        {
-            name: "백",
-            target: 2,
-            current: 1,
-            borderColor: "#315DCC",
-            icon: faCog,
-        }, 
-        {
-            name: "프론트",
-            target: 1, 
-            current: 0,
-            borderColor: "#3DC7AE",
-            icon: faDesktop
-        }
-    ]
+const Jobs = ({kind, post }) => {
 
-    const FeadbackJobList = [
+    const [ memeberJobList, setMemberJobList ] = useState([])
+
+    const [ feadbackJobList, setfeadbackJobList ] = useState([
         {
             name: "백",
             borderColor: "#315DCC",
@@ -53,7 +40,28 @@ const Jobs = ({kind}) => {
             borderColor: "#3DC7AE",
             icon: faDesktop
         }
-    ]
+    ])
+
+    useEffect(()=>{
+        if(kind.name == "member"){
+            setMemberJobList([
+                {
+                    name: "백",
+                    target: post.requiredBack,
+                    current: post.recruitedBack,
+                    borderColor: "#315DCC",
+                    icon: faCog,
+                }, 
+                {
+                    name: "프론트",
+                    target: post.requiredFront, 
+                    current: post.recruitedFront,
+                    borderColor: "#3DC7AE",
+                    icon: faDesktop
+                }
+            ])
+        }
+    }, [post])
 
     return(
         <JobBox>
@@ -75,7 +83,7 @@ const Jobs = ({kind}) => {
             
             {kind.name == "feadback" &&
             <>
-                {FeadbackJobList.map((job, index) => (
+                {feadbackJobList.map((job, index) => (
                 <Job
                 style={{backgroundColor: "white" , border: `3px solid ${job.borderColor }`, color: `${job.borderColor}` }}
                 >
