@@ -5,6 +5,7 @@ import { useState } from "react";
 import { GlobalColor } from "../../services/color";
 const ProjectCard = ({ item ,isDark}) => {
   const [isHover, setIsHover] = useState(false);
+  
   return (
     <>
       <div
@@ -36,10 +37,10 @@ const ProjectCard = ({ item ,isDark}) => {
         >
           <img
             style={{ width: "13rem", height: "13rem", borderRadius: "0.85rem" }}
-            src={item.img}
+            src={item.projectImg}
           />
           <h4 style={{ marginBottom: 0, marginTop: "1rem" }}>
-            {item.projectname}
+            {item.projectName}
           </h4>
           <h5
             style={{
@@ -48,7 +49,7 @@ const ProjectCard = ({ item ,isDark}) => {
               marginTop: "0.8rem",
             }}
           >
-            {item.startday}~{item.endday}
+            {/* {item.startday}~{item.endday} */}
           </h5>
           {/* <div style={{ height: "5rem" }}>{item.projectinfo}</div> */}
           <div
@@ -59,7 +60,7 @@ const ProjectCard = ({ item ,isDark}) => {
               height: "3rem",
             }}
           >
-            {item.skills.map((skill, index) => (
+            {/* {item.skills.map((skill, index) => (
               <div
                 key={index}
                 className="shadow"
@@ -74,7 +75,7 @@ const ProjectCard = ({ item ,isDark}) => {
               >
                 {skill}
               </div>
-            ))}
+            ))} */}
           </div>
           <AnimatePresence>
             {isHover && (
@@ -103,7 +104,7 @@ const ProjectCard = ({ item ,isDark}) => {
                   exit={{ x: -10, opacity: 0 }} // 사라질 때 opacity를 0으로 설정
                   style={{ fontWeight: "bold", fontSize: "1.5rem" }}
                 >
-                  {item.projectname}
+                  {item.projectName}
                 </motion.h5>
                 {/* <h5
                   style={{
@@ -121,7 +122,7 @@ const ProjectCard = ({ item ,isDark}) => {
                   exit={{ y: 10, opacity: 0 }} // 사라질 때 opacity를 0으로 설정
                   style={{ width: "100%", height: "80%", overflow: "auto" }}
                 >
-                  {item.projectinfo}
+                  {item.projectInfo}
                 </motion.div>
                 <motion.div
                   transition={{ duration: 0.2, delay: 0.6 }}
