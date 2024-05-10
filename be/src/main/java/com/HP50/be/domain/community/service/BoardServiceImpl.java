@@ -76,7 +76,7 @@ public class BoardServiceImpl implements BoardService {
                 .build();
 
         if((board.getProject() != null)) {
-            boardDetailResponseDto.setBoardId(board.getProject().getProjectId());
+            boardDetailResponseDto.setProjectId(board.getProject().getProjectId());
         }
 
         return boardDetailResponseDto;
