@@ -35,4 +35,7 @@ public class IssueDto {
     List<ImpactDto> impacts;//이 이슈가 소프트웨어 품질에 미치는 영향
     List<String> tags;//이슈에 관련된 태그
     String issueCode; //문제되는 코드
+    //2024-05-09 추가
+    String issueStatus; //이슈 상태
+    String key;//이슈 키
 }

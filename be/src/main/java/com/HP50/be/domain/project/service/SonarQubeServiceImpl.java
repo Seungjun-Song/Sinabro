@@ -38,6 +38,10 @@ public class SonarQubeServiceImpl implements SonarQubeService{
         // 깃 레포 가져오기
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
         String repoUrl = project.getProjectRepo();
+        //마지막 .git 제거
+        if (repoUrl.endsWith(".git")) {
+            repoUrl = repoUrl.substring(0, repoUrl.length() - 4);
+        }
         /*
            command 세팅
            - 폴더 이동 command
@@ -167,7 +171,10 @@ public class SonarQubeServiceImpl implements SonarQubeService{
 
             //이슈 코드 가져오기
             String issueCode = getIssueCode(execComponent, startLine, endLine);
-
+            //이슈 상태 가져오기
+            String issueStatus = object.get("issueStatus").getAsString();
+            //이슈 키 가져오기
+            String key = object.get("key").getAsString();
             //모든 세팅 끝 - IssueDto build 시작
             IssueDto issueDto = IssueDto.builder()
                     .rule(rule)
@@ -183,11 +190,20 @@ public class SonarQubeServiceImpl implements SonarQubeService{
                     .impacts(impactList)
                     .tags(tags)
                     .issueCode(issueCode)
+                    .issueStatus(issueStatus)
+                    .key(key)
                     .build();
             //추가
             result.addIssue(issueDto);
         }
         return result;
+    }
+    /**
+        이슈 상태 변경 ( bulk_change )
+     */
+    @Override
+    public void changeIssuesStatus(String issues, String doTransition) {
+
     }
 
     /**

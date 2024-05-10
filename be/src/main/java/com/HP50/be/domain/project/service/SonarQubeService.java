@@ -10,4 +10,5 @@ import java.util.List;
 public interface SonarQubeService {
     void executeSonarScanner(Integer projectId,String folderName);
     SonarQubeResultDto getResult(Integer projectId, Integer pageNumber, JsonObject jsonObject);
+    void changeIssuesStatus(String issues,String doTransition);
 }
