@@ -5,6 +5,7 @@ import Draggable from "react-draggable";
 import { Resizable } from "re-resizable";
 import Chatdetail from "./Chatdetail";
 import GPTChat from "./GPTChat";
+import { useSelector } from "react-redux";
 
 const DUMMY_DATA = [
   {
@@ -54,7 +55,10 @@ const UserChat = () => {
   const [openChat, setOpenChat] = useState(false);
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [size, setSize] = useState({ width: 300, height: 400 });
+
   // console.log("Asdf")
+
+  const myProjectList = useSelector(state => state.myProjectList.value)
 
   useEffect(() => {
     console.log("asdsf");
@@ -187,15 +191,15 @@ const UserChat = () => {
                     >
                       <img src="/image/nav/Sinabro_blue.png" />
                     </div>
-                    {DUMMY_DATA.map((item, index) => (
+                    {myProjectList.map((item, index) => (
                       <motion.div
-                        key={item.id}
+                        key={index}
                         variants={{
                           visible: { opacity: 1, y: 0 },
                           hidden: { opacity: 0, y: 30 },
                         }}
                       >
-                        <Chatlist setWhatpjt={setWhatpjt} item={item} />
+                        <Chatlist setWhatpjt={setWhatpjt} item={item} whatpjt={whatpjt} />
                       </motion.div>
                     ))}
                   </motion.div>
