@@ -53,7 +53,6 @@ const CommunityMainPage = () => {
         .then(res => {
             const totalData = res.data.result.boardListResponseDto;
             setPostList([]);
-            console.log(totalData);
 
             totalData.forEach((data, index) => {
                 //시간 계산해서 넣기
@@ -65,7 +64,7 @@ const CommunityMainPage = () => {
                     id: data.boardId,
                     title: data.boardTitle,
                     content: data.boardContent,
-                    hash: ["spring boot", "커피", "백엔드"],
+                    hash: data.tagDtos,
                     writer: data.memberName,
                     time: finalDate,
                     proceed: data.communityProgress,

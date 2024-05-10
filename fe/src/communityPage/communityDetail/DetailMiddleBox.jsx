@@ -68,6 +68,8 @@ const middleMotion = {
 }
 
 const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
+
+    console.log(detailData)
     return(
     <Middle
         {...middleMotion}
@@ -77,12 +79,12 @@ const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
         </Content>
         <Bottom>
             <Hashs>
-                {detailData && detailData.length > 0 && detailData.hash.map((tag, index) => {
+                {detailData.hash && detailData.hash.length > 0 && detailData.hash.map((tag, index) => {
 
                     return( 
                         <Hash key={index}
                                 isDark={isDark}>
-                            {tag}
+                            {tag.subCategoryName}
                         </Hash>
                     )
                 })}

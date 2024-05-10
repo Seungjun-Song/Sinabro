@@ -105,7 +105,13 @@ const CommentWindow = ({ isDark, commentDate, boardId, setCommentDate }) => {
         .then(res => {
             //성공 시 보여지는 것 갱신
             setNewComment("")
-            console.log(boardId)
+            axios.get(`${back_url}/communities/comments/${boardId}/0`)
+            .then((res) => {
+                //console.log(res.data.result.commentResponseDtos);
+                setCommentDate(res.data.result.commentResponseDtos);
+            })
+            .catch((err) => {
+            })
         })
         .catch(err => {
             console.log(err);

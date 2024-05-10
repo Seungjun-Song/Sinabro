@@ -56,7 +56,7 @@ const DetailMainPage = () => {
             id: postId,
             title:getData.boardTitle,
             content: getData.boardContent,
-            hash: [ "temp", "temp"],
+            hash: getData.tagDtos,
             writername: getData.memberName,
             memberId: getData.memberId,
             writerprofile: ProfileTempImg,
@@ -83,6 +83,7 @@ const DetailMainPage = () => {
         .catch((err) => {
         })
     }, [])
+    
     return (
         <>
         <Navbar>
