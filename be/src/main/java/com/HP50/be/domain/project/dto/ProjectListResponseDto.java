@@ -1,11 +1,13 @@
 package com.HP50.be.domain.project.dto;
 
 import com.HP50.be.domain.code.entity.SubCategory;
-import com.HP50.be.domain.project.entity.Project;
+import com.HP50.be.domain.member.dto.TechStackResponseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -27,4 +29,12 @@ public class ProjectListResponseDto {
 
     @Schema(example = "503")
     private SubCategory subCategory;
+
+    List<ProjectTechStackDto> techStackResponseDtoList;
+
+    @Schema(example = "2024-05-09")
+    private LocalDate createdDt;
+
+    @Schema(example = "2024-05-027")
+    private LocalDate endDt;
 }

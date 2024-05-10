@@ -1,7 +1,9 @@
 package com.HP50.be.domain.project.service;
 
 import com.HP50.be.domain.code.entity.SubCategory;
+import com.HP50.be.domain.member.dto.TechStackResponseDto;
 import com.HP50.be.domain.project.dto.*;
+import com.HP50.be.domain.project.entity.PjtTechStack;
 import com.HP50.be.domain.project.entity.Project;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -30,4 +32,6 @@ public interface ProjectService {
     List<ProjectListResponseDto> getProjectListInMember(String token);
 
     ProjectCompletedPaginationResponseDto findProjectSliceSix(int page);
+
+    List<ProjectTechStackDto> getProjectTechStacks(Integer projectId);
 }

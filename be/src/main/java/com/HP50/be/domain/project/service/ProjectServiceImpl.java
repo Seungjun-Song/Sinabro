@@ -4,6 +4,7 @@ import com.HP50.be.domain.code.entity.Category;
 import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.code.repository.CategoryRepository;
 import com.HP50.be.domain.code.repository.SubCategoryRepository;
+import com.HP50.be.domain.member.dto.TechStackResponseDto;
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.member.entity.TechStack;
 import com.HP50.be.domain.member.repository.MemberCustomRepository;
@@ -13,12 +14,10 @@ import com.HP50.be.domain.port.entity.Port;
 import com.HP50.be.domain.port.repository.PortCustomRepository;
 import com.HP50.be.domain.port.repository.PortRepository;
 import com.HP50.be.domain.project.dto.*;
+import com.HP50.be.domain.project.entity.PjtTechStack;
 import com.HP50.be.domain.project.entity.Project;
 import com.HP50.be.domain.project.entity.Teammate;
-import com.HP50.be.domain.project.repository.PjtTechStackRepository;
-import com.HP50.be.domain.project.repository.ProjectCustomRepository;
-import com.HP50.be.domain.project.repository.ProjectRepository;
-import com.HP50.be.domain.project.repository.TeammateRepository;
+import com.HP50.be.domain.project.repository.*;
 import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.JschUtil;
 import com.HP50.be.global.common.StatusCode;
@@ -60,6 +59,7 @@ public class ProjectServiceImpl implements ProjectService{
     private final CategoryRepository categoryRepository;
     private final JwtUtil jwtUtil;
     private final JschUtil jschUtil;
+    private final PjtTechStackCustomRepository pjtTechStackCustomRepository;
 
     @Override
     public ProjectInfoDto getTeamInfo(int projectId) {
@@ -368,7 +368,9 @@ public class ProjectServiceImpl implements ProjectService{
                         .projectInfo(project.getProjectInfo())
                         .projectImg(project.getProjectImg())
                         .projectRepo(project.getProjectRepo())
-                        .subCategory(project.getSubCategory())
+                        .techStackResponseDtoList(this.getProjectTechStacks(project.getProjectId()))
+                        .createdDt(project.getCreatedDttm().toLocalDate())
+                        .endDt(project.getEndDttm().toLocalDate())
                         .build()).toList();
 
         ProjectCompletedPaginationResponseDto projectCompletedPaginationResponseDto
@@ -378,6 +380,18 @@ public class ProjectServiceImpl implements ProjectService{
                 .build();
 
         return projectCompletedPaginationResponseDto;
+    }
+
+    @Override
+    public List<ProjectTechStackDto> getProjectTechStacks(Integer projectId) {
+        List<String> pjtTechStackNameList = pjtTechStackCustomRepository.getProjectTechStacks(projectId);
+
+        List<ProjectTechStackDto> techStackResponseDto = pjtTechStackNameList.stream()
+                .map(pjtTechStackName -> ProjectTechStackDto.builder()
+                        .techStackName(pjtTechStackName)
+                        .build()).toList();
+
+        return techStackResponseDto;
     }
 
     // 컨테이너 생성 프로세스 
