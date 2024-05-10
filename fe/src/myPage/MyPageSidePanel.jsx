@@ -52,7 +52,7 @@ const EditButton = styled.label`
   color: white;
   width: 90%;
   font-size: 1.2rem;
-  padding: 0.4rem;
+  padding: 0.1rem;
   display: flex;
   justify-content: end;
   padding-right: 1.2rem;
@@ -118,18 +118,18 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
       transition={{ duration: 0.3 }}
     >
       <SkillArea>{userfind.memberJob}</SkillArea>
-      <MyImage src={selectedImage} />
+      <MyImage src={userfind.memberImg} />
       <MyName style={{ color: isDark ? "white" : "black" }}>
         {userfind.nickname}
       </MyName>
-      <WithOur></WithOur>   
+      <WithOur></WithOur>
       <EditButton>
-        <input
+        {/* <input
           type="file"
           style={{ display: "none" }}
           onChange={handleImageChange}
         />
-        E D I T
+        E D I T */}
       </EditButton>
       <MyInfoBox>
         <MyInfoInnerBox>

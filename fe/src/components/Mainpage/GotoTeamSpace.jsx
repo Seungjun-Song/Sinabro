@@ -93,7 +93,7 @@ export default (props) => {
             style={{
               fontWeight: "bold",
               fontSize: "1.5rem",
-              color: props.isDark ? "white" : "dark",
+              color: props.isDark ? "white" : "black",
             }}
           >
             나의 팀스페이스로 이동
@@ -103,7 +103,7 @@ export default (props) => {
               <motion.div
                 style={{
                   marginLeft: "1rem",
-                  color: props.isDark ? "white" : "dark",
+                  color: props.isDark ? "white" : "black",
                 }}
                 initial={{ opacity: 0, rotate: -45 }}
                 animate={{ opacity: 1, rotate: 0 }}

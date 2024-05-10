@@ -6,6 +6,7 @@ import Navbar from "../components/navs/Navbar";
 import { useSelector } from "react-redux";
 import { GlobalColor } from "../services/color";
 import axios from "axios";
+import getEnv from "../utils/getEnv";
 
 const MyPageContainer = styled.div`
   display: flex;
@@ -25,24 +26,16 @@ const MainBox = styled.div`
 const MyPage = () => {
   const isDark = useSelector((state) => state.isDark.isDark);
   const userInfo = useSelector((state) => state.user.currentUser);
-  console.log(userInfo);
-  const [userfind, setUserFind] = useState({
-    memberId: 139435073,
-    nickname: "cho1jaeseong",
-    memberGit: "https://github.com/cho1jaeseong",
-    memberImg: "https://avatars.githubusercontent.com/u/139435073?v=4",
-    memberEmail: null,
-    memberJob: "프론트엔드",
-    techStacks: [null],
-    projects: [],
-  });
+  console.log(userInfo)
+  const [userfind, setUserFind] = useState({});
+  const back_url = getEnv("BACK_URL");
   useEffect(() => {
     const findUser = async () => {
+    //   console.log(userInfo.uid);
       try {
-        const res = await axios.get(`/members/${userInfo.uid}`);
-        console.log(res.data);
-        // setUserFind(res.data)
-        // navigate('/mainPage')
+        const res = await axios.get(`${back_url}/members/${userInfo.uid}`);
+        console.log(res);
+        setUserFind(res.data.result);
       } catch (err) {
         console.error(err);
       }
@@ -65,7 +58,7 @@ const MyPage = () => {
           userfind={userfind}
           isDark={isDark}
         />
-        <MyPageMainPanel isDark={isDark} userfind={userfind} />
+        <MyPageMainPanel userInfo={userInfo} setUserFind={setUserFind} isDark={isDark} userfind={userfind} />
       </MainBox>
     </MyPageContainer>
   );

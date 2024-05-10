@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +8,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import "./scrollbar.css";
 import { GlobalColor } from "../services/color";
 import { useSelector } from "react-redux";
+import getEnv from "../utils/getEnv";
+import axios from "axios";
 const SearchContainerRightSide = styled.div`
   height: 100%;
   width: 2rem;
@@ -175,88 +177,106 @@ const SearchInput = styled.input`
 `;
 const dataList = [
   {
-    name: "React",
+    subCategoryName: "React",
     img: "/images/react.png",
+    subCategoryId: 101,
   },
   {
-    name: "Vue",
+    subCategoryName: "Vue",
     img: "/images/vue.png",
+    subCategoryId: 102,
   },
   {
-    name: "HTML",
+    subCategoryName: "HTML",
     img: "/images/html.png",
+    subCategoryId: 103,
   },
   {
-    name: "CSS",
+    subCategoryName: "CSS",
     img: "/images/css.png",
+    subCategoryId: 104,
   },
   {
-    name: "JavaScript",
+    subCategoryName: "JavaScript",
     img: "/images/js.png",
+    subCategoryId: 105,
   },
   {
-    name: "Java",
+    subCategoryName: "Java",
     img: "/images/java.png",
+    subCategoryId: 106,
   },
   {
-    name: "Python",
+    subCategoryName: "Python",
     img: "/images/python.png",
+    subCategoryId: 107,
   },
   {
-    name: "Spring",
+    subCategoryName: "Spring",
     img: "/images/spring.png",
+    subCategoryId: 201,
   },
   {
-    name: "Django",
+    subCategoryName: "Django",
     img: "/images/django.png",
+    subCategoryId: 202,
   },
 ];
 
-const DUMMY_DATA = [
-  {
-    id: 1,
-    img: "/images/pjt1.png",
-  },
-  {
-    id: 2,
-    img: "/images/pjt2.png",
-  },
-  {
-    id: 3,
-    img: "/images/pjt3.png",
-  },
-  {
-    id: 4,
-    img: "/images/pjt4.png",
-  },
-  {
-    id: 5,
-    img: "/images/pjt5.png",
-  },
-];
-const MyPageMainPanel = ({ isDark, userfind }) => {
+const MyPageMainPanel = ({ isDark, userfind,setUserFind,userInfo }) => {
   const [isSideBoxVisible, setIsSidePanelVisible] = useState(false);
+  const back_url = getEnv("BACK_URL");
   const [showModal, setShowModal] = useState(false);
   const [whatSearch, setWhatSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const initialChoiceResults =
-    userfind.techStacks &&
-    userfind.techStacks.length === 1 &&
-    userfind.techStacks[0] === null
-      ? []
-      : userfind.techStacks;
-  const [choiceResults, setChoiceResults] = useState(initialChoiceResults);
-  console.log(choiceResults);
+  // console.log(userfind)
+  const [choiceResults, setChoiceResults] = useState([]);
+  const findUser = async () => {
+    //   console.log(userInfo.uid);
+      try {
+        const res = await axios.get(`${back_url}/members/${userInfo.uid}`);
+        console.log(res);
+        // setUserFind(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+  useEffect(() => {
+    setChoiceResults(userfind.techStacks);
+    // console.log(userfind.techStacks)
+  }, [userfind]);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
   const myProjectList = useSelector((state) => state.myProjectList.value); // 잘 들어오는지 확인, 페이지 이동 잘 되는지 확인
+  const DelSkill = async (techStackId) => {
+    //   console.log(userInfo.uid);
+    try {
+      const res = await axios.delete(`${back_url}/members`, {
+        data: [
+          {
+            techStackId: techStackId,
+          },
+        ],
+      });
+      // console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const AddSkill = async (subCategoryId) => {
+    const subCategoryIds = [{ "subCategoryId": subCategoryId }];
+    try {
+      const res = await axios.post(`${back_url}/members`, subCategoryIds,	
+      {withCredentials: true});
+      // console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const handleDelete = (item) => {
     // choiceResults에서 item.name과 같은 항목을 제외한 나머지를 새로운 배열로 만듭니다.
-    const updatedResults = choiceResults.filter(
-      (choiceItem) => choiceItem.name !== item.name
-    );
-    // choiceResults 상태를 새로운 배열로 업데이트합니다.
-    setChoiceResults(updatedResults);
+    DelSkill(item.techStackId);
+    findUser()
   };
 
   const handleChange = (event) => {
@@ -265,11 +285,15 @@ const MyPageMainPanel = ({ isDark, userfind }) => {
     const filteredResults = dataList.filter((item) => {
       // 만약 item.name이 choiceResults에 포함되어 있지 않고, 검색어에 포함되어 있다면 true를 반환합니다.
       return (
-        !choiceResults.some((choiceItem) => choiceItem.name === item.name) &&
-        item.name.toLowerCase().includes(event.target.value.toLowerCase())
+        !choiceResults.some(
+          (choiceItem) => choiceItem.subCategoryName === item.subCategoryName
+        ) &&
+        item.subCategoryName
+          .toLowerCase()
+          .includes(event.target.value.toLowerCase())
       );
     });
-    console.log(filteredResults); // 필터링된 결과를 console에 출력
+    // console.log(filteredResults); // 필터링된 결과를 console에 출력
     setSearchResults(filteredResults);
   };
   return (
@@ -285,31 +309,32 @@ const MyPageMainPanel = ({ isDark, userfind }) => {
         <SearchContainer>
           <SearchContainerLeftSide>
             <AnimatePresence>
-              {choiceResults.map((item) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 5 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {" "}
-                  <SkillDetail
-                    style={{
-                      background: isDark
-                        ? GlobalColor.colors.primary_black50
-                        : "#f2f2f2",
-                      color: isDark ? "white" : "black",
-                    }}
+              {choiceResults &&
+                choiceResults.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    {/* {없을 때 띄울 글자 생각해야함} */}
-                    {item.subCategoryName}
-                    <SkillDelBtn onClick={() => handleDelete(item)}>
-                      X
-                    </SkillDelBtn>
-                  </SkillDetail>
-                </motion.div>
-              ))}
+                    {/* {console.log(item)} */}
+                    <SkillDetail
+                      style={{
+                        background: isDark
+                          ? GlobalColor.colors.primary_black50
+                          : "#f2f2f2",
+                        color: isDark ? "white" : "black",
+                      }}
+                    >
+                      {/* {없을 때 띄울 글자 생각해야함} */}
+                      {item.subCategoryName}
+                      <SkillDelBtn onClick={() => handleDelete(item)}>
+                        X
+                      </SkillDelBtn>
+                    </SkillDetail>
+                  </motion.div>
+                ))}
             </AnimatePresence>
 
             <SearchInput
@@ -344,8 +369,9 @@ const MyPageMainPanel = ({ isDark, userfind }) => {
             {searchResults.map((result, index) => (
               <motion.div
                 onClick={() => (
-                  setChoiceResults([...choiceResults, result]),
-                  setWhatSearch("")
+                  setWhatSearch(""),
+                  AddSkill(result.subCategoryId),
+                  findUser()
                 )}
                 transition={{ duration: 0.3 }}
                 whileHover={{
@@ -365,7 +391,7 @@ const MyPageMainPanel = ({ isDark, userfind }) => {
                 }}
                 key={index}
               >
-                {result.name}
+                {result.subCategoryName}
                 <img style={{ height: "1.2rem" }} src={result.img} />
               </motion.div>
             ))}
@@ -392,7 +418,13 @@ const MyPageMainPanel = ({ isDark, userfind }) => {
             />
           ))}
           {myProjectList.length == 0 && (
-            <div style={{ padding: "1rem", fontSize: "1.2rem" }}>
+            <div
+              style={{
+                padding: "1rem",
+                fontSize: "1.2rem",
+                color: isDark ? "white" : "black",
+              }}
+            >
               아직 작업물이 없습니다. 시나브로와 함께해요!
             </div>
           )}
