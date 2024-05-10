@@ -11,6 +11,7 @@ import WebRTC from '../components/webrtc/WebRTC';
 import { clearProjectRoomId } from '../store/projectRoomIdSlice';
 import axios from 'axios';
 import getEnv from '../utils/getEnv';
+import ProjectLoadingPage from './ProjectLoadingPage';
 
 const ProjectContainer = styled.div`
   position: relative; /* 부모 컨테이너를 기준으로 자식 요소의 위치를 설정하기 위해 */
@@ -64,6 +65,7 @@ const ProjectPage = () => {
   const [lastMessage, setLastMessage] = useState(null)
   const [isFirstMount, setIsFirstMount] = useState(true)
   const [codeServerURL, setCodeServerURL] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   const dispatch = useDispatch();
 
@@ -102,6 +104,7 @@ const ProjectPage = () => {
         })
         console.log(res.data)
         setCodeServerURL(res.data.result.url)
+        setLoading(false)
       }
       catch (err) {
         console.error(err)
@@ -111,6 +114,7 @@ const ProjectPage = () => {
 
     return () => {
       setCodeServerURL(null) // 프로젝트를 떠나면 주소 초기화
+      setLoading(true)
     }
   }, [])
 
@@ -124,30 +128,36 @@ const ProjectPage = () => {
   }
 
   return (
-    <ProjectContainer>
-      <WebRTC />
-      <ProjectMainContainer>
-        <ProjectPageLeftPanel />
-        {isProjectCalenderShow.value === true ? (
-          <div style={{ height: '100%', width: '100%' }}>
-            <Calender />
-          </div>
-        ) : (
-          <iframe
-            title="code-server"
-            src={codeServerURL}
-            style={{ width: '100%', height: '100%', border: 'none' }}
-          ></iframe>
-        )}
-        <ProjectPageRightPanel />
-        {newChatState() && (
-          <MessageContainer onClick={() => dispatch(changeProjectChatState(true))}>
-            <MessageHeader>{lastMessage.displayName}</MessageHeader>
-            <MessageBody>{lastMessage.message}</MessageBody>
-          </MessageContainer>
-        )}
-      </ProjectMainContainer>
-    </ProjectContainer>
+    <>
+      {loading ?
+        <ProjectLoadingPage />
+        :
+        <ProjectContainer>
+          <WebRTC />
+          <ProjectMainContainer>
+            <ProjectPageLeftPanel />
+            {isProjectCalenderShow.value === true ? (
+              <div style={{ height: '100%', width: '100%' }}>
+                <Calender />
+              </div>
+            ) : (
+              <iframe
+                title="code-server"
+                src={codeServerURL}
+                style={{ width: '100%', height: '100%', border: 'none' }}
+              ></iframe>
+            )}
+            <ProjectPageRightPanel />
+            {newChatState() && (
+              <MessageContainer onClick={() => dispatch(changeProjectChatState(true))}>
+                <MessageHeader>{lastMessage.displayName}</MessageHeader>
+                <MessageBody>{lastMessage.message}</MessageBody>
+              </MessageContainer>
+            )}
+          </ProjectMainContainer>
+        </ProjectContainer>
+      }
+    </>
   );
 };
 
