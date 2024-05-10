@@ -14,8 +14,10 @@ import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { toggleisDarkState } from "../../store/isDarkSlice";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { GlobalColor } from "../../services/color";
+import getEnv from "../../utils/getEnv";
 
 import { clearUser } from "./../../store/userSlice";
+import axios from "axios";
 const NavBar = styled.nav`
   display: flex;
   align-items: center;
@@ -143,8 +145,16 @@ const Navbar = () => {
   };
 
   const logout = () => {
+    const back_url = getEnv('BACK_URL')
+
     dispatch(clearUser());
-    navigate('/');
+    axios.delete(`${back_url}/oauth2`)
+    .then((res) =>{
+      navigate('/');
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
   return (
