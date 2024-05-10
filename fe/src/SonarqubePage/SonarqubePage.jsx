@@ -4,7 +4,7 @@ import RightError from "../components/SonarQube/RightError";
 import Navbar from "../components/navs/Navbar";
 import { useSelector } from "react-redux";
 import { GlobalColor } from "../services/color";
-
+import {motion} from "framer-motion"
 const DUMMY_DATA = [
   {
     rule: "java:S1068",
@@ -153,8 +153,12 @@ const SonarqubePage = () => {
             // marginTop:"80px"
           }}
         >
-          <div
+          <motion.div
             className="col-3 shadow"
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 100}}
+            transition={{duration:0.3, type:"easeInOut" }}
             style={{
               height: "100%",
               display: "flex",
@@ -196,7 +200,7 @@ const SonarqubePage = () => {
                 />
               ))}
             </div>
-          </div>
+          </motion.div>
           <div style={{ marginLeft: "2rem", width: "100%", height: "100%" }}>
             <RightError isDark={isDark} isSelect={isSelect} />
           </div>
