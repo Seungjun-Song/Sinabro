@@ -1,5 +1,6 @@
 package com.HP50.be.domain.payment.controller;
 
+import com.HP50.be.domain.payment.dto.PaidResponseDto;
 import com.HP50.be.domain.payment.dto.PaymentRequestDto;
 import com.HP50.be.domain.payment.dto.PaymentResponseDto;
 import com.HP50.be.domain.payment.dto.PaymentValidateDto;
@@ -52,7 +53,8 @@ public class PaymentController {
      */
     @GetMapping("/{projectId}")
     public ResponseEntity<Object> paidSonar(@PathVariable Integer projectId){
-        Payment checkPaid = paymentCustomRepository.getCheckPaid(projectId);
+        PaidResponseDto checkPaid = paymentCustomRepository.getCheckPaid(projectId);
+
         //결제했으면 해당 데이터 return
         if(checkPaid!=null)return  ResponseEntity.ok(new BaseResponse<>(checkPaid));
         //안했으면 결제 안했다 함

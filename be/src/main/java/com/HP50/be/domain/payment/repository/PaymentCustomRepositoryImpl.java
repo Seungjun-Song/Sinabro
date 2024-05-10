@@ -1,8 +1,10 @@
 package com.HP50.be.domain.payment.repository;
 
+import com.HP50.be.domain.payment.dto.PaidResponseDto;
 import com.HP50.be.domain.payment.entity.Payment;
 import com.HP50.be.domain.payment.entity.PaymentStatus;
 import com.HP50.be.domain.payment.entity.QPayment;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +27,16 @@ public class PaymentCustomRepositoryImpl implements PaymentCustomRepository{
     }
 
     @Override
-    public Payment getCheckPaid(int projectId) {
-        return queryFactory.select(payment)
+    public PaidResponseDto getCheckPaid(int projectId) {
+        return queryFactory.select(
+                        Projections.constructor(
+                                PaidResponseDto.class,
+                                payment.updatedDttm.as("paidDateTime"),
+                                payment.paymentAmount.as("paymentAmount"),
+                                payment.paymentCard.as("paymentCard"),
+                                payment.paymentMethod.as("paymentMethod")
+                        )
+                )
                 .from(payment)
                 .where(payment.project.projectId.eq(projectId)
                         .and(payment.paymentStatus.eq(PaymentStatus.OK)))
