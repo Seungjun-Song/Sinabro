@@ -5,7 +5,7 @@ import axios from "axios";
 import getEnv from "../../utils/getEnv";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import e from "cors";
+import { useNavigate } from "react-router-dom";
 
 const SonarQubeContents = () => {
   const [IMP, setIMP] = useState(null); // IMP를 상태로 관리 (선택적)
@@ -13,7 +13,7 @@ const SonarQubeContents = () => {
   const back_url = getEnv("BACK_URL");
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value); //프로젝트
   const userInfo = useSelector((state) => state.user.currentUser);
-
+  const navigate = useNavigate()
   var projectId = myCurrentProject?.projectId;
   var impUid;
   // 포트원 라이브러리 추가
@@ -65,20 +65,18 @@ const SonarQubeContents = () => {
       }
     };
 
-    const validatePayment = async () => {
+    const validatePayment = async (impUid) => {
       try {
-        const res = await axios.post(`${back_url}/payment/validate`, {
-          projectId: projectId,
-          paymentImpUid: impUid
-        }, {withCredentials: true});
-        if (res.data.isSuccess) return true;
-        return false;
+          const res = await axios.post(`${back_url}/payment/validate`, {
+              projectId: projectId,
+              paymentImpUid: impUid
+          }, { withCredentials: true });
+          return res.data.isSuccess;
       } catch (err) {
-        console.log(err);
-        return false; // 실패 시 false 반환
+          console.log(err);
+          return false; // 실패 시 false 반환
       }
-    };
-
+  };
     // 먼저 savePayment를 실행하여 결제 정보를 저장
     const paymentSaved = await savePayment();
 
@@ -89,7 +87,7 @@ const SonarQubeContents = () => {
           pg: "html5_inicis",
           pay_method: "card",
           merchant_uid: "sonar" + uuidv4(), //재사용 불가
-          name: "소나큐브 정적분석",
+          name: "Sinabro : 소나큐브 정적분석",
           amount: 100,
           buyer_email:
             userInfo?.memberEmail == null
@@ -97,15 +95,26 @@ const SonarQubeContents = () => {
               : userInfo?.memberEmail,
           buyer_name: userInfo?.displayName,
         },
-        function (rsp) {
-          // callback
+        async function (rsp) { // 결과를 rsp로 콜백받음
+          // 결제 요청이 성공했을 때
           if (rsp.success) {
-            console.log(rsp);
-            console.log(rsp.imp_uid);
+              console.log(rsp.imp_uid);
+              const impUid = rsp.imp_uid;
+
+              // validatePayment 호출하여 결제 검증
+              const isPaymentValid = await validatePayment(impUid);
+              if (isPaymentValid) {
+                  alert("결제가 성공적으로 완료되었습니다.");
+                  setIsPaid(true);
+              } else {
+                  alert("결제 검증에 실패했습니다. 다시 시도해 주십시오.");
+              }
           } else {
-            console.log(rsp);
+              // 결제 요청이 실패했을 때
+              alert("결제 취소하셨습니다.");
+              console.log(rsp);
           }
-        }
+      }
       );
     } else {
       console.log("Payment information could not be saved.");
@@ -116,7 +125,9 @@ const SonarQubeContents = () => {
     <>
       <div className={style.container}>
         {isPaid ? (
-          <div></div>
+          <div>
+            <button onClick={() => navigate('/SonarQube')}> 소나큐브 결과 페이지 이동</button>
+          </div>
         ) : (
           <div>
             <h3>소나큐브를 아직 결제하시지 않으셨군요!</h3>

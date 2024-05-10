@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LeftError from "../components/SonarQube/LeftError";
 import RightError from "../components/SonarQube/RightError";
 import Navbar from "../components/navs/Navbar";
 import { useSelector } from "react-redux";
 import { GlobalColor } from "../services/color";
-
+import getEnv from "../utils/getEnv";
+import axios from "axios";
 const DUMMY_DATA = [
   {
     rule: "java:S1068",
@@ -117,6 +118,36 @@ const DUMMY_DATA = [
 
 const SonarqubePage = () => {
   const [isSelect, setIsSelect] = useState({ id: 0, ...DUMMY_DATA[0] });
+  const [loading, setLoading] = useState(true); // 로딩 상태를 true로 초기화
+  const back_url = getEnv("BACK_URL");
+  const myCurrentProject = useSelector((state) => state.myCurrentProject.value); //프로젝트
+  var projectId = myCurrentProject?.projectId;
+  useEffect(() => {
+    if (projectId) {
+      getSonarQubeResult();
+    } else {
+      setLoading(false); // projectId가 없다면 로딩 상태를 false로 설정
+    }
+  }, [projectId]); // projectId가 변경될 때마다 실행
+  // 소나큐브 결과 가져오기
+  const getSonarQubeResult = async () => {
+    setLoading(true); // API 호출 전 로딩 상태를 true로 설정
+    try {
+      const res = await axios.post(
+        `${back_url}/scan-result`,
+        {
+          projectId: projectId,
+          pageNumber: 1
+        },
+        { withCredentials: true }
+      );
+    setIsSelect({ id: 0, ...res.data[0] }); // 결과 설정
+  } catch (err) {
+    console.error("Error fetching SonarQube results:", err);
+  } finally {
+    setLoading(false); // 로딩이 끝났음을 표시
+  }
+};
   function convertMinutesToHoursAndMinutes(minutes) {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
@@ -128,11 +159,23 @@ const SonarqubePage = () => {
   const effortTotal = 911;
   const { hours, minutes } = convertMinutesToHoursAndMinutes(effortTotal);
   const isDark = useSelector((state) => state.isDark.isDark);
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div>Loading...</div> // 로딩 페이지 내용
+      </>
+    );
+  }
+
   // console.log
   return (
     <>
       <Navbar />
-      <div
+      {!loading&&<div>
+        로딩중
+        </div>}
+      {loading&&<div
         style={{
           width: "100%",
           height: "calc(100vh - 80px)",
@@ -202,6 +245,8 @@ const SonarqubePage = () => {
           </div>
         </div>
       </div>
+      }
+      
     </>
   );
 };
