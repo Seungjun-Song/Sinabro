@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.HP50.be.domain.member.entity.QTechStack.techStack;
+import static com.HP50.be.domain.project.entity.QProject.project;
 
 @Repository
 @RequiredArgsConstructor
