@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b22c989e512344bd3917283f659b0385d331df9addcf5f81ff9a01baf8f011e4
-size 363
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCameraRetro,
+  faDragon,
+  faFootballBall,
+  faGlassCheers,
+  faHelicopter
+} from "@fortawesome/free-solid-svg-icons";
+
+export default [
+  {
+    id: 1,
+   img: "/images/pjt1.png"
+  },
+  {
+    id: 2,
+    img: "/images/pjt2.png"
+  },
+  {
+    id: 3,
+    img: "/images/pjt3.png"
+  },
+
+];
