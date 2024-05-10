@@ -32,7 +32,7 @@ const ProjectCreateBtn = ({ isDark, setRoleCheck }) => {
             const res = await axios.post(`${back_url}/teams/projects`, { // 쿠키 제대로 받아지면 실행되는지 확인해야함
                 projectName: createProjectInfo.value.projectName,
                 projectInfo: createProjectInfo.value.projectInfo,
-                projectImg: createProjectInfo.value.projectImg ? createProjectInfo.value.projectImg : './images/E103_Logo.png' ,
+                projectImg: createProjectInfo.value.projectImg ? createProjectInfo.value.projectImg : '/images/E103_Logo.png' ,
                 projectRepo: createProjectInfo.value.projectRepo,
                 memberList: createProjectInfo.value.memberList,
             })
