@@ -1,19 +1,3 @@
-package com.HP50.be.domain.memoryGraph.dto;
-
-import com.HP50.be.domain.memoryGraph.entity.Memo;
-import lombok.Builder;
-import lombok.Data;
-
-import java.util.List;
-
-@Data
-@Builder
-public class MemoDto {
-    private final String title;
-
-    private final String content;
-
-    // 메모와 메모 간의 관계에서 나에게서 뻗어나가는 메모
-    private List<Memo> from;
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3f4be557de5a5b0c0c4f2a513e8d7c2aea0fd92dd174708ba941e2d9cdcf21a7
+size 415

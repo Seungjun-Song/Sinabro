@@ -1,22 +1,3 @@
-package com.HP50.be.domain.memoryGraph.service;
-
-import com.HP50.be.domain.memoryGraph.entity.Memo;
-import com.HP50.be.domain.memoryGraph.repository.MemoRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
-
-@Service
-@RequiredArgsConstructor
-public class MemoServiceImpl implements MemoService {
-    private final MemoRepository memoRepository;
-
-    public List<Memo> findAll(){return this.memoRepository.findAll();}
-
-    @Override
-    public void saveMemo() {
-
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:78b593326049377b886a245e7fecbbb09ec420deb2bef856b864a7590d682d52
+size 848

@@ -1,8 +1,3 @@
-package com.HP50.be.domain.payment.repository;
-
-import com.HP50.be.domain.payment.entity.Payment;
-
-public interface PaymentCustomRepository {
-    boolean checkPaid(int projectId);
-    Payment getCheckPaid(int projectId);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:b2f7bbbecf9ee443aae37332647862d71850803f599aec033eef0a0331bebca4
+size 223
