@@ -136,29 +136,32 @@ const headerMotion = {
     transition: { duration: 0.3 }
 }
 
-const CreateFeadbackPost = ({ isDark, postContent, setPostContent, selectedPjtId }) => {
+const CreateFeadbackPost = ({ isDark, postContent, setPostContent, selectedPjtId, jobInfo, setJobInfo }) => {
     const navigate = useNavigate();
 
     const back_url = getEnv('BACK_URL')
 
-    const [jobInfo, setJobInfo] = useState([
-        {
-            id: 1,
-            name: "백",
-            borderColor: "#315DCC",
-            icon: faCog,
-            selected: 0,
-        }, 
-        {
-            id: 2, 
-            name: "프론트",
-            borderColor: "#3DC7AE",
-            icon: faDesktop,
-            selected: 0,
-        }
-    ])
+    // const [jobInfo, setJobInfo] = useState([
+    //     {
+    //         id: 1,
+    //         name: "백",
+    //         borderColor: "#315DCC",
+    //         icon: faCog,
+    //         selected: 0,
+    //     }, 
+    //     {
+    //         id: 2, 
+    //         name: "프론트",
+    //         borderColor: "#3DC7AE",
+    //         icon: faDesktop,
+    //         selected: 0,
+    //     }
+    // ])
 
     const submit = () =>{
+
+        const tagList = postContent.tag.split(" ");
+
         if(selectedPjtId !== -1){
         axios.post(`${back_url}/communities`, {
             boardId: postContent.id,
@@ -168,10 +171,9 @@ const CreateFeadbackPost = ({ isDark, postContent, setPostContent, selectedPjtId
             projectLink: "https://k10e103.p.ssafy.io/my-code-server",
             projectId: selectedPjtId,
             subCategoryId: 403,
-            requiredbackEnd: jobInfo[0].selected,
-            requiredFrontEnd: jobInfo[1].selected,
-            requiredFullStack: 0,
-            boardTag: ["커피", "뭐"],
+            requiredPeopleBackEnd: jobInfo[0].selected,
+            requiredPeopleFrontEnd: jobInfo[1].selected,
+            boardTag: tagList,
         },
         {withCredentials: true}
         )

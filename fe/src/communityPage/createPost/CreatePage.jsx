@@ -179,6 +179,65 @@ const CreatePage = () => {
                     }
                 ])
             }
+            else if(data.kind.name === "feadback"){
+                setJobInfo([
+                    {
+                        id: 1,
+                        name: "백",
+                        borderColor: "#315DCC",
+                        icon: faCog,
+                        selected: post.requiredBack,
+                    }, 
+                    {
+                        id: 2, 
+                        name: "프론트",
+                        borderColor: "#3DC7AE",
+                        icon: faDesktop,
+                        selected: post.requiredFront,
+                    }
+                ])
+            }
+        }
+        else{//글 작성 시 member, feadback의 경우 jobInfo 갱신 필요
+            //인원수 정보
+            if(data.kind.name === "member"){
+                setJobInfo([
+                    {
+                        id: 1,
+                        name: "백",
+                        borderColor: "#315DCC",
+                        icon: faCog,          
+                        target: 0,
+                        total: 0,
+                    },
+                    {
+                        id: 2, 
+                        name: "프론트",
+                        borderColor: "#3DC7AE",
+                        icon: faDesktop,
+                        target: 0,
+                        total: 0,
+                    }
+                ])
+            }
+            else if(data.kind.name === "feadback"){
+                setJobInfo([
+                    {
+                        id: 1,
+                        name: "백",
+                        borderColor: "#315DCC",
+                        icon: faCog,
+                        selected: 0,
+                    }, 
+                    {
+                        id: 2, 
+                        name: "프론트",
+                        borderColor: "#3DC7AE",
+                        icon: faDesktop,
+                        selected: 0,
+                    }
+                ])
+            }
         }
     }, [])
 
@@ -246,6 +305,8 @@ const CreatePage = () => {
                         postContent={postContent}
                         setPostContent={setPostContent}
                         selectedPjtId={selectedPjt.id}
+                        jobInfo={jobInfo}
+                        setJobInfo={setJobInfo}
                     />
                 ) : ("")}
             </Create>

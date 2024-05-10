@@ -138,14 +138,6 @@ const headerMotion = {
     transition: { duration: 0.3 }
 }
 
-const axiosInstance = axios.create({
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJjb21wYW55IjoiSFA1MCIsIm1lbWJlcklkIjo5NDQyOTEyMCwiZW1haWwiOiJ3aGRybnJkbDc4OUBuYXZlci5jb20iLCJtZW1iZXJOYW1lIjoiSm9uZ0tvb2tFIiwibWVtYmVyR2l0IjoiaHR0cHM6Ly9naXRodWIuY29tL0pvbmdLb29rRSIsIm1lbWJlckltZyI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS85NDQyOTEyMD92PTQiLCJpYXQiOjE3MTQ3MTM2NTEsImV4cCI6MTc1MDcxMzY1MX0.SrKj_R2pOGU6FpRn38U4jeqUCeuo0woyVd5J3fEBt4g'
-    }
-})
-
-
 const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId, jobInfo, setJobInfo }) => {
     const navigate = useNavigate();
 
