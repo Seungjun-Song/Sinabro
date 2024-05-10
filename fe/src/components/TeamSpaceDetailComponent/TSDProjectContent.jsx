@@ -5,6 +5,7 @@ import TSDUserModal from "./TSDUserModal";
 import { AnimatePresence } from "framer-motion";
 import { GlobalColor } from "../../services/color";
 import { Calender } from "../calender/Calender";
+import SonarQubeContents from "./SonarQubeContents"
 import Todo from "./Todo";
 
 const TSDProjectContent = ({ whatInfo, isDark }) => {
@@ -40,6 +41,7 @@ const TSDProjectContent = ({ whatInfo, isDark }) => {
             <TSDUserModal whatUser={whatUser} setWhatUser={setWhatUser} />
           )}
         </AnimatePresence>
+        {whatInfo == "소나큐브" && <SonarQubeContents/>}
       </div>
     </>
   );
