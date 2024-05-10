@@ -9,3 +9,8 @@
         display: none;
     }
 }
+
+.text-primary, .text-danger {
+    transition: color 0.5s ease;
+  }
+  
