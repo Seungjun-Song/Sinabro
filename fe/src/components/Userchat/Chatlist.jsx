@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 const Chatlist = ({ item, setWhatpjt, whatpjt }) => {
 
   const [lastChat, setLastChat] = useState(null)
+  const [lastTime, setLastTime] = useState(null)
 
   useEffect(() => {
     // Firebase Realtime Database에서 채팅 메시지를 가져와서 설정합니다.
@@ -17,8 +18,9 @@ const Chatlist = ({ item, setWhatpjt, whatpjt }) => {
         // 채팅 마지막 메세지 저장
         const chatMessages = Object.values(data)
         const lastMessage = chatMessages[chatMessages.length - 1]?.message
+        const lastChatTime = chatMessages[chatMessages.length - 1]?.message
         setLastChat(lastMessage)
-        console.log(lastMessage, '이거 왜 안될까?')
+
       }
     })
   }, [whatpjt.projectId])
@@ -62,7 +64,7 @@ const Chatlist = ({ item, setWhatpjt, whatpjt }) => {
             opacity: 0.5,
           }}
         >
-          {item?.day}
+          {lastTime}
         </div>
       </motion.div>
     </>

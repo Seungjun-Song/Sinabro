@@ -60,7 +60,7 @@ const Callback = () => {
                     console.error(err)
                 })
             }
-            navigate('/Mainpage')
+            navigate('/testpage')
         }
 
         fetchData();
