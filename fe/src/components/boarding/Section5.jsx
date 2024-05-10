@@ -301,7 +301,7 @@ const Section5 = ({ section4Ref ,setScroll,scroll }) => {
             // whileHover={{ cursor: "pointer" }}
             onHoverStart={() => setIsHover(true)}
             onHoverEnd={() => setIsHover(false)}
-            onClick={() => logIn()} //,
+            onClick={() => navigate('/callback')} //,
             style={{
               padding: " 1.5rem 4rem",
               // height: "5rem",
