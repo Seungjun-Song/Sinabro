@@ -33,7 +33,8 @@ const Posts = ({kind, isDark, postList}) => {
             {...listMotion}
             isDark={isDark}
         >
-        {postList.map((post, index) => (
+
+        {postList && postList.length > 0 && postList.map((post, index) => (
             <>
             <Line key={index}/>
             <Post

@@ -22,7 +22,8 @@ export const projectCreateSlice = createSlice({
             state.value.projectName = action.payload
         },
         saveProjectInfo: (state, action) => {
-            state.value.projectInfo = action.payload
+            const formattedProjectInfo = action.payload.replace(/\n/g, "<br>")
+            state.value.projectInfo = formattedProjectInfo
         },
         saveProjectImg: (state, action) => {
             state.value.projectImg = action.payload

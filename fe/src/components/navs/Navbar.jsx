@@ -197,8 +197,8 @@ const Navbar = () => {
         </DropDown>
 
         <Community style={{ fontFamily: "Jamsil Light" }}
-          onClick={() => navigate('/communityMainPage', { state: { kind: "member" } })}
-        >커뮤니티</Community>
+        onClick={() => navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"} } })}
+      >커뮤니티</Community>
       </LeftNavContainer>
       <RightNavContainer>
         <MyPage style={{ fontFamily: "Jamsil Light" }}

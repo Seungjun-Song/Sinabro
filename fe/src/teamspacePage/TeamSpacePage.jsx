@@ -81,6 +81,7 @@ const TeamSpacePage = () => {
           imgUrl={imgUrl}
           setImageUrl={setImgUrl}
         />
+        <ProjectGitConnect isDark={isDark} />
         <ProjectInfo
           setProjectInfo={setProjectInfo}
           projectinfo={projectinfo}
@@ -102,7 +103,6 @@ const TeamSpacePage = () => {
             />
           )}
         </AnimatePresence>
-        <ProjectGitConnect isDark={isDark} />
         <ProjectCreateBtn isDark={isDark} />
       </div>
     </>

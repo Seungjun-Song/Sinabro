@@ -96,7 +96,7 @@ const CommunityFeadBackPage = ({isDark, postList,  proceedOption, setProceedOpti
                     proceedToggle={proceedToggle}
                     setProceedOption={setProceedOption}
                     setProceedToggle={setProceedToggle}
-                    kind={"feadback"}
+                    kind={{id: 403, name: "feadback"}}
                     isDark={isDark}
                 />
                 </div>
@@ -107,21 +107,21 @@ const CommunityFeadBackPage = ({isDark, postList,  proceedOption, setProceedOpti
                     teamToggle={teamToggle}
                     setTeamOption={setTeamOption}
                     setTeamToggle={setTeamToggle}
-                    kind={"feadback"}
+                    kind={{id: 403, name: "feadback"}}
                     isDark={isDark}
                 />
                 </div>
                 </Option>
 
                 <WriteButton
-                    kind={"feadback"}
+                    kind={{id: 403, name: "feadback"}}
                     isDark={isDark}
                 />
               
             </Select>
 
             <Posts
-                kind={"feadback"}
+                kind={{id: 403, name: "feadback"}}
                 isDark={isDark}
                 postList={postList}>
             </Posts>

@@ -16,6 +16,8 @@ const Box = styled(motion.div)`
   padding: 20px;
   width: 100%;
 
+  max-height: 30rem;
+  overflow: auto;
   color: black;
 `;
 const TeamList = styled.div`

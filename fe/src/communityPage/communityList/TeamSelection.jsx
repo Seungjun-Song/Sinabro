@@ -53,7 +53,16 @@ const Line = styled.hr`
 `
 
 const TeamSelection = ({teamOption, setTeamOption, setTeamToggle, isDark}) => {
-    const teamList = ["Back", "Front"]
+    const teamList = [
+        {
+            id: 100,
+            name: "Back"
+        },
+        {
+            id: 200,
+            name: "Front",
+        },
+    ]
 
     const changeOption = (option) => {
         setTeamOption(option);
@@ -65,7 +74,7 @@ const TeamSelection = ({teamOption, setTeamOption, setTeamToggle, isDark}) => {
             {...toggleBoxMotion}
             isDark={isDark}
         >
-            <Option onClick={() => changeOption("분야 선택")}>
+            <Option onClick={() => changeOption({id: 0, name: "분야 선택"})}>
                 분야 선택
                 <Line/>
             </Option>
@@ -79,7 +88,7 @@ const TeamSelection = ({teamOption, setTeamOption, setTeamToggle, isDark}) => {
                 transition={{ duration: 0.2 }}
             >
                 <Option key={index} onClick={() => changeOption(team)}>
-                    {team}
+                    {team.name}
                     <Line/>
                 </Option>
                 </motion.div>

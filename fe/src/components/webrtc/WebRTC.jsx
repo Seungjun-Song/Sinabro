@@ -110,6 +110,7 @@ export default function WebRTC() {
                 session.disconnect();
             }
             leaveSession()
+            leaveCodeServer()
             // OV.current = new OpenVidu();
             // setSession(undefined);
             // setSubscribers([]);
@@ -152,6 +153,16 @@ export default function WebRTC() {
         }
     }, [session, myUserName]);
 
+    const leaveCodeServer = async () => {
+        try {
+            const res = await axios.post(`${back_url}/teams/projects/exit`)
+            console.log(res.data)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
     const leaveSession = useCallback(() => {
         axios.post(`${back_url}/room/exit`, {
             sessionId: sessionId,
@@ -169,7 +180,7 @@ export default function WebRTC() {
                 setMyUserName('');
                 setMainStreamManager(undefined);
                 setPublisher(undefined);
-                navigate('/');
+                navigate('/Mainpage');
             })
             .catch(err => {
                 // 요청이 실패한 경우
@@ -192,7 +203,7 @@ export default function WebRTC() {
 
     const getToken = async () => {
         const res = await axios.post(`${back_url}/room`, {
-            projectId: projectRoomId 
+            projectId: projectRoomId
         })
         if (res.data.isSuccess === true) {
             const token = res.data.result.connectionToken
@@ -203,7 +214,7 @@ export default function WebRTC() {
         else {
             try {
                 const response = await axios.post(`${back_url}/room/enter`, {
-                    projectId: projectRoomId 
+                    projectId: projectRoomId
                 })
                 const token = response.data.result
                 setSessionId(token.match(/sessionId=([^&]+)/)[1])
@@ -265,12 +276,12 @@ export default function WebRTC() {
                 />
                 {publisher !== undefined ? (
                     <UserImage>
-                        <UserVideoComponent streamManager={publisher}/>
+                        <UserVideoComponent streamManager={publisher} />
                     </UserImage>
                 ) : null}
                 {subscribers.map((sub, i) => (
                     <UserImage key={sub.id}>
-                        <UserVideoComponent streamManager={sub}/>
+                        <UserVideoComponent streamManager={sub} />
                     </UserImage>
                 ))}
             </NavRigthBox>

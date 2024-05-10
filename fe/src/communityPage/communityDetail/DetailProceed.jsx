@@ -42,7 +42,7 @@ const DetailProceed = ({detailData, kind, isDark}) => {
             $proceed={detailData.proceed === false}
             isDark={isDark}
         >
-        {kind === "feadback" ? (
+        {kind.name === "feadback" ? (
             <>
                 {detailData.proceed === true ? 
                     ("구걸 중")

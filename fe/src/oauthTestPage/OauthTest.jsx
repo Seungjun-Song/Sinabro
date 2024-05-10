@@ -1,6 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import {Cookies} from 'react-cookie';
 import axios from 'axios';
+import getEnv from '../utils/getEnv'
+
+export const logIn = () => {
+    const back_url = getEnv('BACK_URL')
+    
+    const CLIENT_ID = getEnv('CLIENT_ID');
+    const CALLBACK_URL = getEnv('CALLBACK_URL');
+
+    const GITHUB_AUTH_CODE_SERVER = getEnv('GITHUB_AUTH_CODE_SERVER')
+
+
+    const AUTHORIZATION_CODE_URL = `${GITHUB_AUTH_CODE_SERVER}?client_id=${CLIENT_ID}&redirect_uri=${CALLBACK_URL}`;
+
+    // 인가 서버에 GET 요청을 전송한다.
+    window.location.assign(AUTHORIZATION_CODE_URL);
+}
+
 
 const OauthTest = () => {
     const [cookie, setCookie] = useState('');

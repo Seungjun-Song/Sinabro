@@ -68,27 +68,29 @@ const middleMotion = {
 }
 
 const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
+
+    console.log(detailData)
     return(
     <Middle
         {...middleMotion}
     >
         <Content>
-            {detailData.content}
+            {new DOMParser().parseFromString(detailData.content, "text/html").body.textContent}
         </Content>
         <Bottom>
             <Hashs>
-                {detailData.hash.map((tag, index) => {
+                {detailData.hash && detailData.hash.length > 0 && detailData.hash.map((tag, index) => {
 
                     return( 
                         <Hash key={index}
                                 isDark={isDark}>
-                            {tag}
+                            {tag.subCategoryName}
                         </Hash>
                     )
                 })}
             </Hashs>
 
-            {kind === "team" ? (
+            {kind.name === "team" ? (
                 <WriterLinkBox
                     detailData={detailData}
                 />

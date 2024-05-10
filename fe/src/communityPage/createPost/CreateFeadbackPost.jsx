@@ -2,11 +2,13 @@ import styled, { css } from 'styled-components'
 import { useNavigate } from 'react-router';
 import { motion } from "framer-motion"
 import { useState } from 'react';
-
+import { faDesktop, faCog, faLeaf } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import CkEditor from './CkEditor';
 
 import { GlobalColor } from '../../services/color';
 import CreateJobsBox from './CreateJobsBox';
+import getEnv from '../../utils/getEnv';
 
 const MemberPost = styled.div`
     display: flex;
@@ -137,15 +139,48 @@ const headerMotion = {
 const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
     const navigate = useNavigate();
 
-    const [ jobInfo, setJobInfo ] = useState({
-        backSelected: false,
-        frontSelected: false,
-    })
+    const back_url = getEnv('BACK_URL')
+
+    const [jobInfo, setJobInfo] = useState([
+        {
+            id: 1,
+            name: "백",
+            borderColor: "#315DCC",
+            icon: faCog,
+            selected: 0,
+        }, 
+        {
+            id: 2, 
+            name: "프론트",
+            borderColor: "#3DC7AE",
+            icon: faDesktop,
+            selected: 0,
+        }
+    ])
 
     const submit = () =>{
-        //TODO: axios 게시물 저장
-
-        navigate('/communityMainPage', {state: {kind: "feadback"}});
+        axios.post(`${back_url}/communities`, {
+            boardId: postContent.id,
+            boardTitle: postContent.title,
+            boardContent: postContent.content,
+            boardImg: "https://firebase.com/v4/jbbbejqhuabsaskdb.jpg",
+            projectLink: "https://k10e103.p.ssafy.io/my-code-server",
+            projectId: 1,
+            subCategoryId: 403,
+            requiredbackEnd: jobInfo[0].selected,
+            requiredFrontEnd: jobInfo[1].selected,
+            requiredFullStack: 0,
+            boardTag: ["커피", "뭐"],
+        },
+        {withCredentials: true}
+        )
+        .then(response => {
+            console.log("save");
+            navigate('/communityMainPage', { state: { kind: {id: 403, name: "feadback"}, page: 1 } });
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 
     const onChangeTitle = (e) =>{
@@ -173,9 +208,9 @@ const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
                     >
                 </Title>
                 <CreateJobsBox
-                    kind={"feadback"}
-                    jobSelected={jobInfo}
-                    setJobSelected={setJobInfo}
+                    kind={{id: 403, name: "feadback"}}
+                    jobInfo={jobInfo}
+                    setJobInfo={setJobInfo}
                 >
                 </CreateJobsBox>
             </Header>
@@ -203,7 +238,7 @@ const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
                         whileHover={{
                             scale: 1.1,
                         }} 
-                        onClick={() => navigate('/communityMainPage', {state: {kind: "feadback"}})}>
+                        onClick={() => navigate('/communityMainPage', {state: {kind: {id: 403, name: "feadback"}}})}>
                         취소
                     </Cancel>
                     <Save 

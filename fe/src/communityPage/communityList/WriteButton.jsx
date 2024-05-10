@@ -36,7 +36,7 @@ const WriteButton = ({kind, isDark}) => {
     
     return(
         <Button
-            onClick={() => navigate('/createPost', {state: {kind: kind}})}
+            onClick={() => navigate('/createPost', {state: {kind: kind, isCreate: true}})}
             whileHover={{cursor: "pointer", y: -3}}
             isDark={isDark}
             >
