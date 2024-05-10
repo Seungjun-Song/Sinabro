@@ -52,15 +52,15 @@ const Callback = () => {
                         navigate('/survey');
                     }
                     else{
-                        navigate('/mainPage');
+                        navigate('/Mainpage');
                     }
 
                 })
                 .catch((err) => {
-        
+                    console.error(err)
                 })
             }
-
+            navigate('/Mainpage')
         }
 
         fetchData();
