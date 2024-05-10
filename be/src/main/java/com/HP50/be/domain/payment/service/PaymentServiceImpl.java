@@ -41,25 +41,31 @@ public class PaymentServiceImpl implements PaymentService{
         //팀원인지 먼저 확인
         if(!isTeammate){
             throw new BaseException(StatusCode.NOT_TEAM_MEMBER);
-        }
-        //이미 결제했는지 확인
-        boolean alreadyPayment = paymentCustomRepository.checkPaid(projectId);
-        if(alreadyPayment){
-            throw new BaseException(StatusCode.ALREADY_PAID);
-        }
+        };
         //해당 멤버 가져옴
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         //해당 프로젝트 가져옴
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
 
-        Payment payment = Payment.builder()
-                .paymentAmount(paymentAmount)
-                .paymentCard(null)
-                .paymentMethod(null)
-                .paymentImpUid(null)
-                .paymentStatus(PaymentStatus.READY)
-                .project(project)
-                .build();
+        //이미 결제를 한번이라도 눌렀으면 데이터가 있음
+        boolean alreadyPayment = paymentCustomRepository.checkPaid(projectId);
+        Payment payment =null;
+        if(alreadyPayment){
+            payment = paymentRepository.findByProject_ProjectId(projectId);
+            if(payment.getPaymentStatus()==PaymentStatus.OK){ //이미 결제했으면 예외
+                throw new BaseException(StatusCode.ALREADY_PAID);
+            }
+            //아니면 있으니까 그거기준으로 하게 그대로 반환
+        }else{
+            payment = Payment.builder()
+                    .paymentAmount(paymentAmount)
+                    .paymentCard(null)
+                    .paymentMethod(null)
+                    .paymentImpUid(null)
+                    .paymentStatus(PaymentStatus.READY)
+                    .project(project)
+                    .build();
+        }
         paymentRepository.save(payment);
 
         return PaymentResponseDto.builder()
