@@ -2,6 +2,8 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { logInLocal, logInServer }  from "./../../oauthTestPage/OauthTest"
+
 const wordlist = [
   {
     id: 1,
@@ -246,7 +248,10 @@ const Section1 = () => {
               color: "white",
               gap: "1rem",
               fontSize: "1.2rem",
+              cursor: "pointer"
             }}
+            onClick={() => logInServer()}
+            // onClick={() => logInLocal()}
           >
             시작하기
             <motion.div animate={{ x: isHover ? 10 : 0 }}>

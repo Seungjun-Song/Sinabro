@@ -2,6 +2,37 @@ import React, { useEffect, useState } from 'react';
 import {Cookies} from 'react-cookie';
 import axios from 'axios';
 
+export const logInLocal = () => {
+    const CLIENT_ID = "83e5d9fb40bfc85291f9";
+    const CLIENT_SECRETS = "4490fac24eac201fd1dd3e4196e86a1f8f07f0ad";
+    const CALLBACK_URL = "http://localhost:5173/callback";
+
+    const GITHUB_AUTH_CODE_SERVER = "https://github.com/login/oauth/authorize";
+    const GITHUB_AUTH_TOKEN_SERVER = "/login/oauth/access_token";
+    const GITHUB_API_SERVER = "/user";
+
+    const AUTHORIZATION_CODE_URL = `${GITHUB_AUTH_CODE_SERVER}?client_id=${CLIENT_ID}&redirect_uri=${CALLBACK_URL}`;
+
+    // 인가 서버에 GET 요청을 전송한다.
+    window.location.assign(AUTHORIZATION_CODE_URL);
+}
+
+export const logInServer = () => {
+    const CLIENT_ID = "218c974f1409ed1c47b2";
+    const CLIENT_SECRETS = "4490fac24eac201fd1dd3e4196e86a1f8f07f0ad";
+    const CALLBACK_URL = "https://k10e103.p.ssafy.io/callback";
+
+    const GITHUB_AUTH_CODE_SERVER = "https://github.com/login/oauth/authorize";
+    const GITHUB_AUTH_TOKEN_SERVER = "/login/oauth/access_token";
+    const GITHUB_API_SERVER = "/user";
+
+    const AUTHORIZATION_CODE_URL = `${GITHUB_AUTH_CODE_SERVER}?client_id=${CLIENT_ID}&redirect_uri=${CALLBACK_URL}`;
+
+    // 인가 서버에 GET 요청을 전송한다.
+    window.location.assign(AUTHORIZATION_CODE_URL);
+}
+
+
 const OauthTest = () => {
     const [cookie, setCookie] = useState('');
     const cookies = new Cookies();

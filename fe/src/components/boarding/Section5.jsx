@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faUpLong } from "@fortawesome/free-solid-svg-icons";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
+import { logInLocal, logInServer } from "../../oauthTestPage/OauthTest";
 const Section5 = ({ section4Ref ,setScroll,scroll }) => {
   // const [scroll, setScroll] = useState(false);
   const [isClick, setIsClick] = useState(false);
@@ -300,7 +301,8 @@ const Section5 = ({ section4Ref ,setScroll,scroll }) => {
             // whileHover={{ cursor: "pointer" }}
             onHoverStart={() => setIsHover(true)}
             onHoverEnd={() => setIsHover(false)}
-            onClick={() => handleClick()} //,
+            onClick={() => logInServer()} //,
+            // onClick={() => logInLocal()} //,
             style={{
               padding: " 1.5rem 4rem",
               // height: "5rem",
