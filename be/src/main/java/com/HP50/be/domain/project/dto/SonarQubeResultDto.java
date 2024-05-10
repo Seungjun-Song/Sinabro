@@ -1,22 +1,3 @@
-package com.HP50.be.domain.project.dto;
-
-import lombok.*;
-
-import java.util.List;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class SonarQubeResultDto {
-    Integer page; //현재 페이지
-    Integer totalPage; //총 페이지 개수
-    Integer effortTotal; // sonarQube가 도출한 이슈를 해결하는데 필요한 시간 ( 분 )
-    List<IssueDto> issues; //이슈들
-
-    public void addIssue(IssueDto issueDto){
-        this.issues.add(issueDto);
-    }
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:628f420820de7da44c1e26e14903203b3f617b4f08049d9cc866265e4a1dc709
+size 534
