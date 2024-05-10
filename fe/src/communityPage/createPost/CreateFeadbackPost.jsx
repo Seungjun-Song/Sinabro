@@ -136,7 +136,7 @@ const headerMotion = {
     transition: { duration: 0.3 }
 }
 
-const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
+const CreateFeadbackPost = ({ isDark, postContent, setPostContent, selectedPjtId }) => {
     const navigate = useNavigate();
 
     const back_url = getEnv('BACK_URL')
@@ -159,13 +159,14 @@ const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
     ])
 
     const submit = () =>{
+        if(selectedPjtId !== -1){
         axios.post(`${back_url}/communities`, {
             boardId: postContent.id,
             boardTitle: postContent.title,
             boardContent: postContent.content,
             boardImg: "https://firebase.com/v4/jbbbejqhuabsaskdb.jpg",
             projectLink: "https://k10e103.p.ssafy.io/my-code-server",
-            projectId: 1,
+            projectId: selectedPjtId,
             subCategoryId: 403,
             requiredbackEnd: jobInfo[0].selected,
             requiredFrontEnd: jobInfo[1].selected,
@@ -181,6 +182,7 @@ const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
         .catch(err => {
             console.log(err);
         });
+        }
     }
 
     const onChangeTitle = (e) =>{
@@ -234,6 +236,9 @@ const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
 
             <Bottom>
                 <Buttons>
+                    {selectedPjtId === -1 &&
+                        <>피드백을 받을 팀을 선택해주세요!</>
+                    }
                     <Cancel
                         whileHover={{
                             scale: 1.1,

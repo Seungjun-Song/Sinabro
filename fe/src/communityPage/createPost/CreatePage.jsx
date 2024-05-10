@@ -90,16 +90,48 @@ const CreatePage = () => {
         content: '',
         tag: ''
     });
+    const myProjectList = useSelector(state => state.myProjectList.value)
 
-    useEffect(() => {
+    const [ selectedPjt, setSelectedPjtId ] = useState({
+        id: -1,
+        projectName: "",
+        projectImg: "",
+    });
+
+    useEffect(() => {//글 수정시 데이터 초기세팅
         if(!data.isCreate){
             const post = data.detailData;
+
+            //태그는 문자열로
+            let tags = "";
+            if(post.hash && post.hash.length > 0){
+                post.hash.map((tag) => {
+                    tags += tag.subCategoryName + " ";
+                })
+            }
+
             setPostContent({
                 id: post.id,
                 title: post.title,
                 content: post.content,
-                tag: ["임시", "데이터"],
+                tag: tags,
             })
+
+            //프로젝트 정보
+            if(post.projectId !== null && post.projectId > 0){
+                if(myProjectList && myProjectList.length > 0){
+                    myProjectList.map((pjt, index) =>{
+                        if(pjt.projectId == post.projetId){
+                            
+                            setSelectedPjtId({
+                                id: pjt.projectId,
+                                projectName: pjt.projectName,
+                                projectImg: pjt.projectImg
+                            })
+                        }
+                    })
+                }
+            }
         }
     }, [])
 
@@ -108,8 +140,6 @@ const CreatePage = () => {
     const changeOption = (option) => {
         setSelected(option);
     }
-
-
 
     return(
         <>
@@ -137,7 +167,11 @@ const CreatePage = () => {
                     </Option>
                     </Options>
                     {selected.name === "member" || selected.name === "feadback" ? (
-                        <TeamChoiceBox/>
+                        <TeamChoiceBox
+                            selectedPjt={selectedPjt}
+                            setSelectedPjt={setSelectedPjtId}
+                            myProjectList={myProjectList}
+                        />
                     ) : ("")}
                 </Header>
 
@@ -146,6 +180,7 @@ const CreatePage = () => {
                         isdark={isdark}
                         postContent={postContent}
                         setPostContent={setPostContent}
+                        selectedPjtId={selectedPjt.id}
                     />
                 ) : ("")}
                 {selected.name === "team" ? (
@@ -161,6 +196,7 @@ const CreatePage = () => {
                         isdark={isdark}
                         postContent={postContent}
                         setPostContent={setPostContent}
+                        selectedPjtId={selectedPjt.id}
                     />
                 ) : ("")}
             </Create>

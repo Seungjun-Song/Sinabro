@@ -33,6 +33,7 @@ const Hashs = styled.div`
     justify-content: start;
 
     gap: 1rem;
+
 `
 
 const Hash = styled.div`
@@ -69,7 +70,6 @@ const middleMotion = {
 
 const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
 
-    console.log(detailData)
     return(
     <Middle
         {...middleMotion}

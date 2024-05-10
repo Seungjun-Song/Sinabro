@@ -146,7 +146,7 @@ const axiosInstance = axios.create({
 })
 
 
-const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
+const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId }) => {
     const navigate = useNavigate();
 
     const back_url = getEnv('BACK_URL')
@@ -180,32 +180,33 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
 
     const submit = () =>{
         //태그 정리
-        //const tagList = postContent.tag.split(" ");
-        //console.log(tagList);
+        const tagList = postContent.tag.split(" ");
+        console.log(tagList);
+
+        if(selectedPjtId !== -1){
         axios.post(`${back_url}/communities`, {
             boardId: postContent.id,
             boardTitle: postContent.title,
             boardContent: postContent.content,
             boardImg: "https://firebase.com/v4/jbbbejqhuabsaskdb.jpg",
             projectLink: "https://k10e103.p.ssafy.io/my-code-server",
-            projectId: 1,
+            projectId: selectedPjtId,
             subCategoryId: 401,
             requiredbackEnd: 2, //parseInt(jobInfo[0].target),
             requiredFrontEnd: 1, //parseInt(jobInfo[1].target),
             requiredFullStack: 0,
-            boardTag: ["kk", "kkl"],
+            boardTag: tagList,
         },
         {withCredentials: true}
         )
         .then(response => {
-            console.log("save");
             navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } });
         })
         .catch(err => {
             console.log(err);
         });
         
-    
+        }
     }
 
     const onChangeTitle = (e) =>{
@@ -256,6 +257,9 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
 
             <Bottom>
                 <Buttons>
+                    {selectedPjtId === -1 && 
+                        <>팀원을 구할 팀을 선택해 주세요!</>
+                    }
                     <Cancel 
                         whileHover={{
                             scale: 1.1,

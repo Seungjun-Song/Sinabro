@@ -119,7 +119,6 @@ const DetailHeader = ({kind, detailData, isDark}) => {
     const deletePost = () => {
         axios.delete(`${back_url}/communities/boards/${detailData.id}`)
         .then((res) => {
-            console.log(res);
             navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } })
         })
         .catch((err) => {

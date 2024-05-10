@@ -63,9 +63,9 @@ const DetailMainPage = () => {
             time: finalDate,
             proceed: getData.communityProgress,
             projectId: 1,
-            kind: "member"
-
+            kind: "member",
         })
+
 
       })
       .catch(err => {

@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 
 import TeamImg from "/image/community/pjtTempImg.png";
 import CheckImg from "/image/community/checkInPost.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Box = styled(motion.div)`
     display: flex;
@@ -62,29 +63,26 @@ const Line = styled.hr`
     
 `
 
-const TeamListBox = () => {
-  //TODO : team list를 받아 와야함
-  const [ selected, setSelected ] = useState(0);
+const TeamListBox = ({ selectedPjt, setSelectedPjt, myProjectList }) => {
 
-  const teamList = [
-    {
-      id: 1,
-      name: "7lans",
-      pjtimg: TeamImg,
-      date: "2024-02-01",
-    },
-    {
-      id: 2,
-      name: "minuet",
-      pjtimg: TeamImg,
-      date: "2024-02-01",
-    },
-  ];
-
-  const selectTeam = (index) =>{
-    setSelected(index);
+  useEffect(() => {
+    if(myProjectList && myProjectList.length > 0){
+    setSelectedPjt({
+      id: myProjectList[0].projectId,
+      name: myProjectList[0].projectName,
+      projectImg: myProjectList[0].projectImg
+    })
   }
+  }, [])
+  
 
+  const selectTeam = (pjt) =>{
+    setSelectedPjt({
+      id: pjt.projectId,
+      name: pjt.projectName,
+      projectImg: pjt.projectImg
+    });
+  }
 
   return (
     <Box
@@ -103,9 +101,9 @@ const TeamListBox = () => {
         hidden: { opacity: 0 },
       }}
     >
-      {teamList.map((team, index) => (
+      {myProjectList && myProjectList.length > 0 ? myProjectList.map((team, index) => (
         <TeamList
-          onClick={() => selectTeam(index)}
+          onClick={() => selectTeam(team)}
         >
           {/* <motion.div
             key={index}
@@ -117,19 +115,19 @@ const TeamListBox = () => {
           > */}
           <div style={{display: "flex", gap: "1rem"}}> 
             <TeamProfile
-              src={team.pjtimg}
+              src={team.projectImg}
             >
             </TeamProfile>
             <TeamInfo>
               <Title>
-                {team.name}
+                {team.projectName}
               </Title>
               <Date>
                 {team.date}
               </Date>
             </TeamInfo>
             </div>
-            {selected === index && 
+            {selectedPjt.id === team.projectId && 
               <img
                 src={CheckImg}
                 style={{width: "0.8rem"}}
@@ -137,7 +135,10 @@ const TeamListBox = () => {
             }
           {/* </motion.div> */}
         </TeamList>
-      ))}
+      )):
+      (
+        <>팀이 없어요ㅠ</>
+      )}
     </Box>
   );
 };
