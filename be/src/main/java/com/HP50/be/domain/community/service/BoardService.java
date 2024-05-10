@@ -20,4 +20,6 @@ public interface BoardService {
                                                  int page);
     Board findById(Integer boardId);
     void deleteBoard(Integer boardId);
+
+    List<BoardLightPlateResponseDto> getLightPlateBoards();
 }

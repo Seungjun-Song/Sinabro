@@ -130,6 +130,17 @@ public class BoardServiceImpl implements BoardService {
         boardRepository.deleteById(boardId);
     }
 
+    @Override
+    public List<BoardLightPlateResponseDto> getLightPlateBoards() {
+        List<BoardLightPlateResponseDto> boardLightPlateResponseDtoList= boardCustomRepository.getRandomBoardRequired().stream()
+                .map(board -> BoardLightPlateResponseDto.builder()
+                        .boardId(board.getBoardId())
+                        .projectName(board.getProject().getProjectName())
+                        .boardTitle(board.getBoardTitle())
+                        .build()).toList();
+        return boardLightPlateResponseDtoList;
+    }
+
     public Board transferToBoard(String token, BoardInsertRequestDto boardInsertRequestDto){
         Integer memberId = jwtUtil.getMemberId(token);
         // board 가 0 이라면 save
