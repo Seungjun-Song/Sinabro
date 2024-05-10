@@ -1,26 +1,3 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-    value: []
-}
-
-export const invitedUserListSlice =  createSlice({
-    name: 'invitedUserList',
-    initialState,
-    reducers: {
-        addInvitedUserList: (state, action) => {
-            state.value.push(action.payload)
-        },
-        removeInvitedUserByIndex: (state, action) => {
-            const removeIndex = action.payload
-            state.value.splice(removeIndex, 1)
-        },
-        clearInvitedUserList: (state) => {
-            state.value = []
-        },
-    }
-})
-
-export const {addInvitedUserList, removeInvitedUserByIndex, clearInvitedUserList} = invitedUserListSlice.actions
-
-export default invitedUserListSlice.reducer
+version https://git-lfs.github.com/spec/v1
+oid sha256:1657bcc9f88f1139f8df8dbd672c7065b77fa0ce77a6667b3b94a23e5c65e00b
+size 839
