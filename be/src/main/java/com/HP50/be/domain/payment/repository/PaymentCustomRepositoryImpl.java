@@ -2,6 +2,7 @@ package com.HP50.be.domain.payment.repository;
 
 import com.HP50.be.domain.payment.entity.Payment;
 import com.HP50.be.domain.payment.entity.PaymentStatus;
+import com.HP50.be.domain.payment.entity.QPayment;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +17,11 @@ public class PaymentCustomRepositoryImpl implements PaymentCustomRepository{
     private final JPAQueryFactory queryFactory;
     @Override
     public boolean checkPaid(int projectId) {
-        Payment paid = queryFactory.select(payment)
-                .from(payment)
-                .where(payment.project.projectId.eq(projectId)
-                        .and(payment.paymentStatus.eq(PaymentStatus.OK)))
+        Payment payment = queryFactory.select(QPayment.payment)
+                .from(QPayment.payment)
+                .where(QPayment.payment.project.projectId.eq(projectId))
                 .fetchOne();
-        return paid != null;
+        return payment!=null;
     }
 
     @Override
