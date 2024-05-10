@@ -112,9 +112,20 @@ const ProjectPage = () => {
     }
     getCodeServerURL()
 
+    const leaveCodeServer = async () => {
+      try {
+        const res = await axios.post(`${back_url}/teams/projects/exit`)
+        console.log(res.data)
+      }
+      catch (err) {
+        console.log(err)
+      }
+    }
+
     return () => {
       setCodeServerURL(null) // 프로젝트를 떠나면 주소 초기화
       setLoading(true)
+      leaveCodeServer()
     }
   }, [])
 
