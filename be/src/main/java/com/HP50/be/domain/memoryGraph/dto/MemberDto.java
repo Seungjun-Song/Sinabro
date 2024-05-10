@@ -1,15 +1,3 @@
-package com.HP50.be.domain.memoryGraph.dto;
-
-import com.HP50.be.domain.memoryGraph.entity.Memo;
-import lombok.Builder;
-import lombok.Data;
-import reactor.core.publisher.Flux;
-
-@Data
-@Builder
-public class MemberDto {
-    private String email;
-    private String name;
-    private Flux<Memo> to;
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:366eaf90e3c1ffd8914a2a4cbc948f5ec1e3597fdcb9e38bef0f059fdb6663a5
+size 287

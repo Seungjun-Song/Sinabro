@@ -1,8 +1,3 @@
-package com.HP50.be.domain.memoryGraph.repository;
-
-import com.HP50.be.domain.memoryGraph.entity.Neo4jMember;
-import org.springframework.data.neo4j.repository.ReactiveNeo4jRepository;
-
-public interface Neo4jMemberRepository extends ReactiveNeo4jRepository<Neo4jMember, String> {
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:73e6247b9fee2dea6d628a9c77d7b711514dd63155a35b240aaa449623d0c64a
+size 266
