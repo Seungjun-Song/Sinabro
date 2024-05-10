@@ -75,8 +75,8 @@ const App = () => {
    
     <Routes>
       {/* <Route path='/login' element={<LoginPage/>}/>
-      <Route path='/register' element={<RegisterPage/>}/>
-      <Route path='/' element={<TestPage/>}/> */}
+      <Route path='/register' element={<RegisterPage/>}/> */}
+      <Route path='/testpage' element={<TestPage/>}/>
       <Route path='/codetest' element={<CodeTestPage/>}/>
       <Route path='/survey' element={<SurveyPage/>}/>
       <Route path='/mypage' element={<MyPage/>}/>

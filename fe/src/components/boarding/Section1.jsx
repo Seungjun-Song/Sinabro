@@ -2,9 +2,8 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { logIn }  from "./../../oauthTestPage/OauthTest"
-import Callback from "../../oauthTestPage/Callback";
 import { useNavigate } from "react-router-dom";
+import { logInServer } from "../../oauthTestPage/OauthTest";
 
 const wordlist = [
   {
@@ -255,7 +254,7 @@ const Section1 = () => {
               fontSize: "1.2rem",
               cursor: "pointer"
             }}
-            onClick={() => navigate('/callback')}
+            onClick={() => logInServer()}
           >
             시작하기
             <motion.div animate={{ x: isHover ? 10 : 0 }}>
