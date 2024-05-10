@@ -1,21 +1,3 @@
-package com.HP50.be.domain.calender.dto;
-
-import lombok.*;
-
-import java.time.LocalDate;
-
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class CalenderDto {
-    Integer calenderId;
-    Integer memberId;
-    String memberImg;
-    String memberName;
-    Integer subCategoryId;
-    LocalDate calenderStartDt;
-    LocalDate calenderEndDt;
-    String calenderName;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a598cc1b1ec9b4449818f24a694801dc60ba1c484813dea1f78d4ceb3f7d0752
+size 1010

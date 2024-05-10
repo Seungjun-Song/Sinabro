@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e355f481be7851e65cb57234e101999cb201ede0895dfebcbbd073575122f00c
-size 334
+package com.HP50.be.domain.project.dto;
+
+import lombok.*;
+
+import java.util.List;
+
+@Builder
+@Setter
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProjectCreateRequestDto {
+    String projectName;
+    String projectInfo;
+    String projectImg;
+    String projectRepo;
+    List<TechStackSimpleDto> memberList;
+}

@@ -1,8 +1,3 @@
-package com.HP50.be.domain.memoryGraph.service;
-
-import com.HP50.be.domain.memoryGraph.entity.Memo;
-import reactor.core.publisher.Flux;
-
-public interface MemoService {
-    Flux<Memo> findAll();
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:7e201652668c1d84ef7168329be36939f5915d46107a532beece0bfb9eea6afc
+size 196
