@@ -34,6 +34,9 @@ export const projectCreateSlice = createSlice({
         addProjectMemberList: (state, action) => {
             state.value.memberList.push(action.payload)
         },
+        setProjectMemberList: (state,action) => {
+            state.value.memberList = action.payload
+        },
         removeProjectMemberAtIndex: (state, action) => {
             const indexToRemove = action.payload;
             state.value.memberList.splice(indexToRemove, 1);
@@ -53,6 +56,6 @@ export const projectCreateSlice = createSlice({
     }
 })
 
-export const { saveProjectMemberId, saveProjectName, saveProjectInfo, saveProjectImg, saveProjectRepo, addProjectMemberList, clearProjectCreate, removeProjectMemberAtIndex, updateProjectMemberAtIndex } = projectCreateSlice.actions
+export const { saveProjectMemberId, saveProjectName, saveProjectInfo, saveProjectImg, saveProjectRepo, addProjectMemberList, clearProjectCreate, removeProjectMemberAtIndex, updateProjectMemberAtIndex, setProjectMemberList } = projectCreateSlice.actions
 
 export default projectCreateSlice.reducer

@@ -19,7 +19,7 @@ const BtnContainer = styled.div`
     }
 `
 
-const ProjectCreateBtn = ({ isDark }) => {
+const ProjectCreateBtn = ({ isDark, setRoleCheck }) => {
 
     const back_url = getEnv('BACK_URL')
 
@@ -41,6 +41,7 @@ const ProjectCreateBtn = ({ isDark }) => {
         }
         catch (err) {
             console.error(err)
+            setRoleCheck(true)
         }
     }
 

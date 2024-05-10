@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeProjectMemberAtIndex, updateProjectMemberAtIndex } from "../../store/projectCreateSlice";
 import { removeInvitedUserByIndex } from "../../store/invitedUserListSlice";
 
@@ -11,18 +11,20 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
   const [job, setJob] = useState(null);
   const dispatch = useDispatch()
 
+  const userInfo = useSelector(state => state.user)
+
   const updateJob = (j) => {
     if (j === 'FE') {
       const n = 100
-      dispatch(updateProjectMemberAtIndex({index: idx, newValue: n}))
+      dispatch(updateProjectMemberAtIndex({ index: idx, newValue: n }))
     }
     else if (j === 'BE') {
       const n = 200
-      dispatch(updateProjectMemberAtIndex({index: idx, newValue: n}))
+      dispatch(updateProjectMemberAtIndex({ index: idx, newValue: n }))
     }
     else if (j === 'FULL') {
       const n = 300
-      dispatch(updateProjectMemberAtIndex({index: idx, newValue: n}))
+      dispatch(updateProjectMemberAtIndex({ index: idx, newValue: n }))
     }
   }
 
@@ -57,18 +59,22 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
           >
             {name}
           </div>
-          <motion.img
-            whileHover={{ cursor: "pointer", opacity: 1.1, scale: 1.1 }}
-            style={{
-              position: "absolute",
-              width: "0.6rem",
-              top: -5,
-              right: -5,
-              opacity: 0.3,
-            }}
-            src="/images/close_blue.png"
-            onClick={() => {dispatch(removeProjectMemberAtIndex(idx)), dispatch(removeInvitedUserByIndex(idx))}}
-          />
+          {name !== userInfo.currentUser.displayName ?
+            <motion.img
+              whileHover={{ cursor: "pointer", opacity: 1.1, scale: 1.1 }}
+              style={{
+                position: "absolute",
+                width: "0.6rem",
+                top: -5,
+                right: -5,
+                opacity: isDark ? 1 : 0.3,
+              }}
+              src={isDark ? 'images/close_red.png' : "/images/close_blue.png"}
+              onClick={() => { dispatch(removeProjectMemberAtIndex(idx)), dispatch(removeInvitedUserByIndex(idx)) }}
+            />
+            :
+            <></>
+          }
         </motion.div>
         <AnimatePresence>
           {isOpen && (
@@ -102,7 +108,7 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
                     onClick={() => (setJob(item), updateJob(item), setIsOpen(false))}
                     transition={{ duration: 0.3, delay: 0.1 * index }}
                     whileHover={{
-                      backgroundColor: getColor(item),
+                      backgroundColor: getColor({ item, isDark }),
                       cursor: "pointer",
                     }}
                     onHoverStart={() => handleHoverStart(item)}
@@ -122,7 +128,7 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
                         color:
                           isHovered && isHovered == item
                             ? "white"
-                            : getColor(item),
+                            : getColor({ item, isDark }),
                       }}
                     >
                       {item}
@@ -133,31 +139,40 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
             </motion.div>
           )}
         </AnimatePresence>
-        <div
-          style={{
-            height: "2rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: getColor(job),
-          }}
-        >
-          {getJob(job)}
-        </div>
+        <AnimatePresence>
+          <motion.div
+            whileHover={{ cursor: "pointer", y: -4 }}
+            style={{
+              height: "2rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: getColor({ item: job, isDark }),
+            }}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {getJob(job)}
+          </motion.div>
+        </AnimatePresence>
       </div>{" "}
     </>
   );
 };
-const getColor = (item) => {
+const getColor = ({ item, isDark }) => {
   // 여기에 item에 따라 적절한 색상을 반환하는 조건을 추가하세요
   // 예를 들어, item이 "A"일 때는 빨간색, "B"일 때는 파란색 등등...
-  return item === "FE"
-    ? "#3DC7AE"
-    : item === "BE"
-    ? "#315DCC"
-    : item === "FULL"
-    ? "#6C31CC"
-    : "black";
+  if (item === "FE") {
+    return "#3DC7AE"
+  }
+  else if (item === "BE") {
+    return "#315DCC"
+  }
+  else if (item === "FULL") {
+    return "#6C31CC"
+  }
+  else {
+    return isDark ? 'white' : "grey"
+  }
 };
 
 const getJob = (item) => {
@@ -166,9 +181,9 @@ const getJob = (item) => {
   return item === "FE"
     ? "프론트엔드"
     : item === "BE"
-    ? "백엔드"
-    : item === "FULL"
-    ? "풀스택"
-    : "역할 선택";
+      ? "백엔드"
+      : item === "FULL"
+        ? "풀스택"
+        : "역할 선택";
 };
 export default ProjectInviteImg;

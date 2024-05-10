@@ -14,7 +14,7 @@ import axios from 'axios';
 import getEnv from '../utils/getEnv';
 import { formatDate } from 'date-fns';
 
-import './style.css'
+import './ProjectStyles.css'
 
 const ProjectPageLeftPanelContainer = styled.div`
     height: 100%;
@@ -132,6 +132,12 @@ const IconHoverBox = styled.div`
     }
 `
 
+const SpanText = styled.span`
+    font-weight: lighter;
+    margin-left: auto;
+    margin-right: 0.2rem;
+`
+
 const CustomModal = styled(Modal)`
   .modal-content {
     background-color: #ffffff;
@@ -198,6 +204,7 @@ const ProjectPageLeftPanel = () => {
 
     const projectRoomId = useSelector(state => state.projectRoomId.value)
     const userInfo = useSelector(state => state.user)
+    const myCurrentProject = useSelector(state => state.myCurrentProject.value)
 
     useEffect(() => {
         if (modalState) {
@@ -351,7 +358,7 @@ const ProjectPageLeftPanel = () => {
             {isSidePanelOpen ? (
                 <ProjectPageLeftPanelContainer isDark={isDark} className='hide-all-panel'>
                     <ProjectNameBox isDark={isDark}>
-                        Project Name
+                        {myCurrentProject.projectName}
                         <IconHoverBox>
                             <FontAwesomeIcon icon={faChevronLeft} onClick={handleSidePanel} style={{ cursor: 'pointer' }} />
                         </IconHoverBox>
@@ -360,6 +367,7 @@ const ProjectPageLeftPanel = () => {
                         <IconHoverBox>
                             <FontAwesomeIcon icon={faCalendar} onClick={() => dispatch(toggleProjectCalenderState())} style={{ cursor: 'pointer' }} />
                         </IconHoverBox>
+                            <SpanText>일정 추가</SpanText>
                         <IconHoverBox>
                             <FontAwesomeIcon icon={faPlusCircle} onClick={handleShowModal} style={{ cursor: 'pointer' }} />
                         </IconHoverBox>
