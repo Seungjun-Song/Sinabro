@@ -6,14 +6,14 @@ import getEnv from "../../utils/getEnv";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
 const SonarQubeContents = () => {
   const [IMP, setIMP] = useState(null); // IMP를 상태로 관리 (선택적)
   const [isPaid, setIsPaid] = useState(true); // isPaid를 상태로 관리
   const back_url = getEnv("BACK_URL");
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value); //프로젝트
   const userInfo = useSelector((state) => state.user.currentUser);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   var projectId = myCurrentProject?.projectId;
   var impUid;
   // 포트원 라이브러리 추가
@@ -53,10 +53,14 @@ const SonarQubeContents = () => {
     // 함수가 정상적으로 실행되면 true를 반환
     const savePayment = async () => {
       try {
-        const res = await axios.post(`${back_url}/payment`, {
-          projectId: projectId,
-          paymentAmount: 100
-        }, {withCredentials: true});
+        const res = await axios.post(
+          `${back_url}/payment`,
+          {
+            projectId: projectId,
+            paymentAmount: 100,
+          },
+          { withCredentials: true }
+        );
         if (res.data.isSuccess) return true;
         return false;
       } catch (err) {
@@ -67,16 +71,20 @@ const SonarQubeContents = () => {
 
     const validatePayment = async (impUid) => {
       try {
-          const res = await axios.post(`${back_url}/payment/validate`, {
-              projectId: projectId,
-              paymentImpUid: impUid
-          }, { withCredentials: true });
-          return res.data.isSuccess;
+        const res = await axios.post(
+          `${back_url}/payment/validate`,
+          {
+            projectId: projectId,
+            paymentImpUid: impUid,
+          },
+          { withCredentials: true }
+        );
+        return res.data.isSuccess;
       } catch (err) {
-          console.log(err);
-          return false; // 실패 시 false 반환
+        console.log(err);
+        return false; // 실패 시 false 반환
       }
-  };
+    };
     // 먼저 savePayment를 실행하여 결제 정보를 저장
     const paymentSaved = await savePayment();
 
@@ -95,26 +103,39 @@ const SonarQubeContents = () => {
               : userInfo?.memberEmail,
           buyer_name: userInfo?.displayName,
         },
-        async function (rsp) { // 결과를 rsp로 콜백받음
+        async function (rsp) {
+          // 결과를 rsp로 콜백받음
           // 결제 요청이 성공했을 때
           if (rsp.success) {
-              console.log(rsp.imp_uid);
-              const impUid = rsp.imp_uid;
+            console.log(rsp.imp_uid);
+            const impUid = rsp.imp_uid;
 
-              // validatePayment 호출하여 결제 검증
-              const isPaymentValid = await validatePayment(impUid);
-              if (isPaymentValid) {
-                  alert("결제가 성공적으로 완료되었습니다.");
-                  setIsPaid(true);
-              } else {
-                  alert("결제 검증에 실패했습니다. 다시 시도해 주십시오.");
-              }
+            // validatePayment 호출하여 결제 검증
+            const isPaymentValid = await validatePayment(impUid);
+            if (isPaymentValid) {
+              Swal.fire(
+                "결제 성공",
+                "정적분석을 이용하실 수 있어요 ! 😄 ",
+                "success"
+              );
+              setIsPaid(true);
+            } else {
+              Swal.fire({
+                title: "결제 실패",
+                text: "다시 요청해주세요.",
+                icon: "error",
+              });
+            }
           } else {
-              // 결제 요청이 실패했을 때
-              alert("결제 취소하셨습니다.");
-              console.log(rsp);
+            // 결제 요청이 실패했을 때
+            Swal.fire({
+              title: "결제 실패",
+              text: "다시 요청해주세요.",
+              icon: "error",
+            });
+            console.log(rsp);
           }
-      }
+        }
       );
     } else {
       console.log("Payment information could not be saved.");
@@ -126,13 +147,16 @@ const SonarQubeContents = () => {
       <div className={style.container}>
         {isPaid ? (
           <div>
-            <button onClick={() => navigate('/SonarQube')}> 소나큐브 결과 페이지 이동</button>
+            <button onClick={() => navigate("/SonarQube")}>
+              {" "}
+              소나큐브 결과 페이지 이동
+            </button>
           </div>
         ) : (
           <div>
             <h3>소나큐브를 아직 결제하시지 않으셨군요!</h3>
             <h5 className="m-3">
-              정적분석을 통해서 프로젝트의 결점을 찾아보세요
+              정적분석을 통해서 프로젝트의 결점을 찾아보세요 ☺️
             </h5>
             <img
               className={`${style.sonarImg}`}
