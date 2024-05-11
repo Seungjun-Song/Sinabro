@@ -6,9 +6,11 @@ import { AnimatePresence } from "framer-motion";
 import { GlobalColor } from "../../services/color";
 import { Calender } from "../calender/Calender";
 import Todo from "./Todo";
+import { useSelector } from "react-redux";
 
 const TSDProjectContent = ({ whatInfo, isDark }) => {
   const [whatUser, setWhatUser] = useState(false);
+  const myCurrentProject = useSelector(state => state.myCurrentProject.value);
   return (
     <>
       {" "}
@@ -37,7 +39,7 @@ const TSDProjectContent = ({ whatInfo, isDark }) => {
         {whatInfo == "일정" && <Todo isDark={isDark} />}
         <AnimatePresence>
           {whatUser && (
-            <TSDUserModal whatUser={whatUser} setWhatUser={setWhatUser} />
+            <TSDUserModal myCurrentProject={myCurrentProject} whatUser={whatUser} setWhatUser={setWhatUser} />
           )}
         </AnimatePresence>
       </div>

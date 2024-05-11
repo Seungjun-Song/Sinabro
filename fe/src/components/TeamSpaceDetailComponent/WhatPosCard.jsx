@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
-const WhatPosCard = ({ item, state, name, setWhatUser, isDark, teamLeader, memberId }) => {
+const WhatPosCard = ({ item, state, name, setWhatUser, isDark, teamLeader, memberId, memberImg, techStack, teammateRole }) => {
 
   const userInfo = useSelector(state => state.user)
 
@@ -32,8 +32,8 @@ const WhatPosCard = ({ item, state, name, setWhatUser, isDark, teamLeader, membe
   return (
     <>
       <motion.div
-        layout
-        onClick={() => setWhatUser({ item: item, name: name, state: state })}
+      layout
+        onClick={() => setWhatUser({ item: item, name: name, state: state,techStack:techStack,memberImg:memberImg ,teammateRole:teammateRole,memberId:memberId})}
         whileHover={{ cursor: "pointer", y: -7 }}
         className="shadow d-flex gap-3 "
         style={{
@@ -49,16 +49,14 @@ const WhatPosCard = ({ item, state, name, setWhatUser, isDark, teamLeader, membe
           backgroundColor: isDark ? "#323232" : "white"
         }}
       >
-        <img style={{ width: "6rem" }} src="/images/juheon.png" />
-        <div style={{ color: getJobColor(item), width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {state}
-          {userInfo.currentUser.uid === teamLeader && memberId !== userInfo.currentUser.uid &&
+        <img style={{ width: "6rem" }} src={memberImg} />
+        <div style={{ color: getJobColor(item) }}>{state}</div>
+                  {userInfo.currentUser.uid === teamLeader && memberId !== userInfo.currentUser.uid &&
             <span style={{marginRight: '0.2rem'}}>
               X
             </span>
           }
-        </div>
-        <h5 style={{ margin: 0, color: isDark ? "white" : "black" }}>{name}</h5>
+        <h5 style={{ margin: 0 , color : isDark ? "white" :"black"}}>{name}</h5>
       </motion.div>
     </>
   );

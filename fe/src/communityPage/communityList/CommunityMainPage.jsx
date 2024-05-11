@@ -68,6 +68,10 @@ const CommunityMainPage = () => {
                     writer: data.memberName,
                     time: finalDate,
                     proceed: data.communityProgress,
+                    recruitedBack: data.recruitedPeopleBackEnd,
+                    recruitedFront: data.recruitedPeopleFrontEnd,
+                    requiredBack: data.requiredPeopleBackEnd,
+                    requiredFront: data.requiredPeopleFrontEnd,
                 };
 
                 setPostList(prevPostList => [...prevPostList, newPost]);
