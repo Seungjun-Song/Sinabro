@@ -37,26 +37,23 @@ const DUMMY_DATA = [
 const ProjectTeam = ({ setWhatUser, isDark }) => {
   const displayedRoles = [];
 
-  const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
-  const back_url = getEnv("BACK_URL");
+  const myCurrentProject = useSelector(state => state.myCurrentProject.value)
+  const back_url = getEnv('BACK_URL')
+  
+  const [teamInfo, setTeamInfo] = useState([])
+  const [teamLeader, setTeamLeader] = useState(null)
 
-  const [teamInfo, setTeamInfo] = useState([]);
+  const userInfo = useSelector(state => state.user)
 
   useEffect(() => {
     const getProjectInfo = async () => {
       try {
-        const res = await axios.get(
-          `${back_url}/teams?projectId=${myCurrentProject.projectId}`
-        );
-        console.log(res.data);
-        const transformedTeamInfo = res.data.result.teammateInfoList?.map(
-          (item) => ({
-            ...item,
-            teammateRole: convertTeammateRole(item.teammateRole),
-          })
-        );
-        console.log(transformedTeamInfo);
-        setTeamInfo(transformedTeamInfo);
+        const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`)
+        console.log(res.data)
+        setTeamLeader(res.data.result.teammateInfoList[0]?.memberId)
+        const transformedTeamInfo = res.data.result.teammateInfoList?.map(item => ({...item, teammateRole: convertTeammateRole(item.teammateRole)}))
+        console.log(transformedTeamInfo)
+        setTeamInfo(transformedTeamInfo)
       } catch (err) {
         console.error(err);
       }
@@ -115,10 +112,11 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 item={item.teammateRole}
                 state={item.teamReader ? "Reader" : "Member"}
                 name={item.memberName}
+                memberId={item.memberId}
+                teamLeader={teamLeader}
                 memberImg={item.memberImg}
                 techStack={item.techStack}
                 teammateRole={item.teammateRole}
-                memberId={item.memberId}
               />
             </motion.div>
           );
@@ -144,10 +142,11 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 item={item.teammateRole}
                 state={item.teamReader ? "Reader" : "Member"}
                 name={item.memberName}
+                memberId={item.memberId}
+                teamLeader={teamLeader}
                 memberImg={item.memberImg}
                 techStack={item.techStack}
                 teammateRole={item.teammateRole}
-                memberId={item.memberId}
               />
             </motion.div>
           );
