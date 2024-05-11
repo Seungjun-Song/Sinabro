@@ -117,7 +117,7 @@ export default (props) => {
         </motion.div>
 
         <div className="slideC">
-          {props.data.map((item, i) => (
+          {props.data && props.data.length > 0 && props.data.map((item, i) => (
             <React.Fragment key={item.projectId}>
               <motion.div
                 whileHover={{

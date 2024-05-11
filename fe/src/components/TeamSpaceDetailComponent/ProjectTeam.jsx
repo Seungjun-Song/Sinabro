@@ -41,12 +41,16 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
   const back_url = getEnv('BACK_URL')
   
   const [teamInfo, setTeamInfo] = useState([])
+  const [teamLeader, setTeamLeader] = useState(null)
+
+  const userInfo = useSelector(state => state.user)
 
   useEffect(() => {
     const getProjectInfo = async () => {
       try {
         const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`)
         console.log(res.data)
+        setTeamLeader(res.data.result.teammateInfoList[0]?.memberId)
         const transformedTeamInfo = res.data.result.teammateInfoList?.map(item => ({...item, teammateRole: convertTeammateRole(item.teammateRole)}))
         console.log(transformedTeamInfo)
         setTeamInfo(transformedTeamInfo)
@@ -109,6 +113,8 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 item={item.teammateRole}
                 state={item.teamReader ? 'Reader' : 'Member'}
                 name={item.memberName}
+                memberId={item.memberId}
+                teamLeader={teamLeader}
               />
             </motion.div>
           );
@@ -134,6 +140,8 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 item={item.teammateRole}
                 state={item.teamReader ? 'Reader' : 'Member'}
                 name={item.memberName}
+                memberId={item.memberId}
+                teamLeader={teamLeader}
               />
             </motion.div>
           );
