@@ -22,6 +22,7 @@ import java.util.List;
 @Slf4j
 public class Neo4jMemberController {
     private final Neo4jMemberServiceImpl neo4jMemberService;
+    private final Neo4jMemberRepository neo4jMemberRepository;
 
     @PutMapping
     public ResponseEntity<BaseResponse<StatusCode>> saveMember(@RequestBody MemberDto memberDto){
@@ -42,4 +43,5 @@ public class Neo4jMemberController {
     public ResponseEntity<BaseResponse<List<MemberDto>>> findAllMember(){
         return ResponseEntity.ok().body(new BaseResponse<>(neo4jMemberService.findAllMembers()));
     }
+
 }

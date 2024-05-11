@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Builder
 public class MemberDto {
-    private String memberId;
+    private Integer memberId;
     private String name;
-    private List<Memo> to;
+    private List<Memo> memoList;
 }

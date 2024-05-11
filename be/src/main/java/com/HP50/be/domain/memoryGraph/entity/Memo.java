@@ -4,19 +4,22 @@ package com.HP50.be.domain.memoryGraph.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.neo4j.core.schema.*;
+import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
 import java.util.List;
 
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Node("Memo")
 public class Memo {
 
-    @Id
-    private Integer identity ;
+    @Id @GeneratedValue(UUIDStringGenerator.class) @Property(name = "memo_id")
+    private String memoId;
 
     @Property
     private String title;
