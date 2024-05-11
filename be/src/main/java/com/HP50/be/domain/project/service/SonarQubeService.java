@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface SonarQubeService {
     void executeSonarScanner(Integer projectId,String folderName);
-    SonarQubeResultDto getResult(Integer projectId, Integer pageNumber, JsonObject jsonObject);
+    SonarQubeResultDto getResult(Integer projectId, Integer pageNumber, JsonObject jsonObject,Integer effortTotal,Integer openTotal);
     void changeIssuesStatus(String issues,String doTransition);
 }

@@ -12,8 +12,9 @@ import java.util.List;
 public class SonarQubeResultDto {
     Integer page; //현재 페이지
     Integer totalPage; //총 페이지 개수
-    Integer effortTotal; // sonarQube가 도출한 이슈를 해결하는데 필요한 시간 ( 분 )
+    Integer effortTotal; // sonarQube가 도출한 이슈를 해결하는데 필요한 시간 ( 분 ) -> open & confirmed 기준
     Integer total; //총 이슈 개수
+    Integer openTotal; // Open & Confirmed 이슈 개수
     List<IssueDto> issues; //이슈들
 
     public void addIssue(IssueDto issueDto){

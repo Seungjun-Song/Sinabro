@@ -112,18 +112,17 @@ public class SonarQubeServiceImpl implements SonarQubeService{
         결과 정리해서 return
      */
     @Override
-    public SonarQubeResultDto getResult(Integer projectId, Integer pageNumber, JsonObject jsonObject) {
+    public SonarQubeResultDto getResult(Integer projectId, Integer pageNumber, JsonObject jsonObject,Integer effortTotal,Integer openTotal) {
         //page, effortTotal로 기초 세팅
         Integer page = jsonObject.get("p").getAsInt();
         Integer total = jsonObject.get("total").getAsInt();
-        Integer effortTotal = jsonObject.get("effortTotal").getAsInt();
-        Integer totalPage = (int) Math.ceil(total/100.0);
-        System.out.println(total);
+        Integer totalPage = (int) Math.ceil(total/20.0);
         SonarQubeResultDto result = SonarQubeResultDto.builder()
                 .page(page)
                 .totalPage(totalPage)
                 .effortTotal(effortTotal)
                 .total(total)
+                .openTotal(openTotal)
                 .issues(new ArrayList<>()).build();
 
         //이슈 하나씩 관리
