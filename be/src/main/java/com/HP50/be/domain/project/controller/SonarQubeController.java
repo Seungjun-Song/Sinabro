@@ -52,7 +52,7 @@ public class SonarQubeController {
             throw new BaseException(StatusCode.REQUIRE_PAYMENT);
         }
 
-        JsonObject jsonObject = getJsonObject(projectId,1,true);
+        JsonObject jsonObject = getJsonObject(projectId,1,0);
 
         int total = jsonObject.get("total").getAsInt();
         if(total==0){ //아직 소나큐브가 돌아가는 중
@@ -74,10 +74,12 @@ public class SonarQubeController {
             throw new BaseException(StatusCode.REQUIRE_PAYMENT);
         }
         //결제 했다면 api 결과 받아옴.
-        JsonObject jsonObject = getJsonObject(dto.getProjectId(), dto.getPageNumber(),false);
+        JsonObject jsonObject = getJsonObject(dto.getProjectId(), dto.getPageNumber(),1);
+        JsonObject jsonObject2 = getJsonObject(dto.getProjectId(), 1, 2);//여기서 얻은 issueList는 어짜피 사용 안함.
+        Integer effortTotal = jsonObject2.get("effortTotal").getAsInt();
+        Integer openTotal = jsonObject2.get("total").getAsInt();
 
-
-        SonarQubeResultDto result = sonarQubeService.getResult(dto.getProjectId(), dto.getPageNumber(), jsonObject);
+        SonarQubeResultDto result = sonarQubeService.getResult(dto.getProjectId(), dto.getPageNumber(), jsonObject,effortTotal,openTotal);
 
         return ResponseEntity.ok(new BaseResponse<>(result));
     }
@@ -135,12 +137,15 @@ public class SonarQubeController {
     /**
      * 소나큐브 결과 JsonObject
      */
-    private static JsonObject getJsonObject(Integer projectId,Integer pageNumber,boolean totalTest) {
+    private static JsonObject getJsonObject(Integer projectId,Integer pageNumber,Integer getCase) {
         //엔드포인트 설정
         StringBuilder sb = new StringBuilder();
         String componentsKey = "sonarQube_"+ projectId;
         sb.append("http://k10e103.p.ssafy.io:9000/api/issues/search?componentKeys=").append(componentsKey).append("&p=").append(pageNumber);
-        if(totalTest) sb.append("&ps=1");
+        if(getCase==0) sb.append("&ps=1"); //결과 테스트
+                else if(getCase==1)sb.append("&ps=20");//기존 반환
+                else if(getCase==2) sb.append("&issueStatuses=OPEN,CONFIRMED"); //현재 상태만.
+        sb.append("&s=STATUS");
         String responseBody = getResponseBody(sb,HttpMethod.GET,"");
         //parser를 사용해서 결과 분석
         JsonParser parser = new JsonParser();
