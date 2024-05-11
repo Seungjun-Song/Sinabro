@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 
 import { useNavigate } from 'react-router';
 import { motion } from "framer-motion"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { faDesktop, faCog, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
@@ -138,74 +138,43 @@ const headerMotion = {
     transition: { duration: 0.3 }
 }
 
-const axiosInstance = axios.create({
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJjb21wYW55IjoiSFA1MCIsIm1lbWJlcklkIjo5NDQyOTEyMCwiZW1haWwiOiJ3aGRybnJkbDc4OUBuYXZlci5jb20iLCJtZW1iZXJOYW1lIjoiSm9uZ0tvb2tFIiwibWVtYmVyR2l0IjoiaHR0cHM6Ly9naXRodWIuY29tL0pvbmdLb29rRSIsIm1lbWJlckltZyI6Imh0dHBzOi8vYXZhdGFycy5naXRodWJ1c2VyY29udGVudC5jb20vdS85NDQyOTEyMD92PTQiLCJpYXQiOjE3MTQ3MTM2NTEsImV4cCI6MTc1MDcxMzY1MX0.SrKj_R2pOGU6FpRn38U4jeqUCeuo0woyVd5J3fEBt4g'
-    }
-})
-
-
-const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
+const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId, jobInfo, setJobInfo }) => {
     const navigate = useNavigate();
 
     const back_url = getEnv('BACK_URL')
 
-    // const [ jobInfo, setJobInfo ] = useState({
-    //     backTarget: 0,
-    //     backTotal: 0,
-    //     frontTotal: 0,
-    //     frontTarget: 0,
-    // })
-
-    const [ jobInfo, setJobInfo ] = useState([
-        {
-            id: 1,
-            name: "백",
-            borderColor: "#315DCC",
-            icon: faCog,
-            target: 0,
-            total: 0,
-        },
-        {
-            id: 2, 
-            name: "프론트",
-            borderColor: "#3DC7AE",
-            icon: faDesktop,
-            target: 0,
-            total: 0,
-        }
-
-    ])
-
     const submit = () =>{
         //태그 정리
-        //const tagList = postContent.tag.split(" ");
-        //console.log(tagList);
+        const tagList = postContent.tag.split(" ");
+
+        //중간이 아닌 공백 정리 필요
+
+        if(selectedPjtId !== -1){
         axios.post(`${back_url}/communities`, {
             boardId: postContent.id,
             boardTitle: postContent.title,
             boardContent: postContent.content,
             boardImg: "https://firebase.com/v4/jbbbejqhuabsaskdb.jpg",
             projectLink: "https://k10e103.p.ssafy.io/my-code-server",
-            projectId: 1,
+            projectId: selectedPjtId,
             subCategoryId: 401,
-            requiredbackEnd: 2, //parseInt(jobInfo[0].target),
-            requiredFrontEnd: 1, //parseInt(jobInfo[1].target),
+            requiredPeopleBackEnd: jobInfo[0].target, //parseInt(jobInfo[0].target),
+            requiredPeopleFrontEnd: jobInfo[1].target, //parseInt(jobInfo[1].target),
+            recruitedPeopleBackEnd: jobInfo[0].total,
+            recruitedPeopleFrontEnd: jobInfo[1].total,
             requiredFullStack: 0,
-            boardTag: ["kk", "kkl"],
+            boardTag: tagList,
         },
         {withCredentials: true}
         )
         .then(response => {
-            console.log("save");
             navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } });
         })
         .catch(err => {
             console.log(err);
         });
         
-    
+        }
     }
 
     const onChangeTitle = (e) =>{
@@ -235,6 +204,8 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
                     kind={{id: 401, name: "member"}}
                     jobInfo={jobInfo}
                     setJobInfo={setJobInfo}
+                    postContent={postContent}
+                    setPostContent={setPostContent}
                 >
                 </CreateJobsBox>
             </Header>
@@ -256,6 +227,9 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent }) => {
 
             <Bottom>
                 <Buttons>
+                    {selectedPjtId === -1 && 
+                        <>팀원을 구할 팀을 선택해 주세요!</>
+                    }
                     <Cancel 
                         whileHover={{
                             scale: 1.1,

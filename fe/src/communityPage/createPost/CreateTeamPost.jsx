@@ -140,6 +140,8 @@ const CreateTeamPost = ({ isdark, postContent, setPostContent }) => {
     const back_url = getEnv('BACK_URL');
 
     const submit = () =>{
+
+        const tagList = postContent.tag.split(" ");
         
         axios.post(`${back_url}/communities`, {
             boardId: postContent.id,
@@ -149,7 +151,7 @@ const CreateTeamPost = ({ isdark, postContent, setPostContent }) => {
             projectLink: "https://k10e103.p.ssafy.io/my-code-server",
             projectId: 1,
             subCategoryId: 402,
-            boardTag: ["kk", "kkl"],
+            boardTag: tagList,
         },
         {withCredentials: true}
         )
@@ -159,8 +161,6 @@ const CreateTeamPost = ({ isdark, postContent, setPostContent }) => {
         .catch(err => {
             console.log(err);
         });
-
-        navigate('/communityMainPage', {state: {kind: {id: 402, name: "team"}}});
     }
 
     const onChangeTitle = (e) =>{

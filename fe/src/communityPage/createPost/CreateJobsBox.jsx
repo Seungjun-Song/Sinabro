@@ -56,15 +56,16 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
     }
 
     const changeTargetVal = (data, index) => {
+
         setJobInfo(jobInfo.map((v, i) => {
             if(index !== i ){
                 return v;
             }
             else{
-                if(data.nativeEvent.data == null)
+                if(data.nativeEvent.data == null || data.nativeEvent.data == "")
                     return {...v, target: ""}
                 else
-                    return{...v, target: data.nativeEvent.data};
+                    return{...v, target: parseInt(data.nativeEvent.data)};
             }
         }))
     
@@ -77,7 +78,11 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
                 return v;
             }
             else{
-                return{...v, total: data.nativeEvent.data}
+                if(data.nativeEvent.data == null || data.nativeEvent.data == ""){
+                    return {...v, total: ""}
+                }
+                else
+                    return{...v, total: parseInt(data.nativeEvent.data)}
             }
         }))
 

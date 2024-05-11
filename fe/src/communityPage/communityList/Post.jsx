@@ -156,6 +156,7 @@ const Post = ({post, kind, isDark}) => {
 
                 <Jobs
                     kind={kind}
+                    post={post}
                 >
                 </Jobs>
             </MainInfo>
@@ -167,14 +168,17 @@ const Post = ({post, kind, isDark}) => {
             <PlusInfo>
                 <Hashs>
                     {post.hash && post.hash.length > 0 && post.hash.map((tag, index) => {
-
-                        return( 
-                            <Hash 
-                                key={index}
-                                isDark={isDark}
-                            >
-                                {tag.subCategoryName}
-                            </Hash>
+                        return(    
+                            <>
+                            {tag.subCategoryName !== "" && 
+                                <Hash 
+                                    key={index}
+                                    isDark={isDark}
+                                >
+                                    {tag.subCategoryName}
+                                </Hash>
+                            }
+                        </>
                         )
                     })}
                 </Hashs>
