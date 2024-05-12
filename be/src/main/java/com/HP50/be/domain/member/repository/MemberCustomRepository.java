@@ -10,5 +10,6 @@ import java.util.Map;
 public interface MemberCustomRepository {
     public Map<Integer, Member> getMembersMap(List<Integer> idList);
     public Slice<Member> searchMember(String keyword, Pageable pageable);
+    void updateProfileImage(Integer memberId, String newImage);
 
 }

@@ -44,4 +44,13 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository{
         List<Member> members = hasNext ? results.subList(0, pageable.getPageSize()) : results;
         return new SliceImpl<>(members, pageable, hasNext);
     }
+
+    @Override
+    public void updateProfileImage(Integer memberId, String newImage) {
+        queryFactory
+                .update(member)
+                .where(member.memberId.eq(memberId))
+                .set(member.memberImg, newImage)
+                .execute();
+    }
 }
