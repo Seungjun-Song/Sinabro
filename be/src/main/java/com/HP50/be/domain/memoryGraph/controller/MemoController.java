@@ -9,6 +9,7 @@ import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.jwt.JwtConstants;
 import com.HP50.be.global.oauth.CustomOAuth2MemberDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.neo4j.driver.summary.ResultSummary;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import reactor.core.publisher.Flux;
 
 import java.util.List;
 
+@Tag(name = "Memo", description = "Neo4j의 Node 관련 API입니다.")
 @RestController
 @RequestMapping("/memo")
 @RequiredArgsConstructor
@@ -51,6 +53,7 @@ public class MemoController {
         return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
+    @Operation(summary = "메모 삭제", description = "관계 또한 같이 삭제 됌")
     @DeleteMapping
     public ResponseEntity<BaseResponse<StatusCode>> deleteMemo(@RequestParam("memoId") String memoId){
         memoService.deleteMemo(memoId);
