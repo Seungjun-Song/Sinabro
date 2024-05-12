@@ -6,8 +6,8 @@ import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.jwt.JwtConstants;
 import com.HP50.be.global.jwt.JwtUtil;
 import com.HP50.be.global.jwt.service.TokenInRedisService;
-import com.HP50.be.global.oauth.CustomOAuth2MemberDto;
 import com.HP50.be.global.oauth.dto.GithubAccessTokenDto;
+import com.HP50.be.global.oauth.dto.GithubEmailDto;
 import com.HP50.be.global.oauth.dto.GithubUserInfoDto;
 import com.HP50.be.global.oauth.dto.JwtInfoDto;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +25,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -73,11 +72,28 @@ public class OAuthServiceImpl implements OAuthService{
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
         GithubUserInfoDto response = restTemplate.exchange(
-                "https://api.github.com/user",
+                url,
                 HttpMethod.GET,
                 entity,
                 GithubUserInfoDto.class)
                 .getBody();
+
+        GithubEmailDto[] emailDtoArray = restTemplate.exchange(
+                        url + "/emails",
+                        HttpMethod.GET,
+                        entity,
+                        GithubEmailDto[].class)
+                .getBody();
+
+        // email 정보를 받아오는 요청
+        if (emailDtoArray != null) {
+            for(GithubEmailDto emailDto: emailDtoArray){
+                if(emailDto.isPrimary()){
+                    response.setEmail(emailDto.getEmail());
+                    break;
+                }
+            }
+        }
         return response;
     }
 
