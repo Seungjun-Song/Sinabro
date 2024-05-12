@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { useNavigate } from 'react-router';
 import { motion } from "framer-motion"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { faDesktop, faCog, faLeaf } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import CkEditor from './CkEditor';
@@ -138,31 +138,46 @@ const headerMotion = {
 
 const CreateFeadbackPost = ({ isDark, postContent, setPostContent, selectedPjtId, jobInfo, setJobInfo }) => {
     const navigate = useNavigate();
+    const [warning, setWarning ] = useState("내용을 채워주세요!");
+    const [ blocking, setBlocking ] = useState(true);
 
     const back_url = getEnv('BACK_URL')
 
-    // const [jobInfo, setJobInfo] = useState([
-    //     {
-    //         id: 1,
-    //         name: "백",
-    //         borderColor: "#315DCC",
-    //         icon: faCog,
-    //         selected: 0,
-    //     }, 
-    //     {
-    //         id: 2, 
-    //         name: "프론트",
-    //         borderColor: "#3DC7AE",
-    //         icon: faDesktop,
-    //         selected: 0,
-    //     }
-    // ])
+    useEffect(() => {
+        console.log("in useEffect")
+        if(postContent.content == null || postContent.content.length <= 0) {
+            setWarning("내용을 채워주세요!");
+            setBlocking(true);
+            return;
+        }
+        //제목이 비었을 때 title
+        if(postContent.title == null || postContent.title.length <= 0) {
+            setWarning("제목이 비었어요!");
+            setBlocking(true);
+            return;
+        }
+        //팀 선택이 비었을 때 team
+        if(selectedPjtId === -1) {
+            setWarning("팀을 선택해 주세요!");
+            setBlocking(true);
+            return;
+        }
+        
+        //required가 둘 다 0일 때
+        if(jobInfo[0].target == 0 && jobInfo[1].target == 0){
+            setWarning("피드백 받을 분야를 선택해주세요!")
+            setBlocking(true);
+            return;
+        }
+
+        setBlocking(false)
+    }, [postContent, jobInfo])
 
     const submit = () =>{
 
         const tagList = postContent.tag.split(" ");
 
-        if(selectedPjtId !== -1){
+        if(!blocking){
         axios.post(`${back_url}/communities`, {
             boardId: postContent.id,
             boardTitle: postContent.title,
@@ -238,8 +253,8 @@ const CreateFeadbackPost = ({ isDark, postContent, setPostContent, selectedPjtId
 
             <Bottom>
                 <Buttons>
-                    {selectedPjtId === -1 &&
-                        <>피드백을 받을 팀을 선택해주세요!</>
+                    {blocking &&
+                        <>{warning}</>
                     }
                     <Cancel
                         whileHover={{

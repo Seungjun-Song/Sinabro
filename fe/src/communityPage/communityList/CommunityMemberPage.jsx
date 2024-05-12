@@ -38,8 +38,7 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityMemberPage = ({ isDark, postList, proceedOption, setProceedOption, teamOption, setTeamOption }) => {
-    const [searchWord, setSearchWord] = useState("");
+const CommunityMemberPage = ({ isDark, postList, proceedOption, setProceedOption, teamOption, setTeamOption, searchWord, setSearchWord }) => {
     const [proceedToggle, setProceedToggle] = useState(false);
     const [teamToggle, setTeamToggle] = useState(false);
 
@@ -73,10 +72,6 @@ const CommunityMemberPage = ({ isDark, postList, proceedOption, setProceedOption
         }
     }, [setTeamToggle]);
 
-    //검색하기 axios
-    const search = () => {
-
-    }
     //searchWord 상태값 변경
     const handleInputChange = (event) => {
         setSearchWord(event.target.value);  // 입력된 값으로 상태 업데이트
@@ -84,14 +79,12 @@ const CommunityMemberPage = ({ isDark, postList, proceedOption, setProceedOption
 
     return(
         <ThemeProvider theme={ true ? CommunityMemberPageDark : CommunityMemberPageDefault}>
-        <MemberPage 
-            //thema={CommunityMemberPageStyles.MemberPage}
-        >
+        <MemberPage>
             <SearchBox 
                 placeholder={"팀 프로젝트를 검색해보세요"}
                 searchWord={searchWord}
                 handleInputChange={handleInputChange}
-                search={search}
+                // search={search}
                 isDark={isDark}
             />
             <Select>

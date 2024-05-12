@@ -62,7 +62,7 @@ const DetailMainPage = () => {
             writerprofile: ProfileTempImg,
             time: finalDate,
             proceed: getData.communityProgress,
-            projectId: 1,
+            projectId: getData.projectId,
             recruitedBack: getData.recruitedPeopleBackEnd,
             recruitedFront: getData.recruitedPeopleFrontEnd,
             requiredBack: getData.requiredBackEnd,

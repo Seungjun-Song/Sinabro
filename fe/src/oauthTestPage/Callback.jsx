@@ -43,7 +43,6 @@ const Callback = () => {
                         console.log(result.data)
                         dispatch(setUser({
                             uid: res.data.result.memberId,
-                            photoURL: res.data.memberImg,
                             displayName: res.data.result.memberName,
                             token: res.data.result.jwtAccessToken,
                             newer: res.data.result.newer,

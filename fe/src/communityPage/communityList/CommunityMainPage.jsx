@@ -42,13 +42,15 @@ const CommunityMainPage = () => {
     const [currentPage, setCurrentPage] = useState(data.page);
     const [proceedOption, setProceedOption] = useState({id: 502, name: "모집 중"});
     const [teamOption, setTeamOption] = useState({id: 0, name: "분야 선택"});
+    const [searchWord, setSearchWord] = useState("");
 
     const back_url = getEnv('BACK_URL')
 
     const [postList, setPostList] = useState([])
 
     useEffect(() =>{
-        axios.get(`${back_url}/communities?catBoard=${selected.id}&catCalender=${proceedOption.id}&catJob=${teamOption.id}&keyword=&page=0`)
+        console.log(searchWord)
+        axios.get(`${back_url}/communities?catBoard=${selected.id}&catCalender=${proceedOption.id}&catJob=${teamOption.id}&keyword=${searchWord}&page=0`)
         //axios.get(`${back_url}/communities?catBoard=0&catCalender=0&catJob=0&keyword=&page=0`)
         .then(res => {
             const totalData = res.data.result.boardListResponseDto;
@@ -81,7 +83,7 @@ const CommunityMainPage = () => {
         .catch(err => {
             console.log(err);
         })
-    }, [selected, proceedOption, teamOption, currentPage])
+    }, [selected, proceedOption, teamOption, currentPage, searchWord])
 
 
     return (
@@ -112,6 +114,8 @@ const CommunityMainPage = () => {
                     setProceedOption={setProceedOption}
                     teamOption={teamOption}
                     setTeamOption={setTeamOption}
+                    searchWord={searchWord}
+                    setSearchWord={setSearchWord}
                 />
             ) : ("")}
 
@@ -121,6 +125,8 @@ const CommunityMainPage = () => {
                     postList={postList}
                     proceedOption={proceedOption}
                     setProceedOption={setProceedOption}
+                    searchWord={searchWord}
+                    setSearchWord={setSearchWord}
                 />
             ) : ("")}
 
@@ -132,6 +138,8 @@ const CommunityMainPage = () => {
                     setProceedOption={setProceedOption}
                     teamOption={teamOption}
                     setTeamOption={setTeamOption}
+                    searchWord={searchWord}
+                    setSearchWord={setSearchWord}
                 />
             ) : ("")}
 
