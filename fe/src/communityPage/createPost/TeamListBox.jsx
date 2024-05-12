@@ -65,15 +65,15 @@ const Line = styled.hr`
 
 const TeamListBox = ({ selectedPjt, setSelectedPjt, myProjectList }) => {
 
-  useEffect(() => {
-    if(myProjectList && myProjectList.length > 0){
-    setSelectedPjt({
-      id: myProjectList[0].projectId,
-      name: myProjectList[0].projectName,
-      projectImg: myProjectList[0].projectImg
-    })
-  }
-  }, [])
+  // useEffect(() => {
+  //   if(myProjectList && myProjectList.length > 0){
+  //   setSelectedPjt({
+  //     id: myProjectList[0].projectId,
+  //     name: myProjectList[0].projectName,
+  //     projectImg: myProjectList[0].projectImg
+  //   })
+  // }
+  // }, [])
   
 
   const selectTeam = (pjt) =>{

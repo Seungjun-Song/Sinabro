@@ -140,16 +140,54 @@ const headerMotion = {
 
 const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId, jobInfo, setJobInfo }) => {
     const navigate = useNavigate();
+    const [warning, setWarning ] = useState("내용을 채워주세요!");
+    const [ blocking, setBlocking ] = useState(true);
 
     const back_url = getEnv('BACK_URL')
+
+    useEffect(() => {
+        console.log("in useEffect")
+        if(postContent.content == null || postContent.content.length <= 0) {
+            setWarning("내용을 채워주세요!");
+            setBlocking(true);
+            return;
+        }
+        //제목이 비었을 때 title
+        if(postContent.title == null || postContent.title.length <= 0) {
+            setWarning("제목이 비었어요!");
+            setBlocking(true);
+            return;
+        }
+        //팀 선택이 비었을 때 team
+        if(selectedPjtId === -1) {
+            setWarning("팀을 선택해 주세요!");
+            setBlocking(true);
+            return;
+        }
+        
+        //required가 둘 다 0일 때
+        if(jobInfo[0].target == 0 && jobInfo[1].target == 0){
+            setWarning("모집 인원 수를 채워주세요!")
+            setBlocking(true);
+            return;
+        }
+        //required < recruite일 때 people
+        if(jobInfo[0].target < jobInfo[0].total || jobInfo[1] < jobInfo[1]) {
+            setWarning("목표 인원수는 현재 인원수를 넘으면 안돼요!")
+            setBlocking(true);
+            return;
+        }
+
+        setBlocking(false)
+    }, [postContent, jobInfo])
 
     const submit = () =>{
         //태그 정리
         const tagList = postContent.tag.split(" ");
 
-        //중간이 아닌 공백 정리 필요
+        console.log(postContent)
 
-        if(selectedPjtId !== -1){
+        if(!blocking){
         axios.post(`${back_url}/communities`, {
             boardId: postContent.id,
             boardTitle: postContent.title,
@@ -227,8 +265,8 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId, 
 
             <Bottom>
                 <Buttons>
-                    {selectedPjtId === -1 && 
-                        <>팀원을 구할 팀을 선택해 주세요!</>
+                    {blocking && 
+                        <>{warning}</>
                     }
                     <Cancel 
                         whileHover={{
