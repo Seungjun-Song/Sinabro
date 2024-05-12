@@ -7,6 +7,10 @@ import com.HP50.be.domain.member.dto.TechStackResponseDto;
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.member.repository.MemberCustomRepository;
 import com.HP50.be.domain.member.repository.MemberRepository;
+import com.HP50.be.domain.memoryGraph.dto.MemoDto;
+import com.HP50.be.domain.memoryGraph.entity.Neo4jMember;
+import com.HP50.be.domain.memoryGraph.repository.Neo4jMemberRepository;
+import com.HP50.be.domain.memoryGraph.service.MemoService;
 import com.HP50.be.domain.project.dto.ProjectDto;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
@@ -22,6 +26,7 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
     private final MemberCustomRepository memberCustomRepository;
     private final MemberRepository memberRepository;
+    private final MemoService memoService;
     @Override
     public SearchMemberResponseDto searchMember(String keyword, int page) {
         //pageable 객체 생성
@@ -65,8 +70,7 @@ public class MemberServiceImpl implements MemberService {
                         .build())
                 .toList();
 
-
-        ProfileResponseDto profileResponseDto = ProfileResponseDto.builder()
+        return ProfileResponseDto.builder()
                 .memberId(memberId)
                 .nickname(member.getMemberName())
                 .memberEmail(member.getMemberEmail())
@@ -75,8 +79,8 @@ public class MemberServiceImpl implements MemberService {
                 .memberJob(member.getCategory().getCategoryName())
                 .techStacks(techStackResponseDtos)
                 .projects(projectDtos)
+                .memos(this.memoService.findMemoByMemberId(memberId))
                 .build();
-        return profileResponseDto;
     }
 
     @Override

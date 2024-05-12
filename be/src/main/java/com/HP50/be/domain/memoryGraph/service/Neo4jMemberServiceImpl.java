@@ -1,6 +1,7 @@
 package com.HP50.be.domain.memoryGraph.service;
 
 import com.HP50.be.domain.memoryGraph.dto.MemberDto;
+import com.HP50.be.domain.memoryGraph.dto.MemoDto;
 import com.HP50.be.domain.memoryGraph.entity.Neo4jMember;
 import com.HP50.be.domain.memoryGraph.repository.Neo4jMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,9 @@ public class Neo4jMemberServiceImpl implements Neo4jMemberService{
                 .map(member -> MemberDto.builder()
                         .memberId(member.getMemberId())
                         .name(member.getName())
-//                        .to(member.getMemos())
+                        .memoList(member.getMemos())
                         .build()).toList();
+
         return memberDtoList;
     }
 

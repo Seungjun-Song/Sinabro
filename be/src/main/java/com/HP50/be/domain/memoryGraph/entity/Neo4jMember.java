@@ -1,10 +1,8 @@
 package com.HP50.be.domain.memoryGraph.entity;
 
 import lombok.*;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Property;
-import org.springframework.data.neo4j.core.schema.Relationship;
+import org.springframework.data.neo4j.core.schema.*;
+import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
 import java.util.List;
 
@@ -14,14 +12,19 @@ import java.util.List;
 @Builder
 @Node("Member")
 public class Neo4jMember {
-    @Id
-    @Property("member_id")
-    private String memberId;
+
+    @Id @GeneratedValue(UUIDStringGenerator.class)
+    private String id;
+
+    @Property(name = "member_id")
+    private Integer memberId;
 
     @Property
     private String name;
 
     @Relationship(type = "out_going", direction = Relationship.Direction.OUTGOING)
     private List<Memo> memos;
+
+
 
 }
