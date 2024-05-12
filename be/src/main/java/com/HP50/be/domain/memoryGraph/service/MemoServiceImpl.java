@@ -27,8 +27,8 @@ public class MemoServiceImpl implements MemoService {
     private final Driver driver;
 
     @Override
-    public List<MemoDto> findMemoByMemberId(String token){
-        Neo4jMember neo4jMember = neo4jMemberRepository.findByMemberId(jwtUtil.getMemberId(token));
+    public List<MemoDto> findMemoByMemberId(Integer memberId){
+        Neo4jMember neo4jMember = neo4jMemberRepository.findByMemberId(memberId);
 
         return neo4jMember.getMemos().stream()
                 .map(memo -> MemoDto.builder()

@@ -7,6 +7,7 @@ import com.HP50.be.domain.memoryGraph.service.MemoService;
 import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.jwt.JwtConstants;
+import com.HP50.be.global.jwt.JwtUtil;
 import com.HP50.be.global.oauth.CustomOAuth2MemberDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,11 +27,12 @@ import java.util.List;
 public class MemoController {
 
     private final MemoService memoService;
+    private final JwtUtil jwtUtil;
 
     @Operation(summary = "유저의 메모 모두 보기", description = "테스트 용")
     @GetMapping
     public ResponseEntity<BaseResponse<List<MemoDto>>> findAll(@CookieValue(JwtConstants.JWT_HEADER) String token){
-        return ResponseEntity.ok().body(new BaseResponse<>(memoService.findMemoByMemberId(token)));
+        return ResponseEntity.ok().body(new BaseResponse<>(memoService.findMemoByMemberId(jwtUtil.getMemberId(token))));
     }
 
     @Operation(summary = "메모 저장하기", description = "최초 저장시 반드시 관계부여함")
