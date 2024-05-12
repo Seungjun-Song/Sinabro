@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import WhatPos from "./WhatPos";
 import WhatPosCard from "./WhatPosCard";
@@ -6,6 +6,7 @@ import FakeWhatPos from "./FakeWhatPos";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import getEnv from "../../utils/getEnv";
+import UserSearchModal from "./UserSearchModal";
 
 const DUMMY_DATA = [
   {
@@ -39,11 +40,18 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
 
   const myCurrentProject = useSelector(state => state.myCurrentProject.value)
   const back_url = getEnv('BACK_URL')
-  
+
   const [teamInfo, setTeamInfo] = useState([])
   const [teamLeader, setTeamLeader] = useState(null)
+  const [reloading, setReloading] = useState(false)
+  const [IsModalOpen, setIsModalOpen] = useState(false)
 
   const userInfo = useSelector(state => state.user)
+
+  const hadlebutton = () => {
+    setIsModalOpen(() => !IsModalOpen);
+    console.log(IsModalOpen);
+  }
 
   useEffect(() => {
     const getProjectInfo = async () => {
@@ -51,7 +59,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
         const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`)
         console.log(res.data)
         setTeamLeader(res.data.result.teammateInfoList[0]?.memberId)
-        const transformedTeamInfo = res.data.result.teammateInfoList?.map(item => ({...item, teammateRole: convertTeammateRole(item.teammateRole)}))
+        const transformedTeamInfo = res.data.result.teammateInfoList?.map(item => ({ ...item, teammateRole: convertTeammateRole(item.teammateRole) }))
         console.log(transformedTeamInfo)
         setTeamInfo(transformedTeamInfo)
       } catch (err) {
@@ -59,7 +67,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
       }
     };
     getProjectInfo();
-  }, [myCurrentProject]);
+  }, [myCurrentProject, reloading]);
 
   const convertTeammateRole = (originalRole) => {
     switch (originalRole) {
@@ -117,6 +125,8 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 memberImg={item.memberImg}
                 techStack={item.techStack}
                 teammateRole={item.teammateRole}
+                setReloading={setReloading}
+                reloading={reloading}
               />
             </motion.div>
           );
@@ -147,11 +157,47 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 memberImg={item.memberImg}
                 techStack={item.techStack}
                 teammateRole={item.teammateRole}
+                setReloading={setReloading}
+                reloading={reloading}
               />
             </motion.div>
           );
         }
       })}
+
+      <motion.div
+        onClick={hadlebutton}
+        whileHover={{ cursor: "pointer", y: -7 }}
+        style={{
+          justifySelf: 'center',
+          alignSelf: 'center',
+          minWidth: "5rem",
+          border: "none",
+          height: "5rem",
+          borderRadius: "3rem",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundImage: isDark ? "linear-gradient(135deg, #d3d3d3, #383838)" : "linear-gradient(135deg, #C7D6FF, #7375CA)", // 그라데이션 효과 추가
+        }}
+      >
+        <img
+          style={{ width: "1.5rem", height: "1.5rem" }}
+          src="/images/plus.png"
+        />
+      </motion.div>
+      <AnimatePresence>
+        {IsModalOpen && (
+          <UserSearchModal
+            projectName={myCurrentProject.projectName}
+            setIsModalOpen={setIsModalOpen}
+            isDark={isDark}
+            reloading={reloading}
+            setReloading={setReloading}
+            teamInfo={teamInfo}
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

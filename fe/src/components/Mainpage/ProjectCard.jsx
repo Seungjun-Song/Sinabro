@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { GlobalColor } from "../../services/color";
-const ProjectCard = ({ item ,isDark}) => {
+const ProjectCard = ({ item, isDark }) => {
   const [isHover, setIsHover] = useState(false);
   // console.log(item)
   const renderHtml = (htmlString) => {
@@ -20,7 +20,7 @@ const ProjectCard = ({ item ,isDark}) => {
           justifyContent: "center",
           alignItems: "center",
           width: "17rem",
-          
+
         }}
       >
         <motion.div
@@ -35,8 +35,8 @@ const ProjectCard = ({ item ,isDark}) => {
             borderRadius: "1rem",
             width: "17rem",
             position: "relative",
-            color: isDark ?  "white":"black",
-            backgroundColor: isDark ? GlobalColor.colors.primary_black50 :"white"
+            color: isDark ? "white" : "black",
+            backgroundColor: isDark ? GlobalColor.colors.primary_black50 : "white"
           }}
         >
           <img
@@ -55,12 +55,12 @@ const ProjectCard = ({ item ,isDark}) => {
           >
             {item.createdDt}~{item.endDt}
           </h5>
-          {/* <div style={{ height: "5rem" }}>{item.projectinfo}</div> */}
+          <div style={{ height: "5rem" }}>{item.projectinfo}</div>
           <div
             style={{
               display: "flex",
               gap: "1rem",
-              flexWrap:"wrap",
+              flexWrap: "wrap",
               height: "3rem",
             }}
           >
@@ -75,9 +75,9 @@ const ProjectCard = ({ item ,isDark}) => {
                   fontSize: "0.7rem",
                   borderRadius: "1rem",
                   height: "1.2rem",
-                  display:"flex",
-                  justifyContent:"center",
-                  alignItems:"center",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 {skill.techStackName}
@@ -129,7 +129,15 @@ const ProjectCard = ({ item ,isDark}) => {
                   exit={{ y: 10, opacity: 0 }} // 사라질 때 opacity를 0으로 설정
                   style={{ width: "100%", height: "80%", overflow: "auto" }}
                 >
-                  <div>{item.projectInfo.replace(/<br\s*[/]?>/gi, '\n')}</div>
+                  <motion.div
+                    transition={{ duration: 0.2, delay: 0.4 }}
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 10, opacity: 0 }}
+                    style={{ width: "100%", height: "80%", overflow: "auto" }}
+                  >
+                    <div dangerouslySetInnerHTML={{ __html: item.projectInfo }} />
+                  </motion.div>
                 </motion.div>
                 <motion.div
                   transition={{ duration: 0.2, delay: 0.6 }}

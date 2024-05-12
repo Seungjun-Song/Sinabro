@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GlobalColor } from "../services/color";
 import ProjectCreateBtn from "../components/teamspaceComponents/ProjectCreateBtn";
 import { useEffect } from "react";
-import { clearProjectCreate, saveProjectMemberId, setProjectMemberList } from "../store/projectCreateSlice";
+import { clearProjectCreate, setProjectMemberList } from "../store/projectCreateSlice";
 import { clearInvitedUserList, setInvitedUserList } from "../store/invitedUserListSlice";
 
 
@@ -39,7 +39,6 @@ const TeamSpacePage = () => {
   console.log(createProjectInfo.value)
 
   useEffect(() => {
-    dispatch(saveProjectMemberId()) // 나중에 멤버 아이디 받아서 넣어야함 // 토큰 넣으면 된다고?
     dispatch(setInvitedUserList(
       [{
         memberId: userInfo.currentUser.uid,
