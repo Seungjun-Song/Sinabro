@@ -1,13 +1,3 @@
-package com.HP50.be.domain.payment.dto;
-
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.Data;
-
-@Data
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class PaymentCallbackRequest {
-    private String paymentUid; // 결제 고유 번호
-    private String orderUid; // 주문 고유 번호
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:bba1884b322ce6475130ba5bf9c77e09653fd7e8aa578119974fb7bff47580cf
+size 404

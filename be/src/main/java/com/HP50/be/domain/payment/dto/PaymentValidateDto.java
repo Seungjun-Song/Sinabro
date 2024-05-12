@@ -1,13 +1,3 @@
-package com.HP50.be.domain.payment.dto;
-
-import lombok.*;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class PaymentValidateDto {
-    Integer projectId;//프로젝트 ID
-    String paymentImpUid;//결제 진행한 imp Uid(imp_uid)
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a42672346467612cca1061e8035c73c248a560e7601adfadeacd0a2f484cea0a
+size 260

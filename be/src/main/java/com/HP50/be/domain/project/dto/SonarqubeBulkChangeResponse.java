@@ -1,16 +1,3 @@
-package com.HP50.be.domain.project.dto;
-
-import lombok.*;
-import org.hibernate.annotations.SecondaryRow;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class SonarqubeBulkChangeResponse {
-    Integer total;
-    Integer success;
-    Integer ignored;
-    Integer failures;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:fe650e330c0a9f0ba6fa47986bfa7d6dd37717a9b80dd2ae796aa5ab69932042
+size 298

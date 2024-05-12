@@ -1,16 +1,3 @@
-package com.HP50.be.global.exception;
-
-
-import com.HP50.be.global.common.StatusCode;
-import lombok.Getter;
-
-
-@Getter
-public class BaseException extends RuntimeException {
-    private final StatusCode statusCode;
-
-    public BaseException(StatusCode statusCode) {
-        super(statusCode.getMessage());
-        this.statusCode = statusCode;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:ed02a83409bf252e7589b77bec80a65689d4b45d6ebc8dfdc4c95367d6e4483b
+size 349

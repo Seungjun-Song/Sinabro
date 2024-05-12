@@ -1,29 +1,3 @@
-package com.HP50.be.global.jwt.controller;
-
-import com.HP50.be.global.jwt.service.TokenInRedisService;
-import com.HP50.be.global.oauth.CustomOAuth2MemberDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-
-/**
- * jwt 가 생성 되었는지 테스트 하기 위한 컨트롤러
- * @author 박종국 
- * @deprecated
- */
-
-@RestController
-@RequestMapping("/redis")
-@RequiredArgsConstructor
-public class RedisJwtController {
-    private final TokenInRedisService tokenInRedisService;
-
-    @GetMapping("/tokens")
-    public CustomOAuth2MemberDto findAll(@AuthenticationPrincipal CustomOAuth2MemberDto dto){
-        System.out.println(dto);
-        return dto;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e91b7cb5ce8dcd19bdc836adad7454b740a0287bab802c924152a774458480fa
+size 918
