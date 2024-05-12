@@ -49,8 +49,7 @@ const CommunityMainPage = () => {
     const [postList, setPostList] = useState([])
 
     useEffect(() =>{
-        console.log(searchWord)
-        axios.get(`${back_url}/communities?catBoard=${selected.id}&catCalender=${proceedOption.id}&catJob=${teamOption.id}&keyword=${searchWord}&page=0`)
+        axios.get(`${back_url}/communities?catBoard=${selected.id}&catCalender=${proceedOption.id}&catJob=${teamOption.id}&keyword=${searchWord}&page=${currentPage-1}`)
         //axios.get(`${back_url}/communities?catBoard=0&catCalender=0&catJob=0&keyword=&page=0`)
         .then(res => {
             const totalData = res.data.result.boardListResponseDto;
@@ -144,8 +143,8 @@ const CommunityMainPage = () => {
             ) : ("")}
 
             <Pagination
-                totalItems={20}
-                itemCountPerPage={5}
+                totalItems={27}
+                itemCountPerPage={10}
                 pageCount={2}
                 currentPage={currentPage}
                 selected={selected}
