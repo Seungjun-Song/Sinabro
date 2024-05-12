@@ -2,13 +2,14 @@ package com.HP50.be.domain.memoryGraph.service;
 
 import com.HP50.be.domain.memoryGraph.dto.MemoDto;
 import com.HP50.be.domain.memoryGraph.entity.Memo;
+import com.HP50.be.domain.memoryGraph.entity.Neo4jMember;
 import com.HP50.be.domain.memoryGraph.repository.MemoCustomRepository;
 import com.HP50.be.domain.memoryGraph.repository.MemoRepository;
+import com.HP50.be.domain.memoryGraph.repository.Neo4jMemberRepository;
 import com.HP50.be.global.jwt.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.neo4j.driver.Driver;
-import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemoServiceImpl implements MemoService {
     private final MemoRepository memoRepository;
+    private final Neo4jMemberRepository neo4jMemberRepository;
     private final MemoCustomRepository memoCustomRepository;
     private final JwtUtil jwtUtil;
     private final Driver driver;
 
-    public List<Memo> findAll(){return this.memoRepository.findAll();}
+    @Override
+    public List<MemoDto> findMemoByMemberId(String token){
+        Neo4jMember neo4jMember = neo4jMemberRepository.findByMemberId(jwtUtil.getMemberId(token));
+
+        return neo4jMember.getMemos().stream()
+                .map(memo -> MemoDto.builder()
+                        .memoId(memo.getMemoId())
+                        .title(memo.getTitle())
+                        .content(memo.getContent())
+                        .memoList(memo.getFrom())
+                        .build())
+                .toList();
+    }
 
     @Override
     public void saveMemo(String token, MemoDto memoDto) {

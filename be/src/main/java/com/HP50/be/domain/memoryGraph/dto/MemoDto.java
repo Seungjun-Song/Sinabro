@@ -12,4 +12,5 @@ public class MemoDto {
     private String memoId;
     private String title;
     private String content;
+    private List<Memo> memoList;
 }

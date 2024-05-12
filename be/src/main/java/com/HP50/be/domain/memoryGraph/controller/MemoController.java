@@ -27,11 +27,10 @@ public class MemoController {
 
     private final MemoService memoService;
 
-    @Operation(summary = "존재하는 모든 메모 보기", description = "테스트 용")
+    @Operation(summary = "유저의 메모 모두 보기", description = "테스트 용")
     @GetMapping
-    public List<Memo> findAll(@CookieValue(JwtConstants.JWT_HEADER) String token){
-
-        return this.memoService.findAll();
+    public ResponseEntity<BaseResponse<List<MemoDto>>> findAll(@CookieValue(JwtConstants.JWT_HEADER) String token){
+        return ResponseEntity.ok().body(new BaseResponse<>(memoService.findMemoByMemberId(token)));
     }
 
     @Operation(summary = "메모 저장하기", description = "최초 저장시 반드시 관계부여함")

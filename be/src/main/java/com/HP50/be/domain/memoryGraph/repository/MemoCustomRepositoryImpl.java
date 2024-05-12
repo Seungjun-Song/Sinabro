@@ -1,23 +1,16 @@
 package com.HP50.be.domain.memoryGraph.repository;
 
 import com.HP50.be.domain.memoryGraph.dto.MemoDto;
-import com.HP50.be.domain.memoryGraph.service.MemoServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.neo4j.cypherdsl.core.Cypher;
 import org.neo4j.cypherdsl.core.Node;
-import org.neo4j.cypherdsl.core.ResultStatement;
 import org.neo4j.cypherdsl.core.Statement;
 import org.neo4j.cypherdsl.core.renderer.Renderer;
-import org.neo4j.driver.Driver;
-import org.neo4j.driver.Record;
-import org.neo4j.driver.Result;
-import org.neo4j.driver.Session;
 import org.springframework.data.neo4j.core.Neo4jClient;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 
 @Slf4j
@@ -43,7 +36,6 @@ public class MemoCustomRepositoryImpl implements MemoCustomRepository{
                 .returning(member, memo)
                 .build();
 
-        log.info("Cypher = {}", query.getCypher());
 
         neo4jClient.query(Renderer.getDefaultRenderer().render(query)).run();
     }
@@ -68,7 +60,6 @@ public class MemoCustomRepositoryImpl implements MemoCustomRepository{
                 .returning(memo1, memo2)
                 .build();
 
-        log.info("Cypher = {}", query.getCypher());
         neo4jClient.query(Renderer.getDefaultRenderer().render(query)).run();
     }
 
