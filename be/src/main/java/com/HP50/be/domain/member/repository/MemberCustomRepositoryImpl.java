@@ -3,6 +3,7 @@ package com.HP50.be.domain.member.repository;
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.project.dto.PjtTechInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -17,6 +18,7 @@ import static com.HP50.be.domain.member.entity.QMember.member;
 
 @Repository
 @RequiredArgsConstructor
+@Transactional
 public class MemberCustomRepositoryImpl implements MemberCustomRepository{
     private final JPAQueryFactory queryFactory;
 
