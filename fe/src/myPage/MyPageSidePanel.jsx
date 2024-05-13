@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from "../firebase";
@@ -8,6 +8,8 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faAt } from "@fortawesome/free-solid-svg-icons";
 import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
 import { GlobalColor } from "../services/color";
+import axios from "axios";
+import getEnv from "../utils/getEnv";
 const MyPageSidePanelContainer = styled(motion.div)`
   display: flex;
   height: 100%;
@@ -96,6 +98,15 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
   const [selectedImage, setSelectedImage] = useState(
     "/images/default_my_image.png"
   );
+
+
+  const back_url = getEnv('BACK_URL')
+
+  useEffect(() => {
+    setSelectedImage(userfind.memberImg)
+  }, [])
+
+
   const getColor = (item) => {
     // 여기에 item에 따라 적절한 색상을 반환하는 조건을 추가하세요
     // 예를 들어, item이 "A"일 때는 빨간색, "B"일 때는 파란색 등등...
@@ -107,6 +118,7 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
       ? "#6C31CC"
       : "black";
   };
+
   const handleImageChange = async () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -121,6 +133,16 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
 
       // 업로드된 이미지의 다운로드 URL 받아오기
       const imageUrl = await getDownloadURL(storageRef);
+
+      try {
+        const res = await axios.post(`${back_url}/members/images`, {
+          img: imageUrl
+        })
+        console.log(res.data)
+      }
+      catch (err) {
+        console.error(err)
+      }
 
       // 다운로드 URL을 state에 저장
       setSelectedImage(imageUrl);
@@ -139,7 +161,7 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
         {userfind.memberJob}
       </SkillArea>
       <div style={{ position: "relative" }}>
-        <MyImage src={userfind.memberImg} />
+        <MyImage src={selectedImage} />
         <motion.div
           onClick={handleImageChange}
           whileHover={{ color: "#BAB2FF" }}
