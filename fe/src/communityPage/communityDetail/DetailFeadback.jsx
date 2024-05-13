@@ -1,3 +1,65 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8dfc592ccf479f871af991083758559453ee48eecd5705ccab0485768610fc84
-size 1787
+import styled, { css } from 'styled-components'
+
+import CommentWindow from './CommentWindow'
+
+import ProfileTempImg from '/images/default_my_image.png'
+import PjtImg from '/image/community/pjtTempImg.png'
+import DetailHeader from './DetailHeader'
+import DetailMiddle from './DetailMiddleBox'
+
+const Detail = styled.div`
+    display: flex;        
+    flex-direction: column;
+    width: 50%;
+    margin: 4rem 20rem 0 5rem;
+
+    ${props => props.isDark && css`
+        color: white;
+    `}
+
+    transition: 0.3s;
+
+`
+
+const Line = styled.hr`
+`
+const DetailFeadback = ({ isDark, detailData, commentDate, setCommentDate }) => {
+
+    const projectData = {
+        id: 1,
+        title: "BUNG",
+        projectImg: PjtImg,
+
+    }
+    
+    return(
+        <Detail
+            isDark={isDark}
+        >
+            <DetailHeader
+                kind={{id: 403, name: "feadback"}}
+                detailData={detailData}
+                isDark={isDark}
+            />
+            
+            <Line/>
+            <DetailMiddle
+                detailData={detailData}
+                pjtData={projectData}
+                kind={{id: 403, name: "feadback"}}
+                isDark={isDark}
+            />
+            
+            <Line/>
+
+            <CommentWindow
+                isDark={isDark}
+                commentDate={commentDate}
+                setCommentDate={setCommentDate}
+                boardId={detailData.id}
+            />
+        </Detail>
+    )
+}
+
+export default DetailFeadback;

@@ -1,0 +1,38 @@
+.sonarImg{
+    width: 140px;
+    height: auto;
+    margin-left: 32%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 전체 높이 */
+}
+
+.btn {
+    width: 150px;
+    height: 40px;
+    margin: 15px 10px; /* 상하 5px, 좌우 10px 여백 */
+    font-size: medium;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 3px solid #564CAD;
+}
+
+.btn:hover {
+    background-color: #564CAD;
+    border: 3px solid #564CAD;
+    color: white;
+}
+
+.col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap; /* 필요에 따라 추가 */
+}
