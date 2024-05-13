@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { GlobalColor } from "../../services/color";
 import ProjectCard from "./ProjectCard";
 import { AnimatePresence, motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { setMyCurrentProject } from "../../store/myCurrentProjectSlice";
 // const DUMMY_DATA = [
 //   {
 //     id: 1,
@@ -71,6 +74,9 @@ import { AnimatePresence, motion } from "framer-motion";
 // ];
 
 const SinabroTeamProject = ({ isDark, setPage, allPage }) => {
+  const navigate = useNavigate()
+  console.log(allPage)
+  const dispatch = useDispatch()
   return (
     <>
       {allPage && (
@@ -117,6 +123,7 @@ const SinabroTeamProject = ({ isDark, setPage, allPage }) => {
             <AnimatePresence mode="wait">
               {allPage.map((item, index) => (
                 <motion.div
+                onClick={()=>(dispatch(setMyCurrentProject(item)),navigate(`/TeamSpaceDetailPage/${item.projectId}`))}
                   key={index}
                   className="col-4"
                   style={{ justifyContent: "center", display: "flex" }}

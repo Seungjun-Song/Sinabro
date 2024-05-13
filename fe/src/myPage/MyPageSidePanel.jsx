@@ -14,6 +14,8 @@ const MyPageSidePanelContainer = styled(motion.div)`
   width: 30%;
   flex-direction: column;
   align-items: center;
+  /* justify-content:center; */
+  margin-top:3rem
 `;
 
 const SkillArea = styled.span`
