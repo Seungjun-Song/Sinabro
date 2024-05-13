@@ -62,6 +62,10 @@ const Title = styled.div`
 `
 
 const Content = styled.div`
+
+display: flex;
+align-items: center;
+justify-content: space-between;
     font-size: 0.8rem;
 
     padding: 0.8rem;
@@ -127,6 +131,8 @@ const Post = ({post, kind, isDark}) => {
             whileHover={{ cursor: "pointer", y: -3, scale: 1.05}}
             transition={{ type: "spring", stiffness: 100 }}
         >
+            <div style={{display: 'flex', justifyContent: 'space-between', margin: '0 0 1rem 0'}}>
+            <div>
             <MainInfo>
                 <Proceed
                     proceed={post.proceed === false}
@@ -154,17 +160,30 @@ const Post = ({post, kind, isDark}) => {
                     {post.title}
                 </Title>
 
-                <Jobs
+                {/* <Jobs
                     kind={kind}
                     post={post}
                 >
-                </Jobs>
+                </Jobs> */}
             </MainInfo>
 
             <Content>
             {new DOMParser().parseFromString(post.content, "text/html").body.textContent}
+            {/* <Jobs
+                    kind={kind}
+                    post={post}
+                >
+            </Jobs> */}
             </Content>
-
+            </div>
+            <div>
+                <Jobs
+                    kind={kind}
+                    post={post}
+                >
+            </Jobs>
+            </div>
+            </div>
             <PlusInfo>
                 <Hashs>
                     {post.hash && post.hash.length > 0 && post.hash.map((tag, index) => {

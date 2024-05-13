@@ -29,7 +29,7 @@ transition: 0.3s;
 
 const MainBox = styled.div`
     width: 100%;
-    padding: 0 0 0 10rem;
+    padding: 0 0 0 3rem;
 `
 
 const CommunityMainPage = () => {
@@ -54,6 +54,8 @@ const CommunityMainPage = () => {
         .then(res => {
             const totalData = res.data.result.boardListResponseDto;
             setPostList([]);
+
+            //console.log(totalData)
 
             totalData.forEach((data, index) => {
                 //시간 계산해서 넣기

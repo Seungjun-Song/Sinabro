@@ -15,10 +15,10 @@ import SearchBox from './SearchBox'
 const MemberPage = styled(motion.div)`
     display: flex;        
     flex-direction: column;
-    width: 70%;
+    width: 75%;
     margin-right : 20rem;
     margin-top : 4rem;
-    
+
 `
 
 const Select = styled.div`
