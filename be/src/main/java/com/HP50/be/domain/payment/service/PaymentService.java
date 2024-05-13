@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8e8494cac977bdbe966e7748cef620865e56f6c79d1c869487596ae35a56448e
-size 351
+package com.HP50.be.domain.payment.service;
+
+import com.HP50.be.domain.payment.dto.PaymentResponseDto;
+import com.HP50.be.domain.payment.dto.PaymentValidateDto;
+
+public interface PaymentService {
+    PaymentResponseDto requestPayment(int memberId, int projectId, int paymentAmount);
+    Boolean validatePayment(int memberId,PaymentValidateDto dto);
+}

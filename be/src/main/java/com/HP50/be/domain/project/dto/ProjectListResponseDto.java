@@ -1,3 +1,40 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d7728acc01676fdb01fff81f4ba94fb31b03585fd0666b3e2b2cb6688bd00a54
-size 1124
+package com.HP50.be.domain.project.dto;
+
+import com.HP50.be.domain.code.entity.SubCategory;
+import com.HP50.be.domain.member.dto.TechStackResponseDto;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Data;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Data
+@Builder
+public class ProjectListResponseDto {
+    @Schema(example = "1")
+    private Integer projectId;
+
+    @Schema(example = "시나브로")
+    private String projectName;
+
+    @Schema(example = "초보 개발자들의 원격 개발환경 제공 프로젝트")
+    private String projectInfo;
+
+    @Schema(example = "https://img.khan.co.kr/news/2023/01/02/news-p.v1.20230102.1f95577a65fc42a79ae7f990b39e7c21_P1.png")
+    private String projectImg;
+
+    @Schema(example = "https://github.com/JongKookE/GGAME/tree/master")
+    private String projectRepo;
+
+    @Schema(example = "503")
+    private SubCategory subCategory;
+
+    List<ProjectTechStackDto> techStackResponseDtoList;
+
+    @Schema(example = "2024-05-09")
+    private LocalDate createdDt;
+
+    @Schema(example = "2024-05-027")
+    private LocalDate endDt;
+}
