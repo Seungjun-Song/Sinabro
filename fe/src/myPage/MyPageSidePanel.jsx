@@ -120,7 +120,7 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
       const imageUrl = await getDownloadURL(storageRef);
 
       try {
-        const res = await axios.post(`${back_url}/members/images?${imageUrl}`)
+        const res = await axios.post(`${back_url}/members/images?img=${imageUrl}`)
         console.log(res.data)
       }
       catch (err) {
