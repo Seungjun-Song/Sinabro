@@ -10,6 +10,7 @@ import CreateMemberPost from './CreateMemberPost';
 import CreateTeamPost from './CreateTeamPost';
 import CreateFeadbackPost from './CreateFeadbackPost';
 import TeamChoiceBox from './TeamChoiceBox';
+import { faDesktop, faCog, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
 import { GlobalColor } from '../../services/color';
 
@@ -90,16 +91,155 @@ const CreatePage = () => {
         content: '',
         tag: ''
     });
+    const myProjectList = useSelector(state => state.myProjectList.value)
 
-    useEffect(() => {
+    const [ selectedPjt, setSelectedPjtId ] = useState({
+        id: -1,
+        name: "",
+        projectImg: "",
+    });
+
+    const [ jobInfo, setJobInfo ] = useState([
+            {
+                id: 1,
+                name: "백",
+                borderColor: "#315DCC",
+                icon: faCog,
+                target: 0,
+                total: 0,
+            },
+            {
+                id: 2, 
+                name: "프론트",
+                borderColor: "#3DC7AE",
+                icon: faDesktop,
+                target: 0,
+                total: 0,
+            }
+    ]);
+
+    useEffect(() => {//글 수정시 데이터 초기세팅
         if(!data.isCreate){
             const post = data.detailData;
+
+            //태그는 문자열로
+            let tags = "";
+            if(post.hash && post.hash.length > 0){
+                post.hash.map((tag) => {
+                    tags += tag.subCategoryName + " ";
+                })
+            }
+
             setPostContent({
                 id: post.id,
                 title: post.title,
                 content: post.content,
-                tag: ["임시", "데이터"],
+                tag: tags,
+                // recruitedBack: post.recruitedBack,
+                // recruitedFront: post.recruitedFront,
+                // requiredBack: post.requiredBack,
+                // requiredFront: post.requiredFront,
+
             })
+
+            //프로젝트 정보
+            
+            if(post.projectId !== null && post.projectId > 0){
+                if(myProjectList && myProjectList.length > 0){
+                    myProjectList.map((pjt, index) =>{
+                       
+                        if(pjt.projectId == post.projectId){
+                            console.log(pjt);
+                            setSelectedPjtId({
+                                id: pjt.projectId,
+                                name: pjt.projectName,
+                                projectImg: pjt.projectImg
+                            })
+                        }
+                    })
+                }
+            }
+
+            //인원수 정보
+            if(data.kind.name === "member"){
+                setJobInfo([
+                    {
+                        id: 1,
+                        name: "백",
+                        borderColor: "#315DCC",
+                        icon: faCog,
+                        target: post.requiredBack,
+                        total: post.recruitedBack,
+                    },
+                    {
+                        id: 2, 
+                        name: "프론트",
+                        borderColor: "#3DC7AE",
+                        icon: faDesktop,
+                        target: post.requiredFront,
+                        total: post.recruitedFront,
+                    }
+                ])
+            }
+            else if(data.kind.name === "feadback"){
+                setJobInfo([
+                    {
+                        id: 1,
+                        name: "백",
+                        borderColor: "#315DCC",
+                        icon: faCog,
+                        selected: post.requiredBack,
+                    }, 
+                    {
+                        id: 2, 
+                        name: "프론트",
+                        borderColor: "#3DC7AE",
+                        icon: faDesktop,
+                        selected: post.requiredFront,
+                    }
+                ])
+            }
+        }
+        else{//글 작성 시 member, feadback의 경우 jobInfo 갱신 필요
+            //인원수 정보
+            if(data.kind.name === "member"){
+                setJobInfo([
+                    {
+                        id: 1,
+                        name: "백",
+                        borderColor: "#315DCC",
+                        icon: faCog,          
+                        target: 0,
+                        total: 0,
+                    },
+                    {
+                        id: 2, 
+                        name: "프론트",
+                        borderColor: "#3DC7AE",
+                        icon: faDesktop,
+                        target: 0,
+                        total: 0,
+                    }
+                ])
+            }
+            else if(data.kind.name === "feadback"){
+                setJobInfo([
+                    {
+                        id: 1,
+                        name: "백",
+                        borderColor: "#315DCC",
+                        icon: faCog,
+                        selected: 0,
+                    }, 
+                    {
+                        id: 2, 
+                        name: "프론트",
+                        borderColor: "#3DC7AE",
+                        icon: faDesktop,
+                        selected: 0,
+                    }
+                ])
+            }
         }
     }, [])
 
@@ -108,8 +248,6 @@ const CreatePage = () => {
     const changeOption = (option) => {
         setSelected(option);
     }
-
-
 
     return(
         <>
@@ -137,7 +275,11 @@ const CreatePage = () => {
                     </Option>
                     </Options>
                     {selected.name === "member" || selected.name === "feadback" ? (
-                        <TeamChoiceBox/>
+                        <TeamChoiceBox
+                            selectedPjt={selectedPjt}
+                            setSelectedPjt={setSelectedPjtId}
+                            myProjectList={myProjectList}
+                        />
                     ) : ("")}
                 </Header>
 
@@ -146,6 +288,9 @@ const CreatePage = () => {
                         isdark={isdark}
                         postContent={postContent}
                         setPostContent={setPostContent}
+                        selectedPjtId={selectedPjt.id}
+                        jobInfo={jobInfo}
+                        setJobInfo={setJobInfo}
                     />
                 ) : ("")}
                 {selected.name === "team" ? (
@@ -161,6 +306,9 @@ const CreatePage = () => {
                         isdark={isdark}
                         postContent={postContent}
                         setPostContent={setPostContent}
+                        selectedPjtId={selectedPjt.id}
+                        jobInfo={jobInfo}
+                        setJobInfo={setJobInfo}
                     />
                 ) : ("")}
             </Create>

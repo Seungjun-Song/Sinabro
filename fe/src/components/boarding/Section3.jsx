@@ -2,7 +2,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { logInServer } from "../../oauthTestPage/OauthTest";
+import { logIn } from "../../oauthTestPage/OauthTest";
 import { useNavigate } from "react-router-dom";
 const Section3 = ({ section3Ref ,scroll,setScroll }) => {
   const [isHover, setIsHover] = useState(false);
@@ -393,7 +393,7 @@ const Section3 = ({ section3Ref ,scroll,setScroll }) => {
                 gap: "1rem",
                 fontSize: "1.2rem",
               }}
-              onClick={() => logInServer()}
+              onClick={() => logIn()}
             >
               시작하기
               <motion.div animate={{ x: isHover ? 5 : 0 }}>

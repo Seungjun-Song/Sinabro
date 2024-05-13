@@ -33,8 +33,7 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityTeamPage = ({isDark, postList, proceedOption, setProceedOption}) => {
-    const [searchWord, setSearchWord] = useState("");
+const CommunityTeamPage = ({isDark, postList, proceedOption, setProceedOption, searchWord, setSearchWord}) => {
     const [proceedToggle, setProceedToggle] = useState(false);
 
     const proceedRef = useRef();
@@ -51,11 +50,7 @@ const CommunityTeamPage = ({isDark, postList, proceedOption, setProceedOption}) 
             document.removeEventListener("mousedown", handleClikcOutside);
         }
     }, [setProceedToggle]);
-    
-    //검색하기 axios
-    const search = () => {
 
-    }
     //searchWord 상태값 변경
     const handleInputChange = (event) => {
         setSearchWord(event.target.value);  // 입력된 값으로 상태 업데이트
@@ -66,7 +61,7 @@ const CommunityTeamPage = ({isDark, postList, proceedOption, setProceedOption}) 
                 placeholder={"팀 프로젝트를 검색해보세요"}
                 searchWord={searchWord}
                 handleInputChange={handleInputChange}
-                search={search}
+                // search={search}
                 isDark={isDark}
             />
 

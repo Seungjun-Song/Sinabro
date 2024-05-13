@@ -37,6 +37,12 @@ const DetailMainPage = () => {
     const [selected, setSelected] = useState({id: data.kind.id, name: data.kind.name});
     const [ post, setPost ] = useState({});
     const [ commentDate, setCommentDate ] = useState([]);
+    const [ projectData, setProjectData ] = useState({
+        // id: 1,
+        // title: "BUNG",
+        // projectImg: PjtImg,
+    })
+
     const postId = data.postId;
     const isDark = useSelector(state =>state.isDark.isDark);
     
@@ -62,10 +68,33 @@ const DetailMainPage = () => {
             writerprofile: ProfileTempImg,
             time: finalDate,
             proceed: getData.communityProgress,
-            projectId: 1,
-            kind: "member"
-
+            projectId: getData.projectId,
+            recruitedBack: getData.recruitedPeopleBackEnd,
+            recruitedFront: getData.recruitedPeopleFrontEnd,
+            requiredBack: getData.requiredBackEnd,
+            requiredFront: getData.requiredFrontEnd,
+            kind: "member",
         })
+
+        //팀 정보 불러오기
+        if(selected.name == "member" || selected.name == "feadback"){
+            console.log("is team????????????????")
+            axios.get(`${back_url}/teams?projectId=${getData.projectId}`)
+            .then((res) => {
+                //console.log(res.data.result);
+                
+                const getProject = res.data.result;
+                setProjectData({
+                    id: getData.projectId,
+                    title: getProject.projectName,
+                    projectImg: getProject.projectImg
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        }
+
 
       })
       .catch(err => {
@@ -102,6 +131,7 @@ const DetailMainPage = () => {
                     detailData={post}
                     commentDate={commentDate}
                     setCommentDate={setCommentDate}
+                    projectData={projectData}
                 />
             ) : ("")}
 

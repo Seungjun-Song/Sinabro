@@ -106,11 +106,11 @@ export default function WebRTC() {
         joinSession();
 
         return () => {
+            leaveSession()
+            leaveCodeServer()
             if (session) {
                 session.disconnect();
             }
-            leaveSession()
-            leaveCodeServer()
             // OV.current = new OpenVidu();
             // setSession(undefined);
             // setSubscribers([]);

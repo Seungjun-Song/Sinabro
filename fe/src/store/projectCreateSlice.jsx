@@ -5,7 +5,7 @@ const initialState = {
         memberId: '',
         projectName: '',
         projectInfo: '',
-        projectImg: '',
+        projectImg: null,
         projectRepo: '',
         memberList: [],
     }
@@ -49,7 +49,7 @@ export const projectCreateSlice = createSlice({
             state.value.memberId = ''
             state.value.projectName = ''
             state.value.projectInfo = ''
-            state.value.projectImg = ''
+            state.value.projectImg = null
             state.value.projectRepo = ''
             state.value.memberList = []
         },
