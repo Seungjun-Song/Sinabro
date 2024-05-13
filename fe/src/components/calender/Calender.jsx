@@ -23,11 +23,11 @@ const IconBox = styled.div`
 
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
 
-    const isDark = !useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state => state.isDark.isDark)
 
     return (
         <div className="header row">
-            <div className="col col-start" style={{color: `${isDark ? 'black' : 'white'}`}}>
+            <div className="col col-start" style={{ color: `${isDark ? 'black' : 'white'}` }}>
                 <span className="text">
                     <span className="text month">
                         {format(currentMonth, 'yyyy')}년
@@ -35,7 +35,7 @@ const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
                     {'  '}{format(currentMonth, 'M')}월
                 </span>
             </div>
-            <div className="col col-end" style={{color: `${isDark ? 'black' : 'white'}`}}>
+            <div className="col col-end" style={{ color: `${isDark ? 'black' : 'white'}` }}>
                 <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} style={{ height: '1rem', color: `${isDark ? '#A8A8A8' : 'white'}` }} />
                 <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} style={{ height: '1rem', color: `${isDark ? '#A8A8A8' : 'white'}` }} />
             </div>
@@ -47,11 +47,11 @@ const RenderDays = () => {
     const days = [];
     const date = ['Sun', 'Mon', 'Thu', 'Wed', 'Thrs', 'Fri', 'Sat'];
 
-    const isDark = !useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state => state.isDark.isDark)
 
     for (let i = 0; i < 7; i++) {
         days.push(
-            <div className="col" key={i} style={{backgroundColor: `${!isDark? 'white' : '#BAB2FF'}`}}>
+            <div className="col" key={i} style={{ backgroundColor: `${!isDark ? 'white' : '#BAB2FF'}` }}>
                 {date[i]}
             </div>,
         );
@@ -61,18 +61,18 @@ const RenderDays = () => {
 };
 
 
-const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
+const RenderCells = ({ currentMonth, selectedDate, onDateClick, selectedTeammates }) => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart);
     const endDate = endOfWeek(monthEnd); // 해당 월의 마지막 주의 마지막 날짜를 구합니다.
-    
+
     const totalWeeks = differenceInWeeks(endDate, startDate);
     const rowHeight = totalWeeks === 5 ? '13vh' : '15.4vh';
-    
+
     const toDoList = useSelector(state => state.toDoList.value);
-    
-    const isDark = !useSelector(state =>state.isDark.isDark)
+
+    const isDark = !useSelector(state => state.isDark.isDark)
 
     const dispatch = useDispatch()
 
@@ -129,42 +129,46 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
                                 const itemStartDate = item.calenderStartDt ? new Date(item.calenderStartDt) : null;
                                 const itemEndDate = item.calenderEndDt ? addDays(new Date(item.calenderEndDt), 1) : null; // 하루를 추가하여 마지막 날도 포함
                                 const today = addDays(new Date(day), 1);
-
-                                if (itemStartDate && itemEndDate) {
-                                    if (itemStartDate <= today && today <= itemEndDate) {
-                                        return (
-                                            <OverlayTrigger
-                                                key={index}
-                                                placement="top"
-                                                overlay={<Tooltip>
-                                                    <div style={{ height: '100%', width: '100%' }}>
-                                                        <div style={{ width: '100%', borderBottom: '2px solid #D1D1D1', color: '#D1D1D1', fontWeight: 'bold' }}>
-                                                            {item.calenderName}
+                                if (selectedTeammates.includes(item.memberId) ? true : false) {
+                                    if (itemStartDate && itemEndDate) {
+                                        if (itemStartDate <= today && today <= itemEndDate) {
+                                            return (
+                                                <OverlayTrigger
+                                                    key={index}
+                                                    placement="top"
+                                                    overlay={<Tooltip>
+                                                        <div style={{ height: '100%', width: '100%' }}>
+                                                            <div style={{ width: '100%', borderBottom: '2px solid #D1D1D1', color: '#D1D1D1', fontWeight: 'bold' }}>
+                                                                {item.calenderName}
+                                                            </div>
+                                                            <div style={{ width: '100%', borderBottom: '2px solid #D1D1D1', color: '#D1D1D1', fontWeight: 'bold' }}>
+                                                                {item.memberName}
+                                                            </div>
+                                                            <div>
+                                                                <div>{fromatDated(new Date(item.calenderStartDt))} ~ {fromatDated(new Date(item.calenderEndDt))}</div>
+                                                            </div>
                                                         </div>
-                                                        <div style={{ width: '100%', borderBottom: '2px solid #D1D1D1', color: '#D1D1D1', fontWeight: 'bold' }}>
-                                                            {item.memberName}
+                                                    </Tooltip>}
+                                                >
+                                                    {item.subCategoryId === 503 ?
+                                                        <div style={{ fontSize: '11px', backgroundColor: '#e8e6f4', borderRadius: '2rem', padding: '0 0.4rem', margin: '0.1rem 0.1rem', boxShadow: '1px 1px 1px 0px #564CAD', textDecoration: 'line-through' }}>
+                                                            {truncate(item.calenderName, 10)}
                                                         </div>
-                                                        <div>
-                                                            <div>{fromatDated(new Date(item.calenderStartDt))} ~ {fromatDated(new Date(item.calenderEndDt))}</div>
+                                                        :
+                                                        <div style={{ fontSize: '11px', backgroundColor: '#e8e6f4', borderRadius: '2rem', padding: '0 0.4rem', margin: '0.1rem 0.1rem', boxShadow: '1px 1px 1px 0px #564CAD' }}>
+                                                            {truncate(item.calenderName, 10)}
                                                         </div>
-                                                    </div>
-                                                </Tooltip>}
-                                            >
-                                                {item.subCategoryId === 503 ?
-                                                    <div style={{ fontSize: '11px', backgroundColor: '#e8e6f4', borderRadius: '2rem', padding: '0 0.4rem', margin: '0.1rem 0.1rem', boxShadow: '1px 1px 1px 0px #564CAD', textDecoration: 'line-through' }}>
-                                                        {truncate(item.calenderName, 10)}
-                                                    </div>
-                                                    :
-                                                    <div style={{ fontSize: '11px', backgroundColor: '#e8e6f4', borderRadius: '2rem', padding: '0 0.4rem', margin: '0.1rem 0.1rem', boxShadow: '1px 1px 1px 0px #564CAD' }}>
-                                                        {truncate(item.calenderName, 10)}
-                                                    </div>
-                                                }
-                                            </OverlayTrigger>
-                                        );
+                                                    }
+                                                </OverlayTrigger>
+                                            );
+                                        } else {
+                                            return null;
+                                        }
                                     } else {
                                         return null;
                                     }
-                                } else {
+                                }
+                                else {
                                     return null;
                                 }
                             })}
@@ -186,11 +190,11 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
 
 
 
-export const Calender = () => {
+export const Calender = ({ selectedTeammates }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
 
-    const isDark = !useSelector(state =>state.isDark.isDark)
+    const isDark = !useSelector(state => state.isDark.isDark)
 
     const dispatch = useDispatch();
 
@@ -226,6 +230,7 @@ export const Calender = () => {
                 currentMonth={currentMonth}
                 selectedDate={selectedDate}
                 onDateClick={onDateClick}
+                selectedTeammates={selectedTeammates}
             />
         </div>
     );

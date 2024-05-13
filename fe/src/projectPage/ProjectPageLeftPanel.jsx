@@ -161,14 +161,21 @@ const TeammateBox = styled.div`
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
+  width: 100%;
+  padding: 0.2rem;
 `
 const TeammateImg = styled.img`
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  border: 3px solid black;
+  border: 3px solid  ${({ selected }) => (selected ? '#564cad' : 'whiteSmoke')};
   align-self: center;
   margin: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.3 ease;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const CustomModal = styled(Modal)`
@@ -220,13 +227,15 @@ const CustomModal = styled(Modal)`
   }
 `;
 
-const ProjectPageLeftPanel = ({ teammate }) => {
+const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammates }) => {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [toDoText, setToDoText] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   // const [selectedWorker, setSelectedWorker] = useState(''); // 자기 일정만 추가할 수 있음
+
+
   const dispatch = useDispatch();
 
   const toDoList = useSelector((state) => state.toDoList.value);
@@ -238,6 +247,10 @@ const ProjectPageLeftPanel = ({ teammate }) => {
   const projectRoomId = useSelector((state) => state.projectRoomId.value);
   const userInfo = useSelector((state) => state.user);
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
+
+  console.log(selectedTeammates)
+
+  console.log(toDoList)
 
   useEffect(() => {
     if (modalState) {
@@ -291,6 +304,17 @@ const ProjectPageLeftPanel = ({ teammate }) => {
   // };
 
   const back_url = getEnv("BACK_URL");
+
+  // 팀원 선택/해제 핸들러 props로 념겨주는 함수
+  const toggleTeammateSelection = (memberId) => {
+    setSelectedTeammates(prev => {
+      if (prev.includes(memberId)) {
+        return prev.filter(id => id !== memberId); // 이미 선택된 팀원이면 제거
+      } else {
+        return [...prev, memberId]; // 선택되지 않았다면 추가
+      }
+    });
+  };
 
   const addSchedule = async () => {
     if (toDoText !== "" && startDate !== null && endDate !== null) {
@@ -421,7 +445,9 @@ const ProjectPageLeftPanel = ({ teammate }) => {
             </CalendarBox>
             <TeammateBox>
               {teammate.map((item, index) => {
-                <TeammateImg src={item.memberImg} />
+                return (
+                  <TeammateImg key={index} src={item.memberImg} selected={selectedTeammates.includes(item.memberId) ? true : false} onClick={() => toggleTeammateSelection(item.memberId)} />
+                )
               })}
             </TeammateBox>
             <ToDoListBox>
@@ -431,226 +457,230 @@ const ProjectPageLeftPanel = ({ teammate }) => {
                 <DayText isDark={isDark}>오늘 할 일</DayText>
                 <ListBox>
                   {/* 오늘의 할 일 목록 출력 */}
-                  {toDoList.map((item, index) => {
-                    const itemStartDate = item.calenderStartDt
-                      ? new Date(item.calenderStartDt)
-                      : null;
-                    const itemEndDate = item.calenderEndDt
-                      ? new Date(item.calenderEndDt)
-                      : null;
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
+                  {toDoList
+                    .filter(item => selectedTeammates.includes(item.memberId)) // 선택된 팀원들의 일정만 필터링
+                    .map((item, index) => {
+                      const itemStartDate = item.calenderStartDt
+                        ? new Date(item.calenderStartDt)
+                        : null;
+                      const itemEndDate = item.calenderEndDt
+                        ? new Date(item.calenderEndDt)
+                        : null;
+                      const today = new Date();
+                      today.setHours(0, 0, 0, 0);
 
-                    // start와 end가 모두 유효한 경우에만 처리
-                    if (itemStartDate && itemEndDate) {
-                      // 오늘 날짜인 경우에만 출력
-                      if (itemStartDate <= today && today <= itemEndDate) {
-                        return (
-                          <ContentBox
-                            className="shadow"
-                            key={index}
-                            style={{ backgroundColor: "white" }}
-                            onClick={() =>
-                              dispatch(changeProjectCalenderState(true))
-                            }
-                          >
-                            <UserImg src={item.memberImg} />
-                            <InnerTextBox className="hide-content-text">
-                              <div style={{ fontSize: "1rem" }}>
-                                {truncate(item.calenderName, 10)}
-                              </div>
-                              <div>{item.memberName}</div>
-                              <div>
-                                {fromatDated(itemStartDate)} ~{" "}
-                                {fromatDated(itemEndDate)}
-                              </div>
-                            </InnerTextBox>
-                            <IconBox>
-                              <IconHoverBox
-                                style={{
-                                  marginLeft: "auto",
-                                  marginTop: "0.2rem",
-                                  marginRight: "0.2rem",
-                                  color: "#3EC8AF",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                <FontAwesomeIcon
-                                  icon={faTimesCircle}
-                                  onClick={() =>
-                                    dispatch(removeSchedule(index))
-                                  }
-                                />
-                              </IconHoverBox>
-                              {item.subCategoryId === 503 ? (
+                      // start와 end가 모두 유효한 경우에만 처리
+                      if (itemStartDate && itemEndDate) {
+                        // 오늘 날짜인 경우에만 출력
+                        if (itemStartDate <= today && today <= itemEndDate) {
+                          return (
+                            <ContentBox
+                              className="shadow"
+                              key={index}
+                              style={{ backgroundColor: "white" }}
+                              onClick={() =>
+                                dispatch(changeProjectCalenderState(true))
+                              }
+                            >
+                              <UserImg src={item.memberImg} />
+                              <InnerTextBox className="hide-content-text">
+                                <div style={{ fontSize: "1rem" }}>
+                                  {truncate(item.calenderName, 10)}
+                                </div>
+                                <div>{item.memberName}</div>
+                                <div>
+                                  {fromatDated(itemStartDate)} ~{" "}
+                                  {fromatDated(itemEndDate)}
+                                </div>
+                              </InnerTextBox>
+                              <IconBox>
                                 <IconHoverBox
                                   style={{
-                                    marginTop: "auto",
-                                    marginBottom: "1rem",
-                                    color: "#564CAD",
+                                    marginLeft: "auto",
+                                    marginTop: "0.2rem",
+                                    marginRight: "0.2rem",
+                                    color: "#3EC8AF",
                                     cursor: "pointer",
                                   }}
                                 >
                                   <FontAwesomeIcon
-                                    icon={faCheck}
-                                    onClick={() => {
-                                      dispatch(
-                                        changeState({
-                                          index: index,
-                                          changeValue: 501,
-                                        })
-                                      ),
-                                        changeMySchedule(index, 501);
-                                    }}
+                                    icon={faTimesCircle}
+                                    onClick={() =>
+                                      dispatch(removeSchedule(index))
+                                    }
                                   />
                                 </IconHoverBox>
-                              ) : (
-                                <IconHoverBox
-                                  style={{
-                                    marginTop: "auto",
-                                    marginBottom: "1rem",
-                                    color: "#564CAD",
-                                    cursor: "pointer",
-                                  }}
-                                >
-                                  <FontAwesomeIcon
-                                    icon={faSpinner}
-                                    onClick={() => {
-                                      dispatch(
-                                        changeState({
-                                          index: index,
-                                          changeValue: 503,
-                                        })
-                                      ),
-                                        changeMySchedule(index, 503);
+                                {item.subCategoryId === 503 ? (
+                                  <IconHoverBox
+                                    style={{
+                                      marginTop: "auto",
+                                      marginBottom: "1rem",
+                                      color: "#564CAD",
+                                      cursor: "pointer",
                                     }}
-                                  />
-                                </IconHoverBox>
-                              )}
-                            </IconBox>
-                          </ContentBox>
-                        );
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={faCheck}
+                                      onClick={() => {
+                                        dispatch(
+                                          changeState({
+                                            index: index,
+                                            changeValue: 501,
+                                          })
+                                        ),
+                                          changeMySchedule(index, 501);
+                                      }}
+                                    />
+                                  </IconHoverBox>
+                                ) : (
+                                  <IconHoverBox
+                                    style={{
+                                      marginTop: "auto",
+                                      marginBottom: "1rem",
+                                      color: "#564CAD",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={faSpinner}
+                                      onClick={() => {
+                                        dispatch(
+                                          changeState({
+                                            index: index,
+                                            changeValue: 503,
+                                          })
+                                        ),
+                                          changeMySchedule(index, 503);
+                                      }}
+                                    />
+                                  </IconHoverBox>
+                                )}
+                              </IconBox>
+                            </ContentBox>
+                          );
+                        } else {
+                          return null; // 오늘 날짜가 아닌 경우는 출력하지 않음
+                        }
                       } else {
-                        return null; // 오늘 날짜가 아닌 경우는 출력하지 않음
+                        return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
-                    } else {
-                      return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
-                    }
-                  })}
+                    })}
                 </ListBox>
               </TodayBox>
               <TodayBox>
                 <DayText isDark={isDark}>내일 할 일</DayText>
                 <ListBox>
-                  {toDoList.map((item, index) => {
-                    const itemStartDate = item.calenderStartDt
-                      ? new Date(item.calenderStartDt)
-                      : null;
-                    const itemEndDate = item.calenderEndDt
-                      ? new Date(item.calenderEndDt)
-                      : null;
-                    const tomorrow = new Date();
-                    tomorrow.setDate(tomorrow.getDate() + 1); // 내일 날짜로 설정
-                    tomorrow.setHours(0, 0, 0, 0); // 시간을 0시 0분 0초로 설정
-                    // start와 end가 모두 유효한 경우에만 처리
-                    if (itemStartDate && itemEndDate) {
-                      // 내일 날짜인 경우에만 출력
-                      if (
-                        itemStartDate <= tomorrow &&
-                        tomorrow <= itemEndDate
-                      ) {
-                        return (
-                          <ContentBox
-                            className="shadow"
-                            key={index}
-                            style={{ backgroundColor: "white" }}
-                            onClick={() =>
-                              dispatch(changeProjectCalenderState(true))
-                            }
-                          >
-                            <UserImg src={item.memberImg} />
-                            <InnerTextBox className="hide-content-text">
-                              <div style={{ fontSize: "1rem" }}>
-                                {truncate(item.calenderName, 10)}
-                              </div>
-                              <div>{item.memberName}</div>
-                              <div>
-                                {fromatDated(itemStartDate)} ~{" "}
-                                {fromatDated(itemEndDate)}
-                              </div>
-                            </InnerTextBox>
-                            <IconBox>
-                              <IconHoverBox
-                                style={{
-                                  marginLeft: "auto",
-                                  marginTop: "0.2rem",
-                                  marginRight: "0.2rem",
-                                  color: "#3EC8AF",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                <FontAwesomeIcon
-                                  icon={faTimesCircle}
-                                  onClick={() =>
-                                    dispatch(removeSchedule(index))
-                                  }
-                                />
-                              </IconHoverBox>
-                              {item.subCategoryId === 503 ? (
+                  {toDoList
+                    .filter(item => selectedTeammates.includes(item.memberId)) // 선택된 팀원들의 일정만 필터링
+                    .map((item, index) => {
+                      const itemStartDate = item.calenderStartDt
+                        ? new Date(item.calenderStartDt)
+                        : null;
+                      const itemEndDate = item.calenderEndDt
+                        ? new Date(item.calenderEndDt)
+                        : null;
+                      const tomorrow = new Date();
+                      tomorrow.setDate(tomorrow.getDate() + 1); // 내일 날짜로 설정
+                      tomorrow.setHours(0, 0, 0, 0); // 시간을 0시 0분 0초로 설정
+                      // start와 end가 모두 유효한 경우에만 처리
+                      if (itemStartDate && itemEndDate) {
+                        // 내일 날짜인 경우에만 출력
+                        if (
+                          itemStartDate <= tomorrow &&
+                          tomorrow <= itemEndDate
+                        ) {
+                          return (
+                            <ContentBox
+                              className="shadow"
+                              key={index}
+                              style={{ backgroundColor: "white" }}
+                              onClick={() =>
+                                dispatch(changeProjectCalenderState(true))
+                              }
+                            >
+                              <UserImg src={item.memberImg} />
+                              <InnerTextBox className="hide-content-text">
+                                <div style={{ fontSize: "1rem" }}>
+                                  {truncate(item.calenderName, 10)}
+                                </div>
+                                <div>{item.memberName}</div>
+                                <div>
+                                  {fromatDated(itemStartDate)} ~{" "}
+                                  {fromatDated(itemEndDate)}
+                                </div>
+                              </InnerTextBox>
+                              <IconBox>
                                 <IconHoverBox
                                   style={{
-                                    marginTop: "auto",
-                                    marginBottom: "1rem",
-                                    color: "#564CAD",
+                                    marginLeft: "auto",
+                                    marginTop: "0.2rem",
+                                    marginRight: "0.2rem",
+                                    color: "#3EC8AF",
                                     cursor: "pointer",
                                   }}
                                 >
                                   <FontAwesomeIcon
-                                    icon={faCheck}
-                                    onClick={() => {
-                                      dispatch(
-                                        changeState({
-                                          index: index,
-                                          changeValue: 501,
-                                        })
-                                      ),
-                                        changeMySchedule(index, 501);
-                                    }}
+                                    icon={faTimesCircle}
+                                    onClick={() =>
+                                      dispatch(removeSchedule(index))
+                                    }
                                   />
                                 </IconHoverBox>
-                              ) : (
-                                <IconHoverBox
-                                  style={{
-                                    marginTop: "auto",
-                                    marginBottom: "1rem",
-                                    color: "#564CAD",
-                                    cursor: "pointer",
-                                  }}
-                                >
-                                  <FontAwesomeIcon
-                                    icon={faSpinner}
-                                    onClick={() => {
-                                      dispatch(
-                                        changeState({
-                                          index: index,
-                                          changeValue: 503,
-                                        })
-                                      ),
-                                        changeMySchedule(index, 503);
+                                {item.subCategoryId === 503 ? (
+                                  <IconHoverBox
+                                    style={{
+                                      marginTop: "auto",
+                                      marginBottom: "1rem",
+                                      color: "#564CAD",
+                                      cursor: "pointer",
                                     }}
-                                  />
-                                </IconHoverBox>
-                              )}
-                            </IconBox>
-                          </ContentBox>
-                        );
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={faCheck}
+                                      onClick={() => {
+                                        dispatch(
+                                          changeState({
+                                            index: index,
+                                            changeValue: 501,
+                                          })
+                                        ),
+                                          changeMySchedule(index, 501);
+                                      }}
+                                    />
+                                  </IconHoverBox>
+                                ) : (
+                                  <IconHoverBox
+                                    style={{
+                                      marginTop: "auto",
+                                      marginBottom: "1rem",
+                                      color: "#564CAD",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={faSpinner}
+                                      onClick={() => {
+                                        dispatch(
+                                          changeState({
+                                            index: index,
+                                            changeValue: 503,
+                                          })
+                                        ),
+                                          changeMySchedule(index, 503);
+                                      }}
+                                    />
+                                  </IconHoverBox>
+                                )}
+                              </IconBox>
+                            </ContentBox>
+                          );
+                        } else {
+                          return null; // 내일 날짜가 아닌 경우는 출력하지 않음
+                        }
                       } else {
-                        return null; // 내일 날짜가 아닌 경우는 출력하지 않음
+                        return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
-                    } else {
-                      return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
-                    }
-                  })}
+                    })}
                 </ListBox>
               </TodayBox>
             </ToDoListBox>

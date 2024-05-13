@@ -68,6 +68,8 @@ const ProjectPage = () => {
   const [loading, setLoading] = useState(true);
   const [teammate, setTeammate] = useState([]);
 
+  const [selectedTeammates, setSelectedTeammates] = useState([]); // props로 넘겨주는 값
+
   const dispatch = useDispatch();
 
   const newMessageInfo = useSelector((state) => state.newMessage);
@@ -173,10 +175,10 @@ const ProjectPage = () => {
         <ProjectContainer>
           <WebRTC />
           <ProjectMainContainer>
-            <ProjectPageLeftPanel teammate={teammate} />
+            <ProjectPageLeftPanel teammate={teammate} selectedTeammates={selectedTeammates} setSelectedTeammates={setSelectedTeammates} />
             {isProjectCalenderShow.value === true ? (
-              <div style={{ height: "100%", width: "100%" }}>
-                <Calender />
+              <div style={{ height: '100%', width: '100%' }}>
+                <Calender selectedTeammates={selectedTeammates} />
               </div>
             ) : (
               <iframe
