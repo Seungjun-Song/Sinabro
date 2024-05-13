@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f4e98f70e86f0ad72eff4d760b934ffd1138f257600a1fbc008e7022af670fbc
-size 607
+package com.HP50.be.domain.code.repository;
+
+import com.HP50.be.domain.code.dto.CategoryRequestDto;
+import com.HP50.be.domain.code.dto.CategoryResponseDto;
+import com.HP50.be.domain.code.dto.SubCategoryTechStackDto;
+import com.HP50.be.global.common.BaseResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+
+public interface CategoryCustomRepository {
+    void savePersonalDuty(String token, CategoryRequestDto dto);
+    List<CategoryResponseDto> findAllJob();
+    List<SubCategoryTechStackDto> findAllBySubCategoryIdLessThan301();
+
+}
