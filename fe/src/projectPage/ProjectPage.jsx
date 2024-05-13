@@ -66,6 +66,7 @@ const ProjectPage = () => {
   const [isFirstMount, setIsFirstMount] = useState(true)
   const [codeServerURL, setCodeServerURL] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [teammate, setTeammate] = useState([])
 
   const dispatch = useDispatch();
 
@@ -130,6 +131,21 @@ const ProjectPage = () => {
     }
   }, [])
 
+  useEffect(() => {
+    const getTeammateInfo = async () => {
+      try {
+        const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`)
+        console.log('팀원 정보', res.data)
+        setTeammate(res.data)
+        console.log('팀메이트', teammate)
+      }
+      catch (err) {
+        console.error(err)
+      }
+    }
+    getTeammateInfo()
+  }, [])
+
   const newChatState = () => {
     if (!isFirstMount && newMessageInfo.isNotificationOn && !newMessageInfo.projectRightPanelState && newMessageInfo.newMessageState) { //처음 마운트가 아니고 알림이 켜져있으면
       return true
@@ -141,7 +157,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      {!loading ?
+      {loading ?
         <ProjectLoadingPage />
         :
         <ProjectContainer>
