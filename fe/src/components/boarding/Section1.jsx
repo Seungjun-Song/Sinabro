@@ -254,7 +254,7 @@ const Section1 = () => {
               fontSize: "1.2rem",
               cursor: "pointer"
             }}
-            onClick={() => logInServer()}
+            onClick={() => logIn()}
           >
             시작하기
             <motion.div animate={{ x: isHover ? 10 : 0 }}>
