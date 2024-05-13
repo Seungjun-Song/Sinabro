@@ -55,7 +55,7 @@ const ProjectCard = ({ item, isDark }) => {
           >
             {item.createdDt}~{item.endDt}
           </h5>
-          <div style={{ height: "5rem" }}>{item.projectinfo}</div>
+          {/* <div style={{ height: "5rem" }}>{item.projectinfo}</div> */}
           <div
             style={{
               display: "flex",

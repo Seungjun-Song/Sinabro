@@ -43,7 +43,7 @@ const SonarqubePage = () => {
       text: `총 ${selectedKeys.length}개의 이슈가 변경됩니다.`,
       icon: "question",
       footer:
-        '<a href="/sonarQubeInfo">"이슈의 상태"에 따라 요청이 무시되는 경우가 존재합니다. 🧐</a>',
+        '<a target="_blank" href="https://hungry-attention-0f2.notion.site/Sinabro-SonarQube-Info-d1511683b1b641369162a295e8ad3324#db8b8ed67d6d43d88965a8bc27636fbf">"이슈의 상태"에 따라 요청이 무시되는 경우가 존재합니다. 🧐</a>',
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -235,7 +235,7 @@ const SonarqubePage = () => {
           }}
         >
           <motion.div
-            className="col-3 shadow"
+            className="col-3"
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
