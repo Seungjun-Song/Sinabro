@@ -6,7 +6,50 @@ import { Resizable } from "re-resizable";
 import Chatdetail from "./Chatdetail";
 import GPTChat from "./GPTChat";
 import { useSelector } from "react-redux";
-
+const DUMMY_DATA = [
+  {
+    id: 0,
+    projectName: "GPT",
+    lastChat: "무엇을 도와드릴까요?",
+    day: "2024.04.26",
+    projectImg: "/images/gptblack.jpg",
+  },
+  {
+    id: 1,
+    projectname: "프로젝트명1",
+    lastChat: "마지막채팅",
+    day: "2024.04.26",
+    projectimg: "/images/pjt1.png",
+  },
+  {
+    id: 2,
+    projectname: "프로젝트명",
+    lastChat: "마지막채팅",
+    day: "2024.04.26",
+    projectimg: "/images/pjt2.png",
+  },
+  {
+    id: 3,
+    projectname: "프로젝트명",
+    lastChat: "마지막채팅",
+    day: "2024.04.26",
+    projectimg: "/images/pjt3.png",
+  },
+  {
+    id: 4,
+    projectname: "프로젝트명",
+    lastChat: "마지막채팅",
+    day: "2024.04.26",
+    projectimg: "/images/pjt4.png",
+  },
+  {
+    id: 5,
+    projectname: "프로젝트명",
+    lastChat: "마지막채팅",
+    day: "2024.04.26",
+    projectimg: "/images/pjt5.png",
+  },
+];
 
 const UserChat = () => {
   const [openChat, setOpenChat] = useState(false);
@@ -104,7 +147,7 @@ const UserChat = () => {
                   flexDirection: "column",
                   borderRadius: "1rem",
                   //   padding: "1.5rem 0",
-                  overflowY: whatpjt !== false ? "hidden" : "auto",
+                  overflowY: whatpjt !== false ? "hidden" : "auto", 
                 }}
               >
                 {whatpjt ? (
