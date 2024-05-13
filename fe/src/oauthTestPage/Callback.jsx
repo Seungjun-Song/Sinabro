@@ -36,11 +36,11 @@ const Callback = () => {
                     // console.log(res.data.result.jwtAccessToken);
                     // console.log(res.data.result.memberId)
                     // console.log(res.data.result.memberName);
-                    console.log(res.data.result)
+                    //console.log(res.data.result)
                     
                     axios.get(`${back_url}/members/${res.data.result.memberId}`)
                     .then((result) => {
-                        console.log(result.data)
+                        console.log("to redux", result.data)
                         dispatch(setUser({
                             uid: res.data.result.memberId,
                             displayName: res.data.result.memberName,
