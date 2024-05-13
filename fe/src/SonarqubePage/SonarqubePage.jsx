@@ -38,7 +38,7 @@ const SonarqubePage = () => {
 
     // SweetAlert2 모달을 async/await와 함께 사용하기
     const result = await Swal.fire({
-      title: `${statusText}로 상태를 변경하시겠습니까?`,
+      title: `${statusText}로 \n 상태를 변경하시겠습니까?`,
       text: `총 ${selectedKeys.length}개의 이슈가 변경됩니다.`,
       icon: "question",
       footer:
@@ -129,7 +129,7 @@ const SonarqubePage = () => {
 
   // API로부터 받아올 이슈들을 담을 변수
   const [issues, setIssues] = useState([]);
-  const [effortTotal, setEffortTotal] = useState(60);
+  const [effortTotal, setEffortTotal] = useState(0);
   const [total, setTotal] = useState(0);
   const [openTotal, setOpenTotal] = useState(0);
   const back_url = getEnv("BACK_URL");
@@ -263,13 +263,14 @@ const SonarqubePage = () => {
                   color: isDark ? "white" : "black",
                   flexWrap: "wrap", // 여기에 flex-wrap 속성 추가
                 }}
-              >
-                <div>Total Time : {`${hours}시간 ${minutes}분 `}</div>
+              > {(hours>=1)?
+                <div>Total Time : {` ${hours}시간 ${minutes}분 `}</div>:<div>Total Time : {` ${minutes}분 `}</div>
+              }
+              
                 <div>{`${openTotal}`} Issues</div>
                 {selectedKeys.length > 0 && (
                   <div className={`${style.changeContainer}`}>
                     {" "}
-                    {/* 이 줄을 새로운 라인으로 만듭니다 */}
                     <select
                       name="status"
                       id="status"
@@ -298,7 +299,7 @@ const SonarqubePage = () => {
                     <button
                       style={{
                         border: isDark
-                          ? "2px solid white"
+                          ? "2px solid #ccd5f893"
                           : "2px solid #564cad",
                         padding: "7px 10px",
                         borderRadius: "10px",
