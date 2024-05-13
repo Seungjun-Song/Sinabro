@@ -1,23 +1,3 @@
-import React, { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-
-const CodeTestPage = () => {
-
-    const navigate = useNavigate()
-
-    return (
-        <div>
-
-            <p>난 바보야</p>
-            <button onClick={() => navigate(-1)}>돌아가기</button>
-            <iframe
-                title="code-server"
-                src="https://enjoyhomecafe.shop:8500/"
-                style={{ width: "80%", height: "80vh", border: "none" }}
-            ></iframe>
-            
-        </div>
-    );
-};
-
-export default CodeTestPage;
+version https://git-lfs.github.com/spec/v1
+oid sha256:c85ed1be0514164f3c614a98fb53e50939b5dd118514c55164e54c8bcbbb81cc
+size 572
