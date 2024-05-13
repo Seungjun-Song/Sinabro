@@ -42,7 +42,7 @@ const Callback = () => {
                         memberEmail: res.data.result.memberEmail,
                         memberGit: res.data.result.memberGit
                     }))
-                    
+                    console.log('res.data', res.data)
                     // axios.get(`${back_url}/members/${res.data.result.memberId}`)
                     // .then((result) => {
                     //     console.log("to redux", result.data)
