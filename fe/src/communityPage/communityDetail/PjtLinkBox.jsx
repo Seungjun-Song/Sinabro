@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { motion } from "framer-motion"
 
 import MoveToPjt from '/image/community/moveToPjt.png'
+import { useNavigate } from 'react-router-dom'
 
 const Box = styled(motion.div)`
     font-size: 0.5rem;
@@ -56,6 +57,9 @@ const pjtMotion = {
 }
 
 const PjtLinkBox = ({pjtData}) => {
+
+    const navigate = useNavigate();
+    console.log("in box", pjtData)
     return(
         <Box
             {...pjtMotion}
@@ -64,6 +68,7 @@ const PjtLinkBox = ({pjtData}) => {
         <Project
             whileHover={{ cursor: "pointer", scale: 1.05}}
             transition={{ type: "spring", stiffness: 100 }}
+            onClick={() => navigate(`/TeamSpaceDetailPage/${pjtData.id}`)}
         >
             <PjtInfo>
                 <PjtProfile

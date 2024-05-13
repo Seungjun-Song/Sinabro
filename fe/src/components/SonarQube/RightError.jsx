@@ -11,6 +11,7 @@ import {
   faCircleChevronDown,
   faCircleChevronUp,
   faCircleExclamation,
+  faL,
   faShieldHalved,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -95,7 +96,7 @@ const RightError = ({ isSelect,isDark }) => {
     }, 2000); // 5000 밀리초 (5초)
   };
   const [isDangerHover, setIsDangerHover] = useState(false);
-
+  const [isStatusHover, setIsStatusHover] = useState(false);
   const [isHover, setIsHover] = useState(false);
   return (
     <>
@@ -123,7 +124,7 @@ const RightError = ({ isSelect,isDark }) => {
                   // gap: "0.75rem",
                   flexDirection: "column",
                   height: "12rem",
-                  width: "70%",
+                  width: "75%",
                   borderLeft: "2px solid  #ccd5f8",
                 }}
               >
@@ -153,7 +154,7 @@ const RightError = ({ isSelect,isDark }) => {
                 <div
                   style={{
                     display: "flex",
-                    gap: "3rem",
+                    gap: "1rem",
                     borderBottom: "2px solid  #ccd5f8",
                     paddingLeft: "1rem",
                     paddingBottom: "1rem",
@@ -298,19 +299,42 @@ const RightError = ({ isSelect,isDark }) => {
                       )}
                     </AnimatePresence>
                   </motion.div>
+                  <motion.div
+                    onHoverStart={() => setIsStatusHover(true)}
+                    onHoverEnd={() => setIsStatusHover(false)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      position: "relative",
+                    }}
+                  >
+                    이슈 상태:{" "}
+                    <div
+                      style={{
+                        fontSize: "0.7rem",
+                        border: "2px solid",
+                        padding: "0.4rem",
+                        borderRadius: "15rem",
+                        borderColor: "#6ee094", 
+                      }}
+                    > 
+                      {isSelect.issueStatus}
+                    </div>
+                  </motion.div>
                 </div>
                 <div
                   style={{ display: "flex", gap: "1rem", padding: "0 1rem" }}
                 >
                   {isSelect.tags.map((item, index) => (
-                    <Tag isDark={isDark} item={item} />
+                    <Tag isDark={isDark} item={item} key={index} />
                   ))}
                 </div>
               </div>
               <div
                 style={{
                   height: "12rem",
-                  width: "30%",
+                  width: "25%",
                   display: "flex",
                   flexDirection: "column",
                   borderLeft: "2px solid #ccd5f8",
@@ -329,7 +353,7 @@ const RightError = ({ isSelect,isDark }) => {
                   }}
                 >
                   {isSelect.impacts.map((item, index) => (
-                    <Softwareimpacted item={item} />
+                    <Softwareimpacted item={item} key={index}/>
                   ))}
                 </div>
               </div>

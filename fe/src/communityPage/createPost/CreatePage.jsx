@@ -95,7 +95,7 @@ const CreatePage = () => {
 
     const [ selectedPjt, setSelectedPjtId ] = useState({
         id: -1,
-        projectName: "",
+        name: "",
         projectImg: "",
     });
 
@@ -143,14 +143,16 @@ const CreatePage = () => {
             })
 
             //프로젝트 정보
+            
             if(post.projectId !== null && post.projectId > 0){
                 if(myProjectList && myProjectList.length > 0){
                     myProjectList.map((pjt, index) =>{
-                        if(pjt.projectId == post.projetId){
-                            
+                       
+                        if(pjt.projectId == post.projectId){
+                            console.log(pjt);
                             setSelectedPjtId({
                                 id: pjt.projectId,
-                                projectName: pjt.projectName,
+                                name: pjt.projectName,
                                 projectImg: pjt.projectImg
                             })
                         }

@@ -6,7 +6,6 @@ import { Resizable } from "re-resizable";
 import Chatdetail from "./Chatdetail";
 import GPTChat from "./GPTChat";
 import { useSelector } from "react-redux";
-
 const DUMMY_DATA = [
   {
     id: 0,
@@ -51,6 +50,7 @@ const DUMMY_DATA = [
     projectimg: "/images/pjt5.png",
   },
 ];
+
 const UserChat = () => {
   const [openChat, setOpenChat] = useState(false);
   const [position, setPosition] = useState({ x: 100, y: 100 });
@@ -147,7 +147,7 @@ const UserChat = () => {
                   flexDirection: "column",
                   borderRadius: "1rem",
                   //   padding: "1.5rem 0",
-                  overflowY: whatpjt !== false ? "hidden" : "auto",
+                  overflowY: whatpjt !== false ? "hidden" : "auto", 
                 }}
               >
                 {whatpjt ? (

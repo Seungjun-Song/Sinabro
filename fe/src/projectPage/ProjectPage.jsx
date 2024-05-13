@@ -101,7 +101,7 @@ const ProjectPage = () => {
       try {
         const res = await axios.post(`${back_url}/teams/projects/enter`, {
           repoUrl: myCurrentProject.projectRepo
-        })
+        },{withCredentials: true})
         console.log(res.data)
         setCodeServerURL(res.data.result.url)
         setLoading(false)
@@ -114,7 +114,7 @@ const ProjectPage = () => {
 
     const leaveCodeServer = async () => {
       try {
-        const res = await axios.post(`${back_url}/teams/projects/exit`)
+        const res = await axios.post(`${back_url}/teams/projects/exit`,{withCredentials: true})
         console.log(res.data)
       }
       catch (err) {
@@ -140,7 +140,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      {loading ?
+      {!loading ?
         <ProjectLoadingPage />
         :
         <ProjectContainer>

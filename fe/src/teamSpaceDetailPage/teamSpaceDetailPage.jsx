@@ -11,19 +11,17 @@ const TeamSpaceDetailPage = () => {
   const isDark = useSelector(state =>state.isDark.isDark)
   
   // useEffect(() => {
-  //   const axios_request = async () => {
-  //     // console.log(pageNumber)
-  //     try {
-  //       const response = await api.get(`/teams`, {
-  //         projectId: 1,
-  //       });
-  //       console.log(response);
-  //       return;
-  //     } catch (e) {}
+  //   const handleBeforeUnload = (event) => {
+  //     event.preventDefault();
+  //     event.returnValue = '이거 진짜에요?'; // 필요에 따라 사용자에게 보여줄 메시지 작성
   //   };
-  //   axios_request();
-  // }, []);
 
+  //   window.addEventListener('beforeunload', handleBeforeUnload);
+
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleBeforeUnload);
+  //   };
+  // }, []);
   const [whatInfo, setWhatInfo] = useState("설명"); // 왼쪽 버튼 선택
   return (
     <>
