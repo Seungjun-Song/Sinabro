@@ -123,14 +123,7 @@ public class OAuthServiceImpl implements OAuthService{
         String memberImg = githubUserInfoDto.getAvatar_url();
         String memberGit = githubUserInfoDto.getHtml_url();
 
-        JwtInfoDto jwtInfoDto = JwtInfoDto.builder()
-                .memberId(memberId)
-                .memberName(nickname)
-                .memberEmail(email)
-                .memberImg(memberImg)
-                .memberGit(memberGit)
-                .jwtAccessToken(accessToken)
-                .build();
+        JwtInfoDto jwtInfoDto;
 
         // id가 서버 DB에 없다면 서버에 저장
         // id가 서버 DB에 있다면 다른 액션을 취하지 않고 넘김
@@ -144,8 +137,29 @@ public class OAuthServiceImpl implements OAuthService{
                     .memberImg(memberImg)
                     .memberGit(memberGit)
                     .build());
-            jwtInfoDto.setNewer(true);
+            jwtInfoDto = JwtInfoDto.builder()
+                    .memberId(memberId)
+                    .memberName(nickname)
+                    .memberEmail(email)
+                    .memberImg(memberImg)
+                    .memberGit(memberGit)
+                    .jwtAccessToken(accessToken)
+                    .isNewer(true)
+                    .build();
         }
+        else {
+            jwtInfoDto = JwtInfoDto.builder()
+                    .memberId(member.getMemberId())
+                    .memberName(member.getMemberName())
+                    .memberEmail(member.getMemberEmail())
+                    .memberImg(member.getMemberImg())
+                    .memberGit(member.getMemberGit())
+                    .jwtAccessToken(accessToken)
+                    .isNewer(false)
+                    .build();
+        }
+
+
 
         log.info("--------------------------OAuth 유저 출력 {} --------------------------", nickname);
 
