@@ -164,28 +164,29 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
           );
         }
       })}
-
-      <motion.div
-        onClick={hadlebutton}
-        whileHover={{ cursor: "pointer", y: -7 }}
-        style={{
-          justifySelf: 'center',
-          alignSelf: 'center',
-          minWidth: "5rem",
-          border: "none",
-          height: "5rem",
-          borderRadius: "3rem",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundImage: isDark ? "linear-gradient(135deg, #d3d3d3, #383838)" : "linear-gradient(135deg, #C7D6FF, #7375CA)", // 그라데이션 효과 추가
-        }}
-      >
-        <img
-          style={{ width: "1.5rem", height: "1.5rem" }}
-          src="/images/plus.png"
-        />
-      </motion.div>
+      {userInfo.currentUser.uid === teamLeader &&
+        <motion.div
+          onClick={hadlebutton}
+          whileHover={{ cursor: "pointer", y: -7 }}
+          style={{
+            justifySelf: 'center',
+            alignSelf: 'center',
+            minWidth: "5rem",
+            border: "none",
+            height: "5rem",
+            borderRadius: "3rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundImage: isDark ? "linear-gradient(135deg, #d3d3d3, #383838)" : "linear-gradient(135deg, #C7D6FF, #7375CA)", // 그라데이션 효과 추가
+          }}
+        >
+          <img
+            style={{ width: "1.5rem", height: "1.5rem" }}
+            src="/images/plus.png"
+          />
+        </motion.div>
+      }
       <AnimatePresence>
         {IsModalOpen && (
           <UserSearchModal
