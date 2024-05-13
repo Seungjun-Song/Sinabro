@@ -10,6 +10,8 @@ import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
 import { GlobalColor } from "../services/color";
 import axios from "axios";
 import getEnv from "../utils/getEnv";
+import { useDispatch, useSelector } from "react-redux";
+import { setPhotoURL } from "../store/userSlice";
 const MyPageSidePanelContainer = styled(motion.div)`
   display: flex;
   height: 100%;
@@ -98,10 +100,13 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
   const [selectedImage, setSelectedImage] = useState('');
 
   const back_url = getEnv('BACK_URL')
+  const userInfo = useSelector(state => state.user.currentUser)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setSelectedImage(userfind.photoURL)
-    console.log(userfind)
+    console.log('이미지 보고싶은데, 왜 안될까', userfind)
   }, [])
 
   const handleImageChange = async () => {
@@ -126,7 +131,7 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
       catch (err) {
         console.error(err)
       }
-
+      dispatch(setPhotoURL(imageUrl))
       // 다운로드 URL을 state에 저장
       setSelectedImage(imageUrl);
     };
@@ -142,7 +147,7 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
     >
       <SkillArea>{userfind.memberJob}</SkillArea>
       <div style={{ position: "relative" }}>
-        <MyImage src={selectedImage} />
+        <MyImage src={userInfo.photoURL} />
         <motion.div
           onClick={handleImageChange}
           whileHover={{ color: "#BAB2FF" }}
