@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ImpactDto {
-    String softwareQuality;
-    String severity;
+public class SonarQubeTotalResponseDto {
+    int total;
+    int openTotal;
 }

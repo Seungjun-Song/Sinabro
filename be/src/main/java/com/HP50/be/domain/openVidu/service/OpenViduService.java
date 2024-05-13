@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7418588917f773a1474d3d38bf2fc07cf6fcedf2b8f80f1379d6266ca0fd3c3b
-size 575
+package com.HP50.be.domain.openVidu.service;
+
+import com.HP50.be.domain.openVidu.dto.RoomResponseDto;
+import com.HP50.be.domain.openVidu.entity.Room;
+import io.openvidu.java.client.OpenVidu;
+
+public interface OpenViduService {
+    RoomResponseDto createRoom(int projectId, String sessionId);
+    Room findByRoomId(String roomId);
+    boolean enterRoom(String roomSessionId);
+    boolean exitRoom(String roomSessionId);
+    void deleteRoom(String roomId);
+    boolean isExist(String roomSessionId);
+    OpenVidu getOpenvidu();
+    String findByProjectId(Integer projectId);
+}
