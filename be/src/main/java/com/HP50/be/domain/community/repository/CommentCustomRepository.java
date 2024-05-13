@@ -2,7 +2,6 @@ package com.HP50.be.domain.community.repository;
 
 import com.HP50.be.domain.community.entity.Board;
 import com.HP50.be.domain.community.entity.Comment;
-import com.HP50.be.domain.community.entity.QBoard;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
 import com.querydsl.jpa.impl.JPAQueryFactory;
