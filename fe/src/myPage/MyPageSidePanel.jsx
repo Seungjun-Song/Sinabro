@@ -99,7 +99,7 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
 
   const back_url = getEnv('BACK_URL')
   const userInfo = useSelector(state => state.user.currentUser)
-
+  console.log('userInfo', userInfo)
   const dispatch = useDispatch()
 
   const handleImageChange = async () => {
