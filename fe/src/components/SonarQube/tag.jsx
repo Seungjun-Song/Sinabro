@@ -13,7 +13,7 @@ const tags_info = {
     "will take maintainers longer to understand than is really justified by what the code actually does.",
   convention:
     "coding convention, typically formatting, naming, whitespace, etc.",
-  CWE: "relates to a rule in the Common Weakness Enumeration. For more on CWE and on security-related rules in general, see Security-related rules.",
+  cwe: "relates to a rule in the Common Weakness Enumeration. For more on CWE and on security-related rules in general, see Security-related rules.",
   design: "there is something questionable about the design of the code.",
   "lock-in": "environment-specific features are used.",
   pitfall:
@@ -41,7 +41,7 @@ const Tag = ({ item }) => {
         color: "#3E4357",
         border: "2px solid #312972",
         // border :"solid 2px #3E4357",
-        backgroundColor:"white",
+        backgroundColor: "white",
         fontSize: "0.9rem",
         position: "relative",
       }}
