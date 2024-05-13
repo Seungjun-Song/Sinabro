@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import app from "../firebase";
+import app from "../../../firebase";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faAt } from "@fortawesome/free-solid-svg-icons";
 import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
-import { GlobalColor } from "../services/color";
-import axios from "axios";
-import getEnv from "../utils/getEnv";
-import { useDispatch, useSelector } from "react-redux";
-import { setPhotoURL } from "../store/userSlice";
+import { GlobalColor } from "../../../services/color";
 const MyPageSidePanelContainer = styled(motion.div)`
   display: flex;
   height: 100%;
@@ -96,18 +92,10 @@ const InfoTag = styled.div`
   flex-wrap: wrap;
 `;
 
-const MyPageSidePanel = ({ isDark, userfind }) => {
-  const [selectedImage, setSelectedImage] = useState('');
-
-  const back_url = getEnv('BACK_URL')
-  const userInfo = useSelector(state => state.user.currentUser)
-
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    setSelectedImage(userfind.photoURL)
-    console.log('이미지 보고싶은데, 왜 안될까', userfind)
-  }, [])
+const WriterPageSidePanel = ({ isDark, userfind, userInfo }) => {
+  const [selectedImage, setSelectedImage] = useState(
+    "/images/default_my_image.png"
+  );
 
   const handleImageChange = async () => {
     const input = document.createElement("input");
@@ -124,14 +112,6 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
       // 업로드된 이미지의 다운로드 URL 받아오기
       const imageUrl = await getDownloadURL(storageRef);
 
-      try {
-        const res = await axios.post(`${back_url}/members/images?img=${imageUrl}`)
-        console.log(res.data)
-      }
-      catch (err) {
-        console.error(err)
-      }
-      dispatch(setPhotoURL(imageUrl))
       // 다운로드 URL을 state에 저장
       setSelectedImage(imageUrl);
     };
@@ -147,7 +127,7 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
     >
       <SkillArea>{userfind.memberJob}</SkillArea>
       <div style={{ position: "relative" }}>
-        <MyImage src={userInfo.photoURL} />
+        <MyImage src={userfind.memberImg} />
         <motion.div
           onClick={handleImageChange}
           whileHover={{ color: "#BAB2FF" }}
@@ -204,4 +184,4 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
   );
 };
 
-export default MyPageSidePanel;
+export default WriterPageSidePanel;

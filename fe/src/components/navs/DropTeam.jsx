@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setMyCurrentProject } from "../../store/myCurrentProjectSlice";
-
+import { GlobalColor } from "../../services/color";
 const Box = styled(motion.div)`
   background-color: rgba(244, 249, 255, 1);
   /* border: 1px solid #ccc; */
@@ -29,13 +29,13 @@ const TeamList = styled.div`
 const Create = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  /* background-color: rgba(86, 76, 173, 0.6); */
-  
-  /* font-weight: bold; */
-  color :"white";
+  justify-content: space-around;
+  background-color: ${GlobalColor.colors.proceeding};
+  border-radius: 10px;
+  font-weight: bold;
+
   width: 13rem;
-  height: 3rem;
+  height: 2.5rem;
   padding: 1rem;
 
   cursor: pointer;
@@ -116,7 +116,8 @@ const DropTeam = () => {
       >
         <Create style={{color:"black"}} onClick={() => navigate("/TeamSpacePage")}>
           프로젝트 생성하기
-          <img src={Go}></img>
+          <span style={{color: 'white'}}>+</span>
+          {/* <img src={Go}></img> */}
         </Create>
       </motion.div>
     </Box>
