@@ -135,8 +135,8 @@ const ProjectPage = () => {
     const getTeammateInfo = async () => {
       try {
         const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`)
-        console.log('팀원 정보', res.data)
-        setTeammate(res.data)
+        console.log('팀원 정보', res.data.result.teammateInfoList)
+        setTeammate(res.data.result.teammateInfoList)
         console.log('팀메이트', teammate)
       }
       catch (err) {
@@ -163,7 +163,7 @@ const ProjectPage = () => {
         <ProjectContainer>
           <WebRTC />
           <ProjectMainContainer>
-            <ProjectPageLeftPanel />
+            <ProjectPageLeftPanel teammate={teammate} />
             {isProjectCalenderShow.value === true ? (
               <div style={{ height: '100%', width: '100%' }}>
                 <Calender />
