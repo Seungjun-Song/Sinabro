@@ -1,0 +1,15 @@
+
+
+.parent {
+  background: white;
+  width: 0;
+  height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.parent:not([data-isOpen="false"]) {
+    width: 100%;
+    height: 100%;
+  }

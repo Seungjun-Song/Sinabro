@@ -68,7 +68,7 @@ const PjtLinkBox = ({pjtData}) => {
         <Project
             whileHover={{ cursor: "pointer", scale: 1.05}}
             transition={{ type: "spring", stiffness: 100 }}
-            onClick={() => navigate(`/TeamSpaceDetailPage/${pjtData.id}`)}
+            onClick={() => navigate(`/teamLinkPage`, {state: {pjtId: pjtData.id}})}
         >
             <PjtInfo>
                 <PjtProfile
