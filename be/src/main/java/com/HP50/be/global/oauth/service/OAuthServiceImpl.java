@@ -146,6 +146,8 @@ public class OAuthServiceImpl implements OAuthService{
                     .build());
             jwtInfoDto.setNewer(true);
         }
+        else jwtInfoDto.setMemberImg(member.getMemberImg());
+
 
         log.info("--------------------------OAuth 유저 출력 {} --------------------------", nickname);
 
