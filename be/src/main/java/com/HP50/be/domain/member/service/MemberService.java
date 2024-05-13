@@ -9,4 +9,5 @@ public interface MemberService {
     ProfileResponseDto findMemberProfile(Integer memberId);
     Member findById(Integer memberId);
     void deleteMember(Integer memberId);
+    void updateProfileImage(String token, String newImage);
 }

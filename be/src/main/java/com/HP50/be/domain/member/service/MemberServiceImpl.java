@@ -14,6 +14,7 @@ import com.HP50.be.domain.memoryGraph.service.MemoService;
 import com.HP50.be.domain.project.dto.ProjectDto;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
+import com.HP50.be.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -27,6 +28,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberCustomRepository memberCustomRepository;
     private final MemberRepository memberRepository;
     private final MemoService memoService;
+    private final JwtUtil jwtUtil;
     @Override
     public SearchMemberResponseDto searchMember(String keyword, int page) {
         //pageable 객체 생성
@@ -91,5 +93,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void deleteMember(Integer memberId) {
         memberRepository.deleteById(memberId);
+    }
+
+    @Override
+    public void updateProfileImage(String token, String newImage) {
+
+        memberCustomRepository.updateProfileImage(jwtUtil.getMemberId(token), newImage);
     }
 }
