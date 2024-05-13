@@ -68,6 +68,8 @@ const ProjectPage = () => {
   const [loading, setLoading] = useState(true)
   const [teammate, setTeammate] = useState([])
 
+  const [selectedTeammates, setSelectedTeammates] = useState([]); // props로 넘겨주는 값
+
   const dispatch = useDispatch();
 
   const newMessageInfo = useSelector(state => state.newMessage)
@@ -103,7 +105,7 @@ const ProjectPage = () => {
       try {
         const res = await axios.post(`${back_url}/teams/projects/enter`, {
           repoUrl: myCurrentProject.projectRepo
-        },{withCredentials: true})
+        }, { withCredentials: true })
         console.log(res.data)
         setCodeServerURL(res.data.result.url)
         setLoading(false)
@@ -116,7 +118,7 @@ const ProjectPage = () => {
 
     const leaveCodeServer = async () => {
       try {
-        const res = await axios.post(`${back_url}/teams/projects/exit`,{withCredentials: true})
+        const res = await axios.post(`${back_url}/teams/projects/exit`, { withCredentials: true })
         console.log(res.data)
       }
       catch (err) {
@@ -144,6 +146,10 @@ const ProjectPage = () => {
       }
     }
     getTeammateInfo()
+    // const teammateId = teammate.map(item => item.memberId)
+    // setSelectedTeammates(teammateId)
+    // console.log('이거 왜 안보이지?', teammateId, selectedTeammates)
+    // 처음에 모든 사람의 Id를 미리 넣어놓고 싶은데, 안됨... 누가 이 주석을 발견하면 해결해주세요.
   }, [])
 
   const newChatState = () => {
@@ -157,16 +163,16 @@ const ProjectPage = () => {
 
   return (
     <>
-      {loading ?
+      {!loading ?
         <ProjectLoadingPage />
         :
         <ProjectContainer>
           <WebRTC />
           <ProjectMainContainer>
-            <ProjectPageLeftPanel teammate={teammate} />
+            <ProjectPageLeftPanel teammate={teammate} selectedTeammates={selectedTeammates} setSelectedTeammates={setSelectedTeammates} />
             {isProjectCalenderShow.value === true ? (
               <div style={{ height: '100%', width: '100%' }}>
-                <Calender />
+                <Calender selectedTeammates={selectedTeammates} />
               </div>
             ) : (
               <iframe
