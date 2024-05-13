@@ -10,6 +10,8 @@ import "./styles.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { GlobalColor } from "../../services/color";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setMyCurrentProject } from "../../store/myCurrentProjectSlice";
 
 const ideas = [
   "시나브로를 통하면 프로젝트를 쉽게 만들수 있어요",
@@ -25,7 +27,7 @@ export default (props) => {
     activeSlide < props.data.length - 1 && setactiveSlide(activeSlide + 1);
 
   const prev = () => activeSlide > 0 && setactiveSlide(activeSlide - 1);
-
+  const dispatch = useDispatch();
   const getStyles = (index) => {
     if (activeSlide === index)
       return {
@@ -138,6 +140,10 @@ export default (props) => {
             {props.data.map((item, i) => (
               <React.Fragment key={item.projectId}>
                 <motion.div
+                  onClick={() => (
+                    dispatch(setMyCurrentProject(item)),
+                    navigate(`/TeamSpaceDetailPage/${item.projectId}`)
+                  )}
                   whileHover={{
                     cursor: "pointer",
                     boxShadow: `8px 8px 24px ${

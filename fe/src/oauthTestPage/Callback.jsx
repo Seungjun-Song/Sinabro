@@ -32,25 +32,21 @@ const Callback = () => {
                 axios.get(`${back_url}/oauth2/${codeParam}`)
                 //axios.get(`https://k10e103.p.ssafy.io/api/oauth2/${codeParam}`)
                 .then((res) => {
-                    // console.log(res.data)
-                    // console.log(res.data.result.jwtAccessToken);
-                    // console.log(res.data.result.memberId)
-                    // console.log(res.data.result.memberName);
-                    //console.log(res.data.result)
-                    
-                    axios.get(`${back_url}/members/${res.data.result.memberId}`)
-                    .then((result) => {
-                        console.log("to redux", result.data)
-                        dispatch(setUser({
-                            uid: res.data.result.memberId,
-                            displayName: res.data.result.memberName,
-                            token: res.data.result.jwtAccessToken,
-                            newer: res.data.result.newer,
-                            photoURL: res.data.result.memberImg,
-                            memberEmail: result.data.memberEmail,
-                            memberGit: res.data.result.memberGit
-                        }))
-                    })
+
+                    dispatch(setUser({
+                        uid: res.data.result.memberId,
+                        displayName: res.data.result.memberName,
+                        token: res.data.result.jwtAccessToken,
+                        newer: res.data.result.newer,
+                        photoURL: res.data.result.memberImg,
+                        memberEmail: res.data.result.memberEmail,
+                        memberGit: res.data.result.memberGit
+                    }))
+                    console.log('res.data', res.data)
+                    // axios.get(`${back_url}/members/${res.data.result.memberId}`)
+                    // .then((result) => {
+                    //     console.log("to redux", result.data)
+                    // })
                     if(res.data.result.newer == true){
                         navigate('/survey');
                     }

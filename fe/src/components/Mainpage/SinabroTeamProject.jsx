@@ -74,9 +74,9 @@ import { setMyCurrentProject } from "../../store/myCurrentProjectSlice";
 // ];
 
 const SinabroTeamProject = ({ isDark, setPage, allPage }) => {
-  const navigate = useNavigate()
-  console.log(allPage)
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  // console.log(allPage)
+  const dispatch = useDispatch();
   return (
     <>
       {allPage && (
@@ -123,14 +123,17 @@ const SinabroTeamProject = ({ isDark, setPage, allPage }) => {
             <AnimatePresence mode="wait">
               {allPage.map((item, index) => (
                 <motion.div
-                onClick={()=>(dispatch(setMyCurrentProject(item)),navigate(`/TeamSpaceDetailPage/${item.projectId}`))}
+                  onClick={() => (
+                    dispatch(setMyCurrentProject(item)),
+                    navigate(`/TeamSpaceDetailPage/${item.projectId}`)
+                  )}
                   key={index}
                   className="col-4"
                   style={{ justifyContent: "center", display: "flex" }}
-                  initial={{ opacity: 0,y:10 }}
-                  animate={{ opacity: 1 ,y:0}}
-                  exit={{ opacity: 0,y:10 }}
-                  transition={{ duration: 0.5, }} // 각 자식 요소에 대한 0.1초의 지연 시간
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.5 }} // 각 자식 요소에 대한 0.1초의 지연 시간
                 >
                   <ProjectCard isDark={isDark} item={item} />
                 </motion.div>
