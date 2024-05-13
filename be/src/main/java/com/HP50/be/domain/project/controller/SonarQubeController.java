@@ -53,12 +53,17 @@ public class SonarQubeController {
         }
 
         JsonObject jsonObject = getJsonObject(projectId,1,0);
-
+        JsonObject jsonObject1 = getJsonObject(projectId, 1, 3);
         int total = jsonObject.get("total").getAsInt();
+        int openTotal = jsonObject1.get("total").getAsInt();
+        SonarQubeTotalResponseDto result = SonarQubeTotalResponseDto.builder()
+                .total(total)
+                .openTotal(openTotal)
+                .build();
         if(total==0){ //아직 소나큐브가 돌아가는 중
             throw new BaseException(StatusCode.RUNNING_SONARQUBE);
         }else{ // 되면 ok response
-            return ResponseEntity.ok(new BaseResponse<>(total));
+            return ResponseEntity.ok(new BaseResponse<>(result));
         }
     }
 
@@ -145,6 +150,7 @@ public class SonarQubeController {
         if(getCase==0) sb.append("&ps=1"); //결과 테스트
                 else if(getCase==1)sb.append("&ps=20");//기존 반환
                 else if(getCase==2) sb.append("&issueStatuses=OPEN,CONFIRMED"); //현재 상태만.
+        else if(getCase==3) sb.append("&ps=1").append("&issueStatuses=OPEN,CONFIRMED");
         sb.append("&s=STATUS");
         String responseBody = getResponseBody(sb,HttpMethod.GET,"");
         //parser를 사용해서 결과 분석
