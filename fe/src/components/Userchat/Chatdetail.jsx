@@ -27,7 +27,7 @@ const Chatdetail = ({ setWhatpjt, whatpjt }) => {
   useEffect(() => {
     // Firebase Realtime Database에서 채팅 메시지를 가져와서 설정합니다.
     const db = getDatabase();
-    const chatRef = ref(db, "chats");
+    const chatRef = ref(db, `chats/${whatpjt.projectId}`);
     onValue(chatRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
@@ -41,7 +41,7 @@ const Chatdetail = ({ setWhatpjt, whatpjt }) => {
   const sendMessage = () => {
     if (message.trim() !== "") {
       const db = getDatabase();
-      const chatRef = ref(db, "chats");
+      const chatRef = ref(db, `chats/${whatpjt.projectId}`);
       push(chatRef, {
         message: message,
         sender: userInfo.currentUser.uid,

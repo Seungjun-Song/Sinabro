@@ -42,13 +42,14 @@ const CommunityMainPage = () => {
     const [currentPage, setCurrentPage] = useState(data.page);
     const [proceedOption, setProceedOption] = useState({id: 502, name: "모집 중"});
     const [teamOption, setTeamOption] = useState({id: 0, name: "분야 선택"});
+    const [searchWord, setSearchWord] = useState("");
 
     const back_url = getEnv('BACK_URL')
 
     const [postList, setPostList] = useState([])
 
     useEffect(() =>{
-        axios.get(`${back_url}/communities?catBoard=${selected.id}&catCalender=${proceedOption.id}&catJob=${teamOption.id}&keyword=&page=0`)
+        axios.get(`${back_url}/communities?catBoard=${selected.id}&catCalender=${proceedOption.id}&catJob=${teamOption.id}&keyword=${searchWord}&page=${currentPage-1}`)
         //axios.get(`${back_url}/communities?catBoard=0&catCalender=0&catJob=0&keyword=&page=0`)
         .then(res => {
             const totalData = res.data.result.boardListResponseDto;
@@ -68,6 +69,10 @@ const CommunityMainPage = () => {
                     writer: data.memberName,
                     time: finalDate,
                     proceed: data.communityProgress,
+                    recruitedBack: data.recruitedPeopleBackEnd,
+                    recruitedFront: data.recruitedPeopleFrontEnd,
+                    requiredBack: data.requiredPeopleBackEnd,
+                    requiredFront: data.requiredPeopleFrontEnd,
                 };
 
                 setPostList(prevPostList => [...prevPostList, newPost]);
@@ -77,7 +82,7 @@ const CommunityMainPage = () => {
         .catch(err => {
             console.log(err);
         })
-    }, [selected, proceedOption, teamOption, currentPage])
+    }, [selected, proceedOption, teamOption, currentPage, searchWord])
 
 
     return (
@@ -108,6 +113,8 @@ const CommunityMainPage = () => {
                     setProceedOption={setProceedOption}
                     teamOption={teamOption}
                     setTeamOption={setTeamOption}
+                    searchWord={searchWord}
+                    setSearchWord={setSearchWord}
                 />
             ) : ("")}
 
@@ -117,6 +124,8 @@ const CommunityMainPage = () => {
                     postList={postList}
                     proceedOption={proceedOption}
                     setProceedOption={setProceedOption}
+                    searchWord={searchWord}
+                    setSearchWord={setSearchWord}
                 />
             ) : ("")}
 
@@ -128,12 +137,14 @@ const CommunityMainPage = () => {
                     setProceedOption={setProceedOption}
                     teamOption={teamOption}
                     setTeamOption={setTeamOption}
+                    searchWord={searchWord}
+                    setSearchWord={setSearchWord}
                 />
             ) : ("")}
 
             <Pagination
-                totalItems={20}
-                itemCountPerPage={5}
+                totalItems={27}
+                itemCountPerPage={10}
                 pageCount={2}
                 currentPage={currentPage}
                 selected={selected}

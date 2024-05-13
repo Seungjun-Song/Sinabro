@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { motion } from "framer-motion"
 
 import CkEditor from './CkEditor';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { GlobalColor } from '../../services/color';
 import getEnv from '../../utils/getEnv';
@@ -136,11 +136,33 @@ const headerMotion = {
 
 const CreateTeamPost = ({ isdark, postContent, setPostContent }) => {
     const navigate = useNavigate();
+    const [warning, setWarning ] = useState("내용을 채워주세요!");
+    const [ blocking, setBlocking ] = useState(true);
 
     const back_url = getEnv('BACK_URL');
 
+    useEffect(() => {
+        console.log("in useEffect")
+        if(postContent.content == null || postContent.content.length <= 0) {
+            setWarning("내용을 채워주세요!");
+            setBlocking(true);
+            return;
+        }
+        //제목이 비었을 때 title
+        if(postContent.title == null || postContent.title.length <= 0) {
+            setWarning("제목이 비었어요!");
+            setBlocking(true);
+            return;
+        }
+
+        setBlocking(false)
+    }, [postContent])
+
     const submit = () =>{
+
+        const tagList = postContent.tag.split(" ");
         
+        if(!blocking){
         axios.post(`${back_url}/communities`, {
             boardId: postContent.id,
             boardTitle: postContent.title,
@@ -149,7 +171,7 @@ const CreateTeamPost = ({ isdark, postContent, setPostContent }) => {
             projectLink: "https://k10e103.p.ssafy.io/my-code-server",
             projectId: 1,
             subCategoryId: 402,
-            boardTag: ["kk", "kkl"],
+            boardTag: tagList,
         },
         {withCredentials: true}
         )
@@ -159,8 +181,7 @@ const CreateTeamPost = ({ isdark, postContent, setPostContent }) => {
         .catch(err => {
             console.log(err);
         });
-
-        navigate('/communityMainPage', {state: {kind: {id: 402, name: "team"}}});
+        }
     }
 
     const onChangeTitle = (e) =>{
@@ -204,6 +225,9 @@ const CreateTeamPost = ({ isdark, postContent, setPostContent }) => {
 
             <Bottom>
                 <Buttons>
+                    {blocking &&
+                        <>{warning}</>
+                    }
                     <Cancel 
                         whileHover={{
                             scale: 1.1,

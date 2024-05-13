@@ -6,6 +6,7 @@ import { faPaperPlane, faRightFromBracket } from '@fortawesome/free-solid-svg-ic
 import { getDatabase, ref, push, onValue } from "firebase/database";
 import {motion} from "framer-motion"
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 const IconHoverBox = styled.div`
     transition: transform 0.3 ease;
     &:hover{
@@ -23,10 +24,12 @@ const GPTChat = ({whatpjt, setWhatpjt}) => {
     dangerouslyAllowBrowser: true,
   });
 
+  const userInfo = useSelector(state => state.user.currentUser)
+
   useEffect(() => {
     // Fetch chat history from Firebase Realtime Database
     const db = getDatabase();
-    const chatRef = ref(db, "chatBotChats");
+    const chatRef = ref(db, `chatBotChats/${userInfo.uid}`);
     onValue(chatRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {

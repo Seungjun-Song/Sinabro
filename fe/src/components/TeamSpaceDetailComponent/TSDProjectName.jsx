@@ -15,7 +15,7 @@ const TSDProjectName = ({ isDark }) => {
   const dispatch = useDispatch()
 
   const myCurrentProject = useSelector(state => state.myCurrentProject.value)
-
+  console.log(myCurrentProject)
   return (
     <>
       <motion.div

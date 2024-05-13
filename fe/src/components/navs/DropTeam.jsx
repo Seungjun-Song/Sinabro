@@ -30,10 +30,10 @@ const Create = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
-
-  font-weight: bold;
-
+  /* background-color: rgba(86, 76, 173, 0.6); */
+  
+  /* font-weight: bold; */
+  color :"white";
   width: 13rem;
   height: 3rem;
   padding: 1rem;
@@ -42,10 +42,9 @@ const Create = styled.div`
 `;
 
 const DropTeam = () => {
-
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const myProjectList = useSelector(state => state.myProjectList.value) // 잘 들어오는지 확인, 페이지 이동 잘 되는지 확인
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const myProjectList = useSelector((state) => state.myProjectList.value); // 잘 들어오는지 확인, 페이지 이동 잘 되는지 확인
   // console.log(myProjectList)
   //TODO : team list를 받아 와야함
   // const teamList = [
@@ -84,8 +83,14 @@ const DropTeam = () => {
             <li>minuet</li> */}
       {/* <Team></Team> */}
       {myProjectList?.map((team, index) => (
-        <TeamList onClick={() => {dispatch(setMyCurrentProject(team)), navigate(`/TeamSpaceDetailPage/${team.projectId}`)}}>
+        <TeamList
+          onClick={() => {
+            dispatch(setMyCurrentProject(team)),
+              navigate(`/TeamSpaceDetailPage/${team.projectId}`);
+          }}
+        >
           <motion.div
+            whileHover={{ y: -5 }}
             key={index}
             variants={{
               visible: { opacity: 1, y: 0 },
@@ -100,15 +105,16 @@ const DropTeam = () => {
 
       {/* create team */}
       <motion.div
-           variants={{
-            visible: { opacity: 1, y: 0 },
-            hidden: { opacity: 0, y: 10 },
-          }}
-          initial="hidden"
-          animate="visible"
-        transition={{delay : 0.1*(myProjectList.length+1) , duration:0.2}}
+        whileHover={{ y: -5 }}
+        variants={{
+          visible: { opacity: 1, y: 0 },
+          hidden: { opacity: 0, y: 10 },
+        }}
+        initial="hidden"
+        animate="visible"
+        transition={{ delay: 0.1 * (myProjectList.length + 1), duration: 0.2  }}
       >
-        <Create onClick={() => navigate('/TeamSpacePage')}>
+        <Create style={{color:"black"}} onClick={() => navigate("/TeamSpacePage")}>
           프로젝트 생성하기
           <img src={Go}></img>
         </Create>

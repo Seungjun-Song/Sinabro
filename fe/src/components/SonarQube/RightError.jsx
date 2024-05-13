@@ -104,9 +104,9 @@ const RightError = ({ isSelect,isDark }) => {
         {isSelect && (
           <motion.div
             key={isSelect.id}
-            // animate={{ opacity: 1,y:0 }}
-            // initial={{ opacity: 0 ,y:100}}
-            // exit={{ opacity: 0, y:-100}}
+            animate={{ opacity: 1,y:0 }}
+            initial={{ opacity: 0 ,y:100}}
+            exit={{ opacity: 0, y:-100}}
             transition={{duration:0.3, type:"easeInOut" }}
             className="shadow"
             style={{

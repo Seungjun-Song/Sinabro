@@ -3,9 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { logIn } from "../../oauthTestPage/OauthTest";
+import { useNavigate } from "react-router-dom";
 const Section3 = ({ section3Ref ,scroll,setScroll }) => {
   const [isHover, setIsHover] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const navigate = useNavigate()
+
   const imglist = [
     "images/page1.png",
     "images/page2.png",

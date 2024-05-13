@@ -5,14 +5,14 @@ import Draggable from "react-draggable";
 import { Resizable } from "re-resizable";
 import Chatdetail from "./Chatdetail";
 import GPTChat from "./GPTChat";
-
+import { useSelector } from "react-redux";
 const DUMMY_DATA = [
   {
     id: 0,
-    projectname: "GPT",
+    projectName: "GPT",
     lastChat: "무엇을 도와드릴까요?",
     day: "2024.04.26",
-    projectimg: "/images/gptblack.jpg",
+    projectImg: "/images/gptblack.jpg",
   },
   {
     id: 1,
@@ -50,15 +50,21 @@ const DUMMY_DATA = [
     projectimg: "/images/pjt5.png",
   },
 ];
+
 const UserChat = () => {
   const [openChat, setOpenChat] = useState(false);
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [size, setSize] = useState({ width: 300, height: 400 });
+  const [projectData, setProjectData] = useState([])
+
   // console.log("Asdf")
 
+  const myProjectList = useSelector(state => state.myProjectList.value)
   useEffect(() => {
-    console.log("asdsf");
+    const fixData = [DUMMY_DATA[0], ...myProjectList]
+    setProjectData(fixData)
   }, []);
+  console.log(projectData)
 
   const trackPos = (data) => {
     setPosition({ x: data.x, y: data.y });
@@ -141,7 +147,7 @@ const UserChat = () => {
                   flexDirection: "column",
                   borderRadius: "1rem",
                   //   padding: "1.5rem 0",
-                  overflowY: whatpjt !== false ? "hidden" : "auto",
+                  overflowY: whatpjt !== false ? "hidden" : "auto", 
                 }}
               >
                 {whatpjt ? (
@@ -187,15 +193,15 @@ const UserChat = () => {
                     >
                       <img src="/image/nav/Sinabro_blue.png" />
                     </div>
-                    {DUMMY_DATA.map((item, index) => (
+                    {projectData.map((item, index) => (
                       <motion.div
-                        key={item.id}
+                        key={index}
                         variants={{
                           visible: { opacity: 1, y: 0 },
                           hidden: { opacity: 0, y: 30 },
                         }}
                       >
-                        <Chatlist setWhatpjt={setWhatpjt} item={item} />
+                        <Chatlist setWhatpjt={setWhatpjt} item={item} whatpjt={whatpjt} />
                       </motion.div>
                     ))}
                   </motion.div>

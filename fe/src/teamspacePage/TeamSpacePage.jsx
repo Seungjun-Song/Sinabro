@@ -13,8 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { GlobalColor } from "../services/color";
 import ProjectCreateBtn from "../components/teamspaceComponents/ProjectCreateBtn";
 import { useEffect } from "react";
-import { addProjectMemberList, clearProjectCreate, saveProjectMemberId } from "../store/projectCreateSlice";
-import { addInvitedUserList, clearInvitedUserList } from "../store/invitedUserListSlice";
+import { clearProjectCreate, setProjectMemberList } from "../store/projectCreateSlice";
+import { clearInvitedUserList, setInvitedUserList } from "../store/invitedUserListSlice";
 
 
 const TeamSpacePage = () => {
@@ -22,9 +22,9 @@ const TeamSpacePage = () => {
   const [IsModalOpen, setIsModalOpen] = useState(false);
   const [projectName, setProjectName] = useState(null);
   const [projectinfo, setProjectInfo] = useState(null);
+  const [roleCheck, setRoleCheck] = useState(false)
 
   const isDark = useSelector(state => state.isDark.isDark)
-
   const userInfo = useSelector(state => state.user)
 
   const hadlebutton = () => {
@@ -39,19 +39,18 @@ const TeamSpacePage = () => {
   console.log(createProjectInfo.value)
 
   useEffect(() => {
-    dispatch(saveProjectMemberId()) // 나중에 멤버 아이디 받아서 넣어야함 // 토큰 넣으면 된다고?
-    dispatch(addInvitedUserList(
-      {
+    dispatch(setInvitedUserList(
+      [{
         memberId: userInfo.currentUser.uid,
         memberName: userInfo.currentUser.displayName,
         memberImg: userInfo.currentUser.photoURL,
-      }
+      }]
     ))
-    dispatch(addProjectMemberList(
-      {
+    dispatch(setProjectMemberList(
+      [{
         memberId: userInfo.currentUser.uid,
         categoryId: null,
-      }
+      }]
     ))
     return () => {
       dispatch(clearProjectCreate()) // 언마운트 될 때 프로젝트 생성 정보를 초기화
@@ -103,7 +102,8 @@ const TeamSpacePage = () => {
             />
           )}
         </AnimatePresence>
-        <ProjectCreateBtn isDark={isDark} />
+        <ProjectCreateBtn isDark={isDark} setRoleCheck={setRoleCheck}/>
+        {roleCheck === true ? (window.alert('팀원의 역할을 선택해 주세요'), setRoleCheck(false)) : null}
       </div>
     </>
   );

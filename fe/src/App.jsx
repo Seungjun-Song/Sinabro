@@ -30,7 +30,7 @@ import { Calender } from "./components/calender/Calender";
 import BoardingPage from "./boardingPage/BoardingPage";
 import { AnimatePresence } from "framer-motion";
 import SonarqubePage from "./SonarqubePage/SonarqubePage";
-const api = "https://k10e103.p.ssafy.io/"
+
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -74,9 +74,9 @@ const App = () => {
   return (
    
     <Routes>
-      <Route path='/login' element={<LoginPage/>}/>
-      <Route path='/register' element={<RegisterPage/>}/>
-      <Route path='/' element={<TestPage/>}/>
+      {/* <Route path='/login' element={<LoginPage/>}/>
+      <Route path='/register' element={<RegisterPage/>}/> */}
+      <Route path='/testpage' element={<TestPage/>}/>
       <Route path='/codetest' element={<CodeTestPage/>}/>
       <Route path='/survey' element={<SurveyPage/>}/>
       <Route path='/mypage' element={<MyPage/>}/>
@@ -87,16 +87,16 @@ const App = () => {
       <Route path="/TeamSpaceDetailPage/:projectId" element={<TeamSpaceDetailPage />} />
       <Route path="/Mainpage" element={<Mainpage />} />
       <Route path="/project/:roomId" element={<ProjectPage />} />
-      <Route path="/calender" element={<Calender />} />
-      <Route path="/rtc" element={<WebRTC />} />
+      {/* <Route path="/calender" element={<Calender />} />
+      <Route path="/rtc" element={<WebRTC />} /> */}
 
 
 
 
       
-      <Route path="/boarding" element={<BoardingPage/>} />
+      <Route path="/" element={<BoardingPage/>} />
 
-      <Route path="/oauthTest" element={<OauthTest />} />
+      {/* <Route path="/oauthTest" element={<OauthTest />} /> */}
       <Route path="/callback" element={<Callback />} />
 
 

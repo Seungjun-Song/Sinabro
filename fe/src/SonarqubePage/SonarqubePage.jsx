@@ -8,6 +8,7 @@ import getEnv from "../utils/getEnv";
 import axios from "axios";
 import style from "./SonarqubePage.module.css";
 import Swal from "sweetalert2";
+import {motion} from "framer-motion"
 
 const SonarqubePage = () => {
   const [isSelect, setIsSelect] = useState(null);
@@ -232,7 +233,13 @@ const SonarqubePage = () => {
             transition: "0.3s",
           }}
         >
-          <div
+          <motion.div
+            className="col-3 shadow"
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 100}}
+            transition={{duration:0.3, type:"easeInOut" }}
+
             style={{
               width: "90%",
               display: "flex",
@@ -375,6 +382,9 @@ const SonarqubePage = () => {
             <div style={{ marginLeft: "2rem", width: "100%", height: "100%" }}>
               <RightError isDark={isDark} isSelect={isSelect} />
             </div>
+          </motion.div>
+          <div style={{ marginLeft: "2rem", width: "100%", height: "100%" }}>
+            <RightError isDark={isDark} isSelect={isSelect} />
           </div>
         </div>
       )}

@@ -37,30 +37,33 @@ const Callback = () => {
                     // console.log(res.data.result.memberId)
                     // console.log(res.data.result.memberName);
                     console.log(res.data.result)
-                    dispatch(setUser({
-                        uid: res.data.result.memberId,
-                        photoURL: res.data.memberImg,
-                        displayName: res.data.result.memberName,
-                        token: res.data.result.jwtAccessToken,
-                        newer: res.data.result.newer,
-                        photoURL: res.data.result.memberImg,
-                        memberEmail: res.data.result.memberEmail,
-                        memberGit: res.data.result.memberGit
-                    }))
-
+                    
+                    axios.get(`${back_url}/members/${res.data.result.memberId}`)
+                    .then((result) => {
+                        console.log(result.data)
+                        dispatch(setUser({
+                            uid: res.data.result.memberId,
+                            displayName: res.data.result.memberName,
+                            token: res.data.result.jwtAccessToken,
+                            newer: res.data.result.newer,
+                            photoURL: res.data.result.memberImg,
+                            memberEmail: result.data.memberEmail,
+                            memberGit: res.data.result.memberGit
+                        }))
+                    })
                     if(res.data.result.newer == true){
                         navigate('/survey');
                     }
                     else{
-                        navigate('/mainPage');
+                        navigate('/Mainpage');
                     }
 
                 })
                 .catch((err) => {
-        
+                    console.error(err)
                 })
             }
-
+            navigate('/')
         }
 
         fetchData();
