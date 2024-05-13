@@ -71,6 +71,7 @@ const ProjectPage = () => {
 
   const newMessageInfo = useSelector(state => state.newMessage)
   const myCurrentProject = useSelector(state => state.myCurrentProject.value)
+  console.log(myCurrentProject)
 
   const back_url = getEnv('BACK_URL')
 
