@@ -1,28 +1,3 @@
-package com.HP50.be.domain.project.entity;
-
-import com.HP50.be.domain.code.entity.SubCategory;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@Entity
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class PjtTechStack {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pjtTechStackId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teammate_id")
-    private Teammate teammate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subcategory_id")
-    private SubCategory subCategory;
-    private String subcategoryName;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:38c82d4cf0485e400c897a72b45ba80dd0d311dd9ae301c52a5c2d175fdb7b90
+size 695

@@ -1,20 +1,3 @@
-package com.HP50.be.global.config;
-
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
-import lombok.RequiredArgsConstructor;
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-
-@OpenAPIDefinition(
-        info = @Info(title = "시나브로의 API 명세서",
-        description = "팀 HP50입니다.",
-        version = "v1")
-)
-@RequiredArgsConstructor
-@Configuration
-public class SwaggerConfig {
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:8ac4db65f25dd00fb059054254ca53bedb339dcd818b86a503863e2092bb8dc0
+size 615

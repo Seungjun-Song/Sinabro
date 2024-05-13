@@ -1,14 +1,3 @@
-package com.HP50.be.domain.project.dto;
-
-import lombok.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class SonarRequestDto {
-    Integer projectId;
-    String folderName;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:99c4542d9e8d30a04e95de16188055ee9a31cbb97d22848b53f6a927f5509c9d
+size 321
