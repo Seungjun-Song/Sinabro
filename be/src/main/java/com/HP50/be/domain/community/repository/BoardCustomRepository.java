@@ -6,6 +6,7 @@ import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.code.repository.CategoryRepository;
 import com.HP50.be.domain.code.service.SubCategoryService;
 import com.HP50.be.domain.community.dto.BoardFilterRequestDto;
+import com.HP50.be.domain.community.dto.SliceTotalCountDto;
 import com.HP50.be.domain.community.entity.Board;
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.global.jwt.JwtUtil;
@@ -30,18 +31,17 @@ public class BoardCustomRepository {
     private final JPAQueryFactory queryFactory;
     private final SubCategoryService subCategoryService;
 
-    public Slice<Board> findByConditions(Integer boards,
+    public SliceTotalCountDto<Board> findByConditions(Integer boards,
                                          Integer calender,
                                          Integer job,
                                          String keyword,
                                          Pageable pageable) {
 
-        SubCategory subCategory = subCategoryService.findById(boards);
-
         BooleanBuilder builder = new BooleanBuilder();
 
+
         if (boards != null && boards != 0) {
-            builder.and(board.subCategory.eq(subCategory));
+            builder.and(board.subCategory.eq(subCategoryService.findById(boards)));
         }
 
         if (calender != null && calender != 0) {
@@ -56,21 +56,28 @@ public class BoardCustomRepository {
 
         if (keyword != null && !keyword.isEmpty()) {
             builder.and(board.boardTitle.like("%" + keyword + "%"));
+            builder.and(board.boardContent.like("%" + keyword + "%"));
         }
 
         List<Board> results = queryFactory
                 .selectFrom(board)
                 .where(builder)
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize() + 1)
+                .limit(pageable.getPageSize()+1)
                 .orderBy(board.createdDttm.desc())
                 .fetch();
+
+        int totalCount = queryFactory
+                .selectFrom(board)
+                .where(builder)
+                .fetch()
+                .size();
 
         boolean hasNext = results.size() > pageable.getPageSize();
 
         List<Board> boardList = hasNext ? results.subList(0, pageable.getPageSize()) : results;
 
-        return new SliceImpl<>(boardList, pageable, hasNext);
+        return new SliceTotalCountDto<>(new SliceImpl<>(boardList, pageable, hasNext), totalCount);
     }
 
     public List<Board> getRandomBoardRequired(){

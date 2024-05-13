@@ -11,8 +11,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,16 +41,16 @@ public class CommunityController {
 
     // 스웨거에 return 형식을 보여주기 위해서는 ? 를 사용하면 안되고 아래와 같이 명시적으로 기입해줘야함
     @Operation(summary = "게시글 가져오기")
-    @Parameter(name = "catBoard", example = "401", description = "0이면 필터 X")
-    @Parameter(name = "catCalender", example = "501", description = "0이면 필터 X")
-    @Parameter(name = "catJob", example = "100", description = "0이면 필터 X")
+    @Parameter(name = "board", example = "401", description = "0이면 필터 X")
+    @Parameter(name = "cal", example = "501", description = "0이면 필터 X")
+    @Parameter(name = "job", example = "100", description = "0이면 필터 X")
     @Parameter(name = "keyword", example = "백엔", description = "공백이면 필터 X")
     @GetMapping
-    public ResponseEntity<BaseResponse<BoardPaginationResponseDto>> findByConditons(@RequestParam Integer catBoard,
-                                                                                    @RequestParam Integer catCalender,
-                                                                                    @RequestParam Integer catJob,
-                                                                                    @RequestParam String keyword,
-                                                                                    @RequestParam int page){
+    public ResponseEntity<BaseResponse<BoardPaginationResponseDto>> findByConditons(@RequestParam(name = "board", defaultValue = "401") Integer catBoard,
+                                                                                    @RequestParam(name = "cal",required = false) Integer catCalender,
+                                                                                    @RequestParam(name = "job",required = false) Integer catJob,
+                                                                                    @RequestParam(name = "keyword",required = false) String keyword,
+                                                                                    @RequestParam(name = "page", required = false, defaultValue = "0") int page){
         return ResponseEntity.ok().body(new BaseResponse<>(boardService.findByConditions(catBoard, catCalender, catJob, keyword, page)));
     }
 

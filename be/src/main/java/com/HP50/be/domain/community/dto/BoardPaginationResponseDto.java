@@ -9,5 +9,6 @@ import java.util.List;
 @Builder
 public class BoardPaginationResponseDto {
     Boolean hasNext;
+    long totalCount;
     List<BoardListResponseDto> boardListResponseDto;
 }
