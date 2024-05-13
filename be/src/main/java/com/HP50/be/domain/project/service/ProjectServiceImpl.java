@@ -160,11 +160,7 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
 
-        Teammate teammate = Teammate.builder()
-                .member(member)
-                .project(project)
-                .teammateReader(false)
-                .build();
+
         int selectedCategoryId = 0;
         //풀스택이면 선택한 카테고리로
         if(member.getCategory().getCategoryId()==300){
@@ -183,7 +179,13 @@ public class ProjectServiceImpl implements ProjectService{
         }else{//아니면 해당하는것만 겟
             techStacks = techStackCustomRepository.getByMemberIdAndCategoryId(memberId, selectedCategoryId);
         }
-
+        Category category = categoryRepository.findById(selectedCategoryId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_CATEGORY));
+        Teammate teammate = Teammate.builder()
+                .member(member)
+                .project(project)
+                .teammateReader(false)
+                .teammateRole(category.getCategoryName())
+                .build();
         teammate.addTechStacks(techStacks,teammate);
         project.addTeammate(teammate);
         return true;
