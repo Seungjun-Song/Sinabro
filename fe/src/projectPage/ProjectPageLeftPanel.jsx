@@ -156,6 +156,21 @@ const SpanText = styled.span`
   margin-right: 0.2rem;
 `;
 
+const TeammateBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+`
+const TeammateImg = styled.img`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 3px solid black;
+  align-self: center;
+  margin: 0.5rem;
+`;
+
 const CustomModal = styled(Modal)`
   .modal-content {
     background-color: #ffffff;
@@ -205,7 +220,7 @@ const CustomModal = styled(Modal)`
   }
 `;
 
-const ProjectPageLeftPanel = () => {
+const ProjectPageLeftPanel = ({ teammate }) => {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [toDoText, setToDoText] = useState("");
@@ -404,6 +419,11 @@ const ProjectPageLeftPanel = () => {
                 />
               </IconHoverBox>
             </CalendarBox>
+            <TeammateBox>
+              {teammate.map((item, index) => {
+                <TeammateImg src={item.memberImg} />
+              })}
+            </TeammateBox>
             <ToDoListBox>
               <TodayBox>
                 {/* <button onClick={() => dispatch(delToDOlist())}>test</button> */}
@@ -637,7 +657,7 @@ const ProjectPageLeftPanel = () => {
           </ProjectPageLeftPanelContainer>
         ) : (
           <ProjectPageLeftPanelClosedContainer
-            style={{cursor:"pointer"}}
+            style={{ cursor: "pointer" }}
             onClick={handleSidePanel}
             key="2"
             isDark={isDark}
