@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c4b07785c4c75702cad0301948fc49cdf4ea5736858e7ea6b71447aee5c275aa
-size 343
+package com.HP50.be.global.oauth.dto;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class JwtInfoDto {
+    private String jwtAccessToken;
+    private Integer memberId;
+    private String memberName;
+    private String memberImg;
+    private String memberEmail;
+    private String memberGit;
+    private boolean isNewer;
+}
