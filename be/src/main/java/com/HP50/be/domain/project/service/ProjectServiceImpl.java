@@ -277,7 +277,7 @@ public class ProjectServiceImpl implements ProjectService{
         String checkDirCommand = "docker exec " + codeServerName + " /bin/bash -c '[ -d \"/home/coder/code-server/" + repoName + "\" ] && echo \"exists\" || echo \"not exists\"'";
         if(!jschUtil.executeCommandAndGetOutput(session, checkDirCommand).trim().equals("exists")) {
             // 깃 클론
-            String gitCloneCommand = "docker exec " + codeServerName + " git clone " + repoUrl;
+            String gitCloneCommand = "sudo chmod 757 /home/ubuntu/code-server/" + codeServerName + " && docker exec " + codeServerName + " git clone " + repoUrl;
             if(!jschUtil.executeCommand(session, gitCloneCommand)) {
                 throw new BaseException(StatusCode.GIT_CLONE_FAIL);
             }
@@ -295,8 +295,8 @@ public class ProjectServiceImpl implements ProjectService{
         session.disconnect();
 
         return ProjectEnterDto.builder()
-                .url("https://k10e103.p.ssafy.io/" + codeServerName + "/?folder=/home/coder/code-server/" + repoName)
-                .previewUrl("http://k10e103.p.ssafy.io:" + dynamicPort)
+                .url("https://projectsinabro.store/" + codeServerName + "/?folder=/home/coder/code-server/" + repoName)
+                .previewUrl("http://projectsinabro.store:" + dynamicPort)
                 .dbPort(dbPort)
                 .build();
     }
@@ -335,6 +335,25 @@ public class ProjectServiceImpl implements ProjectService{
         }
 
         session.disconnect();
+    }
+
+    @Override
+    public String getInviteUrl(String token) {
+        Integer memberId = jwtUtil.getMemberId(token); // accessToken에서 memberId 추출
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
+        String codeServerName = member.getCodeServerName();
+
+        Session session = jschUtil.createSession();
+
+        // 웹 소켓 서버 실행 명령
+        String webSocketServerStartCommand = "nohup node /home/ubuntu/websocket-proxy/proxy-server.js " + codeServerName + " > /dev/null 2>&1 &";
+        if (!jschUtil.executeCommand(session, webSocketServerStartCommand)) {
+            throw new BaseException(StatusCode.CHANGE_DARK_MODE_FAIL);
+        }
+
+        session.disconnect();
+
+        return "https://projectsinabro.store/" + codeServerName + "-t0s1e8u7g";
     }
 
 
@@ -397,7 +416,7 @@ public class ProjectServiceImpl implements ProjectService{
     // 컨테이너 생성 프로세스 
     public void runContainer(Session session, String codeServerName, Integer dbPort) {
         // 컨테이너 생성 및 실행
-        String runCommand = "docker run --name " + codeServerName + " -d -p :80 -p :3000 -p " + dbPort + ":3306 code-server --bind-addr=0.0.0.0:80";
+        String runCommand = "docker run --name " + codeServerName + " -v /home/ubuntu/code-server/" + codeServerName + ":/home/coder/code-server -d -p :80 -p :80 -p :3000 -p " + dbPort + ":3306 code-server --bind-addr=0.0.0.0:80";
         if(!jschUtil.executeCommand(session, runCommand)) {
             throw new BaseException(StatusCode.CONTAINER_RUN_FAIL);
         }

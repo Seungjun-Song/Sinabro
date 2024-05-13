@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/teams")
@@ -92,6 +95,15 @@ public class ProjectController {
         return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
+    // 프로젝트 초대
+    @GetMapping("/projects/invites")
+    public ResponseEntity<Object> getInviteUrl(@CookieValue(JwtConstants.JWT_HEADER) String token) {
+        String inviteUrl = service.getInviteUrl(token);
+        Map<String, String> url = new HashMap<>();
+        url.put("inviteUrl", inviteUrl);
+
+        return ResponseEntity.ok(new BaseResponse<>(url));
+    }
 
     @Operation(summary = "우리 사이트에서 완성된 프로젝트 목록")
     @GetMapping("/projects/{page}")
