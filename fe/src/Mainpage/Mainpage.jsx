@@ -31,6 +31,7 @@ const Mainpage = () => {
           withCredentials: true,
         });
         dispatch(setMyProjectList(res.data.result));
+        console.log('이거 되나', res.data)
       } catch (err) {
         console.error(err);
       }
