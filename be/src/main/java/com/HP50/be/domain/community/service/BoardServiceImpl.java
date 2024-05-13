@@ -90,7 +90,11 @@ public class BoardServiceImpl implements BoardService {
                                                        int page) {
         PageRequest pageRequest = PageRequest.of(page, 10);
 
-        Slice<Board> boards = boardCustomRepository.findByConditions(catBoard, calCalender, catJob, keyword, pageRequest);
+        SliceTotalCountDto<Board> sliceTotalCountDto = boardCustomRepository.findByConditions(catBoard, calCalender, catJob, keyword, pageRequest);
+
+
+        Slice<Board> boards = sliceTotalCountDto.getSlice();
+        long totalCount = sliceTotalCountDto.getTotalCount();
         List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>();
 
         for(Board board: boards){
@@ -114,6 +118,7 @@ public class BoardServiceImpl implements BoardService {
 
         BoardPaginationResponseDto boardPaginationResponseDto = BoardPaginationResponseDto.builder()
                 .hasNext(boards.hasNext())
+                .totalCount(totalCount)
                 .boardListResponseDto(boardListResponseDtos)
                 .build();
 

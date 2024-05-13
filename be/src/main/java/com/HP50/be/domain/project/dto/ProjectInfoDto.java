@@ -41,5 +41,4 @@ public class ProjectInfoDto {
         this.endDttm = endDttm;
         this.teammateInfoList = new ArrayList<>();
     }
-
 }
