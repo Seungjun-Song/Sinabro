@@ -1,16 +1,3 @@
-package com.HP50.be.domain.project.dto;
-
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class PjtTechInfo {
-    Integer teammateId;
-    String subcategoryName;
-
-    public PjtTechInfo(Integer teammateId,  String subcategoryName) {
-        this.teammateId = teammateId;
-        this.subcategoryName = subcategoryName;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6ce7c90ce21075599ddc70bd26d00629369da3c819f9538338679d571ba87af1
+size 346

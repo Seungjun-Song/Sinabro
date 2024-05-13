@@ -1,16 +1,3 @@
-package com.HP50.be.domain.memoryGraph.service;
-
-import com.HP50.be.domain.memoryGraph.dto.MemberDto;
-import com.HP50.be.domain.memoryGraph.entity.Neo4jMember;
-
-import java.util.List;
-
-public interface Neo4jMemberService {
-    List<MemberDto> findAllMembers();
-
-    Neo4jMember findMember(Integer memberId);
-
-    void saveMember(MemberDto memberDto);
-
-    void deleteMember(Integer memberId);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:5744220911bf113b9606853bd2e9f5f75a0f0f6037d5af1729866109704aafa5
+size 395
