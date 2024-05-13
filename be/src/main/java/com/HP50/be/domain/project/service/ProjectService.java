@@ -28,6 +28,8 @@ public interface ProjectService {
     void exitProject(String token);
     // 프로젝트 다크모드
     void projectDarkMode(String token);
+    // 프로젝트 초대
+    String getInviteUrl(String token);
 
     List<ProjectListResponseDto> getProjectListInMember(String token);
 
