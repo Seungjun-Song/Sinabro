@@ -161,6 +161,8 @@ const TeammateBox = styled.div`
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
+  width: 100%;
+  padding: 0.2rem;
 `
 const TeammateImg = styled.img`
   width: 2rem;
@@ -421,7 +423,7 @@ const ProjectPageLeftPanel = ({ teammate }) => {
             </CalendarBox>
             <TeammateBox>
               {teammate.map((item, index) => {
-                <TeammateImg src={item.memberImg} />
+                <TeammateImg key={index} src={item.memberImg} />
               })}
             </TeammateBox>
             <ToDoListBox>
