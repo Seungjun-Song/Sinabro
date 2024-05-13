@@ -46,8 +46,8 @@ const Callback = () => {
                             displayName: res.data.result.memberName,
                             token: res.data.result.jwtAccessToken,
                             newer: res.data.result.newer,
-                            photoURL: res.data.result.memberImg,
-                            memberEmail: result.data.memberEmail,
+                            photoURL: result.data.result.memberImg,
+                            memberEmail: res.data.memberEmail,
                             memberGit: res.data.result.memberGit
                         }))
                     })
