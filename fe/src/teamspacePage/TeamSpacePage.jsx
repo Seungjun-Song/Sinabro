@@ -18,7 +18,7 @@ import { clearInvitedUserList, setInvitedUserList } from "../store/invitedUserLi
 
 
 const TeamSpacePage = () => {
-  const [imgUrl, setImgUrl] = useState("/images/pjtimg.png")
+  const [imgUrl, setImgUrl] = useState("/images/E103_Logo.png")
   const [IsModalOpen, setIsModalOpen] = useState(false);
   const [projectName, setProjectName] = useState(null);
   const [projectinfo, setProjectInfo] = useState(null);
