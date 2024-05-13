@@ -26,8 +26,8 @@ const TSDProjectContent = ({ whatInfo, isDark }) => {
           border: "1px solid #554BAC", // 투명한 테두리 설정
           borderRadius: "1.5rem",
           width: "100%",
-          overflowX: whatInfo === "일정" ? "" : "auto",
-          // overflowY: whatInfo === "일정" ? "auto" : "",
+          overflowX: "hidden",
+          overflowY: "auto",
           backgroundColor: isDark
             ? GlobalColor.colors.primary_black50
             : "white",

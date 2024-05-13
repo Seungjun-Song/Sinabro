@@ -14,12 +14,10 @@ const MyPageSidePanelContainer = styled(motion.div)`
   width: 30%;
   flex-direction: column;
   align-items: center;
-  /* justify-content:center; */
-  margin-top:3rem
 `;
 
 const SkillArea = styled.span`
-  background-color: #8fdd89;
+  /* background-color: #8fdd89; */
   padding: 0.2rem;
   color: white;
   padding-left: 1rem;
@@ -98,7 +96,17 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
   const [selectedImage, setSelectedImage] = useState(
     "/images/default_my_image.png"
   );
-
+  const getColor = (item) => {
+    // 여기에 item에 따라 적절한 색상을 반환하는 조건을 추가하세요
+    // 예를 들어, item이 "A"일 때는 빨간색, "B"일 때는 파란색 등등...
+    return item === "FE"
+      ? "#3DC7AE"
+      : item === "BE"
+      ? "#315DCC"
+      : item === "FULL"
+      ? "#6C31CC"
+      : "black";
+  };
   const handleImageChange = async () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -127,7 +135,9 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
       exit={{ opacity: 0, y: 5 }}
       transition={{ duration: 0.3 }}
     >
-      <SkillArea>{userfind.memberJob}</SkillArea>
+      <SkillArea style={{ backgroundColor: getColor(userfind.memberJob) }}>
+        {userfind.memberJob}
+      </SkillArea>
       <div style={{ position: "relative" }}>
         <MyImage src={userfind.memberImg} />
         <motion.div

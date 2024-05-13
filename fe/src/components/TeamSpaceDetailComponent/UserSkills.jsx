@@ -66,7 +66,7 @@ const UserSkills = ({whatUser}) => {
         hidden: { opacity: 0 },
       }}
     >
-      {whatUser.techStack.map((item, index) => (
+      {whatUser.techStack && whatUser.techStack.map((item, index) => (
         <motion.div
           key={item.id}
           variants={{
