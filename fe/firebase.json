@@ -1,16 +1,3 @@
-{
-  "database": {
-    "rules": "database.rules.json"
-  },
-  "storage": {
-    "rules": "storage.rules"
-  },
-  "hosting": {
-    "public": "dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:ac56222ba1464514f7b6487ea603ad1079bb4d1e644d94144c6dae4fd409d8e2
+size 237
