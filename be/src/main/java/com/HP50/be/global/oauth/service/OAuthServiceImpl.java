@@ -78,22 +78,22 @@ public class OAuthServiceImpl implements OAuthService{
                 GithubUserInfoDto.class)
                 .getBody();
 
-        GithubEmailDto[] emailDtoArray = restTemplate.exchange(
-                        url + "/emails",
-                        HttpMethod.GET,
-                        entity,
-                        GithubEmailDto[].class)
-                .getBody();
-
-        // email 정보를 받아오는 요청
-        if (emailDtoArray != null) {
-            for(GithubEmailDto emailDto: emailDtoArray){
-                if(emailDto.isPrimary()){
-                    response.setEmail(emailDto.getEmail());
-                    break;
-                }
-            }
-        }
+//        GithubEmailDto[] emailDtoArray = restTemplate.exchange(
+//                        url + "/emails",
+//                        HttpMethod.GET,
+//                        entity,
+//                        GithubEmailDto[].class)
+//                .getBody();
+//
+//        // email 정보를 받아오는 요청
+//        if (emailDtoArray != null) {
+//            for(GithubEmailDto emailDto: emailDtoArray){
+//                if(emailDto.isPrimary()){
+//                    response.setEmail(emailDto.getEmail());
+//                    break;
+//                }
+//            }
+//        }
         return response;
     }
 
