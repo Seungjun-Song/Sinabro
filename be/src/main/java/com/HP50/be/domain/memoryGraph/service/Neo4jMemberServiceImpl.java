@@ -83,6 +83,7 @@ public class Neo4jMemberServiceImpl implements Neo4jMemberService{
             nodeList.add(NodesDto.builder()
                     .id(parMemo.getMemoId())
                     .label(parMemo.getTitle())
+                    .content(parMemo.getContent())
                     .build());
             setFromForNode(parMemo, nodeList);
         }

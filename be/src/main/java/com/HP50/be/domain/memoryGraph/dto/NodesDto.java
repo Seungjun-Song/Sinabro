@@ -8,4 +8,5 @@ import lombok.Data;
 public class NodesDto {
     private String id;
     private String label;
+    private String content;
 }

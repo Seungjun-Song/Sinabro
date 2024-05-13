@@ -42,6 +42,7 @@ public class MemoServiceImpl implements MemoService {
                 nodeList.add(NodesDto.builder()
                         .id(memo.getMemoId())
                         .label(memo.getTitle())
+                        .content(memo.getContent())
                         .build());
                 setFromForLink(memo, memo.getMemoId(), linkList);
                 setFromForNode(memo, nodeList);
