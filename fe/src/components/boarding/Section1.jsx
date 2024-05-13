@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { logInServer, logIn } from "../../oauthTestPage/OauthTest";
+import { logInServer, logIn, logInLocal } from "../../oauthTestPage/OauthTest";
 
 const wordlist = [
   {
