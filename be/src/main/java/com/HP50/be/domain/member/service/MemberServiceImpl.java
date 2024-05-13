@@ -81,7 +81,7 @@ public class MemberServiceImpl implements MemberService {
                 .memberJob(member.getCategory().getCategoryName())
                 .techStacks(techStackResponseDtos)
                 .projects(projectDtos)
-                .memos(this.memoService.findMemoByMemberId(memberId))
+                .graphDto(this.memoService.findMemoByMemberId(memberId))
                 .build();
     }
 

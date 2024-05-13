@@ -1,5 +1,6 @@
 package com.HP50.be.domain.memoryGraph.entity;
 
+import jakarta.persistence.ElementCollection;
 import lombok.*;
 import org.springframework.data.neo4j.core.schema.*;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;

@@ -1,6 +1,9 @@
 package com.HP50.be.domain.memoryGraph.service;
 
+import com.HP50.be.domain.memoryGraph.dto.LinksDto;
+import com.HP50.be.domain.memoryGraph.dto.MemberForGraphDto;
 import com.HP50.be.domain.memoryGraph.dto.MemoDto;
+import com.HP50.be.domain.memoryGraph.dto.NodesDto;
 import com.HP50.be.domain.memoryGraph.entity.Memo;
 import com.HP50.be.domain.memoryGraph.entity.Neo4jMember;
 import com.HP50.be.domain.memoryGraph.repository.MemoCustomRepository;
@@ -13,6 +16,7 @@ import org.neo4j.driver.Driver;
 import org.neo4j.driver.Session;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,17 +31,28 @@ public class MemoServiceImpl implements MemoService {
     private final Driver driver;
 
     @Override
-    public List<MemoDto> findMemoByMemberId(Integer memberId){
+    public MemberForGraphDto findMemoByMemberId(Integer memberId){
         Neo4jMember neo4jMember = neo4jMemberRepository.findByMemberId(memberId);
 
-        return neo4jMember.getMemos().stream()
-                .map(memo -> MemoDto.builder()
-                        .memoId(memo.getMemoId())
-                        .title(memo.getTitle())
-                        .content(memo.getContent())
-                        .memoList(memo.getFrom())
-                        .build())
-                .toList();
+        // 리액트에 시각화 하기 위해서는 데이터가 Nodes 와 Links 로 전달되어서 가야함
+        List<NodesDto> nodeList = new ArrayList<>();
+        List<LinksDto> linkList = new ArrayList<>();
+
+            for(Memo memo: neo4jMember.getMemos()){
+                nodeList.add(NodesDto.builder()
+                        .id(memo.getMemoId())
+                        .label(memo.getTitle())
+                        .build());
+                setFromForLink(memo, memo.getMemoId(), linkList);
+                setFromForNode(memo, nodeList);
+            }
+
+        return MemberForGraphDto.builder()
+                .memberId(neo4jMember.getMemberId())
+                .name(neo4jMember.getName())
+                .linkList(linkList)
+                .nodeList(nodeList)
+                .build();
     }
 
     @Override
@@ -77,6 +92,26 @@ public class MemoServiceImpl implements MemoService {
         try(Session session = driver.session()){
             String cypher = memoCustomRepository.updateMemo(memoDto);
             session.run(cypher);
+        }
+    }
+
+    public void setFromForLink(Memo memo, String memoId, List<LinksDto> linkList){
+        for(Memo parMemo: memo.getFrom()){
+            linkList.add(LinksDto.builder()
+                    .source(parMemo.getMemoId())
+                    .target(memoId)
+                    .build());
+            setFromForLink(parMemo, parMemo.getMemoId(), linkList);
+        }
+    }
+
+    public void setFromForNode(Memo memo, List<NodesDto> nodeList){
+        for(Memo parMemo: memo.getFrom()){
+            nodeList.add(NodesDto.builder()
+                    .id(parMemo.getMemoId())
+                    .label(parMemo.getTitle())
+                    .build());
+            setFromForNode(parMemo, nodeList);
         }
     }
 }
