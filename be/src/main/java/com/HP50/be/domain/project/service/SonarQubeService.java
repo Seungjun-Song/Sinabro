@@ -1,14 +1,3 @@
-package com.HP50.be.domain.project.service;
-
-import com.HP50.be.domain.project.dto.SonarQubeResultDto;
-import com.HP50.be.domain.project.dto.SonarRequestDto;
-import com.google.gson.JsonObject;
-import com.jcraft.jsch.Session;
-
-import java.util.List;
-
-public interface SonarQubeService {
-    void executeSonarScanner(Integer projectId,String folderName);
-    SonarQubeResultDto getResult(Integer projectId, Integer pageNumber, JsonObject jsonObject,Integer effortTotal,Integer openTotal);
-    void changeIssuesStatus(String issues,String doTransition);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:fa00ef2349d109cae4f69a8e11e00cd390238babe3e5d1e0330e6234527e2b98
+size 601

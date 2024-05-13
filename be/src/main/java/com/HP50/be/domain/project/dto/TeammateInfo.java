@@ -1,29 +1,3 @@
-package com.HP50.be.domain.project.dto;
-
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-@Getter
-@Setter
-public class TeammateInfo {
-    Integer teammateId;
-    Integer memberId;
-    String memberName;
-    String memberImg;
-    Boolean teamReader;
-    String teammateRole;
-    List<String> techStack;
-    public TeammateInfo(Integer teammateId, Integer memberId, String memberName, String memberImg, Boolean teamReader,String teammateRole) {
-        this.teammateId = teammateId;
-        this.memberId = memberId;
-        this.memberName = memberName;
-        this.memberImg = memberImg;
-        this.teamReader = teamReader;
-        this.techStack = new ArrayList<>();
-        this.teammateRole = teammateRole;
-    }
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:bae346d6d3c1526eba87fc2322c1ca41625cfffbd274815486d922d7599968bd
+size 770

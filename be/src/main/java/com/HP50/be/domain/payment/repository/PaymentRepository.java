@@ -1,9 +1,3 @@
-package com.HP50.be.domain.payment.repository;
-
-import com.HP50.be.domain.payment.entity.Payment;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface PaymentRepository extends JpaRepository<Payment, Integer> {
-    boolean existsByProject_ProjectId(Integer projectId);
-    Payment findByProject_ProjectId(Integer projectId);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0633ad8f0acdf3b27f2235264380a7f8dd3f91555bff77e9c87468206fb59548
+size 354

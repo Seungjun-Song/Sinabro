@@ -1,10 +1,3 @@
-package com.HP50.be.domain.project.repository;
-
-import com.HP50.be.domain.code.entity.SubCategory;
-import com.HP50.be.domain.project.entity.Project;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
-
-public interface ProjectRepository extends JpaRepository<Project,Integer> {
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6914e7b218e177c647fc6afb321887d53c60c08a1f42fef953f8764d45ffc5d8
+size 314
