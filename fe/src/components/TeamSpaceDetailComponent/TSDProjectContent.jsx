@@ -5,6 +5,7 @@ import TSDUserModal from "./TSDUserModal";
 import { AnimatePresence } from "framer-motion";
 import { GlobalColor } from "../../services/color";
 import { Calender } from "../calender/Calender";
+import SonarQubeContents from "./SonarQubeContents"
 import Todo from "./Todo";
 import { useSelector } from "react-redux";
 
@@ -25,8 +26,8 @@ const TSDProjectContent = ({ whatInfo, isDark }) => {
           border: "1px solid #554BAC", // 투명한 테두리 설정
           borderRadius: "1.5rem",
           width: "100%",
-          overflowX: whatInfo === "일정" ? "" : "auto",
-          // overflowY: whatInfo === "일정" ? "auto" : "",
+          overflowX: "hidden",
+          overflowY: "auto",
           backgroundColor: isDark
             ? GlobalColor.colors.primary_black50
             : "white",
@@ -42,6 +43,7 @@ const TSDProjectContent = ({ whatInfo, isDark }) => {
             <TSDUserModal myCurrentProject={myCurrentProject} whatUser={whatUser} setWhatUser={setWhatUser} />
           )}
         </AnimatePresence>
+        {whatInfo == "소나큐브" && <SonarQubeContents/>}
       </div>
     </>
   );

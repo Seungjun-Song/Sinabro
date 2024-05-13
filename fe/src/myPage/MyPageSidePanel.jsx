@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from "../firebase";
@@ -8,6 +8,8 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faAt } from "@fortawesome/free-solid-svg-icons";
 import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
 import { GlobalColor } from "../services/color";
+import axios from "axios";
+import getEnv from "../utils/getEnv";
 const MyPageSidePanelContainer = styled(motion.div)`
   display: flex;
   height: 100%;
@@ -93,9 +95,14 @@ const InfoTag = styled.div`
 `;
 
 const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
-  const [selectedImage, setSelectedImage] = useState(
-    "/images/default_my_image.png"
-  );
+  const [selectedImage, setSelectedImage] = useState('');
+
+  const back_url = getEnv('BACK_URL')
+
+  useEffect(() => {
+    setSelectedImage(userfind.memberImg)
+    console.log(userfind)
+  }, [])
 
   const handleImageChange = async () => {
     const input = document.createElement("input");
@@ -112,6 +119,14 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
       // 업로드된 이미지의 다운로드 URL 받아오기
       const imageUrl = await getDownloadURL(storageRef);
 
+      try {
+        const res = await axios.post(`${back_url}/members/images?${imageUrl}`)
+        console.log(res.data)
+      }
+      catch (err) {
+        console.error(err)
+      }
+
       // 다운로드 URL을 state에 저장
       setSelectedImage(imageUrl);
     };
@@ -127,7 +142,7 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
     >
       <SkillArea>{userfind.memberJob}</SkillArea>
       <div style={{ position: "relative" }}>
-        <MyImage src={userfind.memberImg} />
+        <MyImage src={selectedImage} />
         <motion.div
           onClick={handleImageChange}
           whileHover={{ color: "#BAB2FF" }}
