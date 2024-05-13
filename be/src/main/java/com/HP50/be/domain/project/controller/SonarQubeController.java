@@ -18,6 +18,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import retrofit2.http.Path;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -31,6 +32,14 @@ import java.util.List;
 public class SonarQubeController {
     private final SonarQubeService sonarQubeService;
     private final PaymentRepository paymentRepository;
+    /**
+     * 폴더 구조 가져오기
+     */
+    @GetMapping("/scan-folder/{projectId}")
+    public ResponseEntity<Object> getFolders(@PathVariable Integer projectId){
+        List<String> result = sonarQubeService.getFolders(projectId);
+        return ResponseEntity.ok(new BaseResponse<>(result));
+    }
     /**
         정적 분석
      */
