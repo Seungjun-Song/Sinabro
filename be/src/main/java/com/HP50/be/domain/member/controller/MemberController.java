@@ -89,4 +89,12 @@ public class MemberController {
         memberService.deleteMember(memberId);
         return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
+
+    @Operation(summary = "프로필 이미지 변경")
+    @PostMapping("/images")
+    public ResponseEntity<BaseResponse<StatusCode>> updateProfileImage(@CookieValue(JwtConstants.JWT_HEADER) String token,
+                                                                       @RequestParam("img") String img){
+        memberService.updateProfileImage(token, img);
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
+    }
 }

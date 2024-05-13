@@ -3,6 +3,7 @@ package com.HP50.be.domain.member.repository;
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.project.dto.PjtTechInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -17,6 +18,7 @@ import static com.HP50.be.domain.member.entity.QMember.member;
 
 @Repository
 @RequiredArgsConstructor
+@Transactional
 public class MemberCustomRepositoryImpl implements MemberCustomRepository{
     private final JPAQueryFactory queryFactory;
 
@@ -43,5 +45,14 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository{
         // 결과 목록이 요청된 페이지 크기보다 클 경우, 마지막 항목 제거
         List<Member> members = hasNext ? results.subList(0, pageable.getPageSize()) : results;
         return new SliceImpl<>(members, pageable, hasNext);
+    }
+
+    @Override
+    public void updateProfileImage(Integer memberId, String newImage) {
+        queryFactory
+                .update(member)
+                .where(member.memberId.eq(memberId))
+                .set(member.memberImg, newImage)
+                .execute();
     }
 }
