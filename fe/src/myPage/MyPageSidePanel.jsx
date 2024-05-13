@@ -19,7 +19,7 @@ const MyPageSidePanelContainer = styled(motion.div)`
 `;
 
 const SkillArea = styled.span`
-  /* background-color: #8fdd89; */
+  background-color: #8fdd89;
   padding: 0.2rem;
   color: white;
   padding-left: 1rem;
@@ -95,29 +95,13 @@ const InfoTag = styled.div`
 `;
 
 const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
-  const [selectedImage, setSelectedImage] = useState(
-    "/images/default_my_image.png"
-  );
-
+  const [selectedImage, setSelectedImage] = useState('');
 
   const back_url = getEnv('BACK_URL')
 
   useEffect(() => {
     setSelectedImage(userfind.memberImg)
   }, [])
-
-
-  const getColor = (item) => {
-    // 여기에 item에 따라 적절한 색상을 반환하는 조건을 추가하세요
-    // 예를 들어, item이 "A"일 때는 빨간색, "B"일 때는 파란색 등등...
-    return item === "FE"
-      ? "#3DC7AE"
-      : item === "BE"
-      ? "#315DCC"
-      : item === "FULL"
-      ? "#6C31CC"
-      : "black";
-  };
 
   const handleImageChange = async () => {
     const input = document.createElement("input");
@@ -135,9 +119,7 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
       const imageUrl = await getDownloadURL(storageRef);
 
       try {
-        const res = await axios.post(`${back_url}/members/images`, {
-          img: imageUrl
-        })
+        const res = await axios.post(`${back_url}/members/images`, imageUrl)
         console.log(res.data)
       }
       catch (err) {
@@ -157,9 +139,7 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
       exit={{ opacity: 0, y: 5 }}
       transition={{ duration: 0.3 }}
     >
-      <SkillArea style={{ backgroundColor: getColor(userfind.memberJob) }}>
-        {userfind.memberJob}
-      </SkillArea>
+      <SkillArea>{userfind.memberJob}</SkillArea>
       <div style={{ position: "relative" }}>
         <MyImage src={selectedImage} />
         <motion.div
