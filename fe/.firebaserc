@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1602b11928e0bf056ba7da33f63eda5ef55550e30979c2928d8a077b12b25c4c
-size 106
+{
+  "projects": {
+    "default": "last-pjt",
+    "last": "last-pjt"
+  },
+  "targets": {},
+  "etags": {}
+}
