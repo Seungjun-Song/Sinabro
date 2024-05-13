@@ -8,60 +8,40 @@ import axios from "axios";
 import getEnv from "../../utils/getEnv";
 import UserSearchModal from "./UserSearchModal";
 
-const DUMMY_DATA = [
-  {
-    id: 1,
-    job: "FE",
-    state: "Reader",
-    name: "Juhun0283",
-  },
-  {
-    id: 2,
-    job: "FE",
-    state: "Member",
-    name: "Juhun0283",
-  },
-  {
-    id: 3,
-    job: "BE",
-    state: "Member",
-    name: "Juhun0283",
-  },
-  {
-    id: 4,
-    job: "FULL",
-    state: "Member",
-    name: "Juhun0283",
-  },
-];
-
 const ProjectTeam = ({ setWhatUser, isDark }) => {
   const displayedRoles = [];
 
-  const myCurrentProject = useSelector(state => state.myCurrentProject.value)
-  const back_url = getEnv('BACK_URL')
+  const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
+  const back_url = getEnv("BACK_URL");
 
-  const [teamInfo, setTeamInfo] = useState([])
-  const [teamLeader, setTeamLeader] = useState(null)
-  const [reloading, setReloading] = useState(false)
-  const [IsModalOpen, setIsModalOpen] = useState(false)
+  const [teamInfo, setTeamInfo] = useState([]);
+  const [teamLeader, setTeamLeader] = useState(null);
+  const [reloading, setReloading] = useState(false);
+  const [IsModalOpen, setIsModalOpen] = useState(false);
 
-  const userInfo = useSelector(state => state.user)
+  const userInfo = useSelector((state) => state.user);
 
   const hadlebutton = () => {
     setIsModalOpen(() => !IsModalOpen);
     console.log(IsModalOpen);
-  }
+  };
 
   useEffect(() => {
     const getProjectInfo = async () => {
       try {
-        const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`)
-        console.log(res.data)
-        setTeamLeader(res.data.result.teammateInfoList[0]?.memberId)
-        const transformedTeamInfo = res.data.result.teammateInfoList?.map(item => ({ ...item, teammateRole: convertTeammateRole(item.teammateRole) }))
-        console.log(transformedTeamInfo)
-        setTeamInfo(transformedTeamInfo)
+        const res = await axios.get(
+          `${back_url}/teams?projectId=${myCurrentProject.projectId}`
+        );
+        console.log(res.data);
+        setTeamLeader(res.data.result.teammateInfoList[0]?.memberId);
+        const transformedTeamInfo = res.data.result.teammateInfoList?.map(
+          (item) => ({
+            ...item,
+            teammateRole: convertTeammateRole(item.teammateRole),
+          })
+        );
+        console.log(transformedTeamInfo);
+        setTeamInfo(transformedTeamInfo);
       } catch (err) {
         console.error(err);
       }
@@ -84,7 +64,13 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
 
   return (
     <motion.div
-      style={{ display: "flex", gap: "1.5rem", height: "100%" }}
+      style={{
+        display: "flex",
+        height: "100%",
+        width: "100%",
+        flexWrap: "wrap",
+        gap: "1rem",
+      }}
       initial="hidden"
       animate="visible"
       variants={{
@@ -101,12 +87,15 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
           displayedRoles.push(item.teammateRole); // 역할을 추가합니다.
           return (
             <motion.div
+              // className="col-4"
               key={index}
               style={{
                 display: "flex",
                 gap: "1rem",
                 flexDirection: "column",
                 height: "100%",
+                marginBottom: "1rem",
+                // height:"15rem"
               }}
               variants={{
                 hidden: { opacity: 0, y: 20 },
@@ -133,12 +122,14 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
         } else {
           return (
             <motion.div
+              // className="col-4"
               key={index}
               style={{
                 display: "flex",
                 gap: "1rem",
                 flexDirection: "column",
                 height: "100%",
+                marginBottom: "1rem",
               }}
               variants={{
                 hidden: { opacity: 0, y: 20 },
@@ -164,13 +155,13 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
           );
         }
       })}
-      {userInfo.currentUser.uid === teamLeader &&
+      {userInfo.currentUser.uid === teamLeader && (
         <motion.div
           onClick={hadlebutton}
           whileHover={{ cursor: "pointer", y: -7 }}
           style={{
-            justifySelf: 'center',
-            alignSelf: 'center',
+            justifySelf: "center",
+            alignSelf: "center",
             minWidth: "5rem",
             border: "none",
             height: "5rem",
@@ -178,7 +169,9 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            backgroundImage: isDark ? "linear-gradient(135deg, #d3d3d3, #383838)" : "linear-gradient(135deg, #C7D6FF, #7375CA)", // 그라데이션 효과 추가
+            backgroundImage: isDark
+              ? "linear-gradient(135deg, #d3d3d3, #383838)"
+              : "linear-gradient(135deg, #C7D6FF, #7375CA)", // 그라데이션 효과 추가
           }}
         >
           <img
@@ -186,7 +179,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
             src="/images/plus.png"
           />
         </motion.div>
-      }
+      )}
       <AnimatePresence>
         {IsModalOpen && (
           <UserSearchModal
