@@ -96,7 +96,7 @@ const InfoTag = styled.div`
   flex-wrap: wrap;
 `;
 
-const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
+const MyPageSidePanel = ({ isDark, userfind }) => {
   const [selectedImage, setSelectedImage] = useState('');
 
   const back_url = getEnv('BACK_URL')
