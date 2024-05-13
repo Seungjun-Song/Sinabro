@@ -14,6 +14,7 @@ const MyPageContainer = styled.div`
   height: 100vh;
   width: 100vw;
   align-items: center;
+  justify-content:"center";
 `;
 
 const MainBox = styled.div`
