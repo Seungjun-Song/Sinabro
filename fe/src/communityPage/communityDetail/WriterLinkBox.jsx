@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { motion } from "framer-motion"
 
 import MoveToPjt from '/image/community/moveToPjt.png'
+import { useNavigate } from 'react-router-dom'
 
 const WriterBox = styled(motion.div)`
     display: flex;
@@ -49,9 +50,13 @@ const WriterLink = styled.img`
 `
 
 const WriterLinkBox = ({detailData}) => {
+
+    const navigate = useNavigate();
+    console.log("writerBox", detailData)
     return(
         <WriterBox
             whileHover={{ cursor: "pointer", y: -3}}
+            onClick={() => navigate(`/writerPage`)}
         >
             <WriterInfo>
                 <WriterProfile
