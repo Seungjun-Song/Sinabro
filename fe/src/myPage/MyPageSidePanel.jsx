@@ -100,7 +100,7 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
   const back_url = getEnv('BACK_URL')
 
   useEffect(() => {
-    setSelectedImage(userfind.memberImg)
+    setSelectedImage(userfind.photoURL)
     console.log(userfind)
   }, [])
 
