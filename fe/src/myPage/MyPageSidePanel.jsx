@@ -101,6 +101,7 @@ const MyPageSidePanel = ({ isDark, userfind, userInfo }) => {
 
   useEffect(() => {
     setSelectedImage(userfind.memberImg)
+    console.log(userfind)
   }, [])
 
   const handleImageChange = async () => {
