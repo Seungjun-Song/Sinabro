@@ -54,18 +54,18 @@ const DetailSideMenu = ({selected, isDark}) => {
 
     return (
         <MenuList style={{fontFamily: "Pretendard Medium"}}>
-            <Menu onClick={() => {navigate('/communityMainPage', {state: {kind: "member"}})}}
-                    selected={selected === "member"}
+            <Menu onClick={() => {navigate('/communityMainPage', {state: {kind: {id: 401, name: "member"}, page: 1}})}}
+                    selected={selected.name === "member"}
                     isDark={isDark}>
                 팀원 구해요
             </Menu>
-            <Menu onClick={() => navigate('/communityMainPage', {state: {kind: "team"}})}
-                    selected={selected === "team"}
+            <Menu onClick={() => navigate('/communityMainPage', {state: {kind: {id: 402, name: "team"}, page: 1}})}
+                    selected={selected.name === "team"}
                     isDark={isDark}>
                 팀 구해요
             </Menu>
-            <Menu onClick={() => navigate('/communityMainPage', {state: {kind: "feadback"}})}
-                    selected={selected === "feadback"}
+            <Menu onClick={() => navigate('/communityMainPage', {state: {kind: {id: 403, name: "feadback"}, page: 1}})}
+                    selected={selected.name === "feadback"}
                     isDark={isDark}>
                 피드백 원해요
             </Menu>

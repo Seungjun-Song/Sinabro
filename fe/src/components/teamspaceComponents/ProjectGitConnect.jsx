@@ -46,7 +46,6 @@ const ProjectGitConnect = ({ isDark }) => {
         width: "60%",
         display: "flex",
         marginTop: "3rem",
-        marginBottom: "3rem",
         flexDirection: "column",
       }}
     >

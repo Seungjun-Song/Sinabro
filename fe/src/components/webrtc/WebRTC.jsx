@@ -71,6 +71,8 @@ export default function WebRTC() {
     const isDark = useSelector(state => state.isDark.isDark)
     const projectRoomId = useSelector(state => state.projectRoomId.value)
 
+    const userInfo = useSelector(state => state.user)
+
     const toggleDarkMode = () => {
         dispatch(toggleisDarkState())
     }
@@ -104,10 +106,11 @@ export default function WebRTC() {
         joinSession();
 
         return () => {
+            leaveSession()
+            leaveCodeServer()
             if (session) {
                 session.disconnect();
             }
-            leaveSession()
             // OV.current = new OpenVidu();
             // setSession(undefined);
             // setSubscribers([]);
@@ -120,7 +123,7 @@ export default function WebRTC() {
         if (session) {
             getToken().then(async (token) => {
                 try {
-                    await session.connect(token, { clientData: myUserName });
+                    await session.connect(token, { clientData: userInfo.currentUser.photoURL });
 
                     let publisher = await OV.current.initPublisherAsync(undefined, {
                         audioSource: undefined,
@@ -150,6 +153,16 @@ export default function WebRTC() {
         }
     }, [session, myUserName]);
 
+    const leaveCodeServer = async () => {
+        try {
+            const res = await axios.post(`${back_url}/teams/projects/exit`)
+            console.log(res.data)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
     const leaveSession = useCallback(() => {
         axios.post(`${back_url}/room/exit`, {
             sessionId: sessionId,
@@ -167,7 +180,7 @@ export default function WebRTC() {
                 setMyUserName('');
                 setMainStreamManager(undefined);
                 setPublisher(undefined);
-                navigate('/');
+                navigate('/Mainpage');
             })
             .catch(err => {
                 // 요청이 실패한 경우
@@ -190,7 +203,7 @@ export default function WebRTC() {
 
     const getToken = async () => {
         const res = await axios.post(`${back_url}/room`, {
-            projectId: projectRoomId 
+            projectId: projectRoomId
         })
         if (res.data.isSuccess === true) {
             const token = res.data.result.connectionToken
@@ -201,7 +214,7 @@ export default function WebRTC() {
         else {
             try {
                 const response = await axios.post(`${back_url}/room/enter`, {
-                    projectId: projectRoomId 
+                    projectId: projectRoomId
                 })
                 const token = response.data.result
                 setSessionId(token.match(/sessionId=([^&]+)/)[1])
@@ -263,14 +276,12 @@ export default function WebRTC() {
                 />
                 {publisher !== undefined ? (
                     <UserImage>
-                        <UserVideoComponent
-                            streamManager={publisher}
-                            path={'/images/user1.png'} />
+                        <UserVideoComponent streamManager={publisher} />
                     </UserImage>
                 ) : null}
                 {subscribers.map((sub, i) => (
                     <UserImage key={sub.id}>
-                        <UserVideoComponent streamManager={sub} path={'/images/user1.png'} />
+                        <UserVideoComponent streamManager={sub} />
                     </UserImage>
                 ))}
             </NavRigthBox>

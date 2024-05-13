@@ -62,15 +62,43 @@ const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, ki
         setProceedToggle(false);
     }
 
-    const selectToggleData = ["모두", "모집 중", "모집 완료"];
-    const feadbackToggleData = ["모두", "구걸 중", "구걸 완료"]
+    const selectToggleData = [
+        {
+            id: 0,
+            name: "모두"
+        },
+        {
+            id: 502,
+            name: "모집 중",
+        },
+        {
+            id: 503,
+            name: "모집 완료",
+        }
+
+    ]
+
+    const feadbackToggleData = [
+        {
+            id: 0,
+            name: "모두"
+        },
+        { 
+            id: 502,
+            name: "구걸 중",
+        },
+        {
+            id: 503,
+            name: "구걸 완료",
+        }
+    ]
 
     return(
         <Selection
             {...toggleBoxMotion}
             isDark={isDark}
         >
-            {kind === "team" || kind === "member" ? 
+            {kind.name === "team" || kind.name === "member" ? 
             (<>
                 {selectToggleData.map((option, index) => (
                     <motion.div
@@ -85,7 +113,7 @@ const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, ki
                             key={index}
                             onClick={() => changeOption(option)}    
                         >
-                            {option}
+                            {option.name}
                             <Line/>
                         </Option>
                         
@@ -106,7 +134,7 @@ const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, ki
                         <Option 
                             key={index}
                             onClick={() => changeOption(option)}
-                        >{option}</Option>
+                        >{option.name}</Option>
                     </motion.div>
                 ))}
 

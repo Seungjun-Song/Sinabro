@@ -91,6 +91,7 @@ const CkEditor = ({ isDark, postContent, setPostContent }) => {
             }}
             onChange={(event, editor) => {
 				setPostContent((prevState) => {
+					//console.log(editor.getData());
 					return {...prevState, content: editor.getData()};
 				})
             }}

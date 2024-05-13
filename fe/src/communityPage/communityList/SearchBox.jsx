@@ -50,7 +50,7 @@ const SearchBox = ({placeholder, searchWord, handleInputChange, search, isDark})
             </SearchInput>
             <SearchButton
                 src={SearchButtonIcon}
-                onClick={()=> search()}
+                // onClick={()=> search()}
                 $isDark={isDark}
             >
             </SearchButton>

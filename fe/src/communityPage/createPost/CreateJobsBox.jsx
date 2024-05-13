@@ -27,60 +27,71 @@ const Job = styled.div`
 
     cursor: pointer;
 
-    ${props => props.selected === "true" && css`
+    ${props => props.selected && css`
         background: ${props => props.borderColor};
         color: white;
     `}
 
 `
+
+const InputBox = styled.input`
+    width: 0.5rem;
+    border: none;
+    padding: 0;
+
+`
+
 const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
-    const [jobList, setJobList] = useState([
-        {
-            id: 1,
-            name: "백",
-            borderColor: "#315DCC",
-            icon: faCog,
-            selected: false,
-        }, 
-        {
-            id: 2, 
-            name: "프론트",
-            borderColor: "#3DC7AE",
-            icon: faDesktop,
-            selected: false,
-        }
-    ])
 
     const selectJob = (job, index) =>{
-        console.log("selectJob", job);
-        
-        setJobList(jobList.map((v, i)=>{
+       
+        setJobInfo(jobInfo.map((v, i)=>{
             if( index !== i){
                 return v;
             }
             else{
-                return {...v, selected: !job.selected}
+                return {...v, selected: 1-job.selected}
+            }
+        }))
+    }
+
+    const changeTargetVal = (data, index) => {
+
+        setJobInfo(jobInfo.map((v, i) => {
+            if(index !== i ){
+                return v;
+            }
+            else{
+                if(data.nativeEvent.data == null || data.nativeEvent.data == "")
+                    return {...v, target: ""}
+                else
+                    return{...v, target: parseInt(data.nativeEvent.data)};
+            }
+        }))
+    
+
+    }
+
+    const changeTotalVal = (data, index) => {
+        setJobInfo(jobInfo.map((v, i)=>{
+            if(index !== i){
+                return v;
+            }
+            else{
+                if(data.nativeEvent.data == null || data.nativeEvent.data == ""){
+                    return {...v, total: ""}
+                }
+                else
+                    return{...v, total: parseInt(data.nativeEvent.data)}
             }
         }))
 
-        // if(name === "백"){
-        //     setJobInfo((prevState) => {
-        //         return{...prevState, backSelected: !jobInfo.backSelected}
-        //     })
-        // }
-        // else if(name === "프론트"){
-        //     setJobInfo((prevState) => {
-        //         return{...prevState, frontSelected: !jobInfo.frontSelected}
-        //     })
-        // }
     }
-
-
     return(
         <JobBox>
-            {kind == "member" && 
+            {kind.name == "member" && 
             <>
-                {jobList.map((job, index) => (
+                {jobInfo.map((job, index) => (
                 <Job
                     borderColor={job.borderColor}
                 >
@@ -88,30 +99,38 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
                     <div>
                     {job.name}
                     </div>
-                    {1} / {1}
+                    <InputBox
+                        value={job.total}
+                        onChange={(data) => changeTotalVal(data, index)}
+                    >
+                    </InputBox> / 
+                    <InputBox
+                        value={job.target}
+                        onChange={(data) => changeTargetVal(data, index)}
+                    >
+                    </InputBox>
                 </Job>
             ))}               
-            
+            6명 이하 인원만 가능해요!
             </>}
             
-            {kind == "feadback" &&
+            {kind.name == "feadback" &&
             <>
-                {jobList.map((job, index) => (
+                {jobInfo.map((job, index) => (
                 <Job
                     borderColor={job.borderColor}
-                    selected={job.selected.toString()}
+                    selected={job.selected === 1}
                     onClick={() => selectJob(job, index)}
                 >
                     {job.icon && <FontAwesomeIcon icon={job.icon} style={{ fontSize: '10px' }} />}
                     <div>
                     {job.name}
-                    {job.selected.toString()}
                     </div>
                 </Job>
                 ))}   
             </>
             }
-
+        
         </JobBox>
     )
 }

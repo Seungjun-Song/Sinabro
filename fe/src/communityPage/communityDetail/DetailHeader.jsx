@@ -1,10 +1,12 @@
 import styled, { css } from 'styled-components'
 import { motion } from "framer-motion";
-
+import axios from 'axios';
 import DetailProceed from './DetailProceed'
 import Jobs from './../communityList/Jobs'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+
+import getEnv from '../../utils/getEnv';
 
 const Header = styled(motion.div)`
     display: flex;
@@ -110,14 +112,20 @@ const headerMotion = {
 const DetailHeader = ({kind, detailData, isDark}) => {
 
     const userInfo = useSelector(state => state.user.currentUser);
+    const back_url = getEnv('BACK_URL')
 
     const navigate = useNavigate();
 
     const deletePost = () => {
-
-        
-        navigate('/communityMainPage', { state: { kind: "member", page: 1 } })
+        axios.delete(`${back_url}/communities/boards/${detailData.id}`)
+        .then((res) => {
+            navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } })
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
+
     return(
         <Header
             {...headerMotion}
@@ -133,6 +141,7 @@ const DetailHeader = ({kind, detailData, isDark}) => {
             </Title>
             <Jobs
                 kind={kind}
+                post={detailData}
             >
                 
             </Jobs>
@@ -151,7 +160,7 @@ const DetailHeader = ({kind, detailData, isDark}) => {
             {detailData.memberId === userInfo.uid &&
                 <Buttons>
                 <ModifyButton
-                    onClick={() => navigate('/createPost', {state: {kind: kind}})}
+                    onClick={() => navigate('/createPost', {state: {kind: kind, isCreate: false, detailData: detailData}})}
                 >
                     수정
                 </ModifyButton>

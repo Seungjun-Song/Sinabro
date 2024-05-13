@@ -5,7 +5,7 @@ import TSDUserModal from "./TSDUserModal";
 import { AnimatePresence } from "framer-motion";
 // import { fas } from "@fortawesome/free-solid-svg-icons";
 
-const UserSkill = ({ skill }) => {
+const UserSkill = ({ item }) => {
   //   const [imgsrc, setimgsrc] = useState(false);
   let imgsrc = "";
   const getimg = (item) => {
@@ -29,10 +29,10 @@ const UserSkill = ({ skill }) => {
       return "/images/spring.png";
     }
   };
-  imgsrc = getimg(skill);
+  imgsrc = getimg(item);
   return (
     <>
-      <img style={{ width: "4rem" }} src={getimg(skill)} />
+      <img style={{ width: "4rem" }} src={getimg(item)} />
       <div
         className="px-3 py-1 mt-3"
         style={{
@@ -41,7 +41,7 @@ const UserSkill = ({ skill }) => {
           borderRadius: "3rem",
         }}
       >
-        {skill}
+        {item}
       </div>
     </>
   );

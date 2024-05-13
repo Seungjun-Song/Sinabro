@@ -33,8 +33,7 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityFeadBackPage = ({isDark, postList,  proceedOption, setProceedOption, teamOption, setTeamOption}) => {
-    const [searchWord, setSearchWord] = useState("");
+const CommunityFeadBackPage = ({isDark, postList,  proceedOption, setProceedOption, teamOption, setTeamOption, searchWord, setSearchWord}) => {
     const [proceedToggle, setProceedToggle] = useState(false);
     const [teamToggle, setTeamToggle] = useState(false);
 
@@ -68,11 +67,6 @@ const CommunityFeadBackPage = ({isDark, postList,  proceedOption, setProceedOpti
         }
     }, [setTeamToggle]);
 
-    //검색하기 axios
-    const search = () => {
-
-    }
-
     //searchWord 상태값 변경
     const handleInputChange = (event) => {
         setSearchWord(event.target.value);  // 입력된 값으로 상태 업데이트
@@ -83,7 +77,7 @@ const CommunityFeadBackPage = ({isDark, postList,  proceedOption, setProceedOpti
                 placeholder={"팀 프로젝트를 검색해보세요"}
                 searchWord={searchWord}
                 handleInputChange={handleInputChange}
-                search={search}
+                // search={search}
                 isDark={isDark}
             />
 
@@ -96,7 +90,7 @@ const CommunityFeadBackPage = ({isDark, postList,  proceedOption, setProceedOpti
                     proceedToggle={proceedToggle}
                     setProceedOption={setProceedOption}
                     setProceedToggle={setProceedToggle}
-                    kind={"feadback"}
+                    kind={{id: 403, name: "feadback"}}
                     isDark={isDark}
                 />
                 </div>
@@ -107,21 +101,21 @@ const CommunityFeadBackPage = ({isDark, postList,  proceedOption, setProceedOpti
                     teamToggle={teamToggle}
                     setTeamOption={setTeamOption}
                     setTeamToggle={setTeamToggle}
-                    kind={"feadback"}
+                    kind={{id: 403, name: "feadback"}}
                     isDark={isDark}
                 />
                 </div>
                 </Option>
 
                 <WriteButton
-                    kind={"feadback"}
+                    kind={{id: 403, name: "feadback"}}
                     isDark={isDark}
                 />
               
             </Select>
 
             <Posts
-                kind={"feadback"}
+                kind={{id: 403, name: "feadback"}}
                 isDark={isDark}
                 postList={postList}>
             </Posts>

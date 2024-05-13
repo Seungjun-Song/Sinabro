@@ -2,9 +2,9 @@ import React from 'react';
 import OpenViduVideoComponent from './OvVideo';
 import './UserVideo.css';
 
-export default function UserVideoComponent({ streamManager, path }) {
+export default function UserVideoComponent({ streamManager }) {
 
-    const getNicknameTag = () => {
+    const getUserImg = () => {
         // Gets the nickName of the user
         return JSON.parse(streamManager.stream.connection.data).clientData;
     }
@@ -18,7 +18,7 @@ export default function UserVideoComponent({ streamManager, path }) {
                         <OpenViduVideoComponent streamManager={streamManager} />
                     </div>
                     {/* <div><p>{getNicknameTag()}</p></div> */}
-                    <img src={path} alt="" style={{ height: '40px', borderRadius: '50%' }} />
+                    <img src={getUserImg()} alt="" style={{ height: '40px', borderRadius: '50%' }} />
                 </div>
             ) : null}
         </div>

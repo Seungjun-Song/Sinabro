@@ -1,12 +1,14 @@
 import styled, { css } from 'styled-components'
 import { useNavigate } from 'react-router';
 import { motion } from "framer-motion"
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { faDesktop, faCog, faLeaf } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import CkEditor from './CkEditor';
 
 import { GlobalColor } from '../../services/color';
 import CreateJobsBox from './CreateJobsBox';
+import getEnv from '../../utils/getEnv';
 
 const MemberPost = styled.div`
     display: flex;
@@ -134,18 +136,70 @@ const headerMotion = {
     transition: { duration: 0.3 }
 }
 
-const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
+const CreateFeadbackPost = ({ isDark, postContent, setPostContent, selectedPjtId, jobInfo, setJobInfo }) => {
     const navigate = useNavigate();
+    const [warning, setWarning ] = useState("내용을 채워주세요!");
+    const [ blocking, setBlocking ] = useState(true);
 
-    const [ jobInfo, setJobInfo ] = useState({
-        backSelected: false,
-        frontSelected: false,
-    })
+    const back_url = getEnv('BACK_URL')
+
+    useEffect(() => {
+        console.log("in useEffect")
+        if(postContent.content == null || postContent.content.length <= 0) {
+            setWarning("내용을 채워주세요!");
+            setBlocking(true);
+            return;
+        }
+        //제목이 비었을 때 title
+        if(postContent.title == null || postContent.title.length <= 0) {
+            setWarning("제목이 비었어요!");
+            setBlocking(true);
+            return;
+        }
+        //팀 선택이 비었을 때 team
+        if(selectedPjtId === -1) {
+            setWarning("팀을 선택해 주세요!");
+            setBlocking(true);
+            return;
+        }
+        
+        //required가 둘 다 0일 때
+        if(jobInfo[0].target == 0 && jobInfo[1].target == 0){
+            setWarning("피드백 받을 분야를 선택해주세요!")
+            setBlocking(true);
+            return;
+        }
+
+        setBlocking(false)
+    }, [postContent, jobInfo])
 
     const submit = () =>{
-        //TODO: axios 게시물 저장
 
-        navigate('/communityMainPage', {state: {kind: "feadback"}});
+        const tagList = postContent.tag.split(" ");
+
+        if(!blocking){
+        axios.post(`${back_url}/communities`, {
+            boardId: postContent.id,
+            boardTitle: postContent.title,
+            boardContent: postContent.content,
+            boardImg: "https://firebase.com/v4/jbbbejqhuabsaskdb.jpg",
+            projectLink: "https://k10e103.p.ssafy.io/my-code-server",
+            projectId: selectedPjtId,
+            subCategoryId: 403,
+            requiredPeopleBackEnd: jobInfo[0].selected,
+            requiredPeopleFrontEnd: jobInfo[1].selected,
+            boardTag: tagList,
+        },
+        {withCredentials: true}
+        )
+        .then(response => {
+            console.log("save");
+            navigate('/communityMainPage', { state: { kind: {id: 403, name: "feadback"}, page: 1 } });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+        }
     }
 
     const onChangeTitle = (e) =>{
@@ -173,9 +227,9 @@ const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
                     >
                 </Title>
                 <CreateJobsBox
-                    kind={"feadback"}
-                    jobSelected={jobInfo}
-                    setJobSelected={setJobInfo}
+                    kind={{id: 403, name: "feadback"}}
+                    jobInfo={jobInfo}
+                    setJobInfo={setJobInfo}
                 >
                 </CreateJobsBox>
             </Header>
@@ -199,11 +253,14 @@ const CreateFeadbackPost = ({ isDark, postContent, setPostContent }) => {
 
             <Bottom>
                 <Buttons>
+                    {blocking &&
+                        <>{warning}</>
+                    }
                     <Cancel
                         whileHover={{
                             scale: 1.1,
                         }} 
-                        onClick={() => navigate('/communityMainPage', {state: {kind: "feadback"}})}>
+                        onClick={() => navigate('/communityMainPage', {state: {kind: {id: 403, name: "feadback"}}})}>
                         취소
                     </Cancel>
                     <Save 

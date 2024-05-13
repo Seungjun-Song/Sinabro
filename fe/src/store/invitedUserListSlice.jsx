@@ -11,6 +11,9 @@ export const invitedUserListSlice =  createSlice({
         addInvitedUserList: (state, action) => {
             state.value.push(action.payload)
         },
+        setInvitedUserList: (state, action) => {
+            state.value = action.payload
+        },
         removeInvitedUserByIndex: (state, action) => {
             const removeIndex = action.payload
             state.value.splice(removeIndex, 1)
@@ -21,6 +24,6 @@ export const invitedUserListSlice =  createSlice({
     }
 })
 
-export const {addInvitedUserList, removeInvitedUserByIndex, clearInvitedUserList} = invitedUserListSlice.actions
+export const {addInvitedUserList, removeInvitedUserByIndex, clearInvitedUserList, setInvitedUserList} = invitedUserListSlice.actions
 
 export default invitedUserListSlice.reducer

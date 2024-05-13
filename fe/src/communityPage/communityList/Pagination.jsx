@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { css } from 'styled-components'
+import { GlobalColor } from "../../services/color";
 
 const PrevNextButton = styled.div`
   cursor: pointer;
@@ -30,7 +31,7 @@ const PageNumber = styled.div`
 
   ${props => props.isSelected && css`
     font-weight: 700;
-    background: #2f5d62;
+    background: ${GlobalColor.colors.sideMenu_select};
     color: white;
   `}
 `

@@ -3,8 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { GlobalColor } from "../../services/color";
-const ProjectCard = ({ item ,isDark}) => {
+const ProjectCard = ({ item, isDark }) => {
   const [isHover, setIsHover] = useState(false);
+  // console.log(item)
+  const renderHtml = (htmlString) => {
+    console.log(htmlString)
+    return { __html: htmlString };
+  };
   return (
     <>
       <div
@@ -15,7 +20,7 @@ const ProjectCard = ({ item ,isDark}) => {
           justifyContent: "center",
           alignItems: "center",
           width: "17rem",
-          
+
         }}
       >
         <motion.div
@@ -30,16 +35,16 @@ const ProjectCard = ({ item ,isDark}) => {
             borderRadius: "1rem",
             width: "17rem",
             position: "relative",
-            color: isDark ?  "white":GlobalColor.colors.primary_black50,
-            backgroundColor: isDark ? GlobalColor.colors.primary_black50 :"white"
+            color: isDark ? "white" : "black",
+            backgroundColor: isDark ? GlobalColor.colors.primary_black50 : "white"
           }}
         >
           <img
             style={{ width: "13rem", height: "13rem", borderRadius: "0.85rem" }}
-            src={item.img}
+            src={item.projectImg}
           />
           <h4 style={{ marginBottom: 0, marginTop: "1rem" }}>
-            {item.projectname}
+            {item.projectName}
           </h4>
           <h5
             style={{
@@ -48,31 +53,34 @@ const ProjectCard = ({ item ,isDark}) => {
               marginTop: "0.8rem",
             }}
           >
-            {item.startday}~{item.endday}
+            {item.createdDt}~{item.endDt}
           </h5>
-          {/* <div style={{ height: "5rem" }}>{item.projectinfo}</div> */}
+          <div style={{ height: "5rem" }}>{item.projectinfo}</div>
           <div
             style={{
               display: "flex",
               gap: "1rem",
-              flexWrap:"wrap",
+              flexWrap: "wrap",
               height: "3rem",
             }}
           >
-            {item.skills.map((skill, index) => (
+            {item.techStackResponseDtoList.map((skill, index) => (
               <div
                 key={index}
                 className="shadow"
                 style={{
                   backgroundColor: "#909EE7",
                   color: "white",
-                  padding: "0.25rem 0.64rem",
-                  fontSize: "0.75rem",
+                  padding: "0rem .64rem",
+                  fontSize: "0.7rem",
                   borderRadius: "1rem",
-                  height: "1.5rem",
+                  height: "1.2rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                {skill}
+                {skill.techStackName}
               </div>
             ))}
           </div>
@@ -103,7 +111,7 @@ const ProjectCard = ({ item ,isDark}) => {
                   exit={{ x: -10, opacity: 0 }} // 사라질 때 opacity를 0으로 설정
                   style={{ fontWeight: "bold", fontSize: "1.5rem" }}
                 >
-                  {item.projectname}
+                  {item.projectName}
                 </motion.h5>
                 {/* <h5
                   style={{
@@ -112,7 +120,7 @@ const ProjectCard = ({ item ,isDark}) => {
                     marginTop: "0.8rem",
                   }}
                 >
-                  {item.startday}~{item.endday}
+                  {item.createdDt}~{item.endDt}
                 </h5> */}
                 <motion.div
                   transition={{ duration: 0.2, delay: 0.4 }}
@@ -121,7 +129,15 @@ const ProjectCard = ({ item ,isDark}) => {
                   exit={{ y: 10, opacity: 0 }} // 사라질 때 opacity를 0으로 설정
                   style={{ width: "100%", height: "80%", overflow: "auto" }}
                 >
-                  {item.projectinfo}
+                  <motion.div
+                    transition={{ duration: 0.2, delay: 0.4 }}
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 10, opacity: 0 }}
+                    style={{ width: "100%", height: "80%", overflow: "auto" }}
+                  >
+                    <div dangerouslySetInnerHTML={{ __html: item.projectInfo }} />
+                  </motion.div>
                 </motion.div>
                 <motion.div
                   transition={{ duration: 0.2, delay: 0.6 }}

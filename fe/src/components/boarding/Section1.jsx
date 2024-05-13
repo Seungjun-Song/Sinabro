@@ -2,6 +2,9 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { logInServer, logIn } from "../../oauthTestPage/OauthTest";
+
 const wordlist = [
   {
     id: 1,
@@ -95,6 +98,9 @@ const wordlist = [
 const Section1 = () => {
   const [currentWord, setCurrentWord] = useState("");
   const [isHover, setIsHover] = useState(false);
+
+  const navigate = useNavigate()
+
   useEffect(() => {
     let timeout;
     let wordIndex = 0;
@@ -246,7 +252,9 @@ const Section1 = () => {
               color: "white",
               gap: "1rem",
               fontSize: "1.2rem",
+              cursor: "pointer"
             }}
+            onClick={() => logInServer()}
           >
             시작하기
             <motion.div animate={{ x: isHover ? 10 : 0 }}>

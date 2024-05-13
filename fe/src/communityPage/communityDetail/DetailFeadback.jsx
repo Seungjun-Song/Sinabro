@@ -23,19 +23,7 @@ const Detail = styled.div`
 
 const Line = styled.hr`
 `
-const DetailFeadback = ({ isDark }) => {
-    const detailData = {
-        id: 1,
-        title: "웹 프로젝트 팀원 구합니다!",
-        content: "웹 프로젝트 진행 예정임 팀원 구함. 현재 백 2명, 프론트3명있음 디자이너 급구합니다. 프로젝트의 주제는 너와 나의 연결고.....",
-        hash: ["spring boot", "커피", "백엔드"],
-        writername: "sil", 
-        writerprofile: ProfileTempImg,
-        time: "2024-01-03",
-        proceed: true,
-        projectId: 1,
-        kind: "team"
-    }
+const DetailFeadback = ({ isDark, detailData, commentDate, setCommentDate }) => {
 
     const projectData = {
         id: 1,
@@ -49,7 +37,7 @@ const DetailFeadback = ({ isDark }) => {
             isDark={isDark}
         >
             <DetailHeader
-                kind="feadback"
+                kind={{id: 403, name: "feadback"}}
                 detailData={detailData}
                 isDark={isDark}
             />
@@ -58,7 +46,7 @@ const DetailFeadback = ({ isDark }) => {
             <DetailMiddle
                 detailData={detailData}
                 pjtData={projectData}
-                kind="feadback"
+                kind={{id: 403, name: "feadback"}}
                 isDark={isDark}
             />
             
@@ -66,6 +54,9 @@ const DetailFeadback = ({ isDark }) => {
 
             <CommentWindow
                 isDark={isDark}
+                commentDate={commentDate}
+                setCommentDate={setCommentDate}
+                boardId={detailData.id}
             />
         </Detail>
     )

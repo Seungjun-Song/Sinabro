@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,6 +7,9 @@ import { AnimatePresence, motion } from "framer-motion";
 // Import scrollbar styles
 import "./scrollbar.css";
 import { GlobalColor } from "../services/color";
+import { useSelector } from "react-redux";
+import getEnv from "../utils/getEnv";
+import axios from "axios";
 const SearchContainerRightSide = styled.div`
   height: 100%;
   width: 2rem;
@@ -35,7 +38,7 @@ const SearchContainer = styled(motion.div)`
 `;
 const MyPageMainPanelContainer = styled.div`
   border: 3px solid #a2a2a2;
-  width: 70%;
+  width: 90%;
   overflow-y: auto;
   margin-bottom: 3rem;
   border-radius: 10px;
@@ -155,7 +158,6 @@ const MemoryGraphButton = styled.div`
   cursor: pointer;
 `;
 const SkillDetail = styled.div`
-  
   padding: 0.2rem;
   padding-left: 0.8rem;
   padding-right: 0.8rem;
@@ -175,80 +177,107 @@ const SearchInput = styled.input`
 `;
 const dataList = [
   {
-    name: "React",
+    subCategoryName: "React",
     img: "/images/react.png",
+    subCategoryId: 101,
   },
   {
-    name: "Vue",
+    subCategoryName: "Vue",
     img: "/images/vue.png",
+    subCategoryId: 102,
   },
   {
-    name: "HTML",
+    subCategoryName: "HTML",
     img: "/images/html.png",
+    subCategoryId: 103,
   },
   {
-    name: "CSS",
+    subCategoryName: "CSS",
     img: "/images/css.png",
+    subCategoryId: 104,
   },
   {
-    name: "JavaScript",
+    subCategoryName: "JavaScript",
     img: "/images/js.png",
+    subCategoryId: 105,
   },
   {
-    name: "Java",
+    subCategoryName: "Java",
     img: "/images/java.png",
+    subCategoryId: 106,
   },
   {
-    name: "Python",
+    subCategoryName: "Python",
     img: "/images/python.png",
+    subCategoryId: 107,
   },
   {
-    name: "Spring",
+    subCategoryName: "Spring",
     img: "/images/spring.png",
+    subCategoryId: 201,
   },
   {
-    name: "Django",
+    subCategoryName: "Django",
     img: "/images/django.png",
+    subCategoryId: 202,
   },
 ];
 
-const DUMMY_DATA = [
-  {
-    id: 1,
-    img: "/images/pjt1.png",
-  },
-  {
-    id: 2,
-    img: "/images/pjt2.png",
-  },
-  {
-    id: 3,
-    img: "/images/pjt3.png",
-  },
-  {
-    id: 4,
-    img: "/images/pjt4.png",
-  },
-  {
-    id: 5,
-    img: "/images/pjt5.png",
-  },
-];
-const MyPageMainPanel = ({isDark}) => {
+const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   const [isSideBoxVisible, setIsSidePanelVisible] = useState(false);
+  const back_url = getEnv("BACK_URL");
   const [showModal, setShowModal] = useState(false);
   const [whatSearch, setWhatSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  // console.log(userfind)
   const [choiceResults, setChoiceResults] = useState([]);
+  const findUser = async () => {
+    //   console.log(userInfo.uid);
+    try {
+      const res = await axios.get(`${back_url}/members/${userInfo.uid}`);
+      console.log(res);
+      setUserFind(res.data.result);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    setChoiceResults(userfind.techStacks);
+    // console.log(userfind.techStacks)
+  }, [userfind]);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+  const myProjectList = useSelector((state) => state.myProjectList.value); // 잘 들어오는지 확인, 페이지 이동 잘 되는지 확인
+  const DelSkill = async (techStackId) => {
+    //   console.log(userInfo.uid);
+    try {
+      const res = await axios.delete(`${back_url}/members`, {
+        data: [
+          {
+            techStackId: techStackId,
+          },
+        ],
+      });
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const AddSkill = async (subCategoryId) => {
+    const subCategoryIds = [{ subCategoryId: subCategoryId }];
+    try {
+      const res = await axios.post(`${back_url}/members`, subCategoryIds, {
+        withCredentials: true,
+      });
+      // console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const handleDelete = (item) => {
     // choiceResults에서 item.name과 같은 항목을 제외한 나머지를 새로운 배열로 만듭니다.
-    const updatedResults = choiceResults.filter(
-      (choiceItem) => choiceItem.name !== item.name
-    );
-    // choiceResults 상태를 새로운 배열로 업데이트합니다.
-    setChoiceResults(updatedResults);
+    DelSkill(item.techStackId);
+    findUser();
   };
 
   const handleChange = (event) => {
@@ -257,166 +286,206 @@ const MyPageMainPanel = ({isDark}) => {
     const filteredResults = dataList.filter((item) => {
       // 만약 item.name이 choiceResults에 포함되어 있지 않고, 검색어에 포함되어 있다면 true를 반환합니다.
       return (
-        !choiceResults.some((choiceItem) => choiceItem.name === item.name) &&
-        item.name.toLowerCase().includes(event.target.value.toLowerCase())
+        !choiceResults.some(
+          (choiceItem) => choiceItem.subCategoryName === item.subCategoryName
+        ) &&
+        item.subCategoryName
+          .toLowerCase()
+          .includes(event.target.value.toLowerCase())
       );
     });
-    console.log(filteredResults); // 필터링된 결과를 console에 출력
+    // console.log(filteredResults); // 필터링된 결과를 console에 출력
     setSearchResults(filteredResults);
   };
   return (
-    <MyPageMainPanelContainer>
-      <InnerArea
-        initial={{ opacity: 0, y: 5 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 5 }}
-        transition={{ duration: 0.3 ,delay:0.3}}
-        style={{ height: "12rem" }}
-      >
-        <InnerText>Skills</InnerText>
-        <SearchContainer>
-          <SearchContainerLeftSide>
-            <AnimatePresence>
-              {choiceResults.map((item) => (
+    <div style={{width:"100%" ,height:"100%" ,justifyContent:"center" ,alignItems:"center" ,display:"flex"}}>
+      <MyPageMainPanelContainer>
+        <InnerArea
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 5 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+          style={{ height: "12rem" }}
+        >
+          <InnerText>Skills</InnerText>
+          <SearchContainer>
+            <SearchContainerLeftSide>
+              <AnimatePresence>
+                {choiceResults &&
+                  choiceResults.map((item, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 5 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {/* {console.log(item)} */}
+                      <SkillDetail
+                        style={{
+                          background: isDark
+                            ? GlobalColor.colors.primary_black50
+                            : "#f2f2f2",
+                          color: isDark ? "white" : "black",
+                        }}
+                      >
+                        {/* {없을 때 띄울 글자 생각해야함} */}
+                        {item.subCategoryName}
+                        <SkillDelBtn onClick={() => handleDelete(item)}>
+                          X
+                        </SkillDelBtn>
+                      </SkillDetail>
+                    </motion.div>
+                  ))}
+              </AnimatePresence>
+
+              <SearchInput
+                style={{
+                  backgroundColor: isDark
+                    ? GlobalColor.colors.primary_black
+                    : "white",
+                  transition: "0.3s",
+                  color: isDark ? "white" : "black",
+                }}
+                onChange={handleChange}
+                value={whatSearch}
+              />
+            </SearchContainerLeftSide>
+            <SearchContainerRightSide>
+              <SearchIcon icon={faSearch} />
+            </SearchContainerRightSide>
+          </SearchContainer>
+          {whatSearch && (
+            <div
+              className="shadow"
+              style={{
+                maxHeight: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.5rem",
+                overflowY: "auto",
+                borderRadius: "0rem 0rem 0.4rem 0.4rem",
+                // backgroundColor:isDark ? GlobalColor.colors.primary_black50 : "white"
+              }}
+            >
+              {searchResults.map((result, index) => (
                 <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 5 }}
+                  onClick={() => (
+                    setWhatSearch(""),
+                    AddSkill(result.subCategoryId),
+                    findUser()
+                  )}
                   transition={{ duration: 0.3 }}
+                  whileHover={{
+                    cursor: "pointer",
+                    backgroundColor: "#909EE790",
+                    color: "white",
+                  }}
+                  style={{
+                    display: "flex",
+                    gap: "0.8rem",
+                    alignItems: "center",
+                    padding: "0 1rem",
+                    height: "1.3rem",
+                    fontSize: "1rem",
+                    color: isDark ? "white" : "black",
+                    // backgroundColor: isDark ? GlobalColor.colors.primary_black50  : "white",
+                  }}
+                  key={index}
                 >
-                  {" "}
-                  <SkillDetail style={{background: isDark ?GlobalColor.colors.primary_black50: "#f2f2f2" ,color: isDark ? "white" :"black"}}>
-                    {/* {없을 때 띄울 글자 생각해야함} */}
-                    {item.name}
-                    <SkillDelBtn onClick={() => handleDelete(item)}>
-                      X
-                    </SkillDelBtn>
-                  </SkillDetail>
+                  {result.subCategoryName}
+                  <img style={{ height: "1.2rem" }} src={result.img} />
                 </motion.div>
               ))}
-            </AnimatePresence>
-
-            <SearchInput style={{backgroundColor: isDark ? GlobalColor.colors.primary_black : "white",transition:"0.3s" , color:isDark ?"white" :"black"}} onChange={handleChange} value={whatSearch} />
-          </SearchContainerLeftSide>
-          <SearchContainerRightSide>
-            <SearchIcon icon={faSearch} />
-          </SearchContainerRightSide>
-        </SearchContainer>
-        {whatSearch && (
-          <div
-            className="shadow"
-            style={{
-              maxHeight: "100%",
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.5rem",
-              overflowY: "auto",
-              borderRadius: "0rem 0rem 0.4rem 0.4rem",
-              // backgroundColor:isDark ? GlobalColor.colors.primary_black50 : "white"
-            }}
-          >
-            {searchResults.map((result, index) => (
-              <motion.div
-                onClick={() => (
-                  setChoiceResults([...choiceResults, result]),
-                  setWhatSearch("")
-                )}
-                transition={{ duration: 0.3 }}
-                whileHover={{
-                  cursor: "pointer",
-                  backgroundColor: "#909EE790",
-                  color: "white",
-                }}
-                style={{
-                  display: "flex",
-                  gap: "0.8rem",
-                  alignItems: "center",
-                  padding: "0 1rem",
-                  height: "1.3rem",
-                  fontSize: "1rem",
-                  color : isDark ?"white" :"black",
-                  // backgroundColor: isDark ? GlobalColor.colors.primary_black50  : "white",
-                }}
-                key={index}
-              >
-                {result.name}
-                <img style={{ height: "1.2rem" }} src={result.img} />
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </InnerArea>
-      <InnerArea
-        initial={{ opacity: 0, y: 5 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 5 }}
-        transition={{ duration: 0.3, delay: 0.6 }}
-        style={{ marginTop: 0 }}
-      >
-        <InnerText>Works</InnerText>
-        <InnerBox style={{ padding: "0", gap: "0" }}>
-          {/* Works 내용 */}
-          {DUMMY_DATA.map((item, index) => (
-            <PjtImg
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              key={index}
-              src={item.img}
-              transition={{ delay: index * 0.1+0.6 }} 
-            />
-          ))}
-        </InnerBox>
-      </InnerArea>
-      <InnerArea>
-        <InnerText >Memory Graph</InnerText>
-        <MemoryGraphContainer>
-          <MemoryGraphMainBox
-            onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
-          ></MemoryGraphMainBox>
-          {isSideBoxVisible && (
-            <MemoryGraphSideBox>
-              <MemoryGraphDescribeBox  style={{color:isDark ? "white" :"black"}}>
-                <h1>제목</h1>
-                내용내용내용내용내용내용 내용내용내용내용내용내용
-                내용내용내용내용내용내용 내용내용내용내용내용내용
-                내용내용내용내용내용내용 내용내용내용내용내용내용
-                내용내용내용내용내용내용 내용내용내용내용내용내용
-                내용내용내용내용내용내용 내용내용내용내용내용내용
-                내용내용내용내용내용내용 내용내용내용내용내용내용
-                내용내용내용내용내용내용 내용내용내용내용내용내용
-                내용내용내용내용내용내용 내용내용내용내용내용내용
-                내용내용내용내용내용내용 내용내용내용내용내용내용
-                내용내용내용내용내용내용
-              </MemoryGraphDescribeBox>
-              <MemoryGraphButtonBox>
-                <MemoryGraphButton onClick={handleShow}>
-                  Add Node
-                </MemoryGraphButton>
-                <MemoryGraphButton onClick={handleShow}>Edit</MemoryGraphButton>
-              </MemoryGraphButtonBox>
-            </MemoryGraphSideBox>
+            </div>
           )}
-        </MemoryGraphContainer>
-      </InnerArea>
-      {/* 아래부분 모달 코드이므로 추후에 수정 필요 */}
-      {showModal && (
-        <Modal show={showModal} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>나중에</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>수정할게요</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              닫기
-            </Button>
-            <Button variant="primary" onClick={handleClose}>
-              저장
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-    </MyPageMainPanelContainer>
+        </InnerArea>
+        <InnerArea
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 5 }}
+          transition={{ duration: 0.3, delay: 0.6 }}
+          style={{ marginTop: 0 }}
+        >
+          <InnerText>Works</InnerText>
+          <InnerBox style={{ padding: "0", gap: "0" }}>
+            {/* Works 내용 */}
+            {myProjectList.map((item, index) => (
+              <PjtImg
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                key={index}
+                src={item.projectImg}
+                transition={{ delay: index * 0.1 + 0.6 }}
+              />
+            ))}
+            {myProjectList.length == 0 && (
+              <div
+                style={{
+                  padding: "1rem",
+                  fontSize: "1.2rem",
+                  color: isDark ? "white" : "black",
+                }}
+              >
+                아직 작업물이 없습니다. 시나브로와 함께해요!
+              </div>
+            )}
+          </InnerBox>
+        </InnerArea>
+        <InnerArea>
+          <InnerText>Memory Graph</InnerText>
+          <MemoryGraphContainer>
+            <MemoryGraphMainBox
+              onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
+            ></MemoryGraphMainBox>
+            {isSideBoxVisible && (
+              <MemoryGraphSideBox>
+                <MemoryGraphDescribeBox
+                  style={{ color: isDark ? "white" : "black" }}
+                >
+                  <h1>제목</h1>
+                  내용내용내용내용내용내용 내용내용내용내용내용내용
+                  내용내용내용내용내용내용 내용내용내용내용내용내용
+                  내용내용내용내용내용내용 내용내용내용내용내용내용
+                  내용내용내용내용내용내용 내용내용내용내용내용내용
+                  내용내용내용내용내용내용 내용내용내용내용내용내용
+                  내용내용내용내용내용내용 내용내용내용내용내용내용
+                  내용내용내용내용내용내용 내용내용내용내용내용내용
+                  내용내용내용내용내용내용 내용내용내용내용내용내용
+                  내용내용내용내용내용내용 내용내용내용내용내용내용
+                  내용내용내용내용내용내용
+                </MemoryGraphDescribeBox>
+                <MemoryGraphButtonBox>
+                  <MemoryGraphButton onClick={handleShow}>
+                    Add Node
+                  </MemoryGraphButton>
+                  <MemoryGraphButton onClick={handleShow}>
+                    Edit
+                  </MemoryGraphButton>
+                </MemoryGraphButtonBox>
+              </MemoryGraphSideBox>
+            )}
+          </MemoryGraphContainer>
+        </InnerArea>
+        {/* 아래부분 모달 코드이므로 추후에 수정 필요 */}
+        {showModal && (
+          <Modal show={showModal} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>나중에</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>수정할게요</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                닫기
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+                저장
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+      </MyPageMainPanelContainer>
+    </div>
   );
 };
 

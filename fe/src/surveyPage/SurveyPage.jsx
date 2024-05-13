@@ -208,8 +208,6 @@ const SurveyPage = () => {
   const [whatSearch, setWhatSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [choiceResults, setChoiceResults] = useState([]);
-  
-  const [myStack, setMyStack] = useState([])
 
   const back_url = getEnv('BACK_URL')
 
@@ -279,7 +277,7 @@ const SurveyPage = () => {
   const chooseSkill = async () => {
     try {
       const res = await axios.put(`${back_url}/members`, {
-        categoryId // 실제로 받는 바디가 뭔지 확인 필요
+        categoryId: categoryId // 실제로 받는 바디가 뭔지 확인 필요
       })
       console.log(res.data)
     }
@@ -289,14 +287,11 @@ const SurveyPage = () => {
   }
 
   const chooseSubSkill = async () => {
-    const subCategoryIds = choiceResults.map(item => ({ subCategoryId: item.subCategoryId })) 
-    setMyStack(subCategoryIds)
-    
+    const subCategoryIds = choiceResults.map(item => ({ subCategoryId: item.subCategoryId }))
+    console.log(subCategoryIds)
+ 
     try {
-      console.log(myStack)
-      const res = await axios.post(`${back_url}/members`, {
-        subCategoryId: myStack,
-      })
+      const res = await axios.post(`${back_url}/members`, subCategoryIds)
       console.log(res.data)
       navigate('/mainPage')
     }
@@ -305,10 +300,9 @@ const SurveyPage = () => {
     }
   }
   
-
   return (
     <>
-      <Navbar></Navbar>
+      {/* <Navbar></Navbar> */}
       <motion.div
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}

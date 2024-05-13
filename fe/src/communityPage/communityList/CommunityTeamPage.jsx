@@ -33,9 +33,7 @@ const Option = styled.div`
     cursor: pointer; 
 `
 
-const CommunityTeamPage = ({isDark, postList}) => {
-    const [searchWord, setSearchWord] = useState("");
-    const [proceedOption, setProceedOption] = useState("모집 중");
+const CommunityTeamPage = ({isDark, postList, proceedOption, setProceedOption, searchWord, setSearchWord}) => {
     const [proceedToggle, setProceedToggle] = useState(false);
 
     const proceedRef = useRef();
@@ -52,11 +50,7 @@ const CommunityTeamPage = ({isDark, postList}) => {
             document.removeEventListener("mousedown", handleClikcOutside);
         }
     }, [setProceedToggle]);
-    
-    //검색하기 axios
-    const search = () => {
 
-    }
     //searchWord 상태값 변경
     const handleInputChange = (event) => {
         setSearchWord(event.target.value);  // 입력된 값으로 상태 업데이트
@@ -67,7 +61,7 @@ const CommunityTeamPage = ({isDark, postList}) => {
                 placeholder={"팀 프로젝트를 검색해보세요"}
                 searchWord={searchWord}
                 handleInputChange={handleInputChange}
-                search={search}
+                // search={search}
                 isDark={isDark}
             />
 
@@ -79,20 +73,20 @@ const CommunityTeamPage = ({isDark, postList}) => {
                     proceedToggle={proceedToggle}
                     setProceedOption={setProceedOption}
                     setProceedToggle={setProceedToggle}
-                    kind={"team"}
+                    kind={{id: 402, name: "team"}}
                     isDark={isDark}
                 />
                 </div>
 
                 </Option>
                 <WriteButton
-                    kind={"team"}
+                    kind={{id: 402, name: "team"}}
                     isDark={isDark}
                 />
             </Select>
 
             <Posts
-                kind={"team"}
+                kind={{id: 402, name: "team"}}
                 isDark={isDark}
                 postList={postList}
                 >

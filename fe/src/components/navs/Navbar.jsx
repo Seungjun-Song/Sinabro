@@ -14,8 +14,10 @@ import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { toggleisDarkState } from "../../store/isDarkSlice";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { GlobalColor } from "../../services/color";
+import getEnv from "../../utils/getEnv";
 
 import { clearUser } from "./../../store/userSlice";
+import axios from "axios";
 const NavBar = styled.nav`
   display: flex;
   align-items: center;
@@ -49,6 +51,7 @@ const DropDown = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
+  cursor: pointer;
 
   /* color: white; */
 `;
@@ -68,7 +71,13 @@ const Log = styled.div`
   cursor: pointer;
 `;
 
-const DropDownButton = styled.div``;
+const DropDownButton = styled.div`
+  cursor: pointer;
+  transition: transform 0.3 ease;
+    &:hover{
+        transform: scale(1.2)
+    }
+`;
 
 const DropDownPage = styled.div`
   position: absolute; /* 절대 위치 지정 */
@@ -104,7 +113,7 @@ const Logos = styled.div`
 const Navbar = () => {
   const [dropDown, setDropDown] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false); // 스크롤 상태를 저장할 상태
-  const isDark = useSelector(state =>state.isDark.isDark)
+  const isDark = useSelector(state => state.isDark.isDark)
   const user = useSelector(state => (state.user.currentUser))
 
   const dispatch = useDispatch();
@@ -136,8 +145,16 @@ const Navbar = () => {
   };
 
   const logout = () => {
+    const back_url = getEnv('BACK_URL')
+
     dispatch(clearUser());
-    navigate('/');
+    axios.delete(`${back_url}/oauth2`)
+    .then((res) =>{
+      navigate('/');
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
   return (
@@ -154,13 +171,13 @@ const Navbar = () => {
           )}
         </Logos>
 
-        <DropDown>
+        <DropDown
+          onClick={() => {
+            setDropDown(!dropDown);
+          }}
+        >
           <div style={{ fontFamily: "Jamsil Light" }}>팀 스페이스</div>
-          <DropDownButton
-            onClick={() => {
-              setDropDown(!dropDown);
-            }}
-          >
+          <DropDownButton>
             <motion.div
               transition={{ duration: 0.3 }}
               animate={{ rotate: dropDown ? 180 : 0 }}
@@ -190,7 +207,7 @@ const Navbar = () => {
         </DropDown>
 
         <Community style={{ fontFamily: "Jamsil Light" }}
-        onClick={() => navigate('/communityMainPage', { state: { kind: "member" } })}
+        onClick={() => navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"} } })}
       >커뮤니티</Community>
       </LeftNavContainer>
       <RightNavContainer>
@@ -210,7 +227,7 @@ const Navbar = () => {
           sunColor="white"
           moonColor="white"
         /> */}
-        <div className="switch" style={{border:"solid 2px"}}  data-isOn={isDark} onClick={toggleDarkMode}>
+        <div className="switch" style={{ border: "solid 2px" }} data-isOn={isDark} onClick={toggleDarkMode}>
           <motion.div className="handle" layout onClick={toggleDarkMode} >
             <DarkModeSwitch
               style={{}}

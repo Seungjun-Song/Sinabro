@@ -33,6 +33,7 @@ const Hashs = styled.div`
     justify-content: start;
 
     gap: 1rem;
+
 `
 
 const Hash = styled.div`
@@ -68,27 +69,31 @@ const middleMotion = {
 }
 
 const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
+
     return(
     <Middle
         {...middleMotion}
     >
         <Content>
-            {detailData.content}
+            {new DOMParser().parseFromString(detailData.content, "text/html").body.textContent}
         </Content>
         <Bottom>
             <Hashs>
-                {detailData.hash.map((tag, index) => {
-
+                {detailData.hash && detailData.hash.length > 0 && detailData.hash.map((tag, index) => {
                     return( 
-                        <Hash key={index}
+                        <>
+                        {tag.subCategoryName !== "" &&
+                            <Hash key={index}
                                 isDark={isDark}>
-                            {tag}
-                        </Hash>
+                                {tag.subCategoryName}
+                            </Hash> 
+                        }                       
+                        </>
                     )
                 })}
             </Hashs>
 
-            {kind === "team" ? (
+            {kind.name === "team" ? (
                 <WriterLinkBox
                     detailData={detailData}
                 />
