@@ -158,7 +158,7 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
         </motion.div>
       </div>
       <MyName style={{ color: isDark ? "white" : "black" }}>
-        {userfind.nickname}
+        {userInfo.displayName}
       </MyName>
       <WithOur></WithOur>
       <EditButton>
@@ -177,7 +177,7 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
             color={isDark ? "white" : "black"}
           />
           <InfoTag style={{ color: isDark ? "white" : "black" }}>
-            {userfind.memberGit}
+            {userInfo.memberGit}
           </InfoTag>
         </MyInfoInnerBox>
         <MyInfoInnerBox>
@@ -187,7 +187,7 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
             color={isDark ? "white" : "black"}
           />
           <InfoTag style={{ color: isDark ? "white" : "black" }}>
-            {userfind.memberEmail == null ? "None" : userfind.memberEmail}
+            {userInfo.memberEmail == null ? "None" : userInfo.memberEmail}
           </InfoTag>
         </MyInfoInnerBox>
       </MyInfoBox>
