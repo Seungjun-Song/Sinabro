@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from "../firebase";
@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faAt } from "@fortawesome/free-solid-svg-icons";
 import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
-import { GlobalColor } from "../services/color";
 import axios from "axios";
 import getEnv from "../utils/getEnv";
 import { useDispatch, useSelector } from "react-redux";
@@ -97,17 +96,11 @@ const InfoTag = styled.div`
 `;
 
 const MyPageSidePanel = ({ isDark, userfind }) => {
-  const [selectedImage, setSelectedImage] = useState('');
 
   const back_url = getEnv('BACK_URL')
   const userInfo = useSelector(state => state.user.currentUser)
 
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    setSelectedImage(userfind.photoURL)
-    console.log('이미지 보고싶은데, 왜 안될까', userfind)
-  }, [])
 
   const handleImageChange = async () => {
     const input = document.createElement("input");
@@ -132,8 +125,6 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
         console.error(err)
       }
       dispatch(setPhotoURL(imageUrl))
-      // 다운로드 URL을 state에 저장
-      setSelectedImage(imageUrl);
     };
     input.click();
   };
