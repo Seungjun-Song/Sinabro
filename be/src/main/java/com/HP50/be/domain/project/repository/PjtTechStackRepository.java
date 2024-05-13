@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:05b1dcd3d9ebcfe3b2d40fcd944d50021d20e319584b83a489bb983e621619d8
-size 255
+package com.HP50.be.domain.project.repository;
+
+import com.HP50.be.domain.project.entity.PjtTechStack;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PjtTechStackRepository extends JpaRepository<PjtTechStack, Integer> {
+}
