@@ -149,7 +149,6 @@ const Post = ({post, kind, isDark}) => {
         console.log("hashString", hashString)
         
     }, [post])
-    console.log("in post", post.title.length);
 
     return(
         <Detail 

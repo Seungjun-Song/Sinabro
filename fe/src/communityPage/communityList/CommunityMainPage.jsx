@@ -153,7 +153,6 @@ const CommunityMainPage = () => {
                 itemCountPerPage={10}
                 pageCount={2}
                 currentPage={currentPage}
-                selected={selected}
                 setCurrentPage={setCurrentPage}
             >
             </Pagination>

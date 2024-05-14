@@ -81,8 +81,9 @@ const DeleteButton = styled.div`
     background: red;
     border: 0px solid red;
     border-radius: 5px;
-    padding: 0.1rem 0.3rem;
+    padding: 0.2rem 0.5rem;
     font-size: 0.9rem;
+    color: white;
 
     cursor: pointer;
 `
@@ -137,7 +138,6 @@ const CommentBox = ({comment, index}) => {
     }
 
     const deleteComment = () => {
-        console.log(comment)
         axios.delete(`${back_url}/communities/comments/${comment.commentId}`)
         .then((res) => {
             console.log(res);
@@ -155,6 +155,7 @@ const CommentBox = ({comment, index}) => {
                 {hoverState && (
                     <HoverInfoBox
                         hoverTurnOff={hoverTurnOff}
+                        comment={comment}
                     />
                 )}
                 <WriterProfile

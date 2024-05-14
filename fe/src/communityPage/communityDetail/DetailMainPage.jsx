@@ -13,6 +13,7 @@ import { GlobalColor } from '../../services/color';
 import ProfileTempImg from '/images/default_my_image.png'
 import getEnv from '../../utils/getEnv';
 import CalTime from '../CalTime';
+import { current } from '@reduxjs/toolkit';
 
 const Community = styled.div`
     display: flex;
@@ -42,6 +43,9 @@ const DetailMainPage = () => {
         // title: "BUNG",
         // projectImg: PjtImg,
     })
+
+    const [ currentPage, setCurrentPage ] = useState(1);
+    const [ totalCount, setTotalCount ] = useState(0);
 
     const postId = data.postId;
     const isDark = useSelector(state =>state.isDark.isDark);
@@ -104,14 +108,15 @@ const DetailMainPage = () => {
 
     useEffect(() => {
         //댓글 조회
-        axios.get(`${back_url}/communities/comments/${postId}/0`)
+        axios.get(`${back_url}/communities/comments/${postId}/${currentPage-1}`)
         .then((res) => {
-            //console.log(res.data.result.commentResponseDtos);
+            console.log(res.data.result)
+            setTotalCount(res.data.result.totalCount);
             setCommentDate(res.data.result.commentResponseDtos);
         })
         .catch((err) => {
         })
-    }, [])
+    }, [currentPage])
     
     return (
         <>
@@ -132,6 +137,9 @@ const DetailMainPage = () => {
                     commentDate={commentDate}
                     setCommentDate={setCommentDate}
                     projectData={projectData}
+                    totalCount={totalCount}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
             ) : ("")}
 
@@ -141,6 +149,9 @@ const DetailMainPage = () => {
                     detailData={post}
                     commentDate={commentDate}
                     setCommentDate={setCommentDate}
+                    totalCount={totalCount}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
             ) : ("")}
 
@@ -150,10 +161,12 @@ const DetailMainPage = () => {
                     detailData={post}
                     commentDate={commentDate}
                     setCommentDate={setCommentDate}
+                    totalCount={totalCount}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
             ) : ("")}
         </Community>
-
         </>
     )
 }

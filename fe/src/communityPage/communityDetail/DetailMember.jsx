@@ -23,7 +23,7 @@ const Detail = styled.div`
 `
 const Line = styled.hr`
 `
-const DetailMember = ({ isDark, detailData, commentDate, setCommentDate, projectData }) => {
+const DetailMember = ({ isDark, detailData, commentDate, setCommentDate, projectData, totalCount, currentPage, setCurrentPage}) => {
 
 
     // const back_url = getEnv('BACK_URL');
@@ -71,6 +71,9 @@ const DetailMember = ({ isDark, detailData, commentDate, setCommentDate, project
                 commentDate={commentDate}
                 setCommentDate={setCommentDate}
                 boardId={detailData.id}
+                totalCount={totalCount}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
             />
         </Detail>
     )

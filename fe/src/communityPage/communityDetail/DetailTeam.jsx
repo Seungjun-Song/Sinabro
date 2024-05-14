@@ -23,7 +23,7 @@ const Detail = styled.div`
 
 const Line = styled.hr`
 `
-const DetailTeam = ({ isDark, detailData, commentDate, setCommentDate }) => {
+const DetailTeam = ({ isDark, detailData, commentDate, setCommentDate, totalCount, currentPage, setCurrentPage }) => {
     
     return(
         <Detail
@@ -50,6 +50,9 @@ const DetailTeam = ({ isDark, detailData, commentDate, setCommentDate }) => {
                 commentDate={commentDate}
                 setCommentDate={setCommentDate}
                 boardId={detailData.id}
+                totalCount={totalCount}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
             />
 
         </Detail>

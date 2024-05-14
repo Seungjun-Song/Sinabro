@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ProfileIcon from '/image/community/hoverProfile.png'
 import PlusIcon from '/image/community/hoverPlus.png'
 import ChattingIcon from '/image/community/hoverChatting.png'
+import { useNavigate } from 'react-router-dom';
 
 const HoverInfo = styled(motion.div)`
     position: absolute;
@@ -24,6 +25,7 @@ const HoverInfo = styled(motion.div)`
 `
 
 const UserDetail = styled.img`
+    cursor: pointer;
 `
 
 const PlusUser = styled.img`
@@ -42,7 +44,14 @@ const hoverMotion = {
     },
     transition: { duration: 0.3 }
 }
-const HoverInfoBox = ({hoverTurnOff}) => {
+const HoverInfoBox = ({hoverTurnOff, comment}) => {
+
+    const navigate = useNavigate();
+
+    const moveToUser = () => {
+        console.log(comment)
+        navigate(`/writerPage`, {state: {memberId: comment.memberId}})
+    }
     
     return(
         <HoverInfo
@@ -51,6 +60,7 @@ const HoverInfoBox = ({hoverTurnOff}) => {
         >
             <UserDetail
                 src={ProfileIcon}
+                onClick={() => moveToUser()}
             >
                 
             </UserDetail>
