@@ -12,8 +12,8 @@ import java.time.LocalDate;
 public class CreateCalenderRequestDto {
     Integer projectId;
     Integer managerId;
+    Integer milestoneId;
     LocalDate calenderStartDt;
     LocalDate calenderEndDt;
     String calenderName;
-    Integer milestoneId;
 }

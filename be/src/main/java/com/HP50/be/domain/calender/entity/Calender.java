@@ -27,6 +27,10 @@ public class Calender extends BaseTimeEntity {
     private Milestone milestone;
 
     @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 

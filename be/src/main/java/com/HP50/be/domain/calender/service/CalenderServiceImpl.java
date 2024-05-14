@@ -31,33 +31,39 @@ import java.util.Optional;
 public class CalenderServiceImpl implements CalenderService{
     private final CalenderRepository calenderRepository;
     private final MilestoneRepository milestoneRepository;
+    private final ProjectRepository projectRepository;
     private final MemberRepository memberRepository;
     private final SubCategoryRepository subCategoryRepository;
     private final ProjectCustomRepository projectCustomRepository;
     private final CalenderCustomRepository calenderCustomRepository;
+
     //일정추가
+
     @Override
     public boolean createCalender(int memberId, CreateCalenderRequestDto requestDto) {
         //1. 요청 유저가 프로젝트에 속해있는지 확인 + 담당자가 팀원인지 확인
         boolean isTeammate = projectCustomRepository.isTeammate(memberId, requestDto.getProjectId());
         boolean isTeammate2 = projectCustomRepository.isTeammate(requestDto.getManagerId(), requestDto.getProjectId());
-        if(!isTeammate||!isTeammate2){
+        if(!isTeammate ||!isTeammate2){
             throw new BaseException(StatusCode.NOT_TEAM_MEMBER);
         }
         //2. 속해있다면 일정 생성
         // Calender 추가하기 위한 entity 가져오기
-        // todo 에러코드 입력하기
-        Milestone milestone = milestoneRepository.findById(requestDto.getMilestoneId())
-                .orElseThrow(() -> new BaseException(StatusCode.BAD_REQUEST));
-
+        Project project = projectRepository.findById(requestDto.getProjectId())
+                .orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
         Member member = memberRepository.findById(requestDto.getManagerId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         SubCategory subCategory = subCategoryRepository.findById(501).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY));
+
+        // todo 에러처리하기
+        Milestone milestone = milestoneRepository.findById(requestDto.getMilestoneId())
+                .orElse(null);
+
         // 가져온 entity들로 Calender Entity 생성
         Calender calender = Calender.builder()
                 .calenderName(requestDto.getCalenderName())
                 .calenderStartDt(requestDto.getCalenderStartDt())
                 .calenderEndDt(requestDto.getCalenderEndDt())
-                .milestone(milestone)
+                .project(project)
                 .member(member)
                 .subCategory(subCategory)
                 .build();
