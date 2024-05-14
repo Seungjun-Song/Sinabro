@@ -1,22 +1,3 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-    value: null
-}
-
-export const inviteUserSlice =  createSlice({
-    name: 'inviteUser',
-    initialState,
-    reducers: {
-        setInviteUser: (state, action) => {
-            state.value = action.payload
-        },
-        clearInviteUser: (state) => {
-            state.value = null
-        },
-    }
-})
-
-export const {setInviteUser, clearInviteUser} = inviteUserSlice.actions
-
-export default inviteUserSlice.reducer
+version https://git-lfs.github.com/spec/v1
+oid sha256:55a556af358fed13c890452067f016963c5443ec83a1ce0b048932054c3c165c
+size 492
