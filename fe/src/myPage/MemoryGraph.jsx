@@ -29,40 +29,40 @@ const MemoryGraph = () => {
   const [newnode, setNewNode] = useState("");
   const [isModal, setIsModal] = useState(false);
   const [content, setContent] = useState("");
+  const getGraphData = async () => {
+    try {
+      const res = await axios.get(`${back_url}/nMember`);
+      const memberList = res.data.result;
+      // console.log(memberList.result);
+      let nodes = [];
+      let links = [];
+      // console.log(memberList);
+      memberList.forEach((memo) => {
+        //   console.log(memo);
+        const memoNodes = memo.nodeList.map((node) => ({
+          id: node.id,
+          label: node.label,
+          content: node.content,
+        }));
+
+        const memoLinks = memo.linkList.map((link) => ({
+          source: link.source,
+          target: link.target,
+        }));
+
+        nodes = [...nodes, ...memoNodes];
+        links = [...links, ...memoLinks];
+      });
+
+      console.log(nodes);
+      console.log(links);
+
+      setGraphData({ nodes, links });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   useEffect(() => {
-    const getGraphData = async () => {
-      try {
-        const res = await axios.get(`${back_url}/nMember`);
-        const memberList = res.data.result;
-        // console.log(memberList.result);
-        let nodes = [];
-        let links = [];
-        // console.log(memberList);
-        memberList.forEach((memo) => {
-          //   console.log(memo);
-          const memoNodes = memo.nodeList.map((node) => ({
-            id: node.id,
-            label: node.label,
-            content: node.content,
-          }));
-
-          const memoLinks = memo.linkList.map((link) => ({
-            source: link.source,
-            target: link.target,
-          }));
-
-          nodes = [...nodes, ...memoNodes];
-          links = [...links, ...memoLinks];
-        });
-
-        console.log(nodes);
-        console.log(links);
-
-        setGraphData({ nodes, links });
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
     getGraphData();
   }, []);
   const fgRef = useRef();
@@ -88,10 +88,11 @@ const MemoryGraph = () => {
   const connectnode = async (newnodeid) => {
     try {
       const res = await axios.put(
-        `${back_url}/memo?memoId1=${newnodeid}&memoId2=${whatnode.id}`,
+        `${back_url}/memo?memoId1=${whatnode.id}&memoId2=${newnodeid}`,
         { withCredentials: true }
       );
       console.log(res);
+      await getGraphData();
       setIsModal(false);
       setWhatNode(null);
       setContent("");
