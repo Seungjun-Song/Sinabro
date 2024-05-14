@@ -64,8 +64,11 @@ public class CalenderServiceImpl implements CalenderService{
                 .subCategory(subCategory)
                 .build();
 
-        if (requestDto.getMilestoneId() != null) calender.setMilestone(
-                this.milestoneRepository.findById(requestDto.getManagerId()).orElse(null));
+        if (requestDto.getMilestoneId() != null) {
+            calender.setMilestone(
+                    this.milestoneRepository.findById(requestDto.getManagerId()).orElse(null)
+            );
+        }
 
 
         // 저장

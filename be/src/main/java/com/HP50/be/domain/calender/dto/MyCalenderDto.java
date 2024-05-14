@@ -17,12 +17,4 @@ public class MyCalenderDto {
     private String calenderName;
     private Integer milestoneId;
     private String milestoneName;
-
-    public MyCalenderDto(Integer calenderId, Integer subCategoryId, LocalDate calenderStartDt, LocalDate calenderEndDt, String calenderName) {
-        this.calenderId = calenderId;
-        this.subCategoryId = subCategoryId;
-        this.calenderStartDt = calenderStartDt;
-        this.calenderEndDt = calenderEndDt;
-        this.calenderName = calenderName;
-    }
 }

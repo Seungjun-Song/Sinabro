@@ -51,11 +51,13 @@ public class CalenderCustomRepositoryImpl implements CalenderCustomRepository{
                                 calender.calenderStartDt.as("calenderStartDt"),
                                 calender.calenderEndDt.as("calenderEndDt"),
                                 calender.calenderName.as("calenderName"),
-                                calender.milestone.as("milestoneId"),
+                                calender.milestone.milestoneId.as("milestoneId"),
                                 calender.milestone.milestoneTitle.as("milestoneTitle")
                         )
                 )
                 .from(calender)
+                .leftJoin(calender.milestone, milestone)
+                .on(milestone.milestoneId.isNotNull())
                 .where(calender.member.memberId.eq(memberId))
                 .fetch();
         return result;
@@ -74,10 +76,12 @@ public class CalenderCustomRepositoryImpl implements CalenderCustomRepository{
                                 calender.calenderStartDt.as("calenderStartDt"),
                                 calender.calenderEndDt.as("calenderEndDt"),
                                 calender.calenderName.as("calenderName"),
-                                calender.milestone.as("milestoneId"),
+                                calender.milestone.milestoneId.as("milestoneId"),
                                 calender.milestone.milestoneTitle.as("milestoneTitle")
                         )
                 ).from(calender)
+                .leftJoin(calender.milestone, milestone)
+                .on(milestone.milestoneId.isNotNull())
                 .where(calender.project.projectId.eq(projectId))
                 .fetch();
     }
