@@ -77,6 +77,7 @@ const MemoryGraph = () => {
         {
           title: newnode, // newnode 변수를 제목으로 사용
           content: content, // content 변수를 내용으로 사용
+          color: color,
         },
         { withCredentials: true }
       );
@@ -93,6 +94,18 @@ const MemoryGraph = () => {
       );
       console.log(res);
       await getGraphData();
+      const distRatio =
+        1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
+
+      fgRef.current.cameraPosition(
+        {
+          x: whatnode.x * distRatio,
+          y: whatnode.y * distRatio,
+          z: whatnode.z * distRatio,
+        }, // new position
+        whatnode, // lookAt ({ x, y, z })
+        1500 // ms transition duration
+      );
       setIsModal(false);
       setWhatNode(null);
       setContent("");
@@ -177,8 +190,8 @@ const MemoryGraph = () => {
           nodeResolution={50}
           linkOpacity={1}
           linkResolution={12}
-          nodeColor={(node) => (node.id === "node1" ? "red" : "blue")}
-          linkColor={(node) => (node.id === "node1" ? "red" : "blue")}
+          nodeColor={(node) => (node.color ? node.color : "blue")}
+          //   linkColor={(node) => (node.id === "node1" ? "red" : "blue")}
           //   nodeAutoColorBy={(d) => d.id % GROUPS}
           //   linkAutoColorBy={(d) => gData.nodes[d.source].id % GROUPS}
           linkDirectionalArrowLength={13}
