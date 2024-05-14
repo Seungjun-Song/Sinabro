@@ -1,25 +1,3 @@
-package com.HP50.be.domain.code.entity;
-
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@Entity
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class SubCategory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer subCategoryId;
-
-    @Column(length = 50)
-    private String subCategoryName;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e8bdbf16bc24f85721c8c7f782c5a3c236f6576b0f9a4a5add9babca53c4b1fb
+size 523
