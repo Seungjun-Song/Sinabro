@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6b1281054cbe0ffbbb3a53477092b44197c172c47cd73a891471108aae408870
-size 482
+package com.HP50.be.domain.memoryGraph.service;
+
+import com.HP50.be.domain.memoryGraph.dto.MemberForGraphDto;
+import com.HP50.be.domain.memoryGraph.dto.MemoDto;
+
+import java.util.List;
+
+public interface MemoService {
+    MemberForGraphDto findMemoByMemberId(Integer memberId);
+    void saveMemo(String token, MemoDto memoDto);
+    void setMemoToMemo(String token, String firstMemoId, String secondMemoId);
+    void deleteMemo(String memoId);
+    void updateMemo(MemoDto memoDto);
+}
