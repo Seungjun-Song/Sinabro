@@ -5,8 +5,10 @@ import com.HP50.be.domain.calender.dto.CalenderRequestDto;
 import com.HP50.be.domain.calender.dto.CreateCalenderRequestDto;
 import com.HP50.be.domain.calender.dto.MyCalenderDto;
 import com.HP50.be.domain.calender.entity.Calender;
+import com.HP50.be.domain.calender.entity.Milestone;
 import com.HP50.be.domain.calender.repository.CalenderCustomRepository;
 import com.HP50.be.domain.calender.repository.CalenderRepository;
+import com.HP50.be.domain.calender.repository.MilestoneRepository;
 import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.code.repository.SubCategoryRepository;
 import com.HP50.be.domain.member.entity.Member;
@@ -28,7 +30,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CalenderServiceImpl implements CalenderService{
     private final CalenderRepository calenderRepository;
-    private final ProjectRepository projectRepository;
+    private final MilestoneRepository milestoneRepository;
     private final MemberRepository memberRepository;
     private final SubCategoryRepository subCategoryRepository;
     private final ProjectCustomRepository projectCustomRepository;
@@ -43,8 +45,11 @@ public class CalenderServiceImpl implements CalenderService{
             throw new BaseException(StatusCode.NOT_TEAM_MEMBER);
         }
         //2. 속해있다면 일정 생성
-        // Calender 추가하기 위한 entity 가져오기 
-        Project project = projectRepository.findById(requestDto.getProjectId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
+        // Calender 추가하기 위한 entity 가져오기
+        // todo 에러코드 입력하기
+        Milestone milestone = milestoneRepository.findById(requestDto.getMilestoneId())
+                .orElseThrow(() -> new BaseException(StatusCode.BAD_REQUEST));
+
         Member member = memberRepository.findById(requestDto.getManagerId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         SubCategory subCategory = subCategoryRepository.findById(501).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY));
         // 가져온 entity들로 Calender Entity 생성
@@ -52,7 +57,7 @@ public class CalenderServiceImpl implements CalenderService{
                 .calenderName(requestDto.getCalenderName())
                 .calenderStartDt(requestDto.getCalenderStartDt())
                 .calenderEndDt(requestDto.getCalenderEndDt())
-                .project(project)
+                .milestone(milestone)
                 .member(member)
                 .subCategory(subCategory)
                 .build();

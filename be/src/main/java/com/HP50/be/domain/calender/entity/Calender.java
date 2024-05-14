@@ -23,12 +23,13 @@ public class Calender extends BaseTimeEntity {
     private LocalDate calenderEndDt;
 
     @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
+    @JoinColumn(name = "milestone_id")
+    private Milestone milestone;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;

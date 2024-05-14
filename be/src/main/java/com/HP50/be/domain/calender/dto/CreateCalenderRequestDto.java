@@ -15,4 +15,5 @@ public class CreateCalenderRequestDto {
     LocalDate calenderStartDt;
     LocalDate calenderEndDt;
     String calenderName;
+    Integer milestoneId;
 }

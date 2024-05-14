@@ -8,5 +8,6 @@ import lombok.Setter;
 public class CalenderRequestDto {
     Integer calenderId;
     Integer projectId;
+    Integer milestoneId;
     Integer subCategoryId;
 }
