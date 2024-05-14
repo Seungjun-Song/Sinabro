@@ -229,7 +229,6 @@ public class SonarQubeServiceImpl implements SonarQubeService{
         String[] split = repoUrl.split("/");
         String repoName = split[split.length - 1];
 
-        String toFolderAndLs = "cd /home/ubuntu/sonarQube/scanner/"+projectId+"/"+repoName+" && ls -l | grep '^d' | cut -f 9  -d ' '";
         String toFolderAndLs = "cd /home/ubuntu/sonarQube/scanner/"+projectId+"/"+repoName+" && ls -l | grep '^d' | awk '{print $NF}'";
 
         //2. 실행
