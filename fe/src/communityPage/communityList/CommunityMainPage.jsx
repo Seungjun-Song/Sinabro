@@ -10,6 +10,7 @@ import CommunityMemberPage from './CommunityMemberPage';
 import CommunityTeamPage from './CommunityTeamPage';
 import CommunityFeadBackPage from './CommunityFeadbackPage';
 import Pagination from './Pagination';
+import UserChat from '../../components/Userchat/UserChat';
 import { GlobalColor } from '../../services/color';
 import getEnv from '../../utils/getEnv';
 import CalTime from '../CalTime';
@@ -158,6 +159,7 @@ const CommunityMainPage = () => {
             </Pagination>
             </MainBox>
         </Community>
+        <UserChat/>
 
         </>
     )

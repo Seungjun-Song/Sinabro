@@ -87,7 +87,7 @@ const Comments = styled.div`
     margin: 0 0 2rem 0;
 `
 
-const CommentWindow = ({ isDark, commentDate, boardId, totalCount, currentPage, setCurrentPage }) => {
+const CommentWindow = ({ isDark, commentDate, boardId, totalCount, currentPage, setCurrentPage, setOpenChat, setSelectedUser }) => {
     const [ newComment, setNewComment ] = useState("");
 
     const back_url = getEnv('BACK_URL')
@@ -146,6 +146,8 @@ const CommentWindow = ({ isDark, commentDate, boardId, totalCount, currentPage, 
                     <CommentBox
                         comment={comment}
                         key={index}
+                        setOpenChat={setOpenChat}
+                        setSelectedUser={setSelectedUser}
                     />
                 ))}
             </Comments>

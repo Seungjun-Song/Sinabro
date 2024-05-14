@@ -13,7 +13,7 @@ import { GlobalColor } from '../../services/color';
 import ProfileTempImg from '/images/default_my_image.png'
 import getEnv from '../../utils/getEnv';
 import CalTime from '../CalTime';
-import { current } from '@reduxjs/toolkit';
+import UserChat from '../chat/UserChat';
 
 const Community = styled.div`
     display: flex;
@@ -46,6 +46,8 @@ const DetailMainPage = () => {
 
     const [ currentPage, setCurrentPage ] = useState(1);
     const [ totalCount, setTotalCount ] = useState(0);
+    const [ openChat, setOpenChat ] = useState(false);
+    const [ selectedUser, setSelectedUser] = useState(false);
 
     const postId = data.postId;
     const isDark = useSelector(state =>state.isDark.isDark);
@@ -117,6 +119,11 @@ const DetailMainPage = () => {
         .catch((err) => {
         })
     }, [currentPage])
+
+    useEffect(() => {
+        console.log(openChat)
+    }, [openChat])
+
     
     return (
         <>
@@ -140,6 +147,9 @@ const DetailMainPage = () => {
                     totalCount={totalCount}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
+                    setOpenChat={setOpenChat}
+                    selectedUser={selectedUser}
+                    setSelectedUser={setSelectedUser}
                 />
             ) : ("")}
 
@@ -167,6 +177,11 @@ const DetailMainPage = () => {
                 />
             ) : ("")}
         </Community>
+        <UserChat
+            openChat={openChat} 
+            setOpenChat={setOpenChat}
+            selectedUser={selectedUser}
+        />
         </>
     )
 }

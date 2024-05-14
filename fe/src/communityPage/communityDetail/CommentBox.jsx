@@ -104,7 +104,7 @@ const commentMotion = {
 }
 
 
-const CommentBox = ({comment, index}) => {
+const CommentBox = ({comment, index, setOpenChat, setSelectedUser}) => {
     const [ hoverState, setHoverState ] = useState(false);
 
     //const [ hoverPointer, setHoverPointer ] = useState(false);
@@ -120,6 +120,7 @@ const CommentBox = ({comment, index}) => {
     const hoverTurnOff = () =>{
       //  setHoverPointer(true);
         setHoverState(false);
+
     }
 
     const hoverTurnOn = () => {
@@ -156,6 +157,8 @@ const CommentBox = ({comment, index}) => {
                     <HoverInfoBox
                         hoverTurnOff={hoverTurnOff}
                         comment={comment}
+                        setOpenChat={setOpenChat}
+                        setSelectedUser={setSelectedUser}
                     />
                 )}
                 <WriterProfile
