@@ -40,6 +40,7 @@ public class MemoServiceImpl implements MemoService {
                         .id(memo.getMemoId())
                         .label(memo.getTitle())
                         .content(memo.getContent())
+                        .color(memo.getColor())
                         .build());
                 setFromForLink(memo, memo.getMemoId(), linkList);
                 setFromForNode(memo, nodeList);
@@ -58,6 +59,7 @@ public class MemoServiceImpl implements MemoService {
         Memo memo = Memo.builder()
                 .title(memoResponseDto.getTitle())
                 .content(memoResponseDto.getContent())
+                .color(memoResponseDto.getColor())
                         .build();
 
         Memo savedMemo = memoRepository.save(memo);
@@ -68,7 +70,7 @@ public class MemoServiceImpl implements MemoService {
 
         memoCustomRepository.onlyMemoSave(memberId, memoId);
 
-        return savedMemo.getMemoId();
+        return memoId;
     }
 
     @Override

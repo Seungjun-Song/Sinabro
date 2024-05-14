@@ -9,4 +9,5 @@ public class NodesDto {
     private String id;
     private String label;
     private String content;
+    private String color;
 }
