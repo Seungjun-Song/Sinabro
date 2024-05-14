@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:935624e71ed7f80baa6ff651d392a64e0e4ffe41b2ca88c3d06011503b8d72d3
-size 1025
+package com.HP50.be.domain.member.repository;
+
+import com.HP50.be.domain.member.entity.TechStack;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+import static com.HP50.be.domain.member.entity.QTechStack.techStack;
+import static com.HP50.be.domain.project.entity.QProject.project;
+
+@Repository
+@RequiredArgsConstructor
+public class TechStackCustomRepositoryImpl implements TechStackCustomRepository{
+    private final JPAQueryFactory queryFactory;
+
+    @Override
+    public List<TechStack> getByMemberIdAndCategoryId(Integer memberId, Integer categoryId) {
+        return queryFactory.select(
+                        techStack
+                )
+                .from(techStack)
+                .where(
+                        techStack.member.memberId.eq(memberId)
+
+                                .and(techStack.subCategory.category.CategoryId.eq(categoryId))
+                )
+                .fetch();
+    }
+}
