@@ -17,6 +17,7 @@ const MyPageSidePanelContainer = styled(motion.div)`
   width: 30%;
   flex-direction: column;
   align-items: center;
+  justify-content:center;
 `;
 
 const SkillArea = styled.span`
@@ -99,7 +100,7 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
 
   const back_url = getEnv('BACK_URL')
   const userInfo = useSelector(state => state.user.currentUser)
-  console.log('userInfo', userInfo)
+  // console.log('userInfo', userInfo)
   const dispatch = useDispatch()
 
   const handleImageChange = async () => {
