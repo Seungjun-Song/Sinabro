@@ -1,5 +1,6 @@
 package com.HP50.be.domain.memoryGraph.controller;
 
+import com.HP50.be.domain.memoryGraph.dto.MemberForGraphDto;
 import com.HP50.be.domain.memoryGraph.dto.MemoDto;
 import com.HP50.be.domain.memoryGraph.entity.Memo;
 import com.HP50.be.domain.memoryGraph.repository.MemoCustomRepository;
@@ -31,7 +32,7 @@ public class MemoController {
 
     @Operation(summary = "유저의 메모 모두 보기", description = "테스트 용")
     @GetMapping
-    public ResponseEntity<BaseResponse<List<MemoDto>>> findAll(@CookieValue(JwtConstants.JWT_HEADER) String token){
+    public ResponseEntity<BaseResponse<MemberForGraphDto>> findAll(@CookieValue(JwtConstants.JWT_HEADER) String token){
         return ResponseEntity.ok().body(new BaseResponse<>(memoService.findMemoByMemberId(jwtUtil.getMemberId(token))));
     }
 

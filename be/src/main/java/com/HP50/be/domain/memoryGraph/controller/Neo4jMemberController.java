@@ -1,6 +1,7 @@
 package com.HP50.be.domain.memoryGraph.controller;
 
 import com.HP50.be.domain.memoryGraph.dto.MemberDto;
+import com.HP50.be.domain.memoryGraph.dto.MemberForGraphDto;
 import com.HP50.be.domain.memoryGraph.repository.Neo4jMemberRepository;
 import com.HP50.be.domain.memoryGraph.service.Neo4jMemberServiceImpl;
 import com.HP50.be.global.common.BaseResponse;
@@ -40,7 +41,7 @@ public class Neo4jMemberController {
 
     @Operation(summary = "모든 멤버 출력")
     @GetMapping
-    public ResponseEntity<BaseResponse<List<MemberDto>>> findAllMember(){
+    public ResponseEntity<BaseResponse<List<MemberForGraphDto>>> findAllMember(){
         return ResponseEntity.ok().body(new BaseResponse<>(neo4jMemberService.findAllMembers()));
     }
 
