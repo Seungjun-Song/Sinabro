@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.HP50.be.domain.calender.entity.QCalender.calender;
-import static com.HP50.be.domain.code.entity.QSubCategory.subCategory;
+import static com.HP50.be.domain.calender.entity.QMilestone.milestone;
+
 
 @Repository
 @RequiredArgsConstructor
@@ -26,12 +27,17 @@ public class CalenderCustomRepositoryImpl implements CalenderCustomRepository{
                                 calender.subCategory.subCategoryId.as("subCategoryId"),
                                 calender.calenderStartDt.as("calenderStartDt"),
                                 calender.calenderEndDt.as("calenderEndDt"),
-                                calender.calenderName.as("calenderName")
+                                calender.calenderName.as("calenderName"),
+                                calender.milestone.milestoneId.as("milestoneId"),
+                                calender.milestone.milestoneTitle.as("milestoneTitle")
                         )
-                ).from(calender)
-                .where(calender.member.memberId.eq(memberId).and(
-                        calender.project.projectId.eq(projectId)
-                )).fetch();
+                )
+                .from(calender)
+                .leftJoin(calender.milestone, milestone)
+                .on(milestone.milestoneId.isNotNull())
+                .where(calender.member.memberId.eq(memberId),
+                        calender.project.projectId.eq(projectId))
+                .fetch();
         return result;
     }
     // 나의 전체 일정
@@ -44,11 +50,14 @@ public class CalenderCustomRepositoryImpl implements CalenderCustomRepository{
                                 calender.subCategory.subCategoryId.as("subCategoryId"),
                                 calender.calenderStartDt.as("calenderStartDt"),
                                 calender.calenderEndDt.as("calenderEndDt"),
-                                calender.calenderName.as("calenderName")
+                                calender.calenderName.as("calenderName"),
+                                calender.milestone.as("milestoneId"),
+                                calender.milestone.milestoneTitle.as("milestoneTitle")
                         )
-                ).from(calender)
-                .where(calender.member.memberId.eq(memberId)
-                ).fetch();
+                )
+                .from(calender)
+                .where(calender.member.memberId.eq(memberId))
+                .fetch();
         return result;
     }
     // 프로젝트 전체 일정
@@ -64,7 +73,9 @@ public class CalenderCustomRepositoryImpl implements CalenderCustomRepository{
                                 calender.subCategory.subCategoryId.as("subCategoryId"),
                                 calender.calenderStartDt.as("calenderStartDt"),
                                 calender.calenderEndDt.as("calenderEndDt"),
-                                calender.calenderName.as("calenderName")
+                                calender.calenderName.as("calenderName"),
+                                calender.milestone.as("milestoneId"),
+                                calender.milestone.milestoneTitle.as("milestoneTitle")
                         )
                 ).from(calender)
                 .where(calender.project.projectId.eq(projectId))

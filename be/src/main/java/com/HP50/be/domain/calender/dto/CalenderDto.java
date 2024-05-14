@@ -19,6 +19,13 @@ public class CalenderDto {
     String memberImg;
     @Schema(name = "담당자 이름", example = "JH201421228")
     String memberName;
+
+    @Schema(example = "마일스톤의 고유 번호")
+    private Integer milestoneId;
+
+    @Schema(example = "마일스톤의 이름")
+    private String milestoneName;
+
     @Schema(name = "일정 상태 코드", example = "502")
     Integer subCategoryId;
     @Schema(name = "일정 시작일", example = "2024-05-02")

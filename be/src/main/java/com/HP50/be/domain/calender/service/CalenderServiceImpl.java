@@ -54,10 +54,6 @@ public class CalenderServiceImpl implements CalenderService{
         Member member = memberRepository.findById(requestDto.getManagerId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         SubCategory subCategory = subCategoryRepository.findById(501).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY));
 
-        // todo 에러처리하기
-        Milestone milestone = milestoneRepository.findById(requestDto.getMilestoneId())
-                .orElse(null);
-
         // 가져온 entity들로 Calender Entity 생성
         Calender calender = Calender.builder()
                 .calenderName(requestDto.getCalenderName())
@@ -67,6 +63,11 @@ public class CalenderServiceImpl implements CalenderService{
                 .member(member)
                 .subCategory(subCategory)
                 .build();
+
+        if (requestDto.getMilestoneId() != null) calender.setMilestone(
+                this.milestoneRepository.findById(requestDto.getManagerId()).orElse(null));
+
+
         // 저장
         calenderRepository.save(calender);
         return true;
