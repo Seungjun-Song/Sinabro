@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { GlobalColor } from '../../services/color';
 
 import Jobs from './Jobs';
+import { useEffect, useState } from 'react';
 
 const Detail = styled(motion.div)`
     font-family: Pretendard Medium;
@@ -32,7 +33,7 @@ const Proceed = styled.div`
 
     font-family: LaundryGothicRegular;
     color: rgba(52, 69, 156, 1);
-    font-size: 70%;
+    font-size: 100%;
 
     padding: 0.2rem 0.9rem;
 
@@ -59,6 +60,9 @@ const Title = styled.div`
     align-items: center;
     justify-content: start;
     font-family: Pretendard SemiBold;
+    max-width: 80%;
+
+    font-size: 1.5rem;
 `
 
 const Content = styled.div`
@@ -66,7 +70,7 @@ const Content = styled.div`
 display: flex;
 align-items: center;
 justify-content: space-between;
-    font-size: 0.8rem;
+font-size: 1.2rem;
 
     padding: 0.8rem;
 `
@@ -92,7 +96,7 @@ const Hash = styled.div`
     border-radius: 5px;
 
     color: ${ GlobalColor.colors.tagFont };
-    font-size: 0.7rem;
+    font-size: 1rem;
 
     padding: 0.1rem 1rem;
 
@@ -124,6 +128,28 @@ const Date = styled.div`
 
 const Post = ({post, kind, isDark}) => {    
     const navigate = useNavigate();
+
+    const [content, setContent] = useState("")
+    const [hash, setHash] = useState([]);
+
+    useEffect(() => {
+        setContent(new DOMParser().parseFromString(post.content, "text/html").body.textContent);
+
+        let hashString = "";
+        post.hash.map((tag, index)=>{
+            hashString += tag.subCategoryName + " ";
+        })
+
+        if(hashString.length > 20){
+            hashString = hashString.substr(0, 20);
+        }
+
+        setHash(hashString.split(" "));
+
+        console.log("hashString", hashString)
+        
+    }, [])
+    console.log("in post", post.title.length);
 
     return(
         <Detail 
@@ -157,7 +183,7 @@ const Post = ({post, kind, isDark}) => {
                     </>)}
                 </Proceed>
                 <Title>
-                    {post.title}
+                    {post.title.length > 28 ? <>{post.title.substr(0, 28)}{"....."}</>  : post.title}
                 </Title>
 
                 {/* <Jobs
@@ -168,7 +194,7 @@ const Post = ({post, kind, isDark}) => {
             </MainInfo>
 
             <Content>
-            {new DOMParser().parseFromString(post.content, "text/html").body.textContent}
+            {content.length > 100 ? <>{content.substr(0, 100)}{"....."}</> : content}
             {/* <Jobs
                     kind={kind}
                     post={post}
@@ -186,20 +212,22 @@ const Post = ({post, kind, isDark}) => {
             </div>
             <PlusInfo>
                 <Hashs>
-                    {post.hash && post.hash.length > 0 && post.hash.map((tag, index) => {
-                        return(    
-                            <>
-                            {tag.subCategoryName !== "" && 
-                                <Hash 
-                                    key={index}
-                                    isDark={isDark}
-                                >
-                                    {tag.subCategoryName}
-                                </Hash>
-                            }
-                        </>
-                        )
-                    })}
+                    {hash && hash.length > 0 && 
+                        hash.map((tag, index) => {
+                            return(    
+                                    <>
+                                    {tag !== "" && 
+                                        <Hash 
+                                            key={index}
+                                            isDark={isDark}
+                                        >
+                                        {tag}
+                                        </Hash>
+                                    }
+                                    </>
+                                    )
+                        })                        
+                    }
                 </Hashs>
                 <WriteInfo>
                     <Writer>

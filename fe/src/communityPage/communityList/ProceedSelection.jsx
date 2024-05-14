@@ -134,7 +134,9 @@ const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, ki
                         <Option 
                             key={index}
                             onClick={() => changeOption(option)}
-                        >{option.name}</Option>
+                        >{option.name}
+                        <Line/>
+                        </Option>
                     </motion.div>
                 ))}
 

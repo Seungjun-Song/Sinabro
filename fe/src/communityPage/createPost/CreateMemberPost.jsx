@@ -179,13 +179,15 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId, 
         }
 
         setBlocking(false)
-    }, [postContent, jobInfo])
+    }, [postContent, jobInfo, selectedPjtId])
 
     const submit = () =>{
         //태그 정리
         const tagList = postContent.tag.split(" ");
 
-        console.log(postContent)
+        console.log("submit", postContent.content)
+        console.log("blocking", blocking)
+
 
         if(!blocking){
         axios.post(`${back_url}/communities`, {

@@ -55,11 +55,11 @@ const Line = styled.hr`
 const TeamSelection = ({teamOption, setTeamOption, setTeamToggle, isDark}) => {
     const teamList = [
         {
-            id: 100,
+            id: 200,
             name: "Back"
         },
         {
-            id: 200,
+            id: 100,
             name: "Front",
         },
     ]
