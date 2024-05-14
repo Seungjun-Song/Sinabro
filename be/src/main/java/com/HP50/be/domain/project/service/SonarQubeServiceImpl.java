@@ -223,7 +223,7 @@ public class SonarQubeServiceImpl implements SonarQubeService{
          */
         // 폴더에 있는 repo 다 삭제 후 mkdir
         String deleteRepo = "sudo rm -rf /home/ubuntu/sonarQube/scanner/"+projectId+" && "+"sudo mkdir -p /home/ubuntu/sonarQube/scanner/"+projectId;
-
+        String pwd = "cd /home/ubuntu/sonarQube/scanner/"+projectId+" && "+"pwd";
         // 폴더 이동 command & git clone
         String toFolderAndClone = "cd /home/ubuntu/sonarQube/scanner/"+projectId+" && " + "sudo git clone "+repoUrl;
         String[] split = repoUrl.split("/");
@@ -237,6 +237,9 @@ public class SonarQubeServiceImpl implements SonarQubeService{
         try {
             // 존재하는 레포 모두 삭제
             if (!jschUtil.executeCommand(session, deleteRepo)) {
+                throw new BaseException(StatusCode.FAIL_DELETE_REPO);
+            }
+            if (!jschUtil.executeCommand(session, pwd)) {
                 throw new BaseException(StatusCode.FAIL_DELETE_REPO);
             }
             // 폴더 이동 & git Clone
