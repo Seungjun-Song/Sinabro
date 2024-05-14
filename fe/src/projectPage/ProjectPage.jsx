@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import ProjectPageLeftPanel from "./ProjectPageLeftPanel";
-import ProjectPageRightPanel from "./ProjectPageRightPanel";
-import { useDispatch, useSelector } from "react-redux";
-import { Calender } from "../components/calender/Calender";
-import { getDatabase, onValue, ref } from "firebase/database";
-import { setNewMessageState } from "../store/newMessageSlice";
-import { changeProjectChatState } from "../store/projectChatShow";
-import WebRTC from "../components/webrtc/WebRTC";
-import { clearProjectRoomId } from "../store/projectRoomIdSlice";
-import axios from "axios";
-import getEnv from "../utils/getEnv";
-import ProjectLoadingPage from "./ProjectLoadingPage";
+import React, { useEffect, useState, useRef } from 'react';
+import styled from 'styled-components';
+import ProjectPageLeftPanel from './ProjectPageLeftPanel';
+import ProjectPageRightPanel from './ProjectPageRightPanel';
+import { useDispatch, useSelector } from 'react-redux';
+import { Calender } from '../components/calender/Calender';
+import { getDatabase, onValue, ref } from 'firebase/database';
+import { setNewMessageState } from '../store/newMessageSlice';
+import { changeProjectChatState } from '../store/projectChatShow';
+import WebRTC from '../components/webrtc/WebRTC';
+import { clearProjectRoomId } from '../store/projectRoomIdSlice';
+import axios from 'axios';
+import getEnv from '../utils/getEnv';
+import ProjectLoadingPage from './ProjectLoadingPage';
 
 const ProjectContainer = styled.div`
   position: relative; /* 부모 컨테이너를 기준으로 자식 요소의 위치를 설정하기 위해 */
@@ -72,11 +72,31 @@ const ProjectPage = () => {
 
   const dispatch = useDispatch();
 
-  const newMessageInfo = useSelector((state) => state.newMessage);
-  const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
-  console.log(myCurrentProject);
+  const newMessageInfo = useSelector(state => state.newMessage);
+  const myCurrentProject = useSelector(state => state.myCurrentProject.value);
+  const isDark = useSelector(state => state.isDark.isDark);
 
-  const back_url = getEnv("BACK_URL");
+  const back_url = getEnv('BACK_URL');
+
+  const iframeRef = useRef(null);
+
+  const codeServerDarkMode = async () => {
+    try {
+      const res = await axios.post(`${back_url}/teams/projects/darkMode`);
+      console.log(res.data);
+      // Iframe 리로딩
+      if (iframeRef.current) {
+        iframeRef.current.src += '';
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    codeServerDarkMode();
+    console.log(isDark)
+  }, [isDark]);
 
   useEffect(() => {
     const db = getDatabase();
@@ -103,13 +123,9 @@ const ProjectPage = () => {
   useEffect(() => {
     const getCodeServerURL = async () => {
       try {
-        const res = await axios.post(
-          `${back_url}/teams/projects/enter`,
-          {
-            repoUrl: myCurrentProject.projectRepo,
-          },
-          { withCredentials: true }
-        );
+        const res = await axios.post(`${back_url}/teams/projects/enter`, {
+          repoUrl: myCurrentProject.projectRepo
+        }, { withCredentials: true });
         console.log(res.data);
         setCodeServerURL(res.data.result.url);
         setLoading(false);
@@ -121,9 +137,7 @@ const ProjectPage = () => {
 
     const leaveCodeServer = async () => {
       try {
-        const res = await axios.post(`${back_url}/teams/projects/exit`, {
-          withCredentials: true,
-        });
+        const res = await axios.post(`${back_url}/teams/projects/exit`, { withCredentials: true });
         console.log(res.data);
       } catch (err) {
         console.log(err);
@@ -140,29 +154,26 @@ const ProjectPage = () => {
   useEffect(() => {
     const getTeammateInfo = async () => {
       try {
-        const res = await axios.get(
-          `${back_url}/teams?projectId=${myCurrentProject.projectId}`
-        );
-        console.log("팀원 정보", res.data.result.teammateInfoList);
+        const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`);
+        console.log('팀원 정보', res.data.result.teammateInfoList);
         setTeammate(res.data.result.teammateInfoList);
-        console.log("팀메이트", teammate);
+        console.log('팀메이트', teammate);
       } catch (err) {
         console.error(err);
       }
     };
     getTeammateInfo();
+    // const teammateId = teammate.map(item => item.memberId)
+    // setSelectedTeammates(teammateId)
+    // console.log('이거 왜 안보이지?', teammateId, selectedTeammates)
+    // 처음에 모든 사람의 Id를 미리 넣어놓고 싶은데, 안됨... 누가 이 주석을 발견하면 해결해주세요.
   }, []);
 
   const newChatState = () => {
-    if (
-      !isFirstMount &&
-      newMessageInfo.isNotificationOn &&
-      !newMessageInfo.projectRightPanelState &&
-      newMessageInfo.newMessageState
-    ) {
-      //처음 마운트가 아니고 알림이 켜져있으면
+    if (!isFirstMount && newMessageInfo.isNotificationOn && !newMessageInfo.projectRightPanelState && newMessageInfo.newMessageState) { //처음 마운트가 아니고 알림이 켜져있으면
       return true;
-    } else {
+    }
+    else {
       return false;
     }
   };
@@ -182,6 +193,7 @@ const ProjectPage = () => {
               </div>
             ) : (
               <iframe
+                ref={iframeRef}
                 title="code-server"
                 src={codeServerURL}
                 style={{ width: "100%", height: "100%", border: "none" }}
@@ -189,10 +201,8 @@ const ProjectPage = () => {
             )}
             <ProjectPageRightPanel />
             {newChatState() && (
-              <MessageContainer
-                onClick={() => dispatch(changeProjectChatState(true))}
-              >
-                <MessageHeader>{lastMessage.displayName}</MessageHeader>
+              <MessageContainer onClick={() => dispatch(changeProjectChatState(true))}>
+                <MessageHeader>{lastMessage.displayName}</MessageHeader> {/* 수정된 부분 */}
                 <MessageBody>{lastMessage.message}</MessageBody>
               </MessageContainer>
             )}

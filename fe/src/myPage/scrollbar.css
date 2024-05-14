@@ -2,6 +2,7 @@
 
 /* 너비 */
 ::-webkit-scrollbar {
+  display: none;
   width: 6px; /* 스크롤바 너비 조절 */
   border-radius: 50%; /* 스크롤바의 border-radius 설정 */
   z-index: -1; /* 스크롤바의 층위를 조정하여 다른 요소 위에 표시되도록 설정 */
