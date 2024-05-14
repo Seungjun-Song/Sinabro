@@ -139,5 +139,6 @@ public class JwtFilter extends OncePerRequestFilter {
         BaseResponse<Object> baseResponse = new BaseResponse<>(statusCode);
 
         objectMapper.writeValue(response.getWriter(), baseResponse);
+        response.sendRedirect("https://k10e103.p.ssafy.io");
     }
 }
