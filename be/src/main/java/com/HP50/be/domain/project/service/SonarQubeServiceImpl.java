@@ -222,7 +222,7 @@ public class SonarQubeServiceImpl implements SonarQubeService{
            - exec command
          */
         // 폴더에 있는 repo 다 삭제 후 mkdir
-        String deleteRepo = "sudo rm -rf /home/ubuntu/sonarQube/scanner/"+projectId+" && "+"sudo mkdir /home/ubuntu/sonarQube/scanner/"+projectId;
+        String deleteRepo = "sudo rm -rf /home/ubuntu/sonarQube/scanner/"+projectId+" && "+"sudo mkdir -p /home/ubuntu/sonarQube/scanner/"+projectId;
 
         // 폴더 이동 command & git clone
         String toFolderAndClone = "cd /home/ubuntu/sonarQube/scanner/"+projectId+" && " + "sudo git clone "+repoUrl;
