@@ -7,6 +7,8 @@ import lombok.Getter;
 @Builder
 public class ProjectEnterDto {
     private String url;
-    private String previewUrl;
+    private String runDevPreviewUrl;
+    private String startPreviewUrl;
+    private String theme;
     private Integer dbPort;
 }

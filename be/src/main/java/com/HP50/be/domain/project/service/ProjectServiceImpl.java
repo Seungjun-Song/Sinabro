@@ -270,10 +270,21 @@ public class ProjectServiceImpl implements ProjectService{
             throw new BaseException(StatusCode.NGINX_UPDATE_FAIL);
         }
 
+        // Nginx 상태 확인
+        String nginxCheckCommand = "sudo nginx -t";
+        String nginxCheckOutput = jschUtil.executeCommandAndGetOutput(session, nginxCheckCommand);
+        if (!nginxCheckOutput.contains("syntax is ok") || !nginxCheckOutput.contains("test is successful")) {
+            throw new BaseException(StatusCode.NGINX_UPDATE_FAIL);
+        }
+
         // 동적 포트 할당 조회
-        String getPortCommand = "docker port " + codeServerName + " 3000";
-        String dynamicPort = jschUtil.executeCommandAndGetOutput(session, getPortCommand).split("\n")[0].split(":")[1];
-        log.info("dynamicPort : {}", dynamicPort);
+        String getStartPortCommand = "docker port " + codeServerName + " 3000";
+        String dynamicStartPort = jschUtil.executeCommandAndGetOutput(session, getStartPortCommand).split("\n")[0].split(":")[1];
+        log.info("dynamicStartPort : {}", dynamicStartPort);
+
+        String getRunDevPortCommand = "docker port " + codeServerName + " 5173";
+        String dynamicRunDevPort = jschUtil.executeCommandAndGetOutput(session, getRunDevPortCommand).split("\n")[0].split(":")[1];
+        log.info("dynamicRunDevPort : {}", dynamicRunDevPort);
 
         // 깃 클론 전 디렉토리 존재 여부 확인
         String checkDirCommand = "docker exec " + codeServerName + " /bin/bash -c '[ -d \"/home/coder/code-server/" + repoName + "\" ] && echo \"exists\" || echo \"not exists\"'";
@@ -293,12 +304,19 @@ public class ProjectServiceImpl implements ProjectService{
             throw new BaseException(StatusCode.GIT_CLONE_FAIL);
         }
 
+        // 테마 확인
+        String getCurrentThemeCommand = "docker exec " + codeServerName + " cat /home/coder/.local/share/code-server/User/settings.json";
+        String currentTheme = jschUtil.executeCommandAndGetOutput(session, getCurrentThemeCommand).split("\"")[3].split(" ")[2];
+        log.info("currentTheme : {}", currentTheme);
+
         // SSH 세션 종료
         session.disconnect();
 
         return ProjectEnterDto.builder()
                 .url("https://projectsinabro.store/" + codeServerName + "/?folder=/home/coder/code-server/" + repoName)
-                .previewUrl("http://projectsinabro.store:" + dynamicPort)
+                .runDevPreviewUrl("http://projectsinabro.store:" + dynamicRunDevPort)
+                .startPreviewUrl("http://projectsinabro.store:" + dynamicStartPort)
+                .theme(currentTheme)
                 .dbPort(dbPort)
                 .build();
     }
@@ -323,7 +341,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     // 프로젝트 다크모드
     @Override
-    public void projectDarkMode(String token) {
+    public String projectDarkMode(String token) {
         Integer memberId = jwtUtil.getMemberId(token); // accessToken에서 memberId 추출
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         String codeServerName = member.getCodeServerName();
@@ -336,11 +354,19 @@ public class ProjectServiceImpl implements ProjectService{
             throw new BaseException(StatusCode.CHANGE_DARK_MODE_FAIL);
         }
 
+        // 테마 확인
+        String getCurrentThemeCommand = "docker exec " + codeServerName + " cat /home/coder/.local/share/code-server/User/settings.json";
+        String currentTheme = jschUtil.executeCommandAndGetOutput(session, getCurrentThemeCommand).split("\"")[3].split(" ")[2];
+        log.info("currentTheme : {}", currentTheme);
+
         session.disconnect();
+
+        return currentTheme;
     }
 
+    // 프로젝트 피드백 초대
     @Override
-    public String getInviteUrl(String token) {
+    public String getFeedbackUrl(String token) {
         Integer memberId = jwtUtil.getMemberId(token); // accessToken에서 memberId 추출
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         String codeServerName = member.getCodeServerName();
@@ -418,7 +444,7 @@ public class ProjectServiceImpl implements ProjectService{
     // 컨테이너 생성 프로세스 
     public void runContainer(Session session, String codeServerName, Integer dbPort) {
         // 컨테이너 생성 및 실행
-        String runCommand = "docker run --name " + codeServerName + " -v /home/ubuntu/code-server/" + codeServerName + ":/home/coder/code-server -d -p :80 -p :80 -p :3000 -p " + dbPort + ":3306 code-server --bind-addr=0.0.0.0:80";
+        String runCommand = "docker run --name " + codeServerName + " -v /home/ubuntu/code-server/" + codeServerName + ":/home/coder/code-server -d -p :80 -p :3000 -p :5173 -p " + dbPort + ":3306 code-server --bind-addr=0.0.0.0:80";
         if(!jschUtil.executeCommand(session, runCommand)) {
             throw new BaseException(StatusCode.CONTAINER_RUN_FAIL);
         }
