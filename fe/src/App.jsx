@@ -17,7 +17,8 @@ import axios from "axios";
 import CommunityMainPage from "./communityPage/communityList/CommunityMainPage";
 import CreatePost from "./communityPage/createPost/CreatePage";
 import DetailMainPage from "./communityPage/communityDetail/DetailMainPage";
-import WriterPage from "./communityPage/communityDetail/writerPage/WriterPage"
+import WriterPage from "./communityPage/communityDetail/writerPage/WriterPage";
+import TeamLinkPage from "./communityPage/communityDetail/teamPage/TeamPage";
 import OauthTest from "./oauthTestPage/OauthTest";
 import Callback from "./oauthTestPage/Callback";
 
@@ -88,7 +89,8 @@ const App = () => {
       <Route path="/TeamSpaceDetailPage/:projectId" element={<TeamSpaceDetailPage />} />
       <Route path="/Mainpage" element={<Mainpage />} />
       <Route path="/project/:roomId" element={<ProjectPage />} />
-      <Route psth='/writerPage' element={<WriterPage/>}/>
+      <Route path="/writerPage" element={<WriterPage/>}/>
+      <Route path="/teamLinkPage" element={<TeamLinkPage/>}/>
       
       {/* <Route path="/calender" element={<Calender />} />
       <Route path="/rtc" element={<WebRTC />} /> */}
