@@ -372,10 +372,21 @@ public class ProjectServiceImpl implements ProjectService{
 
         Session session = jschUtil.createSession();
 
+        // 컨테이너가 존재하는지 확인
+        String isContainerExistsCommand = "docker inspect --format='{{.State.Health.Status}}' " + codeServerName;
+        if(!jschUtil.executeCommand(session, isContainerExistsCommand)) {
+            log.info("컨테이너 없음");
+            throw new BaseException(StatusCode.NOT_EXISTS_CONTAINER);
+        } else {
+            // 컨테이너가 존재하면 docker start 프로세스 실행
+            log.info("컨테이너 있음");
+            startContainer(session, codeServerName);
+        }
+
         // 웹 소켓 서버 실행 명령
         String webSocketServerStartCommand = "nohup node /home/ubuntu/websocket-proxy/proxy-server.js " + codeServerName + " > /dev/null 2>&1 &";
         if (!jschUtil.executeCommand(session, webSocketServerStartCommand)) {
-            throw new BaseException(StatusCode.CHANGE_DARK_MODE_FAIL);
+            throw new BaseException(StatusCode.WEB_SOCKET_RUN_FAIL);
         }
 
         session.disconnect();

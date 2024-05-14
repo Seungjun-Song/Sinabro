@@ -91,6 +91,7 @@ public enum StatusCode {
     CONTAINER_STOP_FAIL(false, 1510, "Container 중지 실패"),
     CHANGE_DARK_MODE_FAIL(false, 1511, "DarkMode 변경 실패"),
     WEB_SOCKET_RUN_FAIL(false, 1512, "WebSocket 실행 실패"),
+    NOT_EXISTS_CONTAINER(false, 1513, "Not Exists Container"),
     ;
 
 
