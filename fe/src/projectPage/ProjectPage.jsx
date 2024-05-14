@@ -64,7 +64,7 @@ const IframContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: 1200px;
+  min-width: 800px;
 `
 
 const URLSelectContainer = styled.div`
