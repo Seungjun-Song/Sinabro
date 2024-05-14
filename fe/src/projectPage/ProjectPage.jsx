@@ -66,9 +66,11 @@ const ProjectPage = () => {
   const [isFirstMount, setIsFirstMount] = useState(true);
   const [codeServerURL, setCodeServerURL] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [teammate, setTeammate] = useState([]);
 
-  const [selectedTeammates, setSelectedTeammates] = useState([]); // props로 넘겨주는 값
+  const userInfo = useSelector(state => state.user.currentUser)
+
+  const [teammate, setTeammate] = useState([]);
+  const [selectedTeammates, setSelectedTeammates] = useState([userInfo.uid]); // props로 넘겨주는 값
 
   const dispatch = useDispatch();
 
@@ -186,7 +188,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      {loading ? (
+      {!loading ? (
         <ProjectLoadingPage />
       ) : (
         <ProjectContainer>
