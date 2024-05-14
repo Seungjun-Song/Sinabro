@@ -24,7 +24,7 @@ const MemoryGraph = () => {
   const GROUPS = 12;
   const isDark = useSelector((state) => state.isDark.isDark);
   const [color, setColor] = useState("#000000");
-//   const [islabel, setIslabel] = useState(false);
+  //   const [islabel, setIslabel] = useState(false);
   const [whatnode, setWhatNode] = useState(null);
   const [newnode, setNewNode] = useState("");
   const [isModal, setIsModal] = useState(false);
@@ -88,18 +88,14 @@ const MemoryGraph = () => {
   const connectnode = async (newnodeid) => {
     try {
       const res = await axios.put(
-        `${back_url}/memo`,
-        {
-          memoId1:newnodeid ,
-          memoId2: whatnode.id,
-        },
+        `${back_url}/memo?memoId1=${newnodeid}&memoId2=${whatnode.id}`,
         { withCredentials: true }
       );
       console.log(res);
-      setIsModal(false)
-      setWhatNode(null)
-      setContent("")
-      setNewNode("")
+      setIsModal(false);
+      setWhatNode(null);
+      setContent("");
+      setNewNode("");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -184,8 +180,8 @@ const MemoryGraph = () => {
           linkColor={(node) => (node.id === "node1" ? "red" : "blue")}
           //   nodeAutoColorBy={(d) => d.id % GROUPS}
           //   linkAutoColorBy={(d) => gData.nodes[d.source].id % GROUPS}
-            linkDirectionalArrowLength={13}
-            linkDirectionalArrowRelPos={0}
+          linkDirectionalArrowLength={13}
+          linkDirectionalArrowRelPos={0}
           linkWidth={2}
           //   numDimensions={3}
           onNodeClick={(node) => hadleAllClick(node)}
@@ -199,15 +195,36 @@ const MemoryGraph = () => {
           }}
           style={{
             position: "absolute",
-            top: "50%",
+            top: "40%",
             right: 10,
             display: "flex",
             flexDirection: "column",
             gap: "1rem",
           }}
         >
-          <div onClick={() => setIsModal(true)}> 수정 </div>
-          <div> 삭제 </div>
+          <div
+            style={{
+              cursor: "pointer",
+              backgroundColor: "#3085d6",
+              color: "white",
+              padding: "0.5rem 1rem",
+              borderRadius: "1rem",
+            }}
+            onClick={() => setIsModal(true)}
+          >
+            수정
+          </div>
+          <div
+            style={{
+              cursor: "pointer",
+              backgroundColor: "#d33",
+              color: "white",
+              padding: "0.5rem 1rem",
+              borderRadius: "1rem",
+            }}
+          >
+            삭제
+          </div>
         </div>
       )}
       {isModal && whatnode && (
@@ -315,8 +332,35 @@ const MemoryGraph = () => {
                 justifyContent: "flex-end",
               }}
             >
-              <div onClick={() => handleConfirm()}>확인</div>
-              <div>취소</div>
+              <div
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "#3085d6",
+                  color: "white",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "1rem",
+                }}
+                onClick={() => handleConfirm()}
+              >
+                확인
+              </div>
+              <div
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "#d33",
+                  color: "white",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "1rem",
+                }}
+                onClick={() => (
+                  setIsModal(false),
+                  setWhatNode(null),
+                  setContent(""),
+                  setNewNode("")
+                )}
+              >
+                취소
+              </div>
             </div>
           </div>
         </div>
