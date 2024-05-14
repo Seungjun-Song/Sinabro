@@ -127,6 +127,9 @@ const ProjectPage = () => {
           repoUrl: myCurrentProject.projectRepo
         }, { withCredentials: true });
         console.log(res.data);
+        if ((res.data.result.theme === 'Light' && !isDark) || (res.data.result.theme !== 'Light' && isDark)) {
+          codeServerDarkMode()
+        }
         setCodeServerURL(res.data.result.url);
         setLoading(false);
       } catch (err) {
@@ -139,7 +142,7 @@ const ProjectPage = () => {
       try {
         const res = await axios.post(`${back_url}/teams/projects/exit`, { withCredentials: true });
         console.log(res.data);
-        if ((res.data.result.theme === 'Light' && isDark) || (res.data.result.theme !== 'Light' && !isDark)) {
+        if ((res.data.result.theme === 'Light' && !isDark) || (res.data.result.theme !== 'Light' && isDark)) {
           codeServerDarkMode()
         }
       } catch (err) {
