@@ -7,11 +7,12 @@ const JobBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: start;
-    flex-direction: column;
 
     margin: 1rem 0 0 0;
 
     gap: 0.5rem;
+
+    width:100%;
 `
 
 const Job = styled.div`
@@ -32,7 +33,7 @@ const Job = styled.div`
     width: 9rem;
 
 `
-const Jobs = ({kind, post }) => {
+const DetailJobs = ({kind, post }) => {
 
     const [ memeberJobList, setMemberJobList ] = useState([])
 
@@ -134,4 +135,4 @@ const Jobs = ({kind, post }) => {
     )
 }
 
-export default Jobs;
+export default DetailJobs;

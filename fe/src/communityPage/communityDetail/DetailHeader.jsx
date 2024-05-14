@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 import { motion } from "framer-motion";
 import axios from 'axios';
 import DetailProceed from './DetailProceed'
-import Jobs from './../communityList/Jobs'
+import DetailJobs from './DetailJobs';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
@@ -16,16 +16,12 @@ const Header = styled(motion.div)`
 `
 
 const MainInfo = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: start;
-
-    gap: 1rem;
 
     width: 100%;
 `
 
 const Title = styled.div`
+    font-size: 1.5rem;
 `
 
 const PlusInfo = styled.div`
@@ -77,7 +73,7 @@ const DeleteButton = styled.div`
     background: red;
     border: 0px solid red;
     border-radius: 5px;
-    padding: 0.1rem 0.3rem;
+    padding: 0.2rem 0.5rem;
     font-size: 0.9rem;
     color: white;
 
@@ -88,7 +84,7 @@ const ModifyButton = styled.div`
     background: rgba(150, 143, 216, 1);
     border: 0px solid rgba(150, 143, 216, 1);
     border-radius: 5px;
-    padding: 0.1rem 0.3rem;
+    padding: 0.2rem 0.5rem;
     font-size: 0.9rem;
     color: white;
     font-family: Jamsil Regular;
@@ -139,13 +135,14 @@ const DetailHeader = ({kind, detailData, isDark}) => {
             <Title>
                 {detailData.title}
             </Title>
-            <Jobs
+
+        </MainInfo>
+        <DetailJobs
                 kind={kind}
                 post={detailData}
             >
                 
-            </Jobs>
-        </MainInfo>
+        </DetailJobs>
         <PlusInfo>
             <Writer>
                 <ProfileImg

@@ -26,21 +26,17 @@ const MainBox = styled.div`
 
 const WriterPage = () => {
   const isDark = useSelector((state) => state.isDark.isDark);
-  const userInfo = useSelector((state) => state.user.currentUser);
   
-  // const location = useLocation();
-  // const data = location.state;
-  // const memberId = data.memberId;
-  
-  // console.log(memberId)
+  const location = useLocation();
+  const data = location.state;
+  const memberId = data.memberId;
+
   const [userfind, setUserFind] = useState({});
   const back_url = getEnv("BACK_URL");
   useEffect(() => {
     const findUser = async () => {
-    //   console.log(userInfo.uid);
       try {
-        const res = await axios.get(`${back_url}/members/${userInfo.uid}`);
-        console.log(res);
+        const res = await axios.get(`${back_url}/members/${memberId}`);
         setUserFind(res.data.result);
       } catch (err) {
         console.error(err);
@@ -55,18 +51,16 @@ const WriterPage = () => {
         transition: "0.3s",
       }}
     >
-      ddddd
-      {/* <div style={{ width: "100%", height: "80px" }}>
+      <div style={{ width: "100%", height: "80px" }}>
         <Navbar />
       </div>
       <MainBox>
         <WriterPageSidePanel
-          userInfo={userInfo}
           userfind={userfind}
           isDark={isDark}
         />
-        <WriterPageMainPanel userInfo={userInfo} setUserFind={setUserFind} isDark={isDark} userfind={userfind} />
-      </MainBox> */}
+        <WriterPageMainPanel setUserFind={setUserFind} isDark={isDark} userfind={userfind} />
+      </MainBox>
     </MyPageContainer>
   );
 };

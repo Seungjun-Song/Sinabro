@@ -56,7 +56,7 @@ const WriterLinkBox = ({detailData}) => {
     return(
         <WriterBox
             whileHover={{ cursor: "pointer", y: -3}}
-            onClick={() => navigate(`/writerPage`)}
+            onClick={() => navigate(`/writerPage`, {state: {memberId: detailData.memberId}})}
         >
             <WriterInfo>
                 <WriterProfile

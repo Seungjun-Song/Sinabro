@@ -8,9 +8,11 @@ const MenuList = styled.div`
     flex-direction: column;  
     align-items: start;
     width: 20%;            
-    padding-left: 10rem;  
+    padding-left: 9rem;  
     margin-top: 5rem;        
     gap : 0.3rem;
+
+    font-size: 1.4rem;
   
     position: relative;
 
