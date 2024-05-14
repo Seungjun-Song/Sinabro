@@ -213,44 +213,6 @@ const CreatePage = () => {
         }
     }, [])
 
-    // useEffect(() => {
-    //     console.log("selected", selected)
-    //     if(selected.name === "member"){
-    //         setJobNumInfo([{
-    //             id: 1,
-    //             name: "백",
-    //             borderColor: "#315DCC",
-    //             icon: faCog,          
-    //             target: 0,
-    //             total: 0,
-    //         },
-    //         {
-    //             id: 2, 
-    //             name: "프론트",
-    //             borderColor: "#3DC7AE",
-    //             icon: faDesktop,
-    //             target: 0,
-    //             total: 0,
-    //         }])
-    //     }
-    //     else if(selected.name === "feadback"){
-    //         setJobNumInfo([{
-    //             id: 1,
-    //             name: "백",
-    //             borderColor: "#315DCC",
-    //             icon: faCog,
-    //             selected: 0,
-    //         }, 
-    //         {
-    //             id: 2, 
-    //             name: "프론트",
-    //             borderColor: "#3DC7AE",
-    //             icon: faDesktop,
-    //             selected: 0,
-    //         }])
-    //     }
-    // }, [selected])
-
     const isdark = useSelector(state =>state.isDark.isDark);
 
     const changeOption = (option) => {

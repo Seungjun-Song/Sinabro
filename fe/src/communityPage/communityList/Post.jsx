@@ -145,8 +145,6 @@ const Post = ({post, kind, isDark}) => {
         }
 
         setHash(hashString.split(" "));
-
-        console.log("hashString", hashString)
         
     }, [post])
 
