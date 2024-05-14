@@ -78,7 +78,7 @@ const DetailMainPage = () => {
 
         //팀 정보 불러오기
         if(selected.name == "member" || selected.name == "feadback"){
-            console.log("is team????????????????")
+            //console.log("is team????????????????")
             axios.get(`${back_url}/teams?projectId=${getData.projectId}`)
             .then((res) => {
                 //console.log(res.data.result);
