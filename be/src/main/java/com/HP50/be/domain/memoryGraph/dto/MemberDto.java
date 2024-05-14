@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5eba83a9126a1f6f277eab6b92c2e37a60941a67a0c80c7e4836f1a928fac720
-size 294
+package com.HP50.be.domain.memoryGraph.dto;
+
+import com.HP50.be.domain.memoryGraph.entity.Memo;
+import lombok.Builder;
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+@Builder
+public class MemberDto {
+    private Integer memberId;
+    private String name;
+    private List<Memo> memoList;
+}

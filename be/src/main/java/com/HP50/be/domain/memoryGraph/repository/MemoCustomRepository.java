@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:da3b3ff219020dbc53be0eb72723d996bfa3e95caa8af52fde3309754ec9172a
-size 527
+package com.HP50.be.domain.memoryGraph.repository;
+
+import com.HP50.be.domain.memoryGraph.dto.MemoDto;
+import org.neo4j.cypherdsl.core.Node;
+import org.neo4j.cypherdsl.core.Statement;
+import org.neo4j.driver.summary.ResultSummary;
+
+import java.util.List;
+
+public interface MemoCustomRepository {
+    void onlyMemoSave(Integer memberId, String memoId);
+    void setMemoToMemoRelationShip(Integer memberId, String firstMemoId, String secondMemoId);
+    String deleteMemo(String memoId);
+    String updateMemo(MemoDto memoDto);
+}
