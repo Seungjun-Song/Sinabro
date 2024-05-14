@@ -3,6 +3,7 @@ package com.HP50.be.domain.community.service;
 import com.HP50.be.domain.community.dto.CommentPaginationResponseDto;
 import com.HP50.be.domain.community.dto.CommentRequestDto;
 import com.HP50.be.domain.community.dto.CommentResponseDto;
+import com.HP50.be.domain.community.dto.SliceTotalCountDto;
 import com.HP50.be.domain.community.entity.Board;
 import com.HP50.be.domain.community.entity.Comment;
 import com.HP50.be.domain.community.repository.CommentCustomRepository;
@@ -49,11 +50,12 @@ public class CommentServiceImpl implements CommentService {
     public CommentPaginationResponseDto findCommentInBoard(Integer boardId, int page) {
         PageRequest pageRequest = PageRequest.of(page, 10);
 
-        Slice<Comment> comments = commentCustomRepository.findCommentByBoard(boardId, pageRequest);
+        SliceTotalCountDto<Comment> sliceTotalCountDto = commentCustomRepository.findCommentByBoard(boardId, pageRequest);
+        Slice<Comment> comments = sliceTotalCountDto.getSlice();
 
         List<CommentResponseDto> commentResponseDtos = comments.stream()
                 .map(comment -> CommentResponseDto.builder()
-                        .memberId(comment.getCommentId())
+                        .memberId(comment.getMember().getMemberId())
                         .commentId(comment.getCommentId())
                         .commentContent(comment.getCommentContent())
                         .memberName(comment.getMember().getMemberName())
