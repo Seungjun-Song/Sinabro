@@ -1,11 +1,3 @@
-package com.HP50.be.domain.memoryGraph.repository;
-
-import com.HP50.be.domain.memoryGraph.dto.MemoRequestDto;
-import com.HP50.be.domain.memoryGraph.dto.MemoResponseDto;
-
-public interface MemoCustomRepository {
-    void onlyMemoSave(Integer memberId, String memoId);
-    void setMemoToMemoRelationShip(Integer memberId, String firstMemoId, String secondMemoId);
-    String deleteMemo(String memoId);
-    String updateMemo(MemoRequestDto memoRequestDto);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:89f709f14edb155ceb2f06948d6b5d71c0f32d94b7486f19ec116fff1d4cd7c2
+size 455

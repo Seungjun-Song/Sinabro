@@ -1,25 +1,3 @@
-package com.HP50.be.global.common;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import java.time.LocalDateTime;
-
-@Getter
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
-
-public class BaseTimeEntity {
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdDttm;
-
-    @LastModifiedDate
-    private LocalDateTime updatedDttm;
-
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:074d097b368e67edf7c6be6744b400644bdf7c8e77947b8dedee950edab6a51e
+size 664

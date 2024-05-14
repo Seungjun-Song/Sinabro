@@ -1,15 +1,3 @@
-package com.HP50.be.domain.project.dto;
-
-import lombok.*;
-
-import java.util.List;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class IssueStatusDto {
-    List<String> keyList;
-    String issueStatus;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d48f57e8a56089453bdf2f9d2157bbf85d3f637cadabfb7e7f6847ae3847d762
+size 229
