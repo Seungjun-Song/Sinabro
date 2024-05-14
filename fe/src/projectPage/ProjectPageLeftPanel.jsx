@@ -723,7 +723,7 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
               <Form.Label>마일스톤</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="마일스톤"
+                placeholder="선택 사항"
                 value={mileston}
                 onChange={(e) => setMileston(e.target.value)}
               />
