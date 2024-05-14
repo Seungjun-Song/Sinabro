@@ -58,6 +58,7 @@ const Content = styled.div`
     height: 100%;
     font-size: 0.9rem;
 
+    white-space: pre-wrap;
     padding: 0.5rem 0 0 1rem;
 `
 
