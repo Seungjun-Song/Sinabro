@@ -23,6 +23,7 @@ const NavBar = styled.nav`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  min-width: 600px;
   height: 80px;
   background-color: ${({ isScrolled }) =>
     !isScrolled ? "rgba(86, 76, 173, 1)" : "rgba(245, 248, 255, 1)"};
@@ -107,7 +108,10 @@ const RightNavContainer = styled.div`
 `;
 
 const Logos = styled.div`
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  margin-right: 1rem;
 `;
 
 const Navbar = () => {
@@ -176,7 +180,7 @@ const Navbar = () => {
             setDropDown(!dropDown);
           }}
         >
-          <div style={{ fontFamily: "Jamsil Light" }}>팀 스페이스</div>
+          <div style={{ fontFamily: "Jamsil Light", width: '4.8rem' }}>팀 스페이스</div>
           <DropDownButton>
             <motion.div
               transition={{ duration: 0.3 }}
@@ -206,16 +210,16 @@ const Navbar = () => {
           </DropDownPage>
         </DropDown>
 
-        <Community style={{ fontFamily: "Jamsil Light" }}
+        <Community style={{ fontFamily: "Jamsil Light", marginLeft: '1rem', minWidth: '4.5rem' }}
         onClick={() => navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } })}
       >커뮤니티</Community>
       </LeftNavContainer>
       <RightNavContainer>
-        <MyPage style={{ fontFamily: "Jamsil Light" }}
+        <MyPage style={{ fontFamily: "Jamsil Light", minWidth: '4.8rem' }}
           onClick={() => navigate('/mypage')}
         >마이페이지</MyPage>
 
-        <Log style={{ fontFamily: "Jamsil Light" }}
+        <Log style={{ fontFamily: "Jamsil Light", minWidth: '4.5rem' }}
           onClick={() => logout()}
         >로그아웃</Log>
 
