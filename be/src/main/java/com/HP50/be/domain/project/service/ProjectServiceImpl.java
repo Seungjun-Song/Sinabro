@@ -366,8 +366,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     // 프로젝트 피드백 초대
     @Override
-    public String getFeedbackUrl(String token) {
-        Integer memberId = jwtUtil.getMemberId(token); // accessToken에서 memberId 추출
+    public String getFeedbackUrl(String token, Integer memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         String codeServerName = member.getCodeServerName();
 
@@ -444,7 +443,7 @@ public class ProjectServiceImpl implements ProjectService{
     // 컨테이너 생성 프로세스 
     public void runContainer(Session session, String codeServerName, Integer dbPort) {
         // 컨테이너 생성 및 실행
-        String runCommand = "docker run --name " + codeServerName + " -v /home/ubuntu/code-server/" + codeServerName + ":/home/coder/code-server -d -p :80 -p :3000 -p :5173 -p " + dbPort + ":3306 code-server --bind-addr=0.0.0.0:80";
+        String runCommand = "docker run --name " + codeServerName + " -v /home/ubuntu/code-server/" + codeServerName + ":/home/coder/code-server -d -p :80 -p :80 -p :3000 -p :5173 -p " + dbPort + ":3306 code-server --bind-addr=0.0.0.0:80";
         if(!jschUtil.executeCommand(session, runCommand)) {
             throw new BaseException(StatusCode.CONTAINER_RUN_FAIL);
         }
