@@ -34,14 +34,14 @@ const MessageContainer = styled.div`
   position: absolute;
   bottom: 3rem; /* 아래 여백 조절 */
   right: 3rem; /* 우측 여백 조절 */
-  border-left: 1rem solid #3EC8AF;
+  border-left: 1rem solid #3ec8af;
   border-radius: 0.5rem;
-  box-shadow: 2px 2px 1px 2px #B8B8B8;
+  box-shadow: 2px 2px 1px 2px #b8b8b8;
   background-color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   transition: transform 0.3s ease;
   &:hover {
-      transform: scale(1.05);
+    transform: scale(1.05);
   }
   display: flex;
   flex-direction: column;
@@ -100,7 +100,7 @@ const ProjectPage = () => {
 
   useEffect(() => {
     const db = getDatabase();
-    const chatRef = ref(db, 'chats');
+    const chatRef = ref(db, "chats");
 
     onValue(chatRef, (snapshot) => {
       const data = snapshot.val();
@@ -180,9 +180,9 @@ const ProjectPage = () => {
 
   return (
     <>
-      {loading ?
+      {loading ? (
         <ProjectLoadingPage />
-        :
+      ) : (
         <ProjectContainer>
           <WebRTC />
           <ProjectMainContainer>
@@ -196,7 +196,7 @@ const ProjectPage = () => {
                 ref={iframeRef}
                 title="code-server"
                 src={codeServerURL}
-                style={{ width: '100%', height: '100%', border: 'none' }}
+                style={{ width: "100%", height: "100%", border: "none" }}
               ></iframe>
             )}
             <ProjectPageRightPanel />
@@ -208,7 +208,7 @@ const ProjectPage = () => {
             )}
           </ProjectMainContainer>
         </ProjectContainer>
-      }
+      )}
     </>
   );
 };
