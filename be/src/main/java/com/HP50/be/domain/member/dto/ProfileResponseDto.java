@@ -1,5 +1,6 @@
 package com.HP50.be.domain.member.dto;
 
+import com.HP50.be.domain.memoryGraph.dto.MemberForGraphDto;
 import com.HP50.be.domain.memoryGraph.dto.MemoDto;
 import com.HP50.be.domain.project.dto.ProjectDto;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,5 +34,5 @@ public class ProfileResponseDto {
 
     private List<TechStackResponseDto> techStacks;
     private List<ProjectDto> projects;
-    private List<MemoDto> memos;
+    private MemberForGraphDto graphDto;
 }
