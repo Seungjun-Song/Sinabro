@@ -20,14 +20,14 @@ const MyPageContainer = styled.div`
 const MainBox = styled.div`
   display: flex;
   width: 80%;
-  height: 100%;
+  height: calc(100% - 80px);
   margin-top: 4rem;
 `;
 
 const MyPage = () => {
   const isDark = useSelector((state) => state.isDark.isDark);
   const userInfo = useSelector((state) => state.user.currentUser);
-  console.log(userInfo)
+  // console.log(userInfo)
   const [userfind, setUserFind] = useState({});
   const back_url = getEnv("BACK_URL");
   useEffect(() => {
