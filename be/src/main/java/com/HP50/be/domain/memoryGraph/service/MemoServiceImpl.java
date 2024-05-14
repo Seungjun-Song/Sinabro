@@ -54,7 +54,7 @@ public class MemoServiceImpl implements MemoService {
     }
 
     @Override
-    public void saveMemo(String token, MemoResponseDto memoResponseDto) {
+    public String saveMemo(String token, MemoResponseDto memoResponseDto) {
         Memo memo = Memo.builder()
                 .title(memoResponseDto.getTitle())
                 .content(memoResponseDto.getContent())
@@ -68,6 +68,7 @@ public class MemoServiceImpl implements MemoService {
 
         memoCustomRepository.onlyMemoSave(memberId, memoId);
 
+        return savedMemo.getMemoId();
     }
 
     @Override
