@@ -1,18 +1,3 @@
-package com.HP50.be;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.scheduling.annotation.EnableScheduling;
-
-@EnableJpaAuditing
-@EnableRedisRepositories(basePackages = {"com.HP50.be.domain.openVidu", "com.HP50.be.global.jwt"})
-@SpringBootApplication
-public class BeApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(BeApplication.class, args);
-	}
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:9b5c5f2e54c18c3e0bc7e2626e623a40782ede121bfa6bb2b566e418571b5275
+size 642
