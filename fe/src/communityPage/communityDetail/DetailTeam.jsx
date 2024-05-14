@@ -1,3 +1,62 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f64fcf3c9a3cf9ee68f8de3b293a5dd6f9c0cdb80640a7ba7d252fcad3b3502d
-size 1455
+import styled, { css } from 'styled-components'
+
+import CommentWindow from './CommentWindow'
+
+import ProfileTempImg from '/images/default_my_image.png'
+import DetailHeader from './DetailHeader'
+import DetailMiddle from './DetailMiddleBox'
+
+
+const Detail = styled.div`
+    display: flex;        
+    flex-direction: column;
+    width: 50%;
+    margin: 4rem 20rem 0 5rem;
+
+    ${props => props.isDark && css`
+        color: white;
+    `}
+
+    transition: 0.3s;
+
+`
+
+const Line = styled.hr`
+`
+const DetailTeam = ({ isDark, detailData, commentDate, setCommentDate, totalCount, currentPage, setCurrentPage }) => {
+    
+    return(
+        <Detail
+            isDark={isDark}
+        >
+            <DetailHeader
+                kind={{id: 402, name: "team"}}
+                detailData={detailData}
+                isDark={isDark}
+            />
+
+            <Line/>
+            
+            <DetailMiddle
+                detailData={detailData}
+                kind={{id: 402, name: "team"}}
+                isDark={isDark}
+            />
+            
+            <Line/>
+
+            <CommentWindow
+                isDark={isDark}
+                commentDate={commentDate}
+                setCommentDate={setCommentDate}
+                boardId={detailData.id}
+                totalCount={totalCount}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            />
+
+        </Detail>
+    )
+}
+
+export default DetailTeam;
