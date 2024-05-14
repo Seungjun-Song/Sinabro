@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -198,12 +199,63 @@ public class SonarQubeServiceImpl implements SonarQubeService{
         }
         return result;
     }
-    /**
-        이슈 상태 변경 ( bulk_change )
-     */
+
     @Override
     public void changeIssuesStatus(String issues, String doTransition) {
 
+    }
+
+    @Override
+    public List<String> getFolders(Integer projectId) {
+        //1. git clone - /home/sonarQube/scanner
+        // 깃 레포 가져오기
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
+        String repoUrl = project.getProjectRepo();
+        //마지막 .git 제거
+        if (repoUrl.endsWith(".git")) {
+            repoUrl = repoUrl.substring(0, repoUrl.length() - 4);
+        }
+        /*
+           command 세팅
+           - 폴더 이동 command
+           - clone command
+           - exec command
+         */
+        // 폴더에 있는 repo 다 삭제 후 mkdir
+        String deleteRepo = "sudo rm -rf /home/ubuntu/sonarQube/scanner/"+projectId+" && "+"sudo mkdir /home/ubuntu/sonarQube/scanner/"+projectId;
+
+        // 폴더 이동 command & git clone
+        String toFolderAndClone = "cd /home/ubuntu/sonarQube/scanner/"+projectId+" && " + "sudo git clone "+repoUrl;
+        String[] split = repoUrl.split("/");
+        String repoName = split[split.length - 1];
+
+        String toFolderAndLs = "cd /home/ubuntu/sonarQube/scanner/"+projectId+"/"+repoName+" && ls -l | grep '^d' | cut -f 9  -d ' '";
+
+        //2. 실행
+        Session session = jschUtil.createSession();
+        List<String> folders = null;
+        try {
+            // 존재하는 레포 모두 삭제
+            if (!jschUtil.executeCommand(session, deleteRepo)) {
+                throw new BaseException(StatusCode.FAIL_DELETE_REPO);
+            }
+            // 폴더 이동 & git Clone
+            if (!jschUtil.executeCommand(session, toFolderAndClone)) {
+                throw new BaseException(StatusCode.FAIL_SONAR_CLONE);
+            }
+            //현재 폴더 구조 가져오기
+            folders = Arrays.stream(jschUtil.executeCommandAndGetOutput(session, toFolderAndLs).split("\n")).toList();
+
+            //연결 해제
+            session.disconnect();
+        }catch (BaseException e){
+            e.printStackTrace();
+            throw new BaseException(StatusCode.FAIL_SONAR);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return folders;
     }
 
     /**
