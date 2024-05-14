@@ -32,7 +32,7 @@ import getEnv from "../utils/getEnv";
 import { formatDate } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 
-import "./ProjectStyle.css";
+import "./ProjectStyles.css";
 
 const ProjectPageLeftPanelContainer = styled(motion.div)`
   height: 100%;
