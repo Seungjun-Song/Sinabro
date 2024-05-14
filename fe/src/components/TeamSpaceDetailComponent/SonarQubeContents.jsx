@@ -51,7 +51,7 @@ const SonarQubeContents = () => {
 
   const impUid = null;
   const [folderList, setFolderList] = useState([]);
-  const [isFolderLoading, setFolderLoading] = useState(false);
+  const [isFolderLoading, setFolderLoading] = useState(true);
   // 포트원 라이브러리 추가
   useEffect(() => {
     const script = document.createElement("script");
