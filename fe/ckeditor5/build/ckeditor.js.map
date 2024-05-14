@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d4a6f48bc39d294b8bbbf70d3960ca418de5d378ff5a3aea4d5e883c07eebf78
-size 577
+{"version":3,"file":"ckeditor.js","mappings":";;;;AAAA","sources":["webpack://ClassicEditor/webpack/universalModuleDefinition"],"sourcesContent":["(function webpackUniversalModuleDefinition(root, factory) {\n\tif(typeof exports === 'object' && typeof module === 'object')\n\t\tmodule.exports = factory();\n\telse if(typeof define === 'function' && define.amd)\n\t\tdefine([], factory);\n\telse if(typeof exports === 'object')\n\t\texports[\"ClassicEditor\"] = factory();\n\telse\n\t\troot[\"ClassicEditor\"] = factory();\n})(self, () => {\nreturn "],"names":[],"sourceRoot":""}
