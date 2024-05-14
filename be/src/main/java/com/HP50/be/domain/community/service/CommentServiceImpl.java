@@ -52,6 +52,7 @@ public class CommentServiceImpl implements CommentService {
 
         SliceTotalCountDto<Comment> sliceTotalCountDto = commentCustomRepository.findCommentByBoard(boardId, pageRequest);
         Slice<Comment> comments = sliceTotalCountDto.getSlice();
+        long totalCount = sliceTotalCountDto.getTotalCount();
 
         List<CommentResponseDto> commentResponseDtos = comments.stream()
                 .map(comment -> CommentResponseDto.builder()
@@ -65,6 +66,7 @@ public class CommentServiceImpl implements CommentService {
 
         CommentPaginationResponseDto commentPaginationResponseDto = CommentPaginationResponseDto.builder()
                 .hasNext(comments.hasNext())
+                .totalCount(totalCount)
                 .commentResponseDtos(commentResponseDtos)
                 .build();
 

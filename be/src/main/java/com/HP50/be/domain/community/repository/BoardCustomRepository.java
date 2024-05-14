@@ -39,7 +39,6 @@ public class BoardCustomRepository {
 
         BooleanBuilder builder = new BooleanBuilder();
 
-
         if (boards != null && boards != 0) {
             builder.and(board.subCategory.eq(subCategoryService.findById(boards)));
         }

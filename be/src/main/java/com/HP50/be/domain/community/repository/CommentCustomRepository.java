@@ -36,7 +36,7 @@ public class CommentCustomRepository {
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
 
-        int size = queryFactory
+        long totalCount = queryFactory
                 .selectFrom(comment)
                 .where(comment.board.eq(board))
                 .fetch()
@@ -46,6 +46,6 @@ public class CommentCustomRepository {
 
         List<Comment> comments = hasNext ? results.subList(0, pageable.getPageSize()) : results;
 
-        return new SliceTotalCountDto(new SliceImpl<>(comments, pageable, hasNext), size);
+        return new SliceTotalCountDto<>(new SliceImpl<>(comments, pageable, hasNext), totalCount);
     }
 }
