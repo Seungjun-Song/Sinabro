@@ -1,5 +1,6 @@
 package com.HP50.be.domain.community.repository;
 
+import com.HP50.be.domain.community.dto.SliceTotalCountDto;
 import com.HP50.be.domain.community.entity.Board;
 import com.HP50.be.domain.community.entity.Comment;
 import com.HP50.be.global.common.StatusCode;
@@ -24,7 +25,7 @@ public class CommentCustomRepository {
     private final JPAQueryFactory queryFactory;
     private final BoardRepository boardRepository;
 
-    public Slice<Comment> findCommentByBoard(Integer boardId, Pageable pageable) {
+    public SliceTotalCountDto<Comment> findCommentByBoard(Integer boardId, Pageable pageable) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
 
         List<Comment> results = queryFactory
@@ -35,10 +36,16 @@ public class CommentCustomRepository {
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
 
+        long totalCount = queryFactory
+                .selectFrom(comment)
+                .where(comment.board.eq(board))
+                .fetch()
+                .size();
+
         boolean hasNext = results.size() > pageable.getPageSize();
 
         List<Comment> comments = hasNext ? results.subList(0, pageable.getPageSize()) : results;
 
-        return new SliceImpl<>(comments, pageable, hasNext);
+        return new SliceTotalCountDto<>(new SliceImpl<>(comments, pageable, hasNext), totalCount);
     }
 }
