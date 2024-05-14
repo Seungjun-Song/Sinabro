@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:87188c15a151bd86056512364e21f16f8b2ad4e76fc7e28b7a88003a12ad4680
-size 423
+package com.HP50.be.global.jwt.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class JwtPayloadDto {
+    // jwt payload에 들어갈 field
+    private Integer memberId;
+    private String memberEmail;
+    private String memberName;
+    private String memberGit;
+    private String memberImg;
+}
