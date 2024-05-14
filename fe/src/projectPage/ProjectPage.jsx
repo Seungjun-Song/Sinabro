@@ -163,15 +163,13 @@ const ProjectPage = () => {
         console.error(err);
       }
     };
+    
     getCodeServerURL();
 
     const leaveCodeServer = async () => {
       try {
         const res = await axios.post(`${back_url}/teams/projects/exit`, { withCredentials: true });
         console.log(res.data);
-        if ((res.data.result.theme === 'Light' && !isDark) || (res.data.result.theme !== 'Light' && isDark)) {
-          codeServerDarkMode()
-        }
       } catch (err) {
         console.log(err);
       }
@@ -227,9 +225,9 @@ const ProjectPage = () => {
             ) : (
               <IframContainer>
                 <URLSelectContainer isDark={isDark} >
-                  <URLSelectBox style={{borderBottom: (selectedURL === codeServerURL ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(codeServerURL)} >{codeServerURL}Code</URLSelectBox>
-                  <URLSelectBox style={{borderBottom: (selectedURL === runDevPreviewUrl ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(runDevPreviewUrl)} >{runDevPreviewUrl}Dev</URLSelectBox>
-                  <URLSelectBox style={{borderBottom: (selectedURL === startPreviewUrl ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(startPreviewUrl)} >{startPreviewUrl}Start</URLSelectBox>
+                  <URLSelectBox style={{borderBottom: (selectedURL === codeServerURL ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(codeServerURL)} >Code</URLSelectBox>
+                  <URLSelectBox style={{borderBottom: (selectedURL === runDevPreviewUrl ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(runDevPreviewUrl)} >Dev</URLSelectBox>
+                  <URLSelectBox style={{borderBottom: (selectedURL === startPreviewUrl ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(startPreviewUrl)} >Start</URLSelectBox>
                 </URLSelectContainer>
                 <iframe
                   ref={iframeRef}
