@@ -100,7 +100,7 @@ const ProjectPage = () => {
 
   useEffect(() => {
     const db = getDatabase();
-    const chatRef = ref(db, "chats");
+    const chatRef = ref(db, `chats/${myCurrentProject.projectId}`);
 
     onValue(chatRef, (snapshot) => {
       const data = snapshot.val();
@@ -180,7 +180,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      {loading ? (
+      {!loading ? (
         <ProjectLoadingPage />
       ) : (
         <ProjectContainer>
