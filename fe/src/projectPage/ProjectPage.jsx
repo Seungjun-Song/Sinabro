@@ -63,6 +63,7 @@ const MessageBody = styled.div`
 const IframContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `
 
 const URLSelectContainer = styled.div`
