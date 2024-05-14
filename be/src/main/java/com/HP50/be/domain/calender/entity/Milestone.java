@@ -6,7 +6,7 @@ import com.HP50.be.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -25,10 +25,10 @@ public class Milestone extends BaseTimeEntity {
     private String milestoneContent;
 
     @Column(nullable = false)
-    private LocalDateTime milestoneStartDttm;
+    private LocalDate milestoneStartDttm;
 
     @Column(nullable = false)
-    private LocalDateTime milestoneEndDttm;
+    private LocalDate milestoneEndDttm;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
@@ -37,4 +37,7 @@ public class Milestone extends BaseTimeEntity {
     @OneToOne
     @JoinColumn(name = "subCategory_id")
     private SubCategory subCategory;
+
+    @OneToMany(mappedBy = "calender_id")
+    private List<Calender> calenders;
 }
