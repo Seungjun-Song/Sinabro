@@ -155,9 +155,9 @@ const ProjectPage = () => {
           codeServerDarkMode()
         }
         setCodeServerURL(res.data.result.url);
-        // setRunDevPreviewUrl(res.data.result.runDevPreviewUrl)
-        // setStartPreviewUrl(res.data.result.startPreviewUrl)
-        selectedURL(res.data.result.url)
+        setRunDevPreviewUrl(res.data.result.runDevPreviewUrl)
+        setStartPreviewUrl(res.data.result.startPreviewUrl)
+        setSelectedURL(res.data.result.url)
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -224,11 +224,11 @@ const ProjectPage = () => {
               </div>
             ) : (
               <IframContainer>
-                {/* <URLSelectContainer isDark={isDark} >
+                <URLSelectContainer isDark={isDark} >
                   <URLSelectBox style={{borderBottom: (selectedURL === codeServerURL ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(codeServerURL)} >Code</URLSelectBox>
                   <URLSelectBox style={{borderBottom: (selectedURL === runDevPreviewUrl ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(runDevPreviewUrl)} >Dev</URLSelectBox>
                   <URLSelectBox style={{borderBottom: (selectedURL === startPreviewUrl ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(startPreviewUrl)} >Start</URLSelectBox>
-                </URLSelectContainer> */}
+                </URLSelectContainer>
                 <iframe
                   ref={iframeRef}
                   title="code-server"
