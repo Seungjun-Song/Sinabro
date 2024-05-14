@@ -11,4 +11,6 @@ public class MemoResponseDto {
     private String title;
     @Schema(example = "샘플 컨텐츠")
     private String content;
+    @Schema(example = "#775414")
+    private String color;
 }
