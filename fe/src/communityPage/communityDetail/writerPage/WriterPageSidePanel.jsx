@@ -92,7 +92,7 @@ const InfoTag = styled.div`
   flex-wrap: wrap;
 `;
 
-const WriterPageSidePanel = ({ isDark, userfind, userInfo }) => {
+const WriterPageSidePanel = ({ isDark, userfind }) => {
   const [selectedImage, setSelectedImage] = useState(
     "/images/default_my_image.png"
   );
@@ -128,36 +128,11 @@ const WriterPageSidePanel = ({ isDark, userfind, userInfo }) => {
       <SkillArea>{userfind.memberJob}</SkillArea>
       <div style={{ position: "relative" }}>
         <MyImage src={userfind.memberImg} />
-        <motion.div
-          onClick={handleImageChange}
-          whileHover={{ color: "#BAB2FF" }}
-          className="shadow"
-          style={{
-            cursor: "pointer",
-            position: "absolute",
-            bottom: 0,
-            right: 0,
-            padding: "0.75rem",
-            borderRadius: "50%",
-            backgroundColor: "white",
-            display: "flex",
-          }}
-        >
-          <FontAwesomeIcon icon={faFaceSmile} />
-        </motion.div>
+
       </div>
       <MyName style={{ color: isDark ? "white" : "black" }}>
         {userfind.nickname}
       </MyName>
-      <WithOur></WithOur>
-      <EditButton>
-        {/* <input
-          type="file"
-          style={{ display: "none" }}
-          onChange={handleImageChange}
-        />
-        E D I T */}
-      </EditButton>
       <MyInfoBox>
         <MyInfoInnerBox>
           <FontAwesomeIcon

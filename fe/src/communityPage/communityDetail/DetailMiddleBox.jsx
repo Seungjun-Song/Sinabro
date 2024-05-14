@@ -17,6 +17,10 @@ const Content = styled.div`
     width: 100%;
     height: 100%;
     margin: 0 0 2rem 0;
+
+    font-size: 1.5rem;
+
+    font-family: Jamsil Light;
 `
 
 const Bottom = styled.div`
@@ -32,7 +36,9 @@ const Hashs = styled.div`
     align-items: center;
     justify-content: start;
 
+    flex-wrap: wrap;
     gap: 1rem;
+    margin: 0 0 1.5rem 0;
 
 `
 
@@ -43,7 +49,7 @@ const Hash = styled.div`
     border-radius: 5px;
 
     color: ${ GlobalColor.colors.tagFont};
-    font-size: 0.7rem;
+    font-size: 1rem;
 
     padding: 0.1rem 1rem;
 
@@ -68,14 +74,20 @@ const middleMotion = {
     transition: { duration: 0.3 }
 }
 
+const LinkBox = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: end;
+
+`
+
 const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
 
     return(
     <Middle
         {...middleMotion}
     >
-        <Content>
-            {new DOMParser().parseFromString(detailData.content, "text/html").body.textContent}
+        <Content dangerouslySetInnerHTML={{ __html : detailData.content}}>
         </Content>
         <Bottom>
             <Hashs>
@@ -92,8 +104,9 @@ const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
                     )
                 })}
             </Hashs>
-
-            {kind.name === "team" ? (
+        </Bottom>
+        <LinkBox>
+        {kind.name === "team" ? (
                 <WriterLinkBox
                     detailData={detailData}
                 />
@@ -103,8 +116,7 @@ const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
                 pjtData={pjtData}
             />
             )}
-
-        </Bottom>
+        </LinkBox>
     </Middle>
     )
 }

@@ -37,16 +37,16 @@ const SearchContainer = styled(motion.div)`
   position: relative;
 `;
 const MyPageMainPanelContainer = styled.div`
+  align-items: center;
   border: 3px solid #a2a2a2;
   width: 70%;
   overflow-y: auto;
-  margin-bottom: 3rem;
   border-radius: 10px;
   margin-left: 1rem;
   padding-left: 4rem;
   padding-right: 4rem;
-  max-height: 550px;
-  padding-bottom: 2rem;
+  max-height: 600px;
+
 `;
 
 const InnerArea = styled(motion.div)`
@@ -223,7 +223,7 @@ const dataList = [
   },
 ];
 
-const WriterPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
+const WriterPageMainPanel = ({ isDark, userfind, setUserFind }) => {
   const [isSideBoxVisible, setIsSidePanelVisible] = useState(false);
   const back_url = getEnv("BACK_URL");
   const [showModal, setShowModal] = useState(false);
@@ -234,7 +234,7 @@ const WriterPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   const findUser = async () => {
     //   console.log(userInfo.uid);
     try {
-      const res = await axios.get(`${back_url}/members/${userInfo.uid}`);
+      const res = await axios.get(`${back_url}/members/${userfind.uid}`);
       console.log(res);
       setUserFind(res.data.result);
     } catch (err) {
@@ -330,29 +330,12 @@ const WriterPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                     >
                       {/* {없을 때 띄울 글자 생각해야함} */}
                       {item.subCategoryName}
-                      <SkillDelBtn onClick={() => handleDelete(item)}>
-                        X
-                      </SkillDelBtn>
                     </SkillDetail>
                   </motion.div>
                 ))}
             </AnimatePresence>
 
-            <SearchInput
-              style={{
-                backgroundColor: isDark
-                  ? GlobalColor.colors.primary_black
-                  : "white",
-                transition: "0.3s",
-                color: isDark ? "white" : "black",
-              }}
-              onChange={handleChange}
-              value={whatSearch}
-            />
           </SearchContainerLeftSide>
-          <SearchContainerRightSide>
-            <SearchIcon icon={faSearch} />
-          </SearchContainerRightSide>
         </SearchContainer>
         {whatSearch && (
           <div
@@ -424,7 +407,7 @@ const WriterPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                 color: isDark ? "white" : "black",
               }}
             >
-              아직 작업물이 없습니다. 시나브로와 함께해요!
+              아직 작업물이 없습니다.
             </div>
           )}
         </InnerBox>
