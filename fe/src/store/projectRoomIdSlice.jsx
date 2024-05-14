@@ -1,22 +1,3 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-    value: null,
-}
-
-export const projectRoomIdSlice =  createSlice({
-    name: 'projectRoomId',
-    initialState,
-    reducers: {
-        setProjectRoomId: (state, action) => {
-            state.value = action.payload
-        },
-        clearProjectRoomId: (state) => {
-            state.value = null
-        }
-    },
-})
-
-export const {setProjectRoomId, clearProjectRoomId} = projectRoomIdSlice.actions
-
-export default projectRoomIdSlice.reducer
+version https://git-lfs.github.com/spec/v1
+oid sha256:a3d5dd745666a75593d2992915abb6f84c4b292e3cb3f09f11686d1d358cda13
+size 517
