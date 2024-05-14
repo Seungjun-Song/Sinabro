@@ -36,7 +36,7 @@ const MemoryGraph = () => {
       // console.log(memberList.result);
       let nodes = [];
       let links = [];
-      // console.log(memberList);
+      console.log(memberList);
       memberList.forEach((memo) => {
         //   console.log(memo);
         const memoNodes = memo.nodeList.map((node) => ({
@@ -94,6 +94,7 @@ const MemoryGraph = () => {
       );
       console.log(res);
       await getGraphData();
+      const distance = 500;
       const distRatio =
         1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
 
