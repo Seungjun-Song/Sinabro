@@ -41,9 +41,8 @@ import java.util.Optional;
 public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final TokenInRedisService tokenInRedisService;
-
-//    private static final List<String> PERMIT_URLS = List.of("/users/**", "/login/**", "/auth/**,", "/room/**", "/api/**");
-private static final List<String> PERMIT_URLS = List.of("/**", "/swagger-ui/**");
+    private static final List<String> PERMIT_URLS = List.of("/", "/swagger-ui/**");
+//    private static final List<String> PERMIT_URLS = List.of("/**");
 
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
@@ -65,8 +64,15 @@ private static final List<String> PERMIT_URLS = List.of("/**", "/swagger-ui/**")
             if(token.isEmpty()) {
                 log.info("토큰이 없는 유저입니다.");
                 filterChain.doFilter(request, response);
+                response.sendRedirect("https://k10e103.p.ssafy.io");
                 return;
             }
+
+            Integer memberId = jwtUtil.getMemberId(token);
+            String memberEmail = jwtUtil.getEmail(token);
+            String memberName = jwtUtil.getMemberName(token);
+            String memberGit = jwtUtil.getMemberGit(token);
+            String memberImg = jwtUtil.getMemberImg(token);
 
             // 토큰이 만료되었거나 없다면 토큰 갱신 신청
             if (jwtUtil.isExpired(token)) {
@@ -76,28 +82,23 @@ private static final List<String> PERMIT_URLS = List.of("/**", "/swagger-ui/**")
                 if(redisJwtEntity == null){
                     log.info("토큰이 없는 유저입니다.");
                     filterChain.doFilter(request, response);
+                    response.sendRedirect("https://k10e103.p.ssafy.io");
                     return;
                 }
-
-                Integer memberId = jwtUtil.getMemberId(token);
-                String memberEmail = jwtUtil.getEmail(token);
-                String memberName = jwtUtil.getMemberName(token);
-                String memberGit = jwtUtil.getMemberGit(token);
-                String memberImg = jwtUtil.getMemberImg(token);
-
-                // 만료된 토큰은 새로운 토큰으로 교환
-                token = jwtUtil.createToken(memberId, memberEmail, memberName, memberGit, memberImg, JwtConstants.ACCESS_EXP_TIME);
-                response.addCookie(jwtUtil.createCookie(JwtConstants.JWT_HEADER, token));
-                log.info("토큰 재발급 완료!");
-
+                else {
+                    // 만료된 토큰은 새로운 토큰으로 교환
+                    token = jwtUtil.createToken(memberId, memberEmail, memberName, memberGit, memberImg, JwtConstants.ACCESS_EXP_TIME);
+                    response.addCookie(jwtUtil.createCookie(JwtConstants.JWT_HEADER, token));
+                    log.info("토큰 재발급 완료!");
+                }
             }
 
             JwtPayloadDto jwtPayloadDto = JwtPayloadDto.builder()
-                    .memberId(jwtUtil.getMemberId(token))
-                    .memberEmail(jwtUtil.getEmail(token))
-                    .memberName(jwtUtil.getMemberName(token))
-                    .memberImg(jwtUtil.getMemberImg(token))
-                    .memberGit(jwtUtil.getMemberGit(token))
+                    .memberId(memberId)
+                    .memberEmail(memberEmail)
+                    .memberName(memberName)
+                    .memberImg(memberImg)
+                    .memberGit(memberGit)
                     .build();
 
             CustomOAuth2MemberDto customOAuth2MemberDto = new CustomOAuth2MemberDto(jwtPayloadDto);

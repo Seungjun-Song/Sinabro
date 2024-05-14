@@ -1,26 +1,17 @@
 package com.HP50.be.domain.community.repository;
 
-
-
-import com.HP50.be.domain.code.entity.SubCategory;
-import com.HP50.be.domain.code.repository.CategoryRepository;
 import com.HP50.be.domain.code.service.SubCategoryService;
-import com.HP50.be.domain.community.dto.BoardFilterRequestDto;
 import com.HP50.be.domain.community.dto.SliceTotalCountDto;
 import com.HP50.be.domain.community.entity.Board;
-import com.HP50.be.domain.member.entity.Member;
-import com.HP50.be.global.jwt.JwtUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.data.domain.Pageable;
 import java.util.List;
-import java.util.Random;
 
 import static com.HP50.be.domain.community.entity.QBoard.board;
 
