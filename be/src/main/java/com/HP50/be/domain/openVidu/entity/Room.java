@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ece308e0842314bcb27fbb6ae7f649a6f42ed4caca30341be4f3da7ce2c91d5e
-size 634
+package com.HP50.be.domain.openVidu.entity;
+
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
+
+@RedisHash("Room")
+@Getter
+@Builder
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class Room {
+    @Id
+    private String roomId; //== sessionId
+
+    @Indexed
+    private Integer projectId;
+    private Integer roomCount;
+
+    public Room addMember(Room room){
+        room.roomCount+=1;
+        return room;
+    }
+    public Room minusMember(Room room){
+        room.roomCount-=1;return room;
+    }
+
+}
