@@ -1,6 +1,7 @@
 package com.HP50.be.domain.memoryGraph.repository;
 
-import com.HP50.be.domain.memoryGraph.dto.MemoDto;
+import com.HP50.be.domain.memoryGraph.dto.MemoRequestDto;
+import com.HP50.be.domain.memoryGraph.dto.MemoResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,10 +72,10 @@ public class MemoCustomRepositoryImpl implements MemoCustomRepository{
     }
 
     @Override
-    public String updateMemo(MemoDto memoDto) {
-        String memoId = memoDto.getMemoId();
-        String title = memoDto.getTitle();
-        String content = memoDto.getContent();
+    public String updateMemo(MemoRequestDto memoRequestDto) {
+        String memoId = memoRequestDto.getMemoId();
+        String title = memoRequestDto.getTitle();
+        String content = memoRequestDto.getContent();
 
         Node memo = Cypher.node("Memo").named("m");
 
