@@ -68,7 +68,7 @@ const Softwareimpacted = ({ item }) => {
             style={{
               position: "absolute",
               top: 30,
-              left: -15,
+              left: -90,
               height: "auto",
               width: "20rem",
               backgroundColor: "rgb(62, 67, 87)",

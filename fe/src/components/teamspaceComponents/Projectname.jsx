@@ -91,7 +91,7 @@ const ProjectName = ({ setProjectName, projectName, isDark, setImageUrl, imgUrl 
             alignItems: "center",
           }}
         >
-          <Image className="shadow" src={imgUrl} />
+          <Image src={imgUrl} />
           <Button
             // whileHover={{ y: -5 }}
             className="shadow mt-3"

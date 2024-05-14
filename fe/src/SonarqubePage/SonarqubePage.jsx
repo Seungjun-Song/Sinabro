@@ -8,7 +8,7 @@ import getEnv from "../utils/getEnv";
 import axios from "axios";
 import style from "./SonarqubePage.module.css";
 import Swal from "sweetalert2";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 
 const SonarqubePage = () => {
   const [isSelect, setIsSelect] = useState(null);
@@ -43,7 +43,7 @@ const SonarqubePage = () => {
       text: `총 ${selectedKeys.length}개의 이슈가 변경됩니다.`,
       icon: "question",
       footer:
-        '<a href="/sonarQubeInfo">"이슈의 상태"에 따라 요청이 무시되는 경우가 존재합니다. 🧐</a>',
+        '<a target="_blank" href="https://hungry-attention-0f2.notion.site/Sinabro-SonarQube-Info-d1511683b1b641369162a295e8ad3324#db8b8ed67d6d43d88965a8bc27636fbf">"이슈의 상태"에 따라 요청이 무시되는 경우가 존재합니다. 🧐</a>',
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -155,6 +155,7 @@ const SonarqubePage = () => {
         },
         { withCredentials: true }
       );
+      console.log(res);
       const fetchedIssues = res.data.result.issues;
       setIssues(fetchedIssues);
       setEffortTotal(res.data.result.effortTotal);
@@ -234,12 +235,11 @@ const SonarqubePage = () => {
           }}
         >
           <motion.div
-            className="col-3 shadow"
+            className="col-3"
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 100}}
-            transition={{duration:0.3, type:"easeInOut" }}
-
+            exit={{ opacity: 0, y: 100 }}
+            transition={{ duration: 0.3, type: "easeInOut" }}
             style={{
               width: "90%",
               display: "flex",
@@ -270,11 +270,14 @@ const SonarqubePage = () => {
                   color: isDark ? "white" : "black",
                   flexWrap: "wrap", // 여기에 flex-wrap 속성 추가
                 }}
-              > {(hours>=1)?
-                <div>Total Time : {` ${hours}시간 ${minutes}분 `}</div>:<div>Total Time : {` ${minutes}분 `}</div>
-              }
-              
-                <div>{`${openTotal}`} Issues</div>
+              >
+                {" "}
+                {hours >= 1 ? (
+                  <div>Total Time : {` ${hours}시간 ${minutes}분 `}</div>
+                ) : (
+                  <div>Total Time : {` ${minutes}분 `}</div>
+                )}
+                <div>{`${total}`} Issues</div>
                 {selectedKeys.length > 0 && (
                   <div className={`${style.changeContainer}`}>
                     {" "}
@@ -379,13 +382,17 @@ const SonarqubePage = () => {
                 </div>
               </div>
             </div>
-            <div style={{ marginLeft: "2rem", width: "100%", height: "100%" }}>
-              <RightError isDark={isDark} isSelect={isSelect} />
-            </div>
+            {isSelect && (
+              <div
+                style={{ marginLeft: "2rem", width: "100%", height: "100%" }}
+              >
+                <RightError isDark={isDark} isSelect={isSelect} />
+              </div>
+            )}
           </motion.div>
-          <div style={{ marginLeft: "2rem", width: "100%", height: "100%" }}>
+          {/* <div style={{ marginLeft: "2rem", width: "100%", height: "100%" }}>
             <RightError isDark={isDark} isSelect={isSelect} />
-          </div>
+          </div> */}
         </div>
       )}
     </>
