@@ -24,7 +24,7 @@ const MemoryGraph = () => {
   const GROUPS = 12;
   const isDark = useSelector((state) => state.isDark.isDark);
   const [color, setColor] = useState("#000000");
-  const [islabel, setIslabel] = useState(false);
+//   const [islabel, setIslabel] = useState(false);
   const [whatnode, setWhatNode] = useState(null);
   const [newnode, setNewNode] = useState("");
   const [isModal, setIsModal] = useState(false);
@@ -80,22 +80,26 @@ const MemoryGraph = () => {
         },
         { withCredentials: true }
       );
-      console.log(res);
+      return res.data.result;
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  const connectnode = async () => {
+  const connectnode = async (newnodeid) => {
     try {
-      const res = await axios.post(
+      const res = await axios.put(
         `${back_url}/memo`,
         {
-          title: newnode,
-          content: content,
+          memoId1:newnodeid ,
+          memoId2: whatnode.id,
         },
         { withCredentials: true }
       );
       console.log(res);
+      setIsModal(false)
+      setWhatNode(null)
+      setContent("")
+      setNewNode("")
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -141,7 +145,8 @@ const MemoryGraph = () => {
   //   console.log(color);
 
   const handleConfirm = async () => {
-    await addnode();
+    const newnodeid = await addnode();
+    connectnode(newnodeid);
   };
   return (
     <div
@@ -179,8 +184,8 @@ const MemoryGraph = () => {
           linkColor={(node) => (node.id === "node1" ? "red" : "blue")}
           //   nodeAutoColorBy={(d) => d.id % GROUPS}
           //   linkAutoColorBy={(d) => gData.nodes[d.source].id % GROUPS}
-          //   linkDirectionalArrowLength={13}
-          //   linkDirectionalArrowRelPos={0}
+            linkDirectionalArrowLength={13}
+            linkDirectionalArrowRelPos={0}
           linkWidth={2}
           //   numDimensions={3}
           onNodeClick={(node) => hadleAllClick(node)}
