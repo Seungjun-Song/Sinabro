@@ -100,13 +100,13 @@ const Chat = () => {
                         {chat.sender === userInfo.currentUser.uid ?
                             <div className="d-flex flex-column" style={{ width: "100%" }}>
                                 <div style={{ alignSelf: "flex-end", backgroundColor: '#564CAD', color: 'white', padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0.5rem 0.5rem 0 0.5rem', maxWidth: '10rem' }}>{chat.message}</div>
-                                <div style={{ alignSelf: "flex-end", color: 'whitesmoke', fontSize: '0.7rem' }} >{timeFormatting(chat.timestamp)}</div>
+                                <div style={{ alignSelf: "flex-end", color: 'grey', fontSize: '0.7rem' }} >{timeFormatting(chat.timestamp)}</div>
                             </div>
                             :
                             <div className="d-flex flex-column" style={{ width: "100%" }}>
-                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', maxWidth: '12rem', fontWeight: 'bold', color: `${!isDark ? 'white' : 'black'}` }}>{chat.displayName}</div>
+                                <div style={{ alignSelf: "flex-start", maxWidth: '12rem', fontWeight: 'bold', color: `${!isDark ? 'white' : 'black'}` }}>{chat.displayName}</div>
                                 <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0 0.5rem 0.5rem 0.5rem', maxWidth: '10rem', border: '2px solid #D6D6D6', backgroundColor: `${isDark ? 'white' : '#D6D6D6'}` }}>{chat.message}</div>
-                                <div style={{ alignSelf: "flex-start", color: 'whitesmoke', fontSize: '0.7rem' }} >{timeFormatting(chat.timestamp)}</div>
+                                <div style={{ alignSelf: "flex-start", color: 'grey', fontSize: '0.7rem', marginBottom: '0.3rem' }} >{timeFormatting(chat.timestamp)}</div>
                             </div>
                         }
                     </div>))}

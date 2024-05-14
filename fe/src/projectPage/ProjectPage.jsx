@@ -60,12 +60,34 @@ const MessageBody = styled.div`
   width: 100%;
 `;
 
+const IframContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const URLSelectContainer = styled.div`
+  display: flex;
+  width: 100%;
+  background-color: ${({ isDark }) => (isDark ? "rgb(50, 50, 51)" : "rgb(229, 229, 229)")};
+  color: ${({ isDark }) => (!isDark ? "rgb(50, 50, 51)" : "rgb(229, 229, 229)")};
+`
+
+const URLSelectBox = styled.div`
+  padding: 0 0.5rem;
+  cursor: pointer;
+  border-right: 2px solid #b8b8b8;
+`
+
+
 const ProjectPage = () => {
   const isProjectCalenderShow = useSelector((state) => state.projectCalender);
   const [lastMessage, setLastMessage] = useState(null);
   const [isFirstMount, setIsFirstMount] = useState(true);
   const [codeServerURL, setCodeServerURL] = useState(null);
+  const [runDevPreviewUrl, setRunDevPreviewUrl] = useState(null);
+  const [startPreviewUrl, setStartPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedURL, setSelectedURL] = useState(null)
 
   const userInfo = useSelector(state => state.user.currentUser)
 
@@ -133,6 +155,9 @@ const ProjectPage = () => {
           codeServerDarkMode()
         }
         setCodeServerURL(res.data.result.url);
+        setRunDevPreviewUrl(res.data.result.runDevPreviewUrl)
+        setStartPreviewUrl(res.data.result.startPreviewUrl)
+        selectedURL(res.data.result.url)
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -188,7 +213,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      {!loading ? (
+      {loading ? (
         <ProjectLoadingPage />
       ) : (
         <ProjectContainer>
@@ -200,12 +225,19 @@ const ProjectPage = () => {
                 <Calender selectedTeammates={selectedTeammates} />
               </div>
             ) : (
-              <iframe
-                ref={iframeRef}
-                title="code-server"
-                src={codeServerURL}
-                style={{ width: "100%", height: "100%", border: "none" }}
-              ></iframe>
+              <IframContainer>
+                <URLSelectContainer isDark={isDark} >
+                  <URLSelectBox style={{borderBottom: (selectedURL === codeServerURL ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(codeServerURL)} >{codeServerURL}Code</URLSelectBox>
+                  <URLSelectBox style={{borderBottom: (selectedURL === runDevPreviewUrl ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(runDevPreviewUrl)} >{runDevPreviewUrl}Dev</URLSelectBox>
+                  <URLSelectBox style={{borderBottom: (selectedURL === startPreviewUrl ? 'none' : '2px solid #b8b8b8')}} onClick={() => setSelectedURL(startPreviewUrl)} >{startPreviewUrl}Start</URLSelectBox>
+                </URLSelectContainer>
+                <iframe
+                  ref={iframeRef}
+                  title="code-server"
+                  src={selectedURL}
+                  style={{ width: "100%", height: "100%", border: "none" }}
+                ></iframe>
+              </IframContainer>
             )}
             <ProjectPageRightPanel />
             {newChatState() && (
