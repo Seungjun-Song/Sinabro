@@ -8,14 +8,13 @@ import { useNavigate } from "react-router-dom";
 import { setProjectRoomId } from "../../store/projectRoomIdSlice";
 
 const TSDProjectName = ({ isDark }) => {
-
   const [isHover, setIsHover] = useState(false);
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const myCurrentProject = useSelector(state => state.myCurrentProject.value)
-  console.log(myCurrentProject)
+  const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
+  console.log(myCurrentProject);
   return (
     <>
       <motion.div
@@ -36,25 +35,35 @@ const TSDProjectName = ({ isDark }) => {
         <div style={{ display: "flex", alignItems: "center", gap: "3rem" }}>
           <img
             className="shadow"
-            style={{ width: "8rem" }}
+            style={{ width: "8rem", borderRadius: "20px" }}
             src={myCurrentProject?.projectImg}
           />
           <div
-            style={{ display: "flex", flexDirection: "column", gap: "1rem", color: isDark ? 'white' : "black" }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              color: isDark ? "white" : "black",
+            }}
           >
             <h5 style={{ margin: 0 }}>프로젝트 명</h5>
-            <h3 style={{ fontWeight: "bold", margin: 0 }}>{myCurrentProject?.projectName}</h3>
+            <h3 style={{ fontWeight: "bold", margin: 0 }}>
+              {myCurrentProject?.projectName}
+            </h3>
           </div>
         </div>
         <motion.div
           onHoverStart={() => setIsHover(true)}
           onHoverEnd={() => setIsHover(false)}
-          onClick={() => {dispatch(setProjectRoomId(myCurrentProject?.projectId)), navigate(`/project/${myCurrentProject?.projectId}`)}}
+          onClick={() => {
+            dispatch(setProjectRoomId(myCurrentProject?.projectId)),
+              navigate(`/project/${myCurrentProject?.projectId}`);
+          }}
           whileHover={{
             cursor: "pointer",
             backgroundColor: "#304895",
             color: "white",
-            x: 7
+            x: 7,
           }}
           style={{
             display: "flex",
@@ -64,7 +73,7 @@ const TSDProjectName = ({ isDark }) => {
             border: "solid 3px #304895",
             borderRadius: "1rem",
             justifyContent: "center",
-            color: isDark ? "white" : "black"
+            color: isDark ? "white" : "black",
           }}
         >
           프로젝트로 이동
