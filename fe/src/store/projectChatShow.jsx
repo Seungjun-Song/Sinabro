@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a91a894f0cd30ba8becd2f597c067d6b54c5518c4e87a6be3e4d4fad1f7ce053
-size 432
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+    value: false
+}
+
+export const projectChatShowSlice =  createSlice({
+    name: 'projectChatShow',
+    initialState,
+    reducers: {
+        changeProjectChatState: (state, action) => {
+            state.value = action.payload
+        }
+    }
+})
+
+export const {changeProjectChatState} = projectChatShowSlice.actions
+export default projectChatShowSlice.reducer
