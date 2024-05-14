@@ -1,9 +1,6 @@
 package com.HP50.be.domain.memoryGraph.service;
 
-import com.HP50.be.domain.memoryGraph.dto.LinksDto;
-import com.HP50.be.domain.memoryGraph.dto.MemberForGraphDto;
-import com.HP50.be.domain.memoryGraph.dto.MemoDto;
-import com.HP50.be.domain.memoryGraph.dto.NodesDto;
+import com.HP50.be.domain.memoryGraph.dto.*;
 import com.HP50.be.domain.memoryGraph.entity.Memo;
 import com.HP50.be.domain.memoryGraph.entity.Neo4jMember;
 import com.HP50.be.domain.memoryGraph.repository.MemoCustomRepository;
@@ -57,10 +54,10 @@ public class MemoServiceImpl implements MemoService {
     }
 
     @Override
-    public void saveMemo(String token, MemoDto memoDto) {
+    public String saveMemo(String token, MemoResponseDto memoResponseDto) {
         Memo memo = Memo.builder()
-                .title(memoDto.getTitle())
-                .content(memoDto.getContent())
+                .title(memoResponseDto.getTitle())
+                .content(memoResponseDto.getContent())
                         .build();
 
         Memo savedMemo = memoRepository.save(memo);
@@ -71,6 +68,7 @@ public class MemoServiceImpl implements MemoService {
 
         memoCustomRepository.onlyMemoSave(memberId, memoId);
 
+        return savedMemo.getMemoId();
     }
 
     @Override
@@ -89,9 +87,9 @@ public class MemoServiceImpl implements MemoService {
     }
 
     @Override
-    public void updateMemo(MemoDto memoDto) {
+    public void updateMemo(MemoRequestDto memoRequestDto) {
         try(Session session = driver.session()){
-            String cypher = memoCustomRepository.updateMemo(memoDto);
+            String cypher = memoCustomRepository.updateMemo(memoRequestDto);
             session.run(cypher);
         }
     }

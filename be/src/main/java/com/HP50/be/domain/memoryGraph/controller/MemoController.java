@@ -1,25 +1,18 @@
 package com.HP50.be.domain.memoryGraph.controller;
 
 import com.HP50.be.domain.memoryGraph.dto.MemberForGraphDto;
-import com.HP50.be.domain.memoryGraph.dto.MemoDto;
-import com.HP50.be.domain.memoryGraph.entity.Memo;
-import com.HP50.be.domain.memoryGraph.repository.MemoCustomRepository;
+import com.HP50.be.domain.memoryGraph.dto.MemoRequestDto;
+import com.HP50.be.domain.memoryGraph.dto.MemoResponseDto;
 import com.HP50.be.domain.memoryGraph.service.MemoService;
 import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.jwt.JwtConstants;
 import com.HP50.be.global.jwt.JwtUtil;
-import com.HP50.be.global.oauth.CustomOAuth2MemberDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.neo4j.driver.summary.ResultSummary;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-
-import java.util.List;
 
 @Tag(name = "Memo", description = "Neo4j의 Node 관련 API입니다.")
 @RestController
@@ -38,10 +31,10 @@ public class MemoController {
 
     @Operation(summary = "메모 저장하기", description = "최초 저장시 반드시 관계부여함")
     @PostMapping
-    public ResponseEntity<BaseResponse<StatusCode>> saveMemo(@RequestBody MemoDto memoDto,
+    public ResponseEntity<BaseResponse<String>> saveMemo(@RequestBody MemoResponseDto memoResponseDto,
                                                              @CookieValue(JwtConstants.JWT_HEADER) String token){
-        memoService.saveMemo(token, memoDto);
-        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
+
+        return ResponseEntity.ok().body(new BaseResponse<>(memoService.saveMemo(token, memoResponseDto)));
     }
 
     // memoId1 -> memoId2
@@ -62,9 +55,10 @@ public class MemoController {
         return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
+    @Operation(summary = "메모 수정", description = "메모의 컨텐츠 및 타이틀 수정")
     @PutMapping("/update")
-    public ResponseEntity<BaseResponse<StatusCode>> updateMemo(@RequestBody MemoDto memoDto){
-        memoService.updateMemo(memoDto);
+    public ResponseEntity<BaseResponse<StatusCode>> updateMemo(@RequestBody MemoRequestDto memoRequestDto){
+        memoService.updateMemo(memoRequestDto);
         return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
