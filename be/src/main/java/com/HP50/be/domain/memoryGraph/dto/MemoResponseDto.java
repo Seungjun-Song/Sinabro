@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9ee271c5e1517ae8157c8e0091cd39a549866e3bbb9812e1d84da501f4b7ec28
-size 326
+package com.HP50.be.domain.memoryGraph.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class MemoResponseDto {
+    @Schema(example = "샘플 타이틀")
+    private String title;
+    @Schema(example = "샘플 컨텐츠")
+    private String content;
+    @Schema(example = "#775414")
+    private String color;
+}
