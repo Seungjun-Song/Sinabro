@@ -28,36 +28,14 @@ const MemoryGraph = () => {
   const [whatnode, setWhatNode] = useState(null);
   const [newnode, setNewNode] = useState("");
   const [isModal, setIsModal] = useState(false);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(" ");
   const getGraphData = async () => {
     try {
-      const res = await axios.get(`${back_url}/nMember`);
+      const res = await axios.get(`${back_url}/memo`);
       const memberList = res.data.result;
       // console.log(memberList.result);
-      let nodes = [];
-      let links = [];
-      console.log(memberList);
-      memberList.forEach((memo) => {
-        //   console.log(memo);
-        const memoNodes = memo.nodeList.map((node) => ({
-          id: node.id,
-          label: node.label,
-          content: node.content,
-        }));
 
-        const memoLinks = memo.linkList.map((link) => ({
-          source: link.source,
-          target: link.target,
-        }));
-
-        nodes = [...nodes, ...memoNodes];
-        links = [...links, ...memoLinks];
-      });
-
-      console.log(nodes);
-      console.log(links);
-
-      setGraphData({ nodes, links });
+      setGraphData({ nodes: memberList.nodeList, links: memberList.linkList });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -71,6 +49,11 @@ const MemoryGraph = () => {
   const addnode = async () => {
     console.log(newnode);
     console.log(content);
+    if(newnode =="" ){
+      return
+    }else if(content ==""){
+      return
+    }
     try {
       const res = await axios.post(
         `${back_url}/memo`,
@@ -95,9 +78,8 @@ const MemoryGraph = () => {
       console.log(res);
       await getGraphData();
       const distance = 500;
-      const distRatio =
-        1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
-
+      const distRatio = 1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
+      console.log(distRatio)
       fgRef.current.cameraPosition(
         {
           x: whatnode.x * distRatio,
@@ -192,7 +174,7 @@ const MemoryGraph = () => {
           linkOpacity={1}
           linkResolution={12}
           nodeColor={(node) => (node.color ? node.color : "blue")}
-          //   linkColor={(node) => (node.id === "node1" ? "red" : "blue")}
+          // linkColor={(node) => (node.id === "node1" ? "red" : "blue")}
           //   nodeAutoColorBy={(d) => d.id % GROUPS}
           //   linkAutoColorBy={(d) => gData.nodes[d.source].id % GROUPS}
           linkDirectionalArrowLength={13}
