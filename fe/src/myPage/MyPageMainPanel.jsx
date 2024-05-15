@@ -328,6 +328,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           style={{ height: "12rem" }}
         >
           <InnerText>Skills</InnerText>
+          <div>보유하신 기술 스택입니다!</div>
           <SearchContainer>
             <SearchContainerLeftSide>
               <AnimatePresence>
@@ -428,6 +429,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           style={{ marginTop: 0 }}
         >
           <InnerText>Works</InnerText>
+          <div>{userfind.name}님의 작품입니다!</div>
           <InnerBox style={{ padding: "0", gap: "0" }}>
             {/* Works 내용 */}
             {myProjectList.map((item, index) => {
@@ -467,6 +469,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
         </InnerArea>
         <InnerArea>
           <InnerText>Memory Graph</InnerText>
+          <div>이거 설명</div>
           <MemoryGraphContainer>
             <MemoryGraphMainBox
               // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
