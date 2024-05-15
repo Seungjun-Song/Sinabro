@@ -4,6 +4,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { GlobalColor } from "../../services/color";
+import axios from "axios";
+import getEnv from "../../utils/getEnv";
 const DUMMY_DATA = [
   {
     id: 1,
@@ -50,7 +52,7 @@ function SamplePrevArrow(props) {
     />
   );
 }
-function CustomSlide({id,state,projectname,message,isDark}) {
+function CustomSlide({projectname,message,isDark}) {
   return (
     <div
       //   className="shadow"
@@ -75,7 +77,7 @@ function CustomSlide({id,state,projectname,message,isDark}) {
         }}
       >
         {" "}
-        {state}
+        모집중
       </div>
       <div style={{fontWeight:"bold" , fontSize:"1.2rem" , color: isDark? "white" : "black"}}>{projectname}</div>
       {/* <div style={{marginLeft:"0.1rem"}}></div> */}
@@ -84,6 +86,8 @@ function CustomSlide({id,state,projectname,message,isDark}) {
   );
 }
 const VerticalSlider = ({isDark}) => {
+  const [data ,setData] = useState([])
+  const back_url = getEnv("BACK_URL");
   const settings = {
     // dots: true,
     speed: 500,
@@ -96,6 +100,14 @@ const VerticalSlider = ({isDark}) => {
     autoplay: true,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
+  };
+  const invitePeople = async () => {
+    try {
+      const res = await axios.get(`${back_url}/communities/lightPlate`);
+      setData(res.data.result)
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <div
@@ -111,8 +123,8 @@ const VerticalSlider = ({isDark}) => {
       }}
     >
       <Slider {...settings}>
-        {DUMMY_DATA.map((item,index) =>(
-            <CustomSlide isDark={isDark} key={index}  id={item.id} projectname={item.projectname} state={item.state} message={item.message} />
+        {data.map((item,index) =>(
+            <CustomSlide isDark={isDark} key={index} projectname={item.projectName}  message={item.boardTitle} />
         ))}
       </Slider>
     </div>
