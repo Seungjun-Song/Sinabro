@@ -1,10 +1,12 @@
 package com.HP50.be.domain.calender.dto;
 
+import com.HP50.be.domain.calender.entity.Milestone;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -23,4 +25,5 @@ public class MilestoneResponseDto {
     private Integer projectId;
     @Schema(example = "502", description = "502: 진행중, 503: 완료")
     private Integer subCategoryId;
+    private List<CalenderDto> calenderDtoList;
 }

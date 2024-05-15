@@ -38,6 +38,6 @@ public class Milestone extends BaseTimeEntity {
     @JoinColumn(name = "subCategory_id")
     private SubCategory subCategory;
 
-    @OneToMany(mappedBy = "calender_id")
+    @OneToMany(mappedBy = "milestone", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Calender> calenders;
 }

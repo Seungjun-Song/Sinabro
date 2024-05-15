@@ -1,5 +1,6 @@
 package com.HP50.be.domain.project.entity;
 
+import com.HP50.be.domain.calender.entity.Milestone;
 import com.HP50.be.domain.code.entity.Category;
 import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.project.dto.ProjectCreateRequestDto;
@@ -46,6 +47,9 @@ public class Project extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
+
+    @OneToMany(mappedBy = "project")
+    private List<Milestone> milestones;
 
     //연관관계 image
     // Cascade.PERSIST : Delivery 엔터티를 저장할 때 자동으로 DeliveryImage 엔터티도 저장
