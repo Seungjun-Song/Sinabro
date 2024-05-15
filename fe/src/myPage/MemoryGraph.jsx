@@ -33,7 +33,7 @@ const MemoryGraph = () => {
     try {
       const res = await axios.get(`${back_url}/memo`);
       const memberList = res.data.result;
-      // console.log(memberList.result);
+      console.log(memberList);
 
       setGraphData({ nodes: memberList.nodeList, links: memberList.linkList });
     } catch (error) {
@@ -49,6 +49,7 @@ const MemoryGraph = () => {
   const addnode = async () => {
     console.log(newnode);
     console.log(content);
+    console.log(color);
     if(newnode =="" ){
       return
     }else if(content ==""){
@@ -79,7 +80,7 @@ const MemoryGraph = () => {
       await getGraphData();
       const distance = 500;
       const distRatio = 1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
-      console.log(distRatio)
+      console.log(fgRef.current)
       fgRef.current.cameraPosition(
         {
           x: whatnode.x * distRatio,
@@ -97,25 +98,6 @@ const MemoryGraph = () => {
       console.error("Error fetching data:", error);
     }
   };
-  const handleClick = useCallback(
-    (node) => {
-      // Aim at node from outside it
-      const distance = 500;
-      const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
-
-      fgRef.current.cameraPosition(
-        {
-          x: node.x * distRatio,
-          y: node.y * distRatio,
-          z: node.z * distRatio,
-        }, // new position
-        node, // lookAt ({ x, y, z })
-        1500 // ms transition duration
-      );
-      //   fgRef = 0;
-    },
-    [fgRef]
-  );
 
   const hadleAllClick = (node) => {
     // Aim at node from outside it
