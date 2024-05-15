@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -105,10 +105,14 @@ const VerticalSlider = ({isDark}) => {
     try {
       const res = await axios.get(`${back_url}/communities/lightPlate`);
       setData(res.data.result)
+      console.log(res)
     } catch (err) {
       console.error(err);
     }
   };
+  useEffect(()=>{
+    invitePeople()
+  },[])
   return (
     <div
       className="shadow mt-5"
