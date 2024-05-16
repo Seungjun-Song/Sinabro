@@ -1,22 +1,3 @@
-.custom-tooltip {
-    max-width: 200px;
-}
-
-.tooltip-content {
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #333;
-    color: #fff;
-}
-
-.work, .worker, .date {
-    margin-bottom: 5px;
-}
-
-.work {
-    font-weight: bold;
-}
-
-.date {
-    font-style: italic;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:904d12b3b1412b02f0053307b2dc1dcd22fd9afc648e84556cbf2052e9a8098e
+size 272
