@@ -102,8 +102,9 @@ const SearchIcon = styled(FontAwesomeIcon)`
 `;
 
 const PjtImg = styled(motion.img)`
-  width: 25%;
-  padding: 1rem;
+  width: 23%;
+  padding: 1.2rem;
+  margin-right: 10px;
 `;
 
 const MemoryGraphContainer = styled.div`
@@ -463,7 +464,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                   onHoverStart={() => setimgHover(true)}
                   onHoverEnd={() => setimgHover(false)}
                   // whileHover={{ opacity: 0.8 }}
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer", borderRadius: "30px"}}
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   key={index}

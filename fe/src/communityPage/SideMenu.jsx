@@ -7,11 +7,11 @@ const MenuList = styled(motion.div)`
     flex-direction: column;  
     align-items: start;
     width: 20%;            
-    padding-left: 7rem;  
+    padding-left: 8rem;  
     margin: 5rem 0 0 4rem;        
     gap : 0.3rem;
 
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   
     position: relative;
 

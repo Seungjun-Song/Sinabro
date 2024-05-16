@@ -103,7 +103,7 @@ const TeamSpacePage = () => {
           )}
         </AnimatePresence>
         <ProjectCreateBtn isDark={isDark} setRoleCheck={setRoleCheck}/>
-        {roleCheck === true ? (window.alert('팀원의 역할을 선택해 주세요'), setRoleCheck(false)) : null}
+        {/* {roleCheck === true ? (window.alert('팀원의 역할을 선택해 주세요'), setRoleCheck(false)) : null} */}
       </div>
     </>
   );

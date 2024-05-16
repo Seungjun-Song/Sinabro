@@ -38,11 +38,14 @@ const MyImage = styled.img`
 `;
 
 const MyName = styled.div`
-  height: 2rem;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
+
+  width: 100%;
+  margin: 1.5rem 0 1.5rem 0; 
+  word-break: break-all;
 `;
 
 const WithOur = styled.div`
@@ -73,9 +76,13 @@ const MyInfoBox = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.6rem;
-  width: 90%;
+
   padding-top: 2.5rem;
   gap: 1rem;
+
+  border-top: 4px solid #4f61bb;
+
+  margin: 10px
 `;
 
 const MyInfoInnerBox = styled.div`
@@ -83,6 +90,7 @@ const MyInfoInnerBox = styled.div`
   display: flex;
   align-items: center;
   gap: 0.3rem;
+  
 `;
 
 const SmallImage = styled.img`
@@ -90,6 +98,12 @@ const SmallImage = styled.img`
   width: 2rem;
 `;
 
+const GitLink = styled.a`
+font-weight: 5%;
+display: flex;
+flex-wrap: wrap;
+text-decoration: none;
+`
 const InfoTag = styled.div`
   font-weight: 5%;
   display: flex;
@@ -138,7 +152,7 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
       transition={{ duration: 0.3 }}
     >
       <SkillArea>{userfind.memberJob}</SkillArea>
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative"}}>
         <MyImage src={userInfo.photoURL} />
         <motion.div
           onClick={handleImageChange}
@@ -158,18 +172,18 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
           <FontAwesomeIcon icon={faFaceSmile} />
         </motion.div>
       </div>
-      <MyName style={{ color: isDark ? "white" : "black" }}>
+      <MyName style={{color: isDark ? "white" : "black"}}>
         {userInfo.displayName}
       </MyName>
-      <WithOur></WithOur>
-      <EditButton>
-        {/* <input
+      {/* <WithOur></WithOur> */}
+      {/* <EditButton>
+        <input
           type="file"
           style={{ display: "none" }}
           onChange={handleImageChange}
         />
-        E D I T */}
-      </EditButton>
+        E D I T
+      </EditButton> */}
       <MyInfoBox>
         <MyInfoInnerBox>
           <FontAwesomeIcon
@@ -177,9 +191,13 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
             size="2xl"
             color={isDark ? "white" : "black"}
           />
-          <InfoTag style={{ color: isDark ? "white" : "black" }}>
+          <GitLink 
+            style={{ color: isDark ? "white" : "black" }}
+            href={userInfo.memberGit}
+            target="_blank"
+            >
             {userInfo.memberGit}
-          </InfoTag>
+          </GitLink>
         </MyInfoInnerBox>
         <MyInfoInnerBox>
           <FontAwesomeIcon

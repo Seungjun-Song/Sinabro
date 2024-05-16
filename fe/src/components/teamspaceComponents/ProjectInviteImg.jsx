@@ -43,6 +43,7 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
     <>
       <div style={{ position: "relative" }}>
         <motion.div style={{ gap: "1rem" }}>
+          <div style={{display: "flex", justifyContent:"center"}}>
           <motion.img
             onClick={() => setIsOpen(!isOpen)}
             whileHover={{ cursor: "pointer", y: -7 }}
@@ -50,6 +51,7 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
             src={img}
             style={{ width: "5rem", height: "5rem", borderRadius: "3rem" }}
           />
+          </div>
           <div
             style={{
               textAlign: "center",

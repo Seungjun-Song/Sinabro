@@ -10,8 +10,8 @@ const Selection = styled(motion.div)`
     background-color: ${ GlobalColor.colors.proceedToggle };
     color: white;
 
-    margin-top: 2%;
-    width: 7rem;
+    margin-top: 3%;
+    width: 8.5rem;
 
     border: 2px solid ${ GlobalColor.colors.proceedToggle };
     border-radius: 10px;
@@ -27,7 +27,7 @@ const Option = styled(motion.div)`
     text-align: center;
 
 
-    font-family: LaundryGothicRegular;
+    //font-family: LaundryGothicRegular;
 
 `
 
