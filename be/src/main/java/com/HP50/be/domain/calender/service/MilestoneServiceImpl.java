@@ -75,7 +75,7 @@ public class MilestoneServiceImpl implements MilestoneService{
                         .milestoneStartDt(entity.getMilestoneStartDttm())
                         .milestoneEndDt(entity.getMilestoneEndDttm())
                         .projectId(entity.getProject().getProjectId())
-                        .subCategoryId(entity.getSubCategory().getSubCategoryId())
+                        .subCategoryName(entity.getSubCategory().getSubCategoryName())
                         .calenderDtoList(entity.getCalenders().stream()
                                 .map(dto -> CalenderDto.builder()
                                         .calenderId(dto.getCalenderId())

@@ -21,7 +21,8 @@ import java.util.List;
 public class MilestoneController {
     private final MilestoneService milestoneService;
 
-    @Operation(summary = "마일스톤 저장")
+    @Operation(summary = "마일스톤 저장", description = "milestone_id 를 보내지 않는다면 Save\n"
+                                                        + "milestone_id 를 보낸다면 update")
     @PostMapping
     public ResponseEntity<BaseResponse<StatusCode>> saveMilestone(@RequestBody MilestoneSaveRequestDto dto){
         milestoneService.saveMilestone(dto);

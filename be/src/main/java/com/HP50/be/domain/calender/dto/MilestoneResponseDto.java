@@ -23,7 +23,7 @@ public class MilestoneResponseDto {
     private LocalDate milestoneEndDt;
     @Schema(example = "5")
     private Integer projectId;
-    @Schema(example = "502", description = "502: 진행중, 503: 완료")
-    private Integer subCategoryId;
+    @Schema(example = "진행중")
+    private String subCategoryName;
     private List<CalenderDto> calenderDtoList;
 }
