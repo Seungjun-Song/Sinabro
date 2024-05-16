@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import ProfileIcon from '/image/community/hoverProfile.png'
 import PlusIcon from '/image/community/hoverPlus.png'
 import ChattingIcon from '/image/community/hoverChatting.png'
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const HoverInfo = styled(motion.div)`
     position: absolute;
@@ -24,12 +26,14 @@ const HoverInfo = styled(motion.div)`
 `
 
 const UserDetail = styled.img`
+    cursor: pointer;
 `
 
 const PlusUser = styled.img`
 `
 
 const Chatting = styled.img`
+    cursor: pointer;
 `
 const hoverMotion = {
     initial: "hidden",
@@ -42,7 +46,23 @@ const hoverMotion = {
     },
     transition: { duration: 0.3 }
 }
-const HoverInfoBox = ({hoverTurnOff}) => {
+const HoverInfoBox = ({hoverTurnOff, comment, setOpenChat, setSelectedUser}) => {
+
+    const navigate = useNavigate();
+
+    const moveToUser = () => {
+        console.log(comment)
+        navigate(`/writerPage`, {state: {memberId: comment.memberId}})
+    }
+
+    const startChating = () =>{
+        setOpenChat(true);
+        
+        const chatId = parseInt(comment.memberId)
+        
+        setSelectedUser({id: chatId, name: comment.memberName});
+        
+    }
     
     return(
         <HoverInfo
@@ -51,6 +71,7 @@ const HoverInfoBox = ({hoverTurnOff}) => {
         >
             <UserDetail
                 src={ProfileIcon}
+                onClick={() => moveToUser()}
             >
                 
             </UserDetail>
@@ -61,6 +82,7 @@ const HoverInfoBox = ({hoverTurnOff}) => {
             </PlusUser>
             <Chatting
                 src={ChattingIcon}
+                onClick={() => startChating(true)}
             >
                 
             </Chatting>

@@ -10,6 +10,8 @@ import { GlobalColor } from '../../services/color';
 import getEnv from '../../utils/getEnv';
 import { useSelector } from 'react-redux';
 
+import Pagenation from "./../communityList/Pagination"
+
 const Window = styled.div`
     display: flex;
     align-items: center;
@@ -85,7 +87,7 @@ const Comments = styled.div`
     margin: 0 0 2rem 0;
 `
 
-const CommentWindow = ({ isDark, commentDate, boardId, setCommentDate }) => {
+const CommentWindow = ({ isDark, commentDate, boardId, totalCount, currentPage, setCurrentPage, setOpenChat, setSelectedUser, setTotalCount, setCommentDate }) => {
     const [ newComment, setNewComment ] = useState("");
 
     const back_url = getEnv('BACK_URL')
@@ -105,13 +107,14 @@ const CommentWindow = ({ isDark, commentDate, boardId, setCommentDate }) => {
         .then(res => {
             //성공 시 보여지는 것 갱신
             setNewComment("")
-            axios.get(`${back_url}/communities/comments/${boardId}/0`)
+            axios.get(`${back_url}/communities/comments/${boardId}/${currentPage-1}`)
             .then((res) => {
-                //console.log(res.data.result.commentResponseDtos);
-                setCommentDate(res.data.result.commentResponseDtos);
-            })
-            .catch((err) => {
-            })
+            setTotalCount(res.data.result.totalCount);
+            setCommentDate(res.data.result.commentResponseDtos);
+        })
+        .catch((err) => {
+        })
+
         })
         .catch(err => {
             console.log(err);
@@ -151,9 +154,20 @@ const CommentWindow = ({ isDark, commentDate, boardId, setCommentDate }) => {
                     <CommentBox
                         comment={comment}
                         key={index}
+                        setOpenChat={setOpenChat}
+                        setSelectedUser={setSelectedUser}
                     />
                 ))}
             </Comments>
+            <Pagenation
+                totalItems={totalCount}
+                itemCountPerPage={10}
+                pageCount={2}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            >
+
+            </Pagenation>
         </Window>
     )
 }

@@ -13,6 +13,7 @@ import { GlobalColor } from '../../services/color';
 import ProfileTempImg from '/images/default_my_image.png'
 import getEnv from '../../utils/getEnv';
 import CalTime from '../CalTime';
+import UserChat from '../chat/UserChat';
 
 const Community = styled.div`
     display: flex;
@@ -42,6 +43,11 @@ const DetailMainPage = () => {
         // title: "BUNG",
         // projectImg: PjtImg,
     })
+
+    const [ currentPage, setCurrentPage ] = useState(1);
+    const [ totalCount, setTotalCount ] = useState(0);
+    const [ openChat, setOpenChat ] = useState(false);
+    const [ selectedUser, setSelectedUser] = useState(false);
 
     const postId = data.postId;
     const isDark = useSelector(state =>state.isDark.isDark);
@@ -78,7 +84,7 @@ const DetailMainPage = () => {
 
         //팀 정보 불러오기
         if(selected.name == "member" || selected.name == "feadback"){
-            //console.log("is team????????????????")
+
             axios.get(`${back_url}/teams?projectId=${getData.projectId}`)
             .then((res) => {
                 //console.log(res.data.result);
@@ -104,14 +110,20 @@ const DetailMainPage = () => {
 
     useEffect(() => {
         //댓글 조회
-        axios.get(`${back_url}/communities/comments/${postId}/0`)
+        axios.get(`${back_url}/communities/comments/${postId}/${currentPage-1}`)
         .then((res) => {
-            //console.log(res.data.result.commentResponseDtos);
+            //console.log(res.data.result)
+            setTotalCount(res.data.result.totalCount);
             setCommentDate(res.data.result.commentResponseDtos);
         })
         .catch((err) => {
         })
-    }, [])
+    }, [currentPage])
+
+    useEffect(() => {
+        console.log(openChat)
+    }, [openChat])
+
     
     return (
         <>
@@ -132,6 +144,13 @@ const DetailMainPage = () => {
                     commentDate={commentDate}
                     setCommentDate={setCommentDate}
                     projectData={projectData}
+                    totalCount={totalCount}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    setOpenChat={setOpenChat}
+                    selectedUser={selectedUser}
+                    setSelectedUser={setSelectedUser}
+                    setTotalCount={setTotalCount}
                 />
             ) : ("")}
 
@@ -141,6 +160,11 @@ const DetailMainPage = () => {
                     detailData={post}
                     commentDate={commentDate}
                     setCommentDate={setCommentDate}
+                    totalCount={totalCount}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+
+                    setTotalCount={setTotalCount}
                 />
             ) : ("")}
 
@@ -150,10 +174,19 @@ const DetailMainPage = () => {
                     detailData={post}
                     commentDate={commentDate}
                     setCommentDate={setCommentDate}
+                    totalCount={totalCount}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+
+                    setTotalCount={setTotalCount}
                 />
             ) : ("")}
         </Community>
-
+        <UserChat
+            openChat={openChat} 
+            setOpenChat={setOpenChat}
+            selectedUser={selectedUser}
+        />
         </>
     )
 }

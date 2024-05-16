@@ -144,6 +144,9 @@ const CreateFeadbackPost = ({ isDark, postContent, setPostContent, selectedPjtId
     const back_url = getEnv('BACK_URL')
 
     useEffect(() => {
+        console.log("feadback", jobInfo)
+    }, [jobInfo])
+    useEffect(() => {
         console.log("in useEffect")
         if(postContent.content == null || postContent.content.length <= 0) {
             setWarning("내용을 채워주세요!");

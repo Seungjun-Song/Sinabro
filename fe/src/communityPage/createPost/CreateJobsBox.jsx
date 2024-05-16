@@ -125,6 +125,7 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
                     {job.icon && <FontAwesomeIcon icon={job.icon} style={{ fontSize: '10px' }} />}
                     <div>
                     {job.name}
+                    {console.log(job.selected)}
                     </div>
                 </Job>
                 ))}   

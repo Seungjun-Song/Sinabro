@@ -47,7 +47,7 @@ const PageList = styled.li`
   justify-content: center;
 `
 
-const Pagination = ({ totalItems, itemCountPerPage, pageCount, currentPage, selected, setCurrentPage }) => {
+const Pagination = ({ totalItems, itemCountPerPage, pageCount, currentPage, setCurrentPage }) => {
   const totalPages = Math.ceil(totalItems / itemCountPerPage);
   const [start, setStart] = useState(1);
   const noPrev = start === 1;

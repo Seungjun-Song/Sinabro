@@ -23,7 +23,7 @@ const Detail = styled.div`
 
 const Line = styled.hr`
 `
-const DetailFeadback = ({ isDark, detailData, commentDate, setCommentDate }) => {
+const DetailFeadback = ({ isDark, detailData, commentDate, setCommentDate, totalCount, currentPage, setCurrentPage, setTotalCount }) => {
 
     const projectData = {
         id: 1,
@@ -57,6 +57,10 @@ const DetailFeadback = ({ isDark, detailData, commentDate, setCommentDate }) => 
                 commentDate={commentDate}
                 setCommentDate={setCommentDate}
                 boardId={detailData.id}
+                totalCount={totalCount}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                setTotalCount={setTotalCount}
             />
         </Detail>
     )
