@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0f5bf02eccc534d8c0ab2078816bc741d8271260104c5f8eaba08d805f1b7a05
-size 207
+package com.HP50.be.domain.memoryGraph.dto;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class NodesDto {
+    private String id;
+    private String label;
+    private String content;
+    private String color;
+}
