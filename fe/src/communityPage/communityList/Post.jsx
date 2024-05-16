@@ -116,6 +116,8 @@ const WriteInfo = styled.div`
     align-items: center;
     justify-content: space-between;
 
+    gap: 5px;
+
     font-family: Pretendard SemiBold;
     font-size: 0.7rem;
 `
@@ -230,7 +232,7 @@ const Post = ({post, kind, isDark}) => {
                     <Writer>
                         {post.writer}
                     </Writer>
-                    .
+                    &#183;
                     <Date>
                         {post.time}
                     </Date>

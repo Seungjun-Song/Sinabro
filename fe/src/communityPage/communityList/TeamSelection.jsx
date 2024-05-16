@@ -56,11 +56,11 @@ const TeamSelection = ({teamOption, setTeamOption, setTeamToggle, isDark}) => {
     const teamList = [
         {
             id: 200,
-            name: "Back"
+            name: "백"
         },
         {
             id: 100,
-            name: "Front",
+            name: "프론트",
         },
     ]
 
