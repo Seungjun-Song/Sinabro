@@ -302,7 +302,7 @@ const ProjectPage = () => {
               </MessageContainer>
             )}
           </ProjectMainContainer>
-          <ProjectInfo />
+          {/* <ProjectInfo /> */}
         </ProjectContainer>
       )}
     </>

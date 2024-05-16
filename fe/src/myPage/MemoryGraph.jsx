@@ -171,9 +171,7 @@ const MemoryGraph = () => {
   };
   return (
     <div
-      onClick={() => (
-        setWhatNode(null), setIsModal(false), (fgRef.current = null)
-      )}
+      onClick={() => (setWhatNode(null), setIsModal(false))}
       style={{
         width: "100%",
         height: "100%",
