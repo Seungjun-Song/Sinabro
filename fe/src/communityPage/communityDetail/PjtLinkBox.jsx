@@ -60,7 +60,7 @@ const pjtMotion = {
 const PjtLinkBox = ({pjtData}) => {
 
     const navigate = useNavigate();
-    console.log("in box", pjtData)
+
     return(
         <Box
             {...pjtMotion}
