@@ -150,6 +150,7 @@ const MemoryGraph = () => {
           }
         );
         // 삭제 성공
+        await getGraphData()
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -162,7 +163,7 @@ const MemoryGraph = () => {
   return (
     <div
       onClick={() => (
-        setWhatNode(null), setIsModal(false), (ref.current = null)
+        setWhatNode(null), setIsModal(false), (fgRef.current = null)
       )}
       style={{
         width: "100%",
