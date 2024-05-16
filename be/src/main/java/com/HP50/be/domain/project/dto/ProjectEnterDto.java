@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f4f353126d958c9be23aaba1a9f7091c3b03a12979633646744e18976711b5f7
-size 288
+package com.HP50.be.domain.project.dto;
+
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class ProjectEnterDto {
+    private String url;
+    private String runDevPreviewUrl;
+    private String startPreviewUrl;
+    private String theme;
+    private Integer dbPort;
+}
