@@ -46,12 +46,21 @@ const MemoryGraph = () => {
     } else if (content == "") {
       return;
     }
+    console.log(newnode);
+    console.log(content);
     try {
       const res = await axios.put(`${back_url}/memo/update`, {
         memoId: whatnode.id,
         title: newnode,
         content: content,
       });
+      console.log(res);
+      setIsModal(false);
+      setWhatNode(null);
+      setContent("");
+      setNewNode("");
+      setColor("");
+      await getGraphData();
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -150,7 +159,7 @@ const MemoryGraph = () => {
           }
         );
         // 삭제 성공
-        await getGraphData()
+        await getGraphData();
       } catch (error) {
         console.error("Error fetching data:", error);
       }
