@@ -84,7 +84,7 @@ const DetailMainPage = () => {
 
         //팀 정보 불러오기
         if(selected.name == "member" || selected.name == "feadback"){
-            //console.log("is team????????????????")
+
             axios.get(`${back_url}/teams?projectId=${getData.projectId}`)
             .then((res) => {
                 //console.log(res.data.result);
@@ -112,7 +112,7 @@ const DetailMainPage = () => {
         //댓글 조회
         axios.get(`${back_url}/communities/comments/${postId}/${currentPage-1}`)
         .then((res) => {
-            console.log(res.data.result)
+            //console.log(res.data.result)
             setTotalCount(res.data.result.totalCount);
             setCommentDate(res.data.result.commentResponseDtos);
         })
@@ -150,6 +150,7 @@ const DetailMainPage = () => {
                     setOpenChat={setOpenChat}
                     selectedUser={selectedUser}
                     setSelectedUser={setSelectedUser}
+                    setTotalCount={setTotalCount}
                 />
             ) : ("")}
 
@@ -162,6 +163,8 @@ const DetailMainPage = () => {
                     totalCount={totalCount}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
+
+                    setTotalCount={setTotalCount}
                 />
             ) : ("")}
 
@@ -174,6 +177,8 @@ const DetailMainPage = () => {
                     totalCount={totalCount}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
+
+                    setTotalCount={setTotalCount}
                 />
             ) : ("")}
         </Community>

@@ -6,7 +6,7 @@ import { Resizable } from "re-resizable";
 import Chatdetail from "./Chatdetail";
 import GPTChat from "./GPTChat";
 import { useSelector } from "react-redux";
-import { getDatabase, onValue, ref } from "firebase/database";
+import { getDatabase, onValue, ref, get, child, push} from "firebase/database";
 
 const DUMMY_DATA = [
   {
@@ -59,21 +59,21 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
   const [size, setSize] = useState({ width: 300, height: 400 });
   const [projectData, setProjectData] = useState([])
 
-  // console.log("Asdf")
+  const userInfo = useSelector(state => state.user.currentUser);
 
   const myProjectList = useSelector(state => state.myProjectList.value)
   useEffect(() => {
-    const fixData = [DUMMY_DATA[0], ...myProjectList]
+    let fixData = [DUMMY_DATA[0], ...myProjectList]
 
-    const db = getDatabase();
-    const chatRef = ref(db, `chats`);
-
-
+    const db = getDatabase()
+    const chatRef = ref(db, `chatList/${userInfo.uid}`)
     onValue(chatRef, (snapshot) => {
-      const chatList = Object.values(snapshot.val());
+      const data = snapshot.val();
 
-
-      console.log(chatList)
+      if(data){
+        const chatList = Object.values(data)
+        fixData = [...fixData, ...chatList]
+      }
     })
 
     setProjectData(fixData)
@@ -92,7 +92,83 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
   const [whatpjt, setWhatpjt] = useState({projectId: selectedUser.id, projectname: selectedUser.name}); // 프로젝트 선택
 
   useEffect(() => {
-    setWhatpjt({projectId: selectedUser.id, projectname: selectedUser.name})
+    const roomId = selectedUser.id > userInfo.uid ? parseInt(selectedUser.id + "" + userInfo.uid) 
+                            : parseInt(userInfo.uid + "" + selectedUser.id);
+
+    const db = getDatabase();
+    let chatRef = ref(db, `chatList/${selectedUser.id}`);
+    onValue(chatRef, (snapshot) => {
+      const data = snapshot.val();
+      
+      if(data){
+        const chatList = Object.values(data);
+        let isExist = false;
+        chatList.map((chat, index) => {
+          if(chat.id == roomId){
+            isExist = true;
+          }
+        })
+
+        if(!isExist){
+          push(chatRef, {
+            id: roomId,
+            projectname: userInfo.displayName,
+            lastChat: "?",
+            day: "2024.04.26",
+            projectimg: userInfo.photoURL,
+          })
+        }
+      }
+      else{
+        push(chatRef, {
+          id: roomId,
+          projectname: userInfo.displayName,
+          lastChat: "?",
+          day: "2024.04.26",
+          projectimg: userInfo.photoURL,
+        })
+      }
+
+    })          
+
+    const chatRefsec = ref(db, `chatList/${userInfo.uid}`);
+    onValue(chatRefsec, (snapshot) => {
+      const data = snapshot.val();
+      
+      if(data){
+        const chatList = Object.values(data);
+        let isExist = false;
+        chatList.map((chat, index) => {
+          if(chat.id == roomId){
+            isExist = true;
+          }
+        })
+
+        if(!isExist){
+          push(chatRefsec, {
+            id: roomId,
+            projectname: selectedUser.name,
+            lastChat: "?",
+            day: "2024.04.26",
+            projectimg: "/images/gptblack.jpg",
+          })
+        }
+      }
+      else{
+        push(chatRefsec, {
+          id: roomId,
+          projectname: selectedUser.name,
+          lastChat: "?",
+          day: "2024.04.26",
+          projectimg: "/images/gptblack.jpg",
+        })
+      }
+
+    })       
+    
+  
+    setWhatpjt({projectId: roomId, projectname: selectedUser.name})
+
   }, [selectedUser])
   return (
     <>

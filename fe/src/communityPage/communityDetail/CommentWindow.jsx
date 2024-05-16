@@ -87,7 +87,7 @@ const Comments = styled.div`
     margin: 0 0 2rem 0;
 `
 
-const CommentWindow = ({ isDark, commentDate, boardId, totalCount, currentPage, setCurrentPage, setOpenChat, setSelectedUser }) => {
+const CommentWindow = ({ isDark, commentDate, boardId, totalCount, currentPage, setCurrentPage, setOpenChat, setSelectedUser, setTotalCount, setCommentDate }) => {
     const [ newComment, setNewComment ] = useState("");
 
     const back_url = getEnv('BACK_URL')
@@ -107,6 +107,14 @@ const CommentWindow = ({ isDark, commentDate, boardId, totalCount, currentPage, 
         .then(res => {
             //성공 시 보여지는 것 갱신
             setNewComment("")
+            axios.get(`${back_url}/communities/comments/${boardId}/${currentPage-1}`)
+            .then((res) => {
+            setTotalCount(res.data.result.totalCount);
+            setCommentDate(res.data.result.commentResponseDtos);
+        })
+        .catch((err) => {
+        })
+
         })
         .catch(err => {
             console.log(err);

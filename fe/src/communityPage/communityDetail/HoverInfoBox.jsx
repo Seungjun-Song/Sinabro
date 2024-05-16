@@ -50,8 +50,6 @@ const HoverInfoBox = ({hoverTurnOff, comment, setOpenChat, setSelectedUser}) => 
 
     const navigate = useNavigate();
 
-    const userInfo = useSelector(state => state.user.currentUser);
-
     const moveToUser = () => {
         console.log(comment)
         navigate(`/writerPage`, {state: {memberId: comment.memberId}})
@@ -60,7 +58,7 @@ const HoverInfoBox = ({hoverTurnOff, comment, setOpenChat, setSelectedUser}) => 
     const startChating = () =>{
         setOpenChat(true);
         
-        const chatId = parseInt(comment.memberId + "" + userInfo.uid)
+        const chatId = parseInt(comment.memberId)
         
         setSelectedUser({id: chatId, name: comment.memberName});
         

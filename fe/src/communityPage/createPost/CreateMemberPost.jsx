@@ -177,6 +177,7 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId, 
             setBlocking(true);
             return;
         }
+        
         //팀 선택이 비었을 때 team
         if(selectedPjtId === -1) {
             setWarning("팀을 선택해 주세요!");
