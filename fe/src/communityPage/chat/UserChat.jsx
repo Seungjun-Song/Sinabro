@@ -90,85 +90,11 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
   //     });
   //   };
   const [whatpjt, setWhatpjt] = useState({projectId: selectedUser.id, projectname: selectedUser.name}); // 프로젝트 선택
-
+  
   useEffect(() => {
     const roomId = selectedUser.id > userInfo.uid ? parseInt(selectedUser.id + "" + userInfo.uid) 
                             : parseInt(userInfo.uid + "" + selectedUser.id);
 
-    const db = getDatabase();
-    if(selectedUser.id){
-    let chatRef = ref(db, `chatList/${selectedUser.id}`);
-    onValue(chatRef, (snapshot) => {
-      const data = snapshot.val();
-      
-      if(data){
-        const chatList = Object.values(data);
-        let isExist = false;
-        chatList.map((chat, index) => {
-          if(chat.id == roomId){
-            isExist = true;
-          }
-        })
-
-        if(!isExist){    
-          // push(chatRef, {
-          //   id: roomId,
-          //   projectname: userInfo.displayName,
-          //   lastChat: "?",
-          //   day: "2024.04.26",
-          //   projectimg: userInfo.photoURL,
-          // })
-        }
-      }
-      else{
-        // push(chatRef, {
-        //   id: roomId,
-        //   projectname: userInfo.displayName,
-        //   lastChat: "?",
-        //   day: "2024.04.26",
-        //   projectimg: userInfo.photoURL,
-        // })
-      }
-
-    })   
-    }       
-
-    if(userInfo.uid){
-    const chatRefsec = ref(db, `chatList/${userInfo.uid}`);
-    onValue(chatRefsec, (snapshot) => {
-      const data = snapshot.val();
-      
-      if(data){
-        const chatList = Object.values(data);
-        let isExist = false;
-        chatList.map((chat, index) => {
-          if(chat.id == roomId){
-            isExist = true;
-          }
-        })
-
-        if(!isExist){
-          // push(chatRefsec, {
-          //   id: roomId,
-          //   projectname: selectedUser.name,
-          //   lastChat: "?",
-          //   day: "2024.04.26",
-          //   projectimg: "/images/gptblack.jpg",
-          // })
-        }
-      }
-      else{
-        // push(chatRefsec, {
-        //   id: roomId,
-        //   projectname: selectedUser.name,
-        //   lastChat: "?",
-        //   day: "2024.04.26",
-        //   projectimg: "/images/gptblack.jpg",
-        // })
-      }
-
-    })       
-    }
     setWhatpjt({projectId: roomId, projectname: selectedUser.name})
 
   }, [selectedUser])
