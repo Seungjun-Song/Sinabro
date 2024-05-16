@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5fe2504b7d5573b81cb036533c86a6933528a8c9a2b7ecb5d2c14758cdcdf88c
-size 370
+package com.HP50.be.domain.community.repository;
+
+import com.HP50.be.domain.community.entity.Board;
+import com.HP50.be.domain.community.entity.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface CommentRepository extends JpaRepository<Comment, Integer> {
+    List<Comment> findCommentsByBoard(Board board);
+}
