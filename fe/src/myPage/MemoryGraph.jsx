@@ -20,11 +20,11 @@ import { GlobalColor } from "../services/color";
 // }
 const MemoryGraph = () => {
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
-  const [isfirst ,setIsFirst] = useState(false)
+  const [isfirst, setIsFirst] = useState(false);
   const back_url = getEnv("BACK_URL");
 
   const isDark = useSelector((state) => state.isDark.isDark);
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState( "#c7c7c7");
   //   const [islabel, setIslabel] = useState(false);
   const [whatnode, setWhatNode] = useState(null);
   const [newnode, setNewNode] = useState("");
@@ -61,7 +61,7 @@ const MemoryGraph = () => {
       setWhatNode(null);
       setContent("");
       setNewNode("");
-      setColor("");
+      setColor( "#c7c7c7");
       await getGraphData();
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -122,7 +122,7 @@ const MemoryGraph = () => {
       setWhatNode(null);
       setContent("");
       setNewNode("");
-      setColor("");
+      setColor( "#c7c7c7");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -134,16 +134,17 @@ const MemoryGraph = () => {
     console.log(node);
     const distance = 500;
     const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
-
-    fgRef.current.cameraPosition(
-      {
-        x: node.x * distRatio,
-        y: node.y * distRatio,
-        z: node.z * distRatio,
-      }, // new position
-      node, // lookAt ({ x, y, z })
-      1500 // ms transition duration
-    );
+    if (graphData.nodes.length !== 0) {
+      fgRef.current.cameraPosition(
+        {
+          x: node.x * distRatio,
+          y: node.y * distRatio,
+          z: node.z * distRatio,
+        }, // new position
+        node, // lookAt ({ x, y, z })
+        1500 // ms transition duration
+      );
+    }
     //   fgRef = 0;
   };
   //   console.log(color);
@@ -161,6 +162,11 @@ const MemoryGraph = () => {
           }
         );
         // 삭제 성공
+        setIsModal(false);
+        setWhatNode(null);
+        setContent("");
+        setNewNode("");
+        setColor( "#c7c7c7");
         await getGraphData();
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -171,10 +177,10 @@ const MemoryGraph = () => {
     const newnodeid = await addnode();
     connectnode(newnodeid);
   };
-  const handlefirst = async()=>{
-    await addnode()
-    getGraphData()
-  }
+  const handlefirst = async () => {
+    await addnode();
+    getGraphData();
+  };
   return (
     <div
       onClick={() => (setWhatNode(null), setIsModal(false))}
@@ -192,27 +198,27 @@ const MemoryGraph = () => {
       {graphData.nodes.length !== 0 && (
         <ForceGraph
           ref={fgRef}
-          width={680}
+          width={670}
           height={475}
           graphData={graphData}
           nodeLabel={(node) => `
           <div class="shadow" style="display: flex; flex-direction: column; padding: 1rem; background-color: white; border-radius: 0.5rem;">
-            <span style="color: #000000; margin : 0">${node.label}</span>
-            <span style="color: #000000; margin : 0">${node.content}</span>
+            <span style="color: #000000; margin : 0">"제목 :"${node.label}</span>
+            <span style="color: #000000; margin : 0">"내용 :"${node.content}</span>
           </div>
         `}
           backgroundColor={isDark ? GlobalColor.colors.primary_black : "white"}
           nodeRelSize={10}
-          nodeOpacity={1}
+          nodeOpacity={0.7}
           nodeResolution={50}
           linkOpacity={1}
           linkResolution={12}
-          nodeColor={(node) => (node.color ? node.color : "blue")}
+          nodeColor={(node) => (node.color ? node.color : "#c7c7c7")}
           // linkColor={(node) => (node.id === "node1" ? "red" : "blue")}
           //   nodeAutoColorBy={(d) => d.id % GROUPS}
           //   linkAutoColorBy={(d) => gData.nodes[d.source].id % GROUPS}
-          linkDirectionalArrowLength={13}
-          linkDirectionalArrowRelPos={0}
+          // linkDirectionalArrowLength={13}
+          // linkDirectionalArrowRelPos={0}
           linkWidth={2}
           //   numDimensions={3}
           onNodeClick={(node) => hadleAllClick(node)}
@@ -226,9 +232,9 @@ const MemoryGraph = () => {
             flexDirection: "column",
             gap: "1rem",
             justifyContent: "center",
-            backgroundColor:"white",
-            padding:"1rem",
-            borderRadius:"1rem"
+            backgroundColor: "white",
+            padding: "1rem",
+            borderRadius: "1rem",
           }}
         >
           <div>아직 노드가 없어요! 새롭게 추가해봐요</div>
@@ -285,8 +291,7 @@ const MemoryGraph = () => {
             />
             {color}
           </div>
-          <div style={{display:"flex" ,justifyContent:"flex-end"}} >
-            
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <div
               style={{
                 cursor: "pointer",
@@ -302,9 +307,7 @@ const MemoryGraph = () => {
           </div>
         </div>
       )}
-      {
-        
-      }
+      {}
       {whatnode && (
         <div
           onClick={(e) => {
