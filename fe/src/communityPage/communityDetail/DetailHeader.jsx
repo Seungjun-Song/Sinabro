@@ -124,7 +124,6 @@ const DetailHeader = ({kind, detailData, isDark}) => {
 
     return(
         <Header
-            {...headerMotion}
         >
         <MainInfo>
         <DetailProceed

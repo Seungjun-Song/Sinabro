@@ -21,6 +21,8 @@ const Community = styled.div`
 
     width: 100%;
 
+    padding: 2rem 0 0 0;
+
     margin: 3.5rem 0 0 0;
 
     ${props => props.isDark && css`

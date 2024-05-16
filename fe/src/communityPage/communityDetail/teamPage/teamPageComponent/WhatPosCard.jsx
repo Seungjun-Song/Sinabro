@@ -68,7 +68,7 @@ const WhatPosCard = ({ item, state, name, setWhatUser, isDark, teamLeader, membe
             <FontAwesomeIcon icon={faTimesCircle} style={{ cursor: 'pointer', color: isDark ? 'white' : 'black' }} onClick={e => { e.stopPropagation() }} />
           </IconBox>
         }
-        <img style={{ width: "6rem"  ,height:"6rem" }} src={memberImg} />
+        <img style={{ width: "6rem"  ,height:"6rem", borderRadius: "10px"}} src={memberImg} />
         <div style={{ color: getJobColor(item) }}>{state}</div>
         <h5 style={{ margin: 0, color: isDark ? "white" : "black" }}>{name}</h5>
       </motion.div>

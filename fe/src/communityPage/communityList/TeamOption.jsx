@@ -13,7 +13,9 @@ const Team = styled(motion.div)`
     align-items: start;
     justify-content: center;
 
-    font-family: LaundryGothicRegular;
+    font-size: 1.2rem;
+
+    //font-family: LaundryGothicRegular;
 `
 
 const TeamToggle = styled(motion.div)`
@@ -22,9 +24,9 @@ const TeamToggle = styled(motion.div)`
     justify-content: center;
     gap: 0.5rem;
     background: ${GlobalColor.colors.teamToggle};
-    padding: 0.2rem 1rem;
+    padding: 0.2rem 1.5rem;
 
-    width: 8rem;
+    //width: 8rem;
 
     color: white;
 
