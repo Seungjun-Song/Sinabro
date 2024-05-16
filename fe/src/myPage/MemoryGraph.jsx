@@ -53,6 +53,7 @@ const MemoryGraph = () => {
         memoId: whatnode.id,
         title: newnode,
         content: content,
+        color : color,
       });
       console.log(res);
       setIsModal(false);
