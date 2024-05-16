@@ -34,7 +34,7 @@ public class Milestone extends BaseTimeEntity {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "subCategory_id")
     private SubCategory subCategory;
 

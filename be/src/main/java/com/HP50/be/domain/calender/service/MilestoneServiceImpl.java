@@ -37,16 +37,6 @@ public class MilestoneServiceImpl implements MilestoneService{
         SubCategory subCategory = subCategoryRepository.findById(requestDto.getSubCategoryId())
                 .orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY));
 
-        Milestone.builder()
-                .milestoneId(requestDto.getMilestoneId())
-                .milestoneTitle(requestDto.getMilestoneTitle())
-                .milestoneContent(requestDto.getMilestoneContent())
-                .milestoneStartDttm(requestDto.getMilestoneStartDt())
-                .milestoneEndDttm(requestDto.getMilestoneEndDt())
-                .project(project)
-                .subCategory(subCategory)
-                .build();
-
         milestoneRepository.save(
                 Milestone.builder()
                         .milestoneId(requestDto.getMilestoneId())
