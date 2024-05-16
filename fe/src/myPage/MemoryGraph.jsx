@@ -40,6 +40,22 @@ const MemoryGraph = () => {
       console.error("Error fetching data:", error);
     }
   };
+  const changenode = async () => {
+    if (newnode == "") {
+      return;
+    } else if (content == "") {
+      return;
+    }
+    try {
+      const res = await axios.put(`${back_url}/memo/update`, {
+        memoId: whatnode.id,
+        title: newnode,
+        content: content,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   useEffect(() => {
     getGraphData();
   }, []);
@@ -50,10 +66,10 @@ const MemoryGraph = () => {
     console.log(newnode);
     console.log(content);
     console.log(color);
-    if(newnode =="" ){
-      return
-    }else if(content ==""){
-      return
+    if (newnode == "") {
+      return;
+    } else if (content == "") {
+      return;
     }
     try {
       const res = await axios.post(
@@ -79,8 +95,9 @@ const MemoryGraph = () => {
       console.log(res);
       await getGraphData();
       const distance = 500;
-      const distRatio = 1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
-      console.log(fgRef.current)
+      const distRatio =
+        1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
+      console.log(fgRef.current);
       fgRef.current.cameraPosition(
         {
           x: whatnode.x * distRatio,
@@ -94,6 +111,7 @@ const MemoryGraph = () => {
       setWhatNode(null);
       setContent("");
       setNewNode("");
+      setColor("");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -118,14 +136,35 @@ const MemoryGraph = () => {
     //   fgRef = 0;
   };
   //   console.log(color);
+  const handleDelete = async () => {
+    // 경고 창을 통해 사용자에게 확인 메시지를 표시
+    const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");
 
+    // 사용자가 확인을 선택한 경우에만 삭제 진행
+    if (confirmDelete) {
+      try {
+        const res = await axios.delete(
+          `${back_url}/memo?memoId=${whatnode.id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        // 삭제 성공
+        await getGraphData()
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
   const handleConfirm = async () => {
     const newnodeid = await addnode();
     connectnode(newnodeid);
   };
   return (
     <div
-      onClick={() => (setWhatNode(null), setIsModal(false))}
+      onClick={() => (
+        setWhatNode(null), setIsModal(false), (fgRef.current = null)
+      )}
       style={{
         width: "100%",
         height: "100%",
@@ -184,16 +223,34 @@ const MemoryGraph = () => {
           <div
             style={{
               cursor: "pointer",
+              backgroundColor: "#d69f30",
+              color: "white",
+              padding: "0.5rem 1rem",
+              borderRadius: "1rem",
+            }}
+            onClick={() => setIsModal({ type: "add" })}
+          >
+            추가
+          </div>
+          <div
+            style={{
+              cursor: "pointer",
               backgroundColor: "#3085d6",
               color: "white",
               padding: "0.5rem 1rem",
               borderRadius: "1rem",
             }}
-            onClick={() => setIsModal(true)}
+            onClick={() => (
+              setIsModal({ type: "change" }),
+              setColor(whatnode.color),
+              setContent(whatnode.content),
+              setNewNode(whatnode.label)
+            )}
           >
             수정
           </div>
           <div
+            onClick={() => handleDelete()}
             style={{
               cursor: "pointer",
               backgroundColor: "#d33",
@@ -206,7 +263,7 @@ const MemoryGraph = () => {
           </div>
         </div>
       )}
-      {isModal && whatnode && (
+      {isModal.type == "add" && whatnode && (
         <div
           style={{
             position: "absolute",
@@ -335,7 +392,147 @@ const MemoryGraph = () => {
                   setIsModal(false),
                   setWhatNode(null),
                   setContent(""),
-                  setNewNode("")
+                  setNewNode(""),
+                  setColor("")
+                )}
+              >
+                취소
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {isModal.type == "change" && whatnode && (
+        <div
+          style={{
+            position: "absolute",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle your node actions here
+            }}
+            style={{
+              width: "80%",
+              height: "80%",
+              backgroundColor: "White",
+              borderRadius: "1rem",
+              padding: "2rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "2rem" }}
+            >
+              {/* <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  //   marginBottom: "1rem",
+                }}
+              >
+                <div style={{ width: "18%" }}>시작노드 </div>
+                <div> {whatnode.label}</div>
+              </div> */}
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  //   marginBottom: "1rem",
+                }}
+              >
+                <div style={{ width: "18%" }}>노드 이름</div>
+                <Form.Control
+                  style={{ width: "82%" }}
+                  type="text"
+                  placeholder={whatnode.label}
+                  value={newnode}
+                  onChange={(e) => setNewNode(e.target.value)}
+                />
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  //   marginBottom: "1rem",
+                }}
+              >
+                <div style={{ width: "18%" }}>내용 </div>
+                <Form.Control
+                  style={{ width: "82%" }}
+                  type="text"
+                  placeholder={whatnode.content}
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  //   marginBottom: "1rem",
+                  gap: "1rem",
+                }}
+              >
+                <div style={{ width: "18%" }}>노드 색 입력 </div>
+                <input
+                  type="color"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                />
+                {color}
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+                justifyContent: "flex-end",
+              }}
+            >
+              <div
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "#3085d6",
+                  color: "white",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "1rem",
+                }}
+                onClick={() => changenode()}
+              >
+                확인
+              </div>
+              <div
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "#d33",
+                  color: "white",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "1rem",
+                }}
+                onClick={() => (
+                  setIsModal(false),
+                  setWhatNode(null),
+                  setContent(""),
+                  setNewNode(""),
+                  setColor("")
                 )}
               >
                 취소
