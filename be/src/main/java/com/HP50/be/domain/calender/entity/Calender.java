@@ -22,6 +22,11 @@ public class Calender extends BaseTimeEntity {
     private LocalDate calenderStartDt;
     private LocalDate calenderEndDt;
 
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "milestone_id")
+    private Milestone milestone;
+
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
@@ -29,9 +34,12 @@ public class Calender extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
+
+
     public void updateSubCategory(SubCategory subCategory){
         this.subCategory = subCategory;
     }

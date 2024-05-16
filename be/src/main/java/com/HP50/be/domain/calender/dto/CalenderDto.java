@@ -27,4 +27,19 @@ public class CalenderDto {
     LocalDate calenderEndDt;
     @Schema(name = "일정 이름", example = "시나브로 작성 API 개발")
     String calenderName;
+    @Schema(example = "마일스톤의 고유 번호")
+    private Integer milestoneId;
+    @Schema(example = "마일스톤의 이름")
+    private String milestoneName;
+
+    public CalenderDto(Integer calenderId, Integer memberId, String memberImg, String memberName, Integer subCategoryId, LocalDate calenderStartDt, LocalDate calenderEndDt, String calenderName) {
+        this.calenderId = calenderId;
+        this.memberId = memberId;
+        this.memberImg = memberImg;
+        this.memberName = memberName;
+        this.subCategoryId = subCategoryId;
+        this.calenderStartDt = calenderStartDt;
+        this.calenderEndDt = calenderEndDt;
+        this.calenderName = calenderName;
+    }
 }

@@ -1,5 +1,7 @@
 package com.HP50.be.domain.project.repository;
 
+import com.HP50.be.domain.calender.dto.MilestoneResponseDto;
+import com.HP50.be.domain.calender.service.MilestoneService;
 import com.HP50.be.domain.project.dto.PjtTechInfo;
 import com.HP50.be.domain.project.dto.ProjectInfoDto;
 import com.HP50.be.domain.project.dto.TeammateInfo;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.HP50.be.domain.calender.entity.QMilestone.milestone;
 import static com.HP50.be.domain.code.entity.QSubCategory.subCategory;
 import static com.HP50.be.domain.project.entity.QPjtTechStack.pjtTechStack;
 import static com.HP50.be.domain.project.entity.QProject.project;
@@ -27,6 +30,8 @@ import static com.HP50.be.domain.project.entity.QTeammate.teammate;
 public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
     private final JPAQueryFactory queryFactory;
     private final ProjectRepository projectRepository;
+    private final MilestoneService milestoneService;
+
     @Override
     public ProjectInfoDto getTeamInfo(int projectId) {
         //1. 프로젝트 정보 가져오기
@@ -96,6 +101,11 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
         //프로젝트 정보에 연결
         result.setTeammateInfoList(teamList);
 
+        // 마일스톤 연결하기
+        List<MilestoneResponseDto> milestoneResponseDtoList = milestoneService
+                .findMilestoneByProjectId(projectId);
+
+        result.setMilestoneResponseDtoList(milestoneResponseDtoList);
 
         return result;
     }
