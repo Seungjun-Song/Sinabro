@@ -1,7 +1,5 @@
 package com.HP50.be.domain.memoryGraph.entity;
 
-
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
