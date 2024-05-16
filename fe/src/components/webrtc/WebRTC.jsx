@@ -17,6 +17,7 @@ import { toggleisDarkState } from "../../store/isDarkSlice";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { AnimatePresence, motion } from "framer-motion";
 import "./styles.css";
+import ProjectInfo from "../../projectPage/ProjectInfo";
 
 const NavContainer = styled.div`
   width: 100vw;
@@ -297,80 +298,7 @@ export default function WebRTC() {
         </motion.div>
         <AnimatePresence mode="wait">
           {isHover && (
-            <motion.div
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              initial={{ opacity: 0 }}
-              className="shadow"
-              style={{
-                position: "absolute",
-                top: "1rem",
-                left: "0",
-                padding: "1rem",
-                backgroundColor: "white",
-                zIndex: "1",
-                borderRadius: "1rem",
-                width: "38rem",
-                gap: "2rem",
-              }}
-            >
-              <div style={{ borderBottom: "2px solid black" }}>
-                <div style={{ fontSize: "1.3rem" }}>{"<db 접속 방법>"}</div>
-                <div style={{ display: "flex", gap: "2rem" }}>
-                  <div>
-                    <div>외부에서 접근 </div>
-                    <div>{`URL : projectsinabro.store:{dbPort}`}</div>
-                    <div>PASSWORD : ssafy</div>
-                  </div>
-                  <div>
-                    <div>{"CLI에서 접근 (터미널 여는법 Ctrl + `)"}</div>
-                    <div>{`COMMAND : mysql -u root -p`}</div>
-                    <div>PASSWORD : ssafy</div>
-                  </div>
-                </div>
-              </div>
-              <div
-                style={{ borderBottom: "2px solid black", marginTop: "1rem" }}
-              >
-                <div style={{ fontSize: "1.3rem" }}>{"<깃 사용법>"}</div>
-                {/* <div
-                  style={{ display: "flex", gap: "1rem", alignItems: "center" }}
-                >
-                  <img
-                    style={{ width: "2.5rem", height: "2.5rem" }}
-                    src="/images/gituse.PNG"
-                  />
-                  <div>Vs코드의 Source Control로 이동하기</div>
-                </div>
-                <div style={{ alignItems: "center" }}>
-                  <div>
-                    <img src="/images/Group_197.png" />
-                  </div>
-                  <div style={{ display: "flex" }}>
-                    <img src="/images/syncChange.PNG" />
-                    <div>
-                      <div>3.1 Sync Chages를 통해 Git push가능</div>
-                      <div>3.2깃 허브 로그인 후 접근 권한 수락</div>
-                    </div>
-                  </div>
-                </div> */}
-                <img style={{width:"35rem"}} src="/images/Group_198.png" />
-              </div>
-              <div style={{ marginTop: "1rem" }}>
-                <div style={{ fontSize: "1.3rem" }}>{"<URL 연결>"}</div>
-                <div style={{ display: "flex", gap: "1rem" }}>
-                  <div style={{ width: "5rem" }}>백엔드</div>
-                  <div>{"{자신의 코드 서버 URL}/proxy/8080/ "}</div>
-                </div>
-                <div style={{ display: "flex", gap: "1rem" }}>
-                  <div style={{ width: "5rem" }}>프론트 엔드</div>
-                  <div>
-                    <div>{"npm run dev 한 경우 Dev 섹션으로 "}</div>
-                    <div>{"npm start 한 경우 Start 섹션으로 "}</div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+            <ProjectInfo/>
           )}
         </AnimatePresence>
       </motion.div>

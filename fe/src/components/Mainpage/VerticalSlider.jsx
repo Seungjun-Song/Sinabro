@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GlobalColor } from "../../services/color";
 import axios from "axios";
 import getEnv from "../../utils/getEnv";
+import { useNavigate } from "react-router-dom";
 const DUMMY_DATA = [
   {
     id: 1,
@@ -52,10 +53,11 @@ function SamplePrevArrow(props) {
     />
   );
 }
-function CustomSlide({projectname,message,isDark}) {
+function CustomSlide({navigate,projectname,message,isDark}) {
   return (
     <div
       //   className="shadow"
+      // onClick={() => navigate('/communityDetail', {state: {kind: kind, postId: post.id} })}
       style={{
         padding: "1rem",
         display: "flex",
@@ -113,6 +115,7 @@ const VerticalSlider = ({isDark}) => {
   useEffect(()=>{
     invitePeople()
   },[])
+  const navigate = useNavigate()
   return (
     <div
       className="shadow mt-5"
@@ -128,7 +131,7 @@ const VerticalSlider = ({isDark}) => {
     >
       <Slider {...settings}>
         {data.map((item,index) =>(
-            <CustomSlide isDark={isDark} key={index} projectname={item.projectName}  message={item.boardTitle} />
+            <CustomSlide navigate={navigate} isDark={isDark} key={index} projectname={item.projectName}  message={item.boardTitle} />
         ))}
       </Slider>
     </div>
