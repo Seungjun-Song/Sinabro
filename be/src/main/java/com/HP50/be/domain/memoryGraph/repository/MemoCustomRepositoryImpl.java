@@ -1,17 +1,23 @@
 package com.HP50.be.domain.memoryGraph.repository;
 
 import com.HP50.be.domain.memoryGraph.dto.MemoRequestDto;
-import com.HP50.be.domain.memoryGraph.dto.MemoResponseDto;
+import com.HP50.be.global.jwt.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.neo4j.cypherdsl.core.Cypher;
-import org.neo4j.cypherdsl.core.Node;
-import org.neo4j.cypherdsl.core.Statement;
+import org.neo4j.cypherdsl.core.*;
 import org.neo4j.cypherdsl.core.renderer.Renderer;
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.Record;
+import org.neo4j.driver.Result;
+import org.neo4j.driver.Session;
 import org.springframework.data.neo4j.core.Neo4jClient;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.neo4j.cypherdsl.core.Cypher.*;
 
 
 @Slf4j
@@ -20,7 +26,8 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class MemoCustomRepositoryImpl implements MemoCustomRepository{
     private final Neo4jClient neo4jClient;
-
+    private final Driver driver;
+    private final JwtUtil jwtUtil;
 
     // 처음 메모를 저장할때 이 메모가 유저의 것이다 라는 것을 저장하기 위해서 관계를 같이 저장해줌
     @Override
@@ -36,8 +43,6 @@ public class MemoCustomRepositoryImpl implements MemoCustomRepository{
                 .create(member.relationshipTo(memo, "out_going"))
                 .returning(member, memo)
                 .build();
-
-
         neo4jClient.query(Renderer.getDefaultRenderer().render(query)).run();
     }
 
@@ -65,30 +70,77 @@ public class MemoCustomRepositoryImpl implements MemoCustomRepository{
     }
 
     @Override
-    public String deleteMemo(String memoId) {
-        return Cypher.match(Cypher.node("Memo").named("memo")
-                .withProperties("memo_id", Cypher.literalOf(memoId)))
-                .detachDelete("memo").build().getCypher();
+    public void deleteMemo(String token, String memoId) {
+        Integer memberId = jwtUtil.getMemberId(token);
+
+        try(Session session = driver.session()){
+            Node m = Cypher.node("Memo").named("m");
+            Node n = Cypher.anyNode("n");
+            Node member = Cypher.node("Member").named("member");
+
+            Relationship r = m.relationshipTo(n);
+
+            Statement memoDeleteCypher = Cypher.match(Cypher.node("Memo").named("memo")
+                            .withProperties("memo_id", Cypher.literalOf(memoId)))
+                    .detachDelete("memo").build();
+
+            Statement statement = Cypher.match(r)
+                    .where(m.property("memo_id").isEqualTo(Cypher.literalOf(memoId)))
+                    .with(n, count(n).as("count"))
+                    .where(Cypher.name("count").isEqualTo(Cypher.literalOf(1)))
+                    .returning(n.property("memo_id"))
+                    .build();
+
+            List<String> memoIdList = new ArrayList<>();
+
+            Result result = session.run(statement.getCypher());
+
+            while (result.hasNext()) {
+                Record record = result.next();
+                memoIdList.add(record.get("n.memo_id").asString());
+            }
+
+//             메모를 삭제하면 유저와 관계가 사라지기 때문에 다시 유저와 관계를 정의
+            for(String connectMemoId: memoIdList){
+                Node connectMemo = Cypher.node("Memo").named("m");
+                Statement connectMemoToMemberCypher = Cypher
+                        .match(connectMemo.withProperties("memo_id", Cypher.literalOf(connectMemoId)))
+                        .match(member.withProperties("member_id", Cypher.literalOf(memberId)))
+                                .create(member.relationshipTo(connectMemo, "out_going"))
+                                        .build();
+
+                log.info("삭제 Cypher: {}", connectMemoToMemberCypher.getCypher());
+
+                neo4jClient.query(Renderer.getDefaultRenderer().render(connectMemoToMemberCypher)).run();
+            }
+
+            // memo 삭제
+            neo4jClient.query(Renderer.getDefaultRenderer().render(memoDeleteCypher)).run();
+        }
     }
 
     @Override
-    public String updateMemo(MemoRequestDto memoRequestDto) {
-        String memoId = memoRequestDto.getMemoId();
-        String title = memoRequestDto.getTitle();
-        String content = memoRequestDto.getContent();
-        String color = memoRequestDto.getColor();
+    public void updateMemo(MemoRequestDto memoRequestDto) {
+        try(Session session = driver.session()){
+            String memoId = memoRequestDto.getMemoId();
+            String title = memoRequestDto.getTitle();
+            String content = memoRequestDto.getContent();
+            String color = memoRequestDto.getColor();
 
-        Node memo = Cypher.node("Memo").named("m");
+            Node memo = Cypher.node("Memo").named("m");
 
-        return Cypher
-                .match(memo
-                        .withProperties("memo_id", Cypher.literalOf(memoId)))
-                .set(
-                        memo.property("title").to(Cypher.literalOf(title)),
-                        memo.property("content").to(Cypher.literalOf(content)),
-                        memo.property("color").to(Cypher.literalOf(color))
-                )
-                .build()
-                .getCypher();
+            String cypher = Cypher
+                    .match(memo
+                            .withProperties("memo_id", Cypher.literalOf(memoId)))
+                    .set(
+                            memo.property("title").to(Cypher.literalOf(title)),
+                            memo.property("content").to(Cypher.literalOf(content)),
+                            memo.property("color").to(Cypher.literalOf(color))
+                    )
+                    .build()
+                    .getCypher();
+
+            session.run(cypher);
+        }
     }
 }

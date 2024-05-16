@@ -47,13 +47,6 @@ public class MemoController {
         return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
-    @Operation(summary = "메모 삭제", description = "관계 또한 같이 삭제 됌")
-    @DeleteMapping
-    public ResponseEntity<BaseResponse<StatusCode>> deleteMemo(@RequestParam("memoId") String memoId){
-        memoService.deleteMemo(memoId);
-        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
-    }
-
     @Operation(summary = "메모 수정", description = "메모의 컨텐츠 및 타이틀 수정")
     @PutMapping("/update")
     public ResponseEntity<BaseResponse<StatusCode>> updateMemo(@RequestBody MemoRequestDto memoRequestDto){
@@ -61,4 +54,11 @@ public class MemoController {
         return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
+    @Operation(summary = "메모 삭제", description = "관계 또한 같이 삭제 됌")
+    @DeleteMapping
+    public ResponseEntity<BaseResponse<StatusCode>> deleteMemo(@CookieValue(JwtConstants.JWT_HEADER) String token,
+                                                               @RequestParam("memoId") String memoId){
+        memoService.deleteMemo(token, memoId);
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
+    }
 }
