@@ -8,6 +8,6 @@ public interface MemoService {
     MemberForGraphDto findMemoByMemberId(Integer memberId);
     String saveMemo(String token, MemoRequestDto memoRequestDto);
     void setMemoToMemo(String token, String firstMemoId, String secondMemoId);
-    void deleteMemo(String memoId);
+    void deleteMemo(String token, String memoId);
     void updateMemo(MemoRequestDto memoRequestDto);
 }

@@ -9,8 +9,6 @@ import com.HP50.be.domain.memoryGraph.repository.Neo4jMemberRepository;
 import com.HP50.be.global.jwt.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.neo4j.driver.Driver;
-import org.neo4j.driver.Session;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,7 +23,6 @@ public class MemoServiceImpl implements MemoService {
     private final Neo4jMemberRepository neo4jMemberRepository;
     private final MemoCustomRepository memoCustomRepository;
     private final JwtUtil jwtUtil;
-    private final Driver driver;
 
     @Override
     public MemberForGraphDto findMemoByMemberId(Integer memberId){
@@ -81,19 +78,13 @@ public class MemoServiceImpl implements MemoService {
 
     // 지우고 나서 연관되어 있는 노드들의 관계의 갯수를 센 후 관계의 수가 1인 노드를 다시 멤버에 연결하는 작업 필요
     @Override
-    public void deleteMemo(String memoId) {
-        try(Session session = driver.session()){
-            String cypher = memoCustomRepository.deleteMemo(memoId);
-            session.run(cypher);
-        }
+    public void deleteMemo(String token, String memoId) {
+        memoCustomRepository.deleteMemo(token, memoId);
     }
 
     @Override
     public void updateMemo(MemoRequestDto memoRequestDto) {
-        try(Session session = driver.session()){
-            String cypher = memoCustomRepository.updateMemo(memoRequestDto);
-            session.run(cypher);
-        }
+        memoCustomRepository.updateMemo(memoRequestDto);
     }
 
     public void setFromForLink(Memo memo, String memoId, List<LinksDto> linkList){
