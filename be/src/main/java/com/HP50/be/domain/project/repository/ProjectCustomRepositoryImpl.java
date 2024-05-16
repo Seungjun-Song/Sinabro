@@ -2,13 +2,12 @@ package com.HP50.be.domain.project.repository;
 
 import com.HP50.be.domain.calender.dto.MilestoneResponseDto;
 import com.HP50.be.domain.calender.service.MilestoneService;
-import com.HP50.be.domain.community.entity.Comment;
 import com.HP50.be.domain.project.dto.PjtTechInfo;
 import com.HP50.be.domain.project.dto.ProjectInfoDto;
 import com.HP50.be.domain.project.dto.TeammateInfo;
 import com.HP50.be.domain.project.entity.Project;
-import com.HP50.be.domain.project.entity.Teammate;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -63,7 +62,14 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
                                 teammate.teammateRole.as("teammateRole")
                         )
                 ).from(teammate)
-                .where(project.projectId.eq(projectId)).fetch();
+                .where(project.projectId.eq(projectId))
+                .orderBy(
+                        new CaseBuilder()
+                                .when(teammate.teammateRole.eq("풀스택")).then(1)
+                                .when(teammate.teammateRole.eq("프론트엔드")).then(2)
+                                .when(teammate.teammateRole.eq("백엔드")).then(3)
+                                .otherwise(4).asc()
+                ).fetch();
         // ID만 뽑기
         List<Integer> teammateIdList = teamList.stream().map(TeammateInfo::getTeammateId).toList();
 

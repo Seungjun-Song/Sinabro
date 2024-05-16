@@ -92,7 +92,6 @@ public class BoardServiceImpl implements BoardService {
 
         SliceTotalCountDto<Board> sliceTotalCountDto = boardCustomRepository.findByConditions(catBoard, calCalender, catJob, keyword, pageRequest);
 
-
         Slice<Board> boards = sliceTotalCountDto.getSlice();
         long totalCount = sliceTotalCountDto.getTotalCount();
         List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>();

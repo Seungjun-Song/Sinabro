@@ -72,6 +72,7 @@ public class ProjectController {
     }
 
     // 프로젝트 입장
+    @Operation(summary = "프로젝트 입장")
     @PostMapping("/projects/enter")
     public ResponseEntity<Object> enterProject(@CookieValue(JwtConstants.JWT_HEADER) String token, @RequestBody ProjectEnterRequestDto projectEnterRequestDto) {
         ProjectEnterDto projectEnterDto = service.enterProject(token, projectEnterRequestDto);
@@ -80,6 +81,7 @@ public class ProjectController {
     }
 
     // 프로젝트 퇴장
+    @Operation(summary = "프로젝트 퇴장")
     @PostMapping("/projects/exit")
     public ResponseEntity<Object> exitProject(@CookieValue(JwtConstants.JWT_HEADER) String token) {
         service.exitProject(token);
@@ -87,20 +89,24 @@ public class ProjectController {
         return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
     }
 
-    // 다크 모드
+    // 프로젝트 다크 모드
+    @Operation(summary = "프로젝트 다크 모드")
     @PostMapping("/projects/darkMode")
     public ResponseEntity<Object> projectDarkMode(@CookieValue(JwtConstants.JWT_HEADER) String token) {
-        service.projectDarkMode(token);
+        String theme = service.projectDarkMode(token);
+        Map<String, String> currentTheme = new HashMap<>();
+        currentTheme.put("theme", theme);
 
-        return ResponseEntity.ok(new BaseResponse<>(StatusCode.SUCCESS));
+        return ResponseEntity.ok(new BaseResponse<>(currentTheme));
     }
 
-    // 프로젝트 초대
-    @GetMapping("/projects/invites")
-    public ResponseEntity<Object> getInviteUrl(@CookieValue(JwtConstants.JWT_HEADER) String token) {
-        String inviteUrl = service.getInviteUrl(token);
+    // 프로젝트 피드백 초대
+    @Operation(summary = "프로젝트 피드백 초대")
+    @GetMapping("/projects/{memberId}/feedbacks")
+    public ResponseEntity<Object> getFeedbackUrl(@CookieValue(JwtConstants.JWT_HEADER) String token, @PathVariable Integer memberId) {
+        String feedbackUrl = service.getFeedbackUrl(token, memberId);
         Map<String, String> url = new HashMap<>();
-        url.put("inviteUrl", inviteUrl);
+        url.put("feedbackUrl", feedbackUrl);
 
         return ResponseEntity.ok(new BaseResponse<>(url));
     }

@@ -6,6 +6,7 @@ import com.HP50.be.domain.project.dto.SonarQubeResultDto;
 import com.HP50.be.domain.project.entity.Project;
 import com.HP50.be.domain.project.repository.ProjectRepository;
 import com.HP50.be.global.common.JschUtil;
+import com.HP50.be.global.common.SonarJschUtil;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
 import com.google.gson.JsonArray;
@@ -31,7 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SonarQubeServiceImpl implements SonarQubeService{
     private final ProjectRepository projectRepository;
-    private final JschUtil jschUtil;
+    private final SonarJschUtil jschUtil;
 
     @Override
     public void executeSonarScanner(Integer projectId,String folderName) {
@@ -223,7 +224,7 @@ public class SonarQubeServiceImpl implements SonarQubeService{
          */
         // 폴더에 있는 repo 다 삭제 후 mkdir
         String deleteRepo = "sudo rm -rf /home/ubuntu/sonarQube/scanner/"+projectId+" && "+"sudo mkdir /home/ubuntu/sonarQube/scanner/"+projectId;
-
+        String pwd = "pwd";
         // 폴더 이동 command & git clone
         String toFolderAndClone = "cd /home/ubuntu/sonarQube/scanner/"+projectId+" && " + "sudo git clone "+repoUrl;
         String[] split = repoUrl.split("/");
@@ -237,6 +238,9 @@ public class SonarQubeServiceImpl implements SonarQubeService{
         try {
             // 존재하는 레포 모두 삭제
             if (!jschUtil.executeCommand(session, deleteRepo)) {
+                throw new BaseException(StatusCode.FAIL_DELETE_REPO);
+            }
+            if (!jschUtil.executeCommand(session, pwd)) {
                 throw new BaseException(StatusCode.FAIL_DELETE_REPO);
             }
             // 폴더 이동 & git Clone

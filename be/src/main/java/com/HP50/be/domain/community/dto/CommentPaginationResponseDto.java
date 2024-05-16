@@ -9,5 +9,6 @@ import java.util.List;
 @Builder
 public class CommentPaginationResponseDto {
     Boolean hasNext;
+    long totalCount;
     List<CommentResponseDto> commentResponseDtos;
 }

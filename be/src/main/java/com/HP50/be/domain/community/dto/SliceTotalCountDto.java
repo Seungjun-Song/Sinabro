@@ -12,5 +12,4 @@ import org.springframework.data.domain.SliceImpl;
 public class SliceTotalCountDto<T> {
     private SliceImpl<T> slice;
     private long totalCount;
-
 }

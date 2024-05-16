@@ -27,9 +27,9 @@ public interface ProjectService {
     // 프로젝트 퇴장
     void exitProject(String token);
     // 프로젝트 다크모드
-    void projectDarkMode(String token);
-    // 프로젝트 초대
-    String getInviteUrl(String token);
+    String projectDarkMode(String token);
+    // 프로젝트 피드백 초대
+    String getFeedbackUrl(String token, Integer memberId);
 
     List<ProjectListResponseDto> getProjectListInMember(String token);
 

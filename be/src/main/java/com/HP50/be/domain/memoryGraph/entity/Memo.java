@@ -1,6 +1,5 @@
 package com.HP50.be.domain.memoryGraph.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +25,9 @@ public class Memo {
 
     @Property
     private String content;
+
+    @Property
+    private String color;
 
     // 메모와 메모 간의 관계에서 나에게서 뻗어나가는 메모
     @Relationship(type = "out_going", direction = Relationship.Direction.OUTGOING)
