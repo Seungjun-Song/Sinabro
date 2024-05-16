@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b781d3528f9bf4d16f1e0507f00204ac8177d219ef58610f93970f73c00f59c8
-size 402
+const ProjectInfo = () => {
+  return (
+    <>
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          backgroundColor: "rgba(0,0,0,0.3)",
+        }}
+      >
+        {/* <div style={{ backgroundColor: "rgba(255,255,255,0.5)" }}>adsf</div> */}
+      </div>
+    </>
+  );
+};
+
+export default ProjectInfo;
