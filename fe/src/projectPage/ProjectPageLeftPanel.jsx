@@ -420,6 +420,7 @@ const ProjectPageLeftPanel = ({
             animate={{ width: "30%", opacity: 1 }}
             isDark={isDark}
             className="hide-all-panel"
+
           >
             <ProjectNameBox isDark={isDark}>
               {myCurrentProject.projectName}
@@ -431,7 +432,7 @@ const ProjectPageLeftPanel = ({
                 />
               </IconHoverBox>
             </ProjectNameBox>
-            <CalendarBox style={{backgroundColor:"rgba(255, 254, 254, 0.4)"}}  isDark={isDark}>
+            <CalendarBox isDark={isDark}>
               <IconHoverBox>
                 <FontAwesomeIcon
                   icon={faCalendar}
