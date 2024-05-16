@@ -1,5 +1,6 @@
 package com.HP50.be.domain.project.dto;
 
+import com.HP50.be.domain.calender.dto.MilestoneResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,8 @@ public class ProjectInfoDto {
     private Integer teamReaderId;
     //팀 리스트
     List<TeammateInfo> teammateInfoList;
+
+    List<MilestoneResponseDto> milestoneResponseDtoList;
 
     @Builder
     public ProjectInfoDto(Integer status, String projectName, String projectInfo, String projectImg, String projectRepo, LocalDateTime createdDttm,LocalDateTime endDttm) {
