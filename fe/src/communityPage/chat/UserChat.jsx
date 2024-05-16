@@ -110,23 +110,23 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
         })
 
         if(!isExist){
-          push(chatRef, {
-            id: roomId,
-            projectname: userInfo.displayName,
-            lastChat: "?",
-            day: "2024.04.26",
-            projectimg: userInfo.photoURL,
-          })
+          // push(chatRef, {
+          //   id: roomId,
+          //   projectname: userInfo.displayName,
+          //   lastChat: "?",
+          //   day: "2024.04.26",
+          //   projectimg: userInfo.photoURL,
+          // })
         }
       }
       else{
-        push(chatRef, {
-          id: roomId,
-          projectname: userInfo.displayName,
-          lastChat: "?",
-          day: "2024.04.26",
-          projectimg: userInfo.photoURL,
-        })
+        // push(chatRef, {
+        //   id: roomId,
+        //   projectname: userInfo.displayName,
+        //   lastChat: "?",
+        //   day: "2024.04.26",
+        //   projectimg: userInfo.photoURL,
+        // })
       }
 
     })          
@@ -145,23 +145,23 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
         })
 
         if(!isExist){
-          push(chatRefsec, {
-            id: roomId,
-            projectname: selectedUser.name,
-            lastChat: "?",
-            day: "2024.04.26",
-            projectimg: "/images/gptblack.jpg",
-          })
+          // push(chatRefsec, {
+          //   id: roomId,
+          //   projectname: selectedUser.name,
+          //   lastChat: "?",
+          //   day: "2024.04.26",
+          //   projectimg: "/images/gptblack.jpg",
+          // })
         }
       }
       else{
-        push(chatRefsec, {
-          id: roomId,
-          projectname: selectedUser.name,
-          lastChat: "?",
-          day: "2024.04.26",
-          projectimg: "/images/gptblack.jpg",
-        })
+        // push(chatRefsec, {
+        //   id: roomId,
+        //   projectname: selectedUser.name,
+        //   lastChat: "?",
+        //   day: "2024.04.26",
+        //   projectimg: "/images/gptblack.jpg",
+        // })
       }
 
     })       
