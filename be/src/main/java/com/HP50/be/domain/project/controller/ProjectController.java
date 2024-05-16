@@ -103,8 +103,8 @@ public class ProjectController {
     // 프로젝트 피드백 초대
     @Operation(summary = "프로젝트 피드백 초대")
     @GetMapping("/projects/{memberId}/feedbacks")
-    public ResponseEntity<Object> getFeedbackUrl(@CookieValue(JwtConstants.JWT_HEADER) String token, @PathVariable Integer memberId) {
-        String feedbackUrl = service.getFeedbackUrl(token, memberId);
+    public ResponseEntity<Object> getFeedbackUrl(@PathVariable Integer memberId) {
+        String feedbackUrl = service.getFeedbackUrl(memberId);
         Map<String, String> url = new HashMap<>();
         url.put("feedbackUrl", feedbackUrl);
 

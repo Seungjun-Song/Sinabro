@@ -4,7 +4,6 @@ import com.HP50.be.domain.code.entity.Category;
 import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.code.repository.CategoryRepository;
 import com.HP50.be.domain.code.repository.SubCategoryRepository;
-import com.HP50.be.domain.member.dto.TechStackResponseDto;
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.member.entity.TechStack;
 import com.HP50.be.domain.member.repository.MemberCustomRepository;
@@ -14,11 +13,9 @@ import com.HP50.be.domain.port.entity.Port;
 import com.HP50.be.domain.port.repository.PortCustomRepository;
 import com.HP50.be.domain.port.repository.PortRepository;
 import com.HP50.be.domain.project.dto.*;
-import com.HP50.be.domain.project.entity.PjtTechStack;
 import com.HP50.be.domain.project.entity.Project;
 import com.HP50.be.domain.project.entity.Teammate;
 import com.HP50.be.domain.project.repository.*;
-import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.common.JschUtil;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
@@ -28,10 +25,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -277,15 +271,6 @@ public class ProjectServiceImpl implements ProjectService{
             throw new BaseException(StatusCode.NGINX_UPDATE_FAIL);
         }
 
-        // 동적 포트 할당 조회
-        String getStartPortCommand = "docker port " + codeServerName + " 3000";
-        String dynamicStartPort = jschUtil.executeCommandAndGetOutput(session, getStartPortCommand).split("\n")[0].split(":")[1];
-        log.info("dynamicStartPort : {}", dynamicStartPort);
-
-        String getRunDevPortCommand = "docker port " + codeServerName + " 5173";
-        String dynamicRunDevPort = jschUtil.executeCommandAndGetOutput(session, getRunDevPortCommand).split("\n")[0].split(":")[1];
-        log.info("dynamicRunDevPort : {}", dynamicRunDevPort);
-
         // 깃 클론 전 디렉토리 존재 여부 확인
         String checkDirCommand = "docker exec " + codeServerName + " /bin/bash -c '[ -d \"/home/coder/code-server/" + repoName + "\" ] && echo \"exists\" || echo \"not exists\"'";
         if(!jschUtil.executeCommandAndGetOutput(session, checkDirCommand).trim().equals("exists")) {
@@ -314,8 +299,8 @@ public class ProjectServiceImpl implements ProjectService{
 
         return ProjectEnterDto.builder()
                 .url("https://projectsinabro.store/" + codeServerName + "/?folder=/home/coder/code-server/" + repoName)
-                .runDevPreviewUrl("http://projectsinabro.store:" + dynamicRunDevPort)
-                .startPreviewUrl("http://projectsinabro.store:" + dynamicStartPort)
+                .runDevPreviewUrl("https://projectsinabro.store/" + codeServerName + "/proxy/5173/")
+                .startPreviewUrl("https://projectsinabro.store/" + codeServerName + "/proxy/3000/")
                 .theme(currentTheme)
                 .dbPort(dbPort)
                 .build();
@@ -366,7 +351,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     // 프로젝트 피드백 초대
     @Override
-    public String getFeedbackUrl(String token, Integer memberId) {
+    public String getFeedbackUrl(Integer memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         String codeServerName = member.getCodeServerName();
 

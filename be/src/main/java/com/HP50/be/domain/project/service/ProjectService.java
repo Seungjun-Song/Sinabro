@@ -1,13 +1,6 @@
 package com.HP50.be.domain.project.service;
 
-import com.HP50.be.domain.code.entity.SubCategory;
-import com.HP50.be.domain.member.dto.TechStackResponseDto;
 import com.HP50.be.domain.project.dto.*;
-import com.HP50.be.domain.project.entity.PjtTechStack;
-import com.HP50.be.domain.project.entity.Project;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -29,7 +22,7 @@ public interface ProjectService {
     // 프로젝트 다크모드
     String projectDarkMode(String token);
     // 프로젝트 피드백 초대
-    String getFeedbackUrl(String token, Integer memberId);
+    String getFeedbackUrl(Integer memberId);
 
     List<ProjectListResponseDto> getProjectListInMember(String token);
 
