@@ -145,19 +145,39 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId, 
 
     const back_url = getEnv('BACK_URL')
 
+    const getByteSize = (str) => {
+        return new Blob([str]).size;
+    }
+
     useEffect(() => {
-        console.log("in useEffect")
+        console.log(getByteSize(postContent.content))
+        //console.log(postContent.content)
         if(postContent.content == null || postContent.content.length <= 0) {
             setWarning("내용을 채워주세요!");
             setBlocking(true);
             return;
         }
+
+        if(getByteSize(postContent.content) > 15000){
+            setWarning("내용이 너무 길어요");
+            setBlocking(true);
+            return;
+        }
+
+    
         //제목이 비었을 때 title
         if(postContent.title == null || postContent.title.length <= 0) {
             setWarning("제목이 비었어요!");
             setBlocking(true);
             return;
         }
+
+        if(getByteSize(postContent.title) > 200){
+            setWarning("제목이 너무 길어요");
+            setBlocking(true);
+            return;
+        }
+        
         //팀 선택이 비었을 때 team
         if(selectedPjtId === -1) {
             setWarning("팀을 선택해 주세요!");
@@ -185,7 +205,7 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId, 
         //태그 정리
         const tagList = postContent.tag.split(" ");
 
-        console.log("submit", postContent.content)
+       // console.log("submit", postContent.content)
         console.log("blocking", blocking)
 
 

@@ -10,6 +10,7 @@ import CommunityMemberPage from './CommunityMemberPage';
 import CommunityTeamPage from './CommunityTeamPage';
 import CommunityFeadBackPage from './CommunityFeadbackPage';
 import Pagination from './Pagination';
+import UserChat from '../../components/Userchat/UserChat';
 import { GlobalColor } from '../../services/color';
 import getEnv from '../../utils/getEnv';
 import CalTime from '../CalTime';
@@ -153,12 +154,12 @@ const CommunityMainPage = () => {
                 itemCountPerPage={10}
                 pageCount={2}
                 currentPage={currentPage}
-                selected={selected}
                 setCurrentPage={setCurrentPage}
             >
             </Pagination>
             </MainBox>
         </Community>
+        <UserChat/>
 
         </>
     )
