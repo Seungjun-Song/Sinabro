@@ -9,7 +9,7 @@ import java.util.List;
 public interface Neo4jMemberService {
     List<MemberForGraphDto> findAllMembers();
 
-    Neo4jMember findMember(Integer memberId);
+    MemberForGraphDto findMemoByMember(Integer memberId);
 
     void saveMember(MemberDto memberDto);
 
