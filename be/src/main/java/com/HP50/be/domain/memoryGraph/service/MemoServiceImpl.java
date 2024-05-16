@@ -55,11 +55,11 @@ public class MemoServiceImpl implements MemoService {
     }
 
     @Override
-    public String saveMemo(String token, MemoResponseDto memoResponseDto) {
+    public String saveMemo(String token, MemoRequestDto memoRequestDto) {
         Memo memo = Memo.builder()
-                .title(memoResponseDto.getTitle())
-                .content(memoResponseDto.getContent())
-                .color(memoResponseDto.getColor())
+                .title(memoRequestDto.getTitle())
+                .content(memoRequestDto.getContent())
+                .color(memoRequestDto.getColor())
                         .build();
 
         Memo savedMemo = memoRepository.save(memo);

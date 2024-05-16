@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/memo")
 @RequiredArgsConstructor
 public class MemoController {
-
     private final MemoService memoService;
     private final JwtUtil jwtUtil;
 
@@ -31,10 +30,10 @@ public class MemoController {
 
     @Operation(summary = "메모 저장하기", description = "최초 저장시 반드시 관계부여함")
     @PostMapping
-    public ResponseEntity<BaseResponse<String>> saveMemo(@RequestBody MemoResponseDto memoResponseDto,
+    public ResponseEntity<BaseResponse<String>> saveMemo(@RequestBody MemoRequestDto memoRequestDto,
                                                              @CookieValue(JwtConstants.JWT_HEADER) String token){
 
-        return ResponseEntity.ok().body(new BaseResponse<>(memoService.saveMemo(token, memoResponseDto)));
+        return ResponseEntity.ok().body(new BaseResponse<>(memoService.saveMemo(token, memoRequestDto)));
     }
 
     // memoId1 -> memoId2
