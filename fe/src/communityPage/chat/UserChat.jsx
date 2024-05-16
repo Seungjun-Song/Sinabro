@@ -6,7 +6,7 @@ import { Resizable } from "re-resizable";
 import Chatdetail from "./Chatdetail";
 import GPTChat from "./GPTChat";
 import { useSelector } from "react-redux";
-import { getDatabase, onValue, ref, get, child, push} from "firebase/database";
+import { getDatabase, onValue, ref, get, child, push, remove} from "firebase/database";
 
 const DUMMY_DATA = [
   {
@@ -96,6 +96,7 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
                             : parseInt(userInfo.uid + "" + selectedUser.id);
 
     const db = getDatabase();
+    if(selectedUser.id){
     let chatRef = ref(db, `chatList/${selectedUser.id}`);
     onValue(chatRef, (snapshot) => {
       const data = snapshot.val();
@@ -109,7 +110,7 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
           }
         })
 
-        if(!isExist){
+        if(!isExist){    
           // push(chatRef, {
           //   id: roomId,
           //   projectname: userInfo.displayName,
@@ -129,8 +130,10 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
         // })
       }
 
-    })          
+    })   
+    }       
 
+    if(userInfo.uid){
     const chatRefsec = ref(db, `chatList/${userInfo.uid}`);
     onValue(chatRefsec, (snapshot) => {
       const data = snapshot.val();
@@ -165,8 +168,7 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
       }
 
     })       
-    
-  
+    }
     setWhatpjt({projectId: roomId, projectname: selectedUser.name})
 
   }, [selectedUser])

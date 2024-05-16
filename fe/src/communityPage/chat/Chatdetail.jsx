@@ -38,7 +38,7 @@ const Chatdetail = ({ setWhatpjt, whatpjt }) => {
         console.log(chatMessages);
       }
     });
-  }, []);
+  }, [whatpjt]);
   const sendMessage = () => {
     if (message.trim() !== "") {
       const db = getDatabase();
