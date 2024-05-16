@@ -96,13 +96,8 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository{
         result.setTeammateInfoList(teamList);
 
         // 마일스톤 연결하기
-        List<Integer> milestoneIdList = queryFactory.select(milestone.milestoneId)
-                .where(milestone.project.projectId.eq(projectId))
-                .from(milestone)
-                .fetch();
-
-        List<MilestoneResponseDto> milestoneResponseDtoList = milestoneIdList.stream()
-                .map(milestoneService::findMileStoneById).toList();
+        List<MilestoneResponseDto> milestoneResponseDtoList = milestoneService
+                .findMilestoneByProjectId(projectId);
 
         result.setMilestoneResponseDtoList(milestoneResponseDtoList);
 

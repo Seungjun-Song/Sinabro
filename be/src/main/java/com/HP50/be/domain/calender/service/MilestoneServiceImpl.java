@@ -99,6 +99,8 @@ public class MilestoneServiceImpl implements MilestoneService{
 
         List<Milestone> milestones = milestoneRepository.findMilestonesByProjectProjectId(projectId);
 
-        return null;
+        return milestones.stream()
+                .map(entity -> this.findMileStoneById(entity.getMilestoneId()))
+                .toList();
     }
 }
