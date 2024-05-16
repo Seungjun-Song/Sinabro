@@ -107,7 +107,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 isDark={isDark}
                 setWhatUser={setWhatUser}
                 item={item.teammateRole}
-                state={item.teamReader ? "Reader" : "Member"}
+                state={item.teamReader ? "Leader" : "Member"}
                 name={item.memberName}
                 memberId={item.memberId}
                 teamLeader={teamLeader}
@@ -141,7 +141,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 isDark={isDark}
                 setWhatUser={setWhatUser}
                 item={item.teammateRole}
-                state={item.teamReader ? "Reader" : "Member"}
+                state={item.teamReader ? "Leader" : "Member"}
                 name={item.memberName}
                 memberId={item.memberId}
                 teamLeader={teamLeader}
