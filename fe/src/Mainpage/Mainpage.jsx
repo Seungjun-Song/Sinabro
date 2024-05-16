@@ -31,7 +31,7 @@ const Mainpage = () => {
           withCredentials: true,
         });
         dispatch(setMyProjectList(res.data.result));
-        console.log('이거 되나', res.data)
+        console.log("이거 되나", res.data);
       } catch (err) {
         console.error(err);
       }
@@ -118,7 +118,14 @@ const Mainpage = () => {
           <GotoTeamSpace
             isDark={isDark}
             data={myProjectList}
-            activeSlide={Math.min(Math.floor(myProjectList && myProjectList.length > 0 && myProjectList.length / 2), 2)}
+            activeSlide={Math.min(
+              Math.floor(
+                myProjectList &&
+                  myProjectList.length > 0 &&
+                  myProjectList.length / 2
+              ),
+              2
+            )}
           />
           <SinabroTeamProject
             allPage={allPage}
@@ -175,6 +182,7 @@ const Mainpage = () => {
         style={{ originX: isPresent ? 0 : 1 }}
         className="privacy-screen"
       /> */}
+
     </>
   );
 };
