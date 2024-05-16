@@ -11,7 +11,7 @@ import SearchBox from './SearchBox'
 const MemberPage = styled.div`
     display: flex;        
     flex-direction: column;
-    width: 70%;
+    width: 75%;
     margin-right : 20rem;
     margin-top : 4rem;
 `

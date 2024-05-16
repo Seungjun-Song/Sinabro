@@ -151,7 +151,7 @@ const Post = ({post, kind, isDark}) => {
     return(
         <Detail 
             onClick={() => navigate('/communityDetail', {state: {kind: kind, postId: post.id} })}
-            whileHover={{ cursor: "pointer", y: -3, scale: 1.05}}
+            whileHover={{ cursor: "pointer", y: -3, scale: 1.01}}
             transition={{ type: "spring", stiffness: 100 }}
         >
             <div style={{display: 'flex', justifyContent: 'space-between', margin: '0 0 1rem 0'}}>

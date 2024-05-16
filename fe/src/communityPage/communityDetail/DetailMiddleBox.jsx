@@ -85,7 +85,6 @@ const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
 
     return(
     <Middle
-        {...middleMotion}
     >
         <Content dangerouslySetInnerHTML={{ __html : detailData.content}}>
         </Content>

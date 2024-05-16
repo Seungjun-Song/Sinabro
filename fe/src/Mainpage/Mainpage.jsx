@@ -112,7 +112,7 @@ const Mainpage = () => {
           backgroundColor: isDark ? GlobalColor.colors.primary_black : "white",
         }}
       >
-        <div style={{ width: "70%" }}>
+        <div style={{ width: "70%", margin: "20px"}}>
           <SimpleSlider />
           <VerticalSlider isDark={isDark} />
           <GotoTeamSpace

@@ -24,6 +24,7 @@ const TeamList = styled.div`
   margin-bottom: 20px;
 
   cursor: pointer;
+
 `;
 
 const Create = styled.div`
@@ -114,7 +115,7 @@ const DropTeam = () => {
         animate="visible"
         transition={{ delay: 0.1 * (myProjectList.length + 1), duration: 0.2  }}
       >
-        <Create style={{color:"black"}} onClick={() => navigate("/TeamSpacePage")}>
+        <Create style={{color:"white", fontFamily:"Jamsil Light"}} onClick={() => navigate("/TeamSpacePage")}>
           프로젝트 생성하기
           <span style={{color: 'white'}}>+</span>
           {/* <img src={Go}></img> */}

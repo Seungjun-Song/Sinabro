@@ -21,6 +21,13 @@ const UserSearchBar = ({ handleChange, userName }) => {
     }
   }
 
+  const activeEnter = (e) => {
+    console.log("key")
+    if(e.key === "Enter"){
+      searchUser(userName);
+    }
+  }
+
   return (
     <div style={{ position: "relative" }}>
       <input
@@ -39,6 +46,7 @@ const UserSearchBar = ({ handleChange, userName }) => {
           outline: "none",
         }}
         value={userName}
+        onKeyDown={(e) => activeEnter(e)}
       />
       <img
         style={{
