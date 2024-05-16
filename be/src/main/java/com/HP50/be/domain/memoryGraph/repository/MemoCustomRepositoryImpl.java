@@ -76,6 +76,7 @@ public class MemoCustomRepositoryImpl implements MemoCustomRepository{
         String memoId = memoRequestDto.getMemoId();
         String title = memoRequestDto.getTitle();
         String content = memoRequestDto.getContent();
+        String color = memoRequestDto.getColor();
 
         Node memo = Cypher.node("Memo").named("m");
 
@@ -84,8 +85,10 @@ public class MemoCustomRepositoryImpl implements MemoCustomRepository{
                         .withProperties("memo_id", Cypher.literalOf(memoId)))
                 .set(
                         memo.property("title").to(Cypher.literalOf(title)),
-                        memo.property("content").to(Cypher.literalOf(content))
+                        memo.property("content").to(Cypher.literalOf(content)),
+                        memo.property("color").to(Cypher.literalOf(color))
                 )
-                .build().getCypher();
+                .build()
+                .getCypher();
     }
 }
