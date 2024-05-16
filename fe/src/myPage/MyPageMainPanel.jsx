@@ -391,8 +391,8 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
               style={{
                 // padding:"1rem",
                 maxHeight: "100%",
-                height:"4rem",
-                alignItems:"center",
+                height: "4rem",
+                alignItems: "center",
                 display: "flex",
                 // flexDirection: "column",
                 flexWrap: "wrap",
@@ -486,8 +486,17 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           </InnerBox>
         </InnerArea>
         <InnerArea>
-          <InnerText>Memory Graph</InnerText>
-          <div>이거 설명</div>
+          <InnerText
+            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+          >
+            Memory Graph
+            <div
+              style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
+            >
+              <div>노드간 정보를 입체적으로 저장하세요</div>
+              <div>노드를 클릭하면 작업이 가능합니다</div>
+            </div>
+          </InnerText>
           <MemoryGraphContainer>
             <MemoryGraphMainBox
             // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}

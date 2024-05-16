@@ -7,21 +7,22 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { Form } from "react-bootstrap";
 import { GlobalColor } from "../services/color";
-function genRandomTree(N = 300, reverse = false) {
-  return {
-    nodes: [...Array(N).keys()].map((i) => ({ id: i })),
-    links: [...Array(N).keys()]
-      .filter((id) => id)
-      .map((id) => ({
-        [reverse ? "target" : "source"]: id,
-        [reverse ? "source" : "target"]: Math.round(Math.random() * (id - 1)),
-      })),
-  };
-}
+// function genRandomTree(N = 300, reverse = false) {
+//   return {
+//     nodes: [...Array(N).keys()].map((i) => ({ id: i })),
+//     links: [...Array(N).keys()]
+//       .filter((id) => id)
+//       .map((id) => ({
+//         [reverse ? "target" : "source"]: id,
+//         [reverse ? "source" : "target"]: Math.round(Math.random() * (id - 1)),
+//       })),
+//   };
+// }
 const MemoryGraph = () => {
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
+  const [isfirst ,setIsFirst] = useState(false)
   const back_url = getEnv("BACK_URL");
-  const GROUPS = 12;
+
   const isDark = useSelector((state) => state.isDark.isDark);
   const [color, setColor] = useState("#000000");
   //   const [islabel, setIslabel] = useState(false);
@@ -53,7 +54,7 @@ const MemoryGraph = () => {
         memoId: whatnode.id,
         title: newnode,
         content: content,
-        color : color,
+        color: color,
       });
       console.log(res);
       setIsModal(false);
@@ -170,6 +171,10 @@ const MemoryGraph = () => {
     const newnodeid = await addnode();
     connectnode(newnodeid);
   };
+  const handlefirst = async()=>{
+    await addnode()
+    getGraphData()
+  }
   return (
     <div
       onClick={() => (setWhatNode(null), setIsModal(false))}
@@ -184,7 +189,7 @@ const MemoryGraph = () => {
       }}
     >
       {/* <div onClick={handlebutton}>button</div>  */}
-      {
+      {graphData.nodes.length !== 0 && (
         <ForceGraph
           ref={fgRef}
           width={680}
@@ -212,6 +217,93 @@ const MemoryGraph = () => {
           //   numDimensions={3}
           onNodeClick={(node) => hadleAllClick(node)}
         />
+      )}
+      {graphData.nodes.length == 0 && !isfirst && (
+        <div
+          style={{
+            width: "35rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            justifyContent: "center",
+            backgroundColor:"white",
+            padding:"1rem",
+            borderRadius:"1rem"
+          }}
+        >
+          <div>아직 노드가 없어요! 새롭게 추가해봐요</div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              //   marginBottom: "1rem",
+            }}
+          >
+            <div style={{ width: "18%" }}>새로운 노드 </div>
+            <Form.Control
+              style={{ width: "82%" }}
+              type="text"
+              placeholder="노드 이름"
+              value={newnode}
+              onChange={(e) => setNewNode(e.target.value)}
+            />
+          </div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              //   marginBottom: "1rem",
+            }}
+          >
+            <div style={{ width: "18%" }}>내용 </div>
+            <Form.Control
+              style={{ width: "82%" }}
+              type="text"
+              placeholder="내용"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              //   marginBottom: "1rem",
+              gap: "1rem",
+            }}
+          >
+            <div style={{ width: "18%" }}>노드 색 입력 </div>
+            <input
+              type="color"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+            />
+            {color}
+          </div>
+          <div style={{display:"flex" ,justifyContent:"flex-end"}} >
+            
+            <div
+              style={{
+                cursor: "pointer",
+                backgroundColor: "#3085d6",
+                color: "white",
+                padding: "0.5rem 1rem",
+                borderRadius: "1rem",
+              }}
+              onClick={() => handlefirst()}
+            >
+              확인
+            </div>
+          </div>
+        </div>
+      )}
+      {
+        
       }
       {whatnode && (
         <div
