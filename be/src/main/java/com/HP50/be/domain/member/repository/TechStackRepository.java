@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ce36c84061c9f2981a2400439dd5fd19461a1812d6c52fdd3bc5c5a777aa3762
-size 296
+package com.HP50.be.domain.member.repository;
+
+import com.HP50.be.domain.member.entity.TechStack;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface TechStackRepository extends JpaRepository<TechStack, Integer> {
+
+}

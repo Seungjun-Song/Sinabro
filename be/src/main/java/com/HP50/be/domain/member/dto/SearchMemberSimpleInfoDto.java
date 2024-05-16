@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:02227a983ceb5a04dca4d498b0b52d2b97de1079bc0aa37af80d4075db294e30
-size 341
+package com.HP50.be.domain.member.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class SearchMemberSimpleInfoDto {
+    private Integer memberId;
+    private String memberName;
+    private String memberImg;
+}
