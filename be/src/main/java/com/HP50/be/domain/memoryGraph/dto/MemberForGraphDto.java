@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7eb846ad9fed69f1abdc31614bb8c82ba42ce36160b21ce058894b8d0a15fb9a
-size 340
+package com.HP50.be.domain.memoryGraph.dto;
+
+import lombok.Builder;
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+@Builder
+public class MemberForGraphDto {
+    private Integer memberId;
+    private String name;
+    // 데이터 시각화를 위해서 node와 link 로 표현
+    List<NodesDto> nodeList;
+    List<LinksDto> linkList;
+}
