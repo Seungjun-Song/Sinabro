@@ -74,6 +74,7 @@ const CalendarBox = styled.div`
   margin-left: 1.2rem;
   margin-right: 1.2rem;
   font-weight: bold;
+  /* background-color:white; */
   color: ${({ isDark }) => (isDark ? "#564CAD" : "white")};
 `;
 
@@ -164,12 +165,12 @@ const TeammateBox = styled.div`
   align-items: center;
   width: 100%;
   padding: 0.2rem;
-`
+`;
 const TeammateImg = styled.img`
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  border: 3px solid  ${({ selected }) => (selected ? '#564cad' : 'whiteSmoke')};
+  border: 3px solid ${({ selected }) => (selected ? "#564cad" : "whiteSmoke")};
   align-self: center;
   margin: 0.5rem;
   cursor: pointer;
@@ -228,14 +229,17 @@ const CustomModal = styled(Modal)`
   }
 `;
 
-const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammates }) => {
+const ProjectPageLeftPanel = ({
+  teammate,
+  selectedTeammates,
+  setSelectedTeammates,
+}) => {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [toDoText, setToDoText] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   // const [selectedWorker, setSelectedWorker] = useState(''); // 자기 일정만 추가할 수 있음
-
 
   const dispatch = useDispatch();
 
@@ -249,9 +253,9 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
   const userInfo = useSelector((state) => state.user);
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
 
-  console.log(selectedTeammates)
+  console.log(selectedTeammates);
 
-  console.log(toDoList)
+  console.log(toDoList);
 
   useEffect(() => {
     if (modalState) {
@@ -308,9 +312,9 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
 
   // 팀원 선택/해제 핸들러 props로 념겨주는 함수
   const toggleTeammateSelection = (memberId) => {
-    setSelectedTeammates(prev => {
+    setSelectedTeammates((prev) => {
       if (prev.includes(memberId)) {
-        return prev.filter(id => id !== memberId); // 이미 선택된 팀원이면 제거
+        return prev.filter((id) => id !== memberId); // 이미 선택된 팀원이면 제거
       } else {
         return [...prev, memberId]; // 선택되지 않았다면 추가
       }
@@ -427,7 +431,7 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
                 />
               </IconHoverBox>
             </ProjectNameBox>
-            <CalendarBox isDark={isDark}>
+            <CalendarBox style={{backgroundColor:"rgba(255, 254, 254, 0.4)"}}  isDark={isDark}>
               <IconHoverBox>
                 <FontAwesomeIcon
                   icon={faCalendar}
@@ -447,8 +451,15 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
             <TeammateBox>
               {teammate.map((item, index) => {
                 return (
-                  <TeammateImg key={index} src={item.memberImg} selected={selectedTeammates.includes(item.memberId) ? true : false} onClick={() => toggleTeammateSelection(item.memberId)} />
-                )
+                  <TeammateImg
+                    key={index}
+                    src={item.memberImg}
+                    selected={
+                      selectedTeammates.includes(item.memberId) ? true : false
+                    }
+                    onClick={() => toggleTeammateSelection(item.memberId)}
+                  />
+                );
               })}
             </TeammateBox>
             <ToDoListBox>
@@ -459,7 +470,7 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
                 <ListBox>
                   {/* 오늘의 할 일 목록 출력 */}
                   {toDoList
-                    .filter(item => selectedTeammates.includes(item.memberId)) // 선택된 팀원들의 일정만 필터링
+                    .filter((item) => selectedTeammates.includes(item.memberId)) // 선택된 팀원들의 일정만 필터링
                     .map((item, index) => {
                       const itemStartDate = item.calenderStartDt
                         ? new Date(item.calenderStartDt)
@@ -572,7 +583,7 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
                 <DayText isDark={isDark}>내일 할 일</DayText>
                 <ListBox>
                   {toDoList
-                    .filter(item => selectedTeammates.includes(item.memberId)) // 선택된 팀원들의 일정만 필터링
+                    .filter((item) => selectedTeammates.includes(item.memberId)) // 선택된 팀원들의 일정만 필터링
                     .map((item, index) => {
                       const itemStartDate = item.calenderStartDt
                         ? new Date(item.calenderStartDt)

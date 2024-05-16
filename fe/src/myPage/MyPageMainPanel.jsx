@@ -327,8 +327,17 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           transition={{ duration: 0.3, delay: 0.3 }}
           style={{ height: "12rem" }}
         >
-          <InnerText>Skills</InnerText>
-          <div>보유하신 기술 스택입니다!</div>
+          <InnerText
+            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+          >
+            Skills
+            <div
+              style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
+            >
+              보유하신 기술 스택입니다!
+            </div>
+          </InnerText>
+
           <SearchContainer>
             <SearchContainerLeftSide>
               <AnimatePresence>
@@ -382,7 +391,8 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
               style={{
                 // padding:"1rem",
                 maxHeight: "100%",
-                // height:"4rem",
+                height:"4rem",
+                alignItems:"center",
                 display: "flex",
                 // flexDirection: "column",
                 flexWrap: "wrap",
@@ -402,7 +412,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                     color: "white",
                   }}
                   style={{
-                    margin: "1rem",
+                    margin: "0.5rem",
                     display: "flex",
                     gap: "0.8rem",
                     alignItems: "center",
@@ -428,8 +438,16 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           transition={{ duration: 0.3, delay: 0.6 }}
           style={{ marginTop: 0 }}
         >
-          <InnerText>Works</InnerText>
-          <div>{userfind.name}님의 작품입니다!</div>
+          <InnerText
+            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+          >
+            Works
+            <div
+              style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
+            >
+              {userInfo.displayName}님의 작품입니다!
+            </div>
+          </InnerText>
           <InnerBox style={{ padding: "0", gap: "0" }}>
             {/* Works 내용 */}
             {myProjectList.map((item, index) => {
@@ -472,7 +490,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           <div>이거 설명</div>
           <MemoryGraphContainer>
             <MemoryGraphMainBox
-              // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
+            // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
             >
               <MemoryGraph />
             </MemoryGraphMainBox>
