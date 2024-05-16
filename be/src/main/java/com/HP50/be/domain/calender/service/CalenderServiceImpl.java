@@ -64,12 +64,13 @@ public class CalenderServiceImpl implements CalenderService{
                 .subCategory(subCategory)
                 .build();
 
+        // milestoneId 가 없다면 마일스톤을 지정하지 않은 것
+        // milestoneId 가 있다면 마일스톤을 지정한 것
         if (requestDto.getMilestoneId() != null) {
             calender.setMilestone(
                     this.milestoneRepository.findById(requestDto.getManagerId()).orElse(null)
             );
         }
-
 
         // 저장
         calenderRepository.save(calender);
@@ -85,11 +86,14 @@ public class CalenderServiceImpl implements CalenderService{
         }
         //2. 팀원이라면 상태 변경 가능. SubCategory 코드를 가져온다.
         SubCategory subCategory = subCategoryRepository.findById(requestDto.getSubCategoryId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY));
+        // todo 에러코드 수정하기
+        Milestone milestone = milestoneRepository.findById(requestDto.getMilestoneId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_CALENDER));
 
         //3. Calender Entity도 가져옴.
         Calender calender = calenderRepository.findById(requestDto.getCalenderId()).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_CALENDER));
         //4. 상태 업데이트
         calender.updateSubCategory(subCategory);
+        calender.setMilestone(milestone);
         return true;
     }
     // 일정 삭제
