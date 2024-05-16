@@ -2,6 +2,8 @@ package com.HP50.be.global.oauth.service;
 
 import com.HP50.be.domain.member.entity.Member;
 import com.HP50.be.domain.member.repository.MemberRepository;
+import com.HP50.be.domain.memoryGraph.entity.Neo4jMember;
+import com.HP50.be.domain.memoryGraph.repository.Neo4jMemberRepository;
 import com.HP50.be.global.common.BaseResponse;
 import com.HP50.be.global.jwt.JwtConstants;
 import com.HP50.be.global.jwt.JwtUtil;
@@ -38,6 +40,7 @@ public class OAuthServiceImpl implements OAuthService{
 
     private final TokenInRedisService tokenInRedisService;
     private final MemberRepository memberRepository;
+    private final Neo4jMemberRepository neo4jMemberRepository;
     private final RestTemplate restTemplate = new RestTemplate();
     private final JwtUtil jwtUtil;
 
@@ -146,6 +149,10 @@ public class OAuthServiceImpl implements OAuthService{
                     .jwtAccessToken(accessToken)
                     .isNewer(true)
                     .build();
+            neo4jMemberRepository.save(Neo4jMember.builder()
+                            .memberId(memberId)
+                            .name(nickname)
+                    .build());
         }
         else {
             jwtInfoDto = JwtInfoDto.builder()
