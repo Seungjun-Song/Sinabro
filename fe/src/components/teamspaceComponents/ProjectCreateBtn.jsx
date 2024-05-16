@@ -5,7 +5,6 @@ import getEnv from '../../utils/getEnv'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import e from 'cors'
 
 const BtnContainer = styled.div`
     color: ${props => props.isDark ? 'grey' : 'white'};

@@ -15,7 +15,7 @@ import ProjectCreateBtn from "../components/teamspaceComponents/ProjectCreateBtn
 import { useEffect } from "react";
 import { clearProjectCreate, setProjectMemberList } from "../store/projectCreateSlice";
 import { clearInvitedUserList, setInvitedUserList } from "../store/invitedUserListSlice";
-
+import Swal from 'sweetalert2'
 
 const TeamSpacePage = () => {
   const [imgUrl, setImgUrl] = useState("/images/E103_Logo.png")
@@ -103,7 +103,7 @@ const TeamSpacePage = () => {
           )}
         </AnimatePresence>
         <ProjectCreateBtn isDark={isDark} setRoleCheck={setRoleCheck}/>
-        {/* {roleCheck === true ? (window.alert('팀원의 역할을 선택해 주세요'), setRoleCheck(false)) : null} */}
+        {roleCheck === true ? (Swal.fire("팀원의 역할을 선택해 주세요"), setRoleCheck(false)) : null}
       </div>
     </>
   );

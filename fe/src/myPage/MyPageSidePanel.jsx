@@ -42,6 +42,7 @@ const MyName = styled.div`
   font-size: 1.5rem;
   display: flex;
   align-items: center;
+  justify-content:center;
 
   width: 100%;
   margin: 1.5rem 0 1.5rem 0; 
