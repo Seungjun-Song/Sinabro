@@ -35,7 +35,8 @@ const TeamSpaceDetailPage = () => {
           paddingTop: "5rem",
           backgroundColor : isDark ? GlobalColor.colors.primary_black : "white",
           // backgroundColor: "rgba(212, 223, 255, 0.2)",
-          transition:"0.3s"
+          transition:"0.3s",
+          minWidth: '1200px',
         }}
         
       >

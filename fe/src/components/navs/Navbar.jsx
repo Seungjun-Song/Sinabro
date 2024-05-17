@@ -23,7 +23,7 @@ const NavBar = styled.nav`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-width: 600px;
+  min-width: 800px;
   height: 100px;
   background-color: ${({ isScrolled }) =>
     !isScrolled ? "rgba(86, 76, 173, 1)" : "rgba(245, 248, 255, 1)"};
