@@ -72,7 +72,7 @@ const MemoryGraph = ({
           <div
             style={{ position: "absolute", bottom: 0, right: 0, zIndex: "1" }}
           >
-            <MemoryGraphButton onClick={() => addOnlyNode(true)}>
+            <MemoryGraphButton onClick={() => setAddOnlyNode(true)}>
               Add Node
             </MemoryGraphButton>
           </div>
