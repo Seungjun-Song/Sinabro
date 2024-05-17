@@ -245,6 +245,7 @@ const ProjectPageLeftPanel = ({
   const [toDoText, setToDoText] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [mileston, setMileston] = useState(null);
 
   // const [selectedWorker, setSelectedWorker] = useState(''); // 자기 일정만 추가할 수 있음
 
@@ -276,13 +277,11 @@ const ProjectPageLeftPanel = ({
   }, [modalState]);
 
   useEffect(() => {
-    console.log('274번째 줄 실행됨')
     const setProjectSchedules = async () => {
       try {
         const res = await axios.get(`${back_url}/schedules/${projectRoomId}`); // 쿠키 되면 제대로 받아지는지 확인
         dispatch(setToDoList(res.data.result));
         console.log(res.data)
-        console.log('280번째 줄 실행됨')
       } catch (err) {
         console.error(err);
       }
@@ -306,20 +305,14 @@ const ProjectPageLeftPanel = ({
     setShowModal(true);
     dispatch(changeProjectCalenderState(true));
     setToDoText("");
-    // setSelectedWorker('') // 자기 일정만 추가할 수 있음
     setStartDate(null);
     setEndDate(null);
   };
-
-  // const workers = ['worker1', 'worker2']
 
   const truncate = (str, n) => {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
   };
 
-  // const handleWorkerSelectChange = (e) => { // 자기 일정만 추가할 수 있음
-  //     setSelectedWorker(e.target.value);
-  // };
 
   const back_url = getEnv("BACK_URL");
 
@@ -336,18 +329,6 @@ const ProjectPageLeftPanel = ({
 
   const addSchedule = async () => {
     if (toDoText !== "" && startDate !== null && endDate !== null) {
-      // const schedule = {
-      //     projectId: projectRoomId,
-      //     managerId: userInfo.currentUser.uid,
-      //     calenderStartDt: startDate,
-      //     calenderEndDt: endDate,
-      //     calenderName: toDoText,
-      //     subCategoryId: 502,
-      //     memberImg: userInfo.currentUser.photoURL,
-      //     memberName: userInfo.currentUser.displayName,
-      // }
-
-      // dispatch(addToDoList(schedule)) // 스케쥴 제대로 받아올 수 있으면 주석처리된 코드는 필요없음
       try {
         const res = await axios.post(`${back_url}/schedules`, {
           projectId: projectRoomId,
@@ -360,6 +341,23 @@ const ProjectPageLeftPanel = ({
       } catch (err) {
         console.error(err);
       }
+      if (mileston) {
+        try {
+          const res = await axios.post(`${back_url}/milestones`, {
+            milestoneId: null,
+            milestoneTitle: mileston,
+            milestoneContent: toDoText,
+            milestoneStartDt: fromatDatedForBack(startDate),
+            milestoneEndDt: fromatDatedForBack(endDate),
+            projectId: myCurrentProject.projectId,
+            subCategoryId: 502
+          })
+          console.log('milestones complete', res.data)
+        }
+        catch (err) {
+          console.error(err)
+        }
+      }
 
       try {
         const res = await axios.get(`${back_url}/schedules/${projectRoomId}`);
@@ -368,6 +366,7 @@ const ProjectPageLeftPanel = ({
         console.error(err);
       }
 
+      setMileston(null)
       handleCloseModal();
     }
   };
@@ -421,8 +420,6 @@ const ProjectPageLeftPanel = ({
     const day = date.getDate().toString().padStart(2, "0"); // 일도 두 자리로 만들기 위해 padStart 사용
     return `${year}-${month}-${day}`;
   };
-  const [mileston, setMileston] = useState("");
-
 
   return (
     <>
@@ -592,7 +589,11 @@ const ProjectPageLeftPanel = ({
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
-                    {todayCount === 0 && "예정된 일정이 없습니다."}
+                  {todayCount === 0 &&
+                    <div style={{ color: isDark ? 'black' : 'white' }}>
+                      예정된 일정이 없습니다.
+                    </div>
+                  }
                 </ListBox>
               </TodayBox>
               <TodayBox>
@@ -710,11 +711,11 @@ const ProjectPageLeftPanel = ({
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
-                    {tomorrowCount === 0 &&
-                    <div style={{ color: isDark ? 'white' : 'black' }}>
+                  {tomorrowCount === 0 &&
+                    <div style={{ color: isDark ? 'black' : 'white' }}>
                       예정된 일정이 없습니다.
                     </div>
-                    }
+                  }
                 </ListBox>
               </TodayBox>
             </ToDoListBox>

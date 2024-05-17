@@ -73,11 +73,11 @@ const DetailMainPage = () => {
         console.error(err);
       }
     };
-  
+
     // 비동기 함수 호출
     getTeammateInfo();
   }, [post.memberId, setPost]);
-  
+
   useEffect(() => {
     //게시글 조회
     axios
@@ -139,7 +139,7 @@ const DetailMainPage = () => {
         setTotalCount(res.data.result.totalCount);
         setCommentDate(res.data.result.commentResponseDtos);
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }, [currentPage]);
 
   useEffect(() => {
@@ -148,9 +148,16 @@ const DetailMainPage = () => {
 
   return (
     <>
-      <Navbar></Navbar>
-      <Community isDark={isDark}>
-        <DetailSideMenu selected={selected} isDark={isDark}></DetailSideMenu>
+      <Navbar>
+      </Navbar>
+      <Community
+        isDark={isDark}
+      >
+        <DetailSideMenu
+          selected={selected}
+          isDark={isDark}
+        >
+        </DetailSideMenu>
         {selected.name === "member" ? (
           <DetailMember
             isDark={isDark}
@@ -166,9 +173,7 @@ const DetailMainPage = () => {
             setSelectedUser={setSelectedUser}
             setTotalCount={setTotalCount}
           />
-        ) : (
-          ""
-        )}
+        ) : ("")}
 
         {selected.name === "team" ? (
           <DetailTeam
@@ -181,24 +186,21 @@ const DetailMainPage = () => {
             setCurrentPage={setCurrentPage}
             setTotalCount={setTotalCount}
           />
-        ) : (
-          ""
-        )}
+        ) : ("")}
 
         {selected.name === "feadback" ? (
           <DetailFeadback
             isDark={isDark}
             detailData={post}
             commentDate={commentDate}
+            projectData={projectData}
             setCommentDate={setCommentDate}
             totalCount={totalCount}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             setTotalCount={setTotalCount}
           />
-        ) : (
-          ""
-        )}
+        ) : ("")}
       </Community>
       <UserChat
         openChat={openChat}
