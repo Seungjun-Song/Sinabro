@@ -67,11 +67,11 @@ const MemoryGraph = ({
         }}
       >
         {/* <div onClick={handlebutton}>button</div>  */}
-        {graphData.nodes.length !== 0 && (
+        {graphData.nodes.length !== 0 && !whatnode && (
           <div
             style={{ position: "absolute", bottom: 0, right: 0, zIndex: "1" }}
           >
-            <MemoryGraphButton onClick={() => handlefirst()}>
+            <MemoryGraphButton onClick={() => setIsModal({ type: "first" })}>
               Add Node
             </MemoryGraphButton>
           </div>
@@ -517,6 +517,138 @@ const MemoryGraph = ({
                   borderRadius: "1rem",
                 }}
                 onClick={() => changenode()}
+              >
+                확인
+              </div>
+              <div
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "#d33",
+                  color: "white",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "1rem",
+                }}
+                onClick={() => (
+                  setIsModal(false),
+                  setContent(""),
+                  setNewNode(""),
+                  setColor("")
+                )}
+              >
+                취소
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {isModal.type == "first" && (
+        <div
+          style={{
+            position: "absolute",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle your node actions here
+            }}
+            style={{
+              width: "45%",
+              height: "50%",
+              backgroundColor: "White",
+              borderRadius: "1rem",
+              padding: "2rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "2rem" }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  //   marginBottom: "1rem",
+                }}
+              >
+                <div style={{ width: "18%" }}>새로운 노드 </div>
+                <Form.Control
+                  style={{ width: "82%" }}
+                  type="text"
+                  placeholder="노드 이름"
+                  value={newnode}
+                  onChange={(e) => setNewNode(e.target.value)}
+                />
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  //   marginBottom: "1rem",
+                }}
+              >
+                <div style={{ width: "18%" }}>내용 </div>
+                <Form.Control
+                  style={{
+                    width: "82%",
+                    display: "flex",
+                    overflowY: "auto",
+                    height: "5rem",
+                  }}
+                  type="text"
+                  placeholder="내용"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  //   marginBottom: "1rem",
+                  gap: "1rem",
+                }}
+              >
+                <div style={{ width: "18%" }}>노드 색 입력 </div>
+                <input
+                  type="color"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                />
+                {color}
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+                justifyContent: "flex-end",
+              }}
+            >
+              <div
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "#3085d6",
+                  color: "white",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "1rem",
+                }}
+                onClick={() => handlefirst()}
               >
                 확인
               </div>
