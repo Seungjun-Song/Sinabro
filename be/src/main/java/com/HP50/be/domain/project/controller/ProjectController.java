@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.http.Path;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -115,5 +116,21 @@ public class ProjectController {
     @GetMapping("/projects/{page}")
     public ResponseEntity<BaseResponse<ProjectCompletedPaginationResponseDto>> getCompletedProjects(@PathVariable int page){
         return ResponseEntity.ok().body(new BaseResponse<>(service.findProjectSliceSix(page)));
+    }
+
+    @Operation(summary = "진행하고 있던 프로젝트 종료")
+    @PutMapping("/end/{projectId}")
+    public ResponseEntity<BaseResponse<StatusCode>> finishProject(@PathVariable Integer projectId){
+        service.finishProject(projectId);
+        // todo 성공코드 수정하기
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
+    }
+
+    @Operation(summary = "종료된 프로젝트 재실행")
+    @PutMapping("/restart/{projectId}")
+    public ResponseEntity<BaseResponse<StatusCode>> restartProject(@PathVariable Integer projectId){
+        service.restartProject(projectId);
+        // todo 성공코드 수정하기
+        return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
 }

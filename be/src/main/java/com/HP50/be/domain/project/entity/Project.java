@@ -6,10 +6,7 @@ import com.HP50.be.domain.code.entity.SubCategory;
 import com.HP50.be.domain.project.dto.ProjectCreateRequestDto;
 import com.HP50.be.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,12 +36,14 @@ public class Project extends BaseTimeEntity {
     private String projectRepo;
 
     @Column
+    @Setter
     private LocalDateTime endDttm;
 
     @Column
     private Integer projectDbPort;
 
     @ManyToOne
+    @Setter
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
 
