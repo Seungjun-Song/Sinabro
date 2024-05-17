@@ -137,7 +137,8 @@ const MemoryGraphDescribeBox = styled.div`
   margin-left: 2rem;
   width: 100%;
   padding: 1rem;
-  max-height: 26rem;
+  /* max-height: 26rem; */
+  height:100%;
   overflow-y: auto;
   margin-bottom: 1rem;
 `;
