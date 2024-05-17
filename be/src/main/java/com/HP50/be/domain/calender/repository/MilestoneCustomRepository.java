@@ -1,11 +1,3 @@
-package com.HP50.be.domain.calender.repository;
-
-import com.HP50.be.domain.calender.dto.MilestoneResponseDto;
-import com.HP50.be.domain.calender.entity.Milestone;
-
-import java.util.List;
-
-public interface MilestoneCustomRepository {
-    List<MilestoneResponseDto> findMilestoneInProject(Integer projectId);
-    Milestone findMilestoneById(Integer milestoneId);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:28347333cf7114638765aa8a27c9d1ca8ad380f8774d7dc80ac941c53529e2e0
+size 363
