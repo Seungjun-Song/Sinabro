@@ -10,7 +10,8 @@ const Chatlist = ({ item, setWhatpjt, whatpjt }) => {
   useEffect(() => {
     // Firebase Realtime Database에서 채팅 메시지를 가져와서 설정합니다.
     const db = getDatabase();
-    const chatRef = ref(db, `chats/${item.projectId}`);
+    const endPoint = item.projectName === 'GPT' ? 'chatBotChats' : 'chats'
+    const chatRef = ref(db, `${endPoint}/${item.projectId}`);
     onValue(chatRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
@@ -66,17 +67,21 @@ const Chatlist = ({ item, setWhatpjt, whatpjt }) => {
           </div>
           <h5 style={{ fontSize: "0.9rem", margin: 0 }}>{lastChat}</h5>
         </div>
-        <div
-          style={{
-            position: "absolute",
-            top: "0.5rem",
-            right: "0.5rem",
-            fontSize: "0.7rem",
-            opacity: 0.5,
-          }}
-        >
-          {lastTime}
-        </div>
+        {item.projectName !== 'GPT' ?
+          <div
+            style={{
+              position: "absolute",
+              top: "0.5rem",
+              right: "0.5rem",
+              fontSize: "0.7rem",
+              opacity: 0.5,
+            }}
+          >
+            {lastTime}
+          </div>
+          :
+          null
+        }
       </motion.div>
     </>
   );
