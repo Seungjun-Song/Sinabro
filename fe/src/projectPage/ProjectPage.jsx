@@ -266,7 +266,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      {!loading ? (
+      {loading ? (
         <ProjectLoadingPage />
       ) : (
         <ProjectContainer>
