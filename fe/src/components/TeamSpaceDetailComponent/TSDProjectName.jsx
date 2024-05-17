@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { faCircleRight } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
@@ -6,15 +6,47 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setProjectRoomId } from "../../store/projectRoomIdSlice";
+import axios from "axios";
+import getEnv from "../../utils/getEnv";
 
 const TSDProjectName = ({ isDark }) => {
   const [isHover, setIsHover] = useState(false);
+  const [projectSartDate, setProjectStartDate] = useState(false)
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
   console.log(myCurrentProject);
+
+  const back_url = getEnv('BACK_URL')
+
+  const formatProjectStartDate = (dateString) => {
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).replace(/. /g, '.').replace('.', '');
+  
+    console.log(formattedDate); // 출력: 2024.05.09
+    // 프로젝트 시작 날짜를 설정하는 로직을 여기에 추가합니다.
+  };
+
+  useEffect(() => {
+    const getTeamInfo = async () => {
+      try {
+        const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`)
+        console.log(res.data.result)
+        setProjectStartDate(formatProjectStartDate(res.data.result.createdDttm))
+      }
+      catch (err) {
+        console.error(err)
+      }
+    }
+    getTeamInfo()
+  }, [])
+
   return (
     <>
       <motion.div
@@ -50,6 +82,7 @@ const TSDProjectName = ({ isDark }) => {
             <h3 style={{ fontWeight: "bold", margin: 0 }}>
               {myCurrentProject?.projectName}
             </h3>
+            <p>{projectSartDate}</p>
           </div>
         </div>
         <motion.div
