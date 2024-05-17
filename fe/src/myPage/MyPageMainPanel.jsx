@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { faCircleInfo, faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleInfo,
+  faCircleXmark,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Modal } from "react-bootstrap";
 import { AnimatePresence, motion } from "framer-motion";
@@ -742,7 +746,9 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                 </MemoryGraphDescribeBox>
                 <MemoryGraphButtonBox>
                   <MemoryGraphButton
-                    onClick={() => setIsModal({ type: "add" })}
+                    onClick={() => (
+                      setIsModal({ type: "add" }), console.log(isModal)
+                    )}
                   >
                     Add Node
                   </MemoryGraphButton>
@@ -751,7 +757,8 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                       setIsModal({ type: "change" }),
                       setColor(whatnode.color),
                       setContent(whatnode.content),
-                      setNewNode(whatnode.label)
+                      setNewNode(whatnode.label),
+                      console.log(isModal)
                     )}
                   >
                     Edit
@@ -767,7 +774,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                     top: "0",
                     right: 0,
                     cursor: "pointer",
-                    color:"rgb(86, 76, 173)"
+                    color: "rgb(86, 76, 173)",
                   }}
                 >
                   <FontAwesomeIcon icon={faCircleXmark} />
