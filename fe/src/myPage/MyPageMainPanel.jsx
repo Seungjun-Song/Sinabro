@@ -318,7 +318,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
 
   const [color, setColor] = useState("#c7c7c7");
-  //   const [islabel, setIslabel] = useState(false);
+
 
   const [newnode, setNewNode] = useState("");
   const [isModal, setIsModal] = useState(false);
