@@ -684,6 +684,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                 handlefirst={handlefirst}
                 handleConfirm={handleConfirm}
                 changenode={changenode}
+                isDark={isDark}
               />
             </MemoryGraphMainBox>
             {whatnode && (
