@@ -23,15 +23,8 @@ const Detail = styled.div`
 
 const Line = styled.hr`
 `
-const DetailFeadback = ({ isDark, detailData, commentDate, setCommentDate, totalCount, currentPage, setCurrentPage, setTotalCount }) => {
+const DetailFeadback = ({ isDark, detailData, commentDate, setCommentDate, projectData, totalCount, currentPage, setCurrentPage, setTotalCount }) => {
 
-    const projectData = {
-        id: 1,
-        title: "BUNG",
-        projectImg: PjtImg,
-
-    }
-    
     return(
         <Detail
             isDark={isDark}
