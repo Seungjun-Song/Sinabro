@@ -490,7 +490,9 @@ const ProjectPageLeftPanel = ({
                         ? new Date(item.calenderEndDt)
                         : null;
                       const today = new Date();
-                      today.setHours(0, 0, 0, 0);
+                      itemStartDate.setHours(0, 0, 0, 0)
+                      itemEndDate.setHours(0, 0, 0, 0)
+                      today.setHours(0, 0, 0, 0)
 
                       // start와 end가 모두 유효한 경우에만 처리
                       if (itemStartDate && itemEndDate) {
@@ -609,6 +611,8 @@ const ProjectPageLeftPanel = ({
                         ? new Date(item.calenderEndDt)
                         : null;
                       const tomorrow = new Date();
+                      itemStartDate.setHours(0, 0, 0, 0)
+                      itemEndDate.setHours(0, 0, 0, 0)
                       tomorrow.setDate(tomorrow.getDate() + 1); // 내일 날짜로 설정
                       tomorrow.setHours(0, 0, 0, 0); // 시간을 0시 0분 0초로 설정
                       // start와 end가 모두 유효한 경우에만 처리
@@ -763,15 +767,6 @@ const ProjectPageLeftPanel = ({
                 onChange={(e) => setMileston(e.target.value)}
               />
             </Form.Group>
-            {/* <Form.Group style={{ marginBottom: '1rem' }}>
-                            <Form.Label>작업자</Form.Label>
-                            <Form.Select value={selectedWorker} onChange={handleWorkerSelectChange}>
-                                <option value="">작업자를 선택하세요</option>
-                                {workers.map((worker, index) => (
-                                    <option key={index} value={worker}>{worker}</option>
-                                ))}
-                            </Form.Select>
-                        </Form.Group> */}
             <Form.Group style={{ marginBottom: "1rem" }}>
               <Form.Label style={{ marginRight: "1rem" }}>시작 날짜</Form.Label>
               <DatePicker
