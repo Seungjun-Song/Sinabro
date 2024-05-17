@@ -292,7 +292,7 @@ const ProjectPage = () => {
                     Start
                   </URLSelectBox>
                 </URLSelectContainer>
-                <div style={{display: 'flex', flexDirection: 'row'}}>
+                <div style={{display: 'flex', flexDirection: 'row', height: '100%', width: '100%'}}>
                   <iframe
                     ref={iframeRef}
                     title="code-server"
