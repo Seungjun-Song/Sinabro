@@ -27,9 +27,8 @@ const MemoryGraphButton = styled.div`
   font-weight: bold;
   background-color: #3f6ecd;
   color: white;
-  border-radius: 1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  border-radius: 50%;
+
   display: flex;
   align-items: center;
   cursor: pointer;
