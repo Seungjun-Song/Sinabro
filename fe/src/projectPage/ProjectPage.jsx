@@ -292,22 +292,24 @@ const ProjectPage = () => {
                     Start
                   </URLSelectBox>
                 </URLSelectContainer>
-                <iframe
-                  ref={iframeRef}
-                  title="code-server"
-                  src={codeServerURL}
-                  style={{ width: "100%", height: "100%", border: "none", display: includeCheck(codeServerURL) ? 'block' : 'none' }}
-                ></iframe>
-                <iframe
-                  title="code-dev"
-                  src={runDevPreviewUrl}
-                  style={{ width: "100%", height: "100%", border: "none", display: includeCheck(runDevPreviewUrl) ? 'block' : 'none' }}
-                ></iframe>
-                <iframe
-                  title="code-start"
-                  src={startPreviewUrl}
-                  style={{ width: "100%", height: "100%", border: "none", display: includeCheck(startPreviewUrl) ? 'block' : 'none' }}
-                ></iframe>
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                  <iframe
+                    ref={iframeRef}
+                    title="code-server"
+                    src={codeServerURL}
+                    style={{ width: "100%", height: "100%", border: "none", display: includeCheck(codeServerURL) ? 'block' : 'none' }}
+                  ></iframe>
+                  <iframe
+                    title="code-dev"
+                    src={runDevPreviewUrl}
+                    style={{ width: "100%", height: "100%", border: "none", display: includeCheck(runDevPreviewUrl) ? 'block' : 'none' }}
+                  ></iframe>
+                  <iframe
+                    title="code-start"
+                    src={startPreviewUrl}
+                    style={{ width: "100%", height: "100%", border: "none", display: includeCheck(startPreviewUrl) ? 'block' : 'none' }}
+                  ></iframe>
+                </div>
               </IframContainer>
             )}
             <ProjectPageRightPanel />
