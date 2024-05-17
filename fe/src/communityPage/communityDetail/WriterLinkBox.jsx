@@ -63,7 +63,7 @@ const WriterLinkBox = ({detailData}) => {
                     src={detailData.writerprofile}>
                 </WriterProfile>
                 <WriterName>
-                    @{detailData.writername}
+                    @{detailData.writername} 
                 </WriterName>
             </WriterInfo>
 
