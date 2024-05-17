@@ -145,7 +145,7 @@ const ProjectPage = () => {
     });
     return () => {
       dispatch(clearProjectRoomId()); // 프로젝트 페이지를 떠나면 프로젝트 Id를 삭제
-      dispatch(changeProjectChatState(false)) // 프로젝트 페이지를 떠날 때 다음 접속시 바로 코드 서버 뜨게
+      dispatch(changeProjectChatState(true)) // 프로젝트 페이지를 떠날 때 다음 접속시 바로 코드 서버 뜨게
     };
   }, []);
 
@@ -232,7 +232,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      {loading ? (
+      {!loading ? (
         <ProjectLoadingPage />
       ) : (
         <ProjectContainer>
