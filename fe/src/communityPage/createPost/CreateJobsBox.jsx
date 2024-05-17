@@ -111,7 +111,7 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
                     </InputBox>
                 </Job>
             ))}               
-            6명 이하 인원만 가능해요!
+            3명 이하 인원만 가능해요!
             </>}
             
             {kind.name == "feadback" &&
