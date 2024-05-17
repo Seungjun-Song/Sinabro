@@ -276,7 +276,7 @@ const ProjectPageLeftPanel = ({
       try {
         const res = await axios.get(`${back_url}/schedules/${projectRoomId}`); // 쿠키 되면 제대로 받아지는지 확인
         dispatch(setToDoList(res.data.result));
-        console.log(res.data.result)
+        console.log(res)
         console.log('280번째 줄 실행됨')
       } catch (err) {
         console.error(err);
