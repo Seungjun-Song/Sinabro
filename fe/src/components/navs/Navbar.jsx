@@ -24,7 +24,7 @@ const NavBar = styled.nav`
   justify-content: space-between;
   width: 100%;
   min-width: 800px;
-  height: 100px;
+  height: 80px;
   background-color: ${({ isScrolled }) =>
     !isScrolled ? "rgba(86, 76, 173, 1)" : "rgba(245, 248, 255, 1)"};
 
@@ -217,7 +217,7 @@ const Navbar = () => {
       </LeftNavContainer>
       <RightNavContainer>
         <MyPage style={{ fontFamily: "Jamsil Light", minWidth: '4.8rem' }}
-          onClick={() => navigate('/mypage')}
+          onClick={() =>navigate(`/mypage`, {state: {memberId: 0}})}
         >마이페이지</MyPage>
 
         <Log style={{ fontFamily: "Jamsil Light", minWidth: '4.5rem' }}

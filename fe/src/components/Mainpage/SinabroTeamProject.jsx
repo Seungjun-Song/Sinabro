@@ -75,7 +75,7 @@ import { setMyCurrentProject } from "../../store/myCurrentProjectSlice";
 
 const SinabroTeamProject = ({ isDark, setPage, allPage }) => {
   const navigate = useNavigate();
-  // console.log(allPage)
+  console.log(allPage)
   const dispatch = useDispatch();
   return (
     <>
@@ -138,7 +138,7 @@ const SinabroTeamProject = ({ isDark, setPage, allPage }) => {
                   <ProjectCard isDark={isDark} item={item} />
                 </motion.div>
               ))}
-            </AnimatePresence>
+            </AnimatePresence> 
           </motion.div>
         </div>
       )}
