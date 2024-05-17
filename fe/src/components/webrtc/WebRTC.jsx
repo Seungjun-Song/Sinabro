@@ -70,7 +70,6 @@ export default function WebRTC() {
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
   const [sessionId, setSessionId] = useState("");
   const [tokenId, setTokenId] = useState("");
-  const [speakingId, setSpeakingId] = useState(null);
 
   const [isMicOn, setIsMicOn] = useState(true);
   const [isPhoneOn, setIsPhoneOn] = useState(true);
@@ -99,14 +98,6 @@ export default function WebRTC() {
       mySession.on("streamCreated", (event) => {
         const subscriber = mySession.subscribe(event.stream, undefined);
         setSubscribers((subscribers) => [...subscribers, subscriber]);
-        
-        subscriber.on('publisherStartSpeaking', (event) => {
-          setSpeakingId(event.connection.connectionId);
-        });
-        
-        subscriber.on('publisherStopSpeaking', (event) => {
-          setSpeakingId(null);
-        });
       });
 
       mySession.on("streamDestroyed", (event) => {
@@ -172,15 +163,6 @@ export default function WebRTC() {
           setMainStreamManager(publisher);
           setPublisher(publisher);
           setCurrentVideoDevice(currentVideoDevice);
-
-          publisher.on('publisherStartSpeaking', () => {
-            setSpeakingId(publisher.stream.connection.connectionId);
-          });
-
-          publisher.on('publisherStopSpeaking', () => {
-            setSpeakingId(null);
-          });
-          
         } catch (error) {
           console.log(
             "There was an error connecting to the session:",
@@ -342,12 +324,13 @@ export default function WebRTC() {
           onClick={toggleAllSubscribersAudio}
         />
         {publisher !== undefined ? (
-          <UserImage style={{border: speakingId === publisher.stream.connection.connectionId ? '4px solid rgb(114, 0, 0)' : '', borderRadius: '50%'}} >
+          <UserImage>
             <UserVideoComponent streamManager={publisher} />
           </UserImage>
         ) : null}
-        {subscribers.map((sub) => (
-          <UserImage key={sub.id} style={{border: speakingId === sub.stream.connection.connectionId ? '4px solid rgb(114, 0, 0)' : '', borderRadius: '50%'}} >
+        {subscribers.map((sub, i) => (
+          <UserImage key={sub.id}>
+            <UserVideoComponent streamManager={sub} />
           </UserImage>
         ))}
       </NavRigthBox>
