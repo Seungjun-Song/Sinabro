@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -43,6 +43,7 @@ const MyPageMainPanelContainer = styled.div`
   border: 3px solid #a2a2a2;
   width: 90%;
   overflow-y: auto;
+  overflow-x: none;
   /* margin-bottom: 3rem; */
   border-radius: 10px;
   margin-left: 1rem;
@@ -138,7 +139,7 @@ const MemoryGraphDescribeBox = styled.div`
   width: 100%;
   padding: 1rem;
   /* max-height: 26rem; */
-  height:100%;
+  height: 100%;
   overflow-y: auto;
   margin-bottom: 1rem;
 `;
@@ -312,6 +313,169 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   };
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // 메모리 그래프 구역
+  const [graphData, setGraphData] = useState({ nodes: [], links: [] });
+
+  const [color, setColor] = useState("#c7c7c7");
+  //   const [islabel, setIslabel] = useState(false);
+
+  const [newnode, setNewNode] = useState("");
+  const [isModal, setIsModal] = useState(false);
+  const [content, setContent] = useState(" ");
+  const fgRef = useRef();
+  const getGraphData = async () => {
+    try {
+      const res = await axios.get(`${back_url}/memo`);
+      const memberList = res.data.result;
+      console.log(memberList);
+
+      setGraphData({ nodes: memberList.nodeList, links: memberList.linkList });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const changenode = async () => {
+    if (newnode == "") {
+      return;
+    } else if (content == "") {
+      return;
+    }
+    console.log(newnode);
+    console.log(content);
+    try {
+      const res = await axios.put(`${back_url}/memo/update`, {
+        memoId: whatnode.id,
+        title: newnode,
+        content: content,
+        color: color,
+      });
+      console.log(res);
+      setIsModal(false);
+      setWhatNode(null);
+      setContent("");
+      setNewNode("");
+      setColor("#c7c7c7");
+      await getGraphData();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    getGraphData();
+  }, []);
+
+  //   const gData = genRandomTree();
+  //   console.log(gData);
+  const addnode = async () => {
+    console.log(newnode);
+    console.log(content);
+    console.log(color);
+    if (newnode == "") {
+      return;
+    } else if (content == "") {
+      return;
+    }
+    try {
+      const res = await axios.post(
+        `${back_url}/memo`,
+        {
+          title: newnode, // newnode 변수를 제목으로 사용
+          content: content, // content 변수를 내용으로 사용
+          color: color,
+        },
+        { withCredentials: true }
+      );
+      return res.data.result;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const connectnode = async (newnodeid) => {
+    try {
+      const res = await axios.put(
+        `${back_url}/memo?memoId1=${whatnode.id}&memoId2=${newnodeid}`,
+        { withCredentials: true }
+      );
+      console.log(res);
+      await getGraphData();
+      const distance = 500;
+      const distRatio =
+        1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
+      console.log(fgRef.current);
+      fgRef.current.cameraPosition(
+        {
+          x: whatnode.x * distRatio,
+          y: whatnode.y * distRatio,
+          z: whatnode.z * distRatio,
+        }, // new position
+        whatnode, // lookAt ({ x, y, z })
+        1500 // ms transition duration
+      );
+      setIsModal(false);
+      setWhatNode(null);
+      setContent("");
+      setNewNode("");
+      setColor("#c7c7c7");
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const hadleAllClick = (node) => {
+    // Aim at node from outside it
+    setWhatNode(node);
+    console.log(node);
+    const distance = 500;
+    const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+    if (graphData.nodes.length !== 0) {
+      fgRef.current.cameraPosition(
+        {
+          x: node.x * distRatio,
+          y: node.y * distRatio,
+          z: node.z * distRatio,
+        }, // new position
+        node, // lookAt ({ x, y, z })
+        1500 // ms transition duration
+      );
+    }
+    //   fgRef = 0;
+  };
+  //   console.log(color);
+  const handleNodeDel = async () => {
+    // 경고 창을 통해 사용자에게 확인 메시지를 표시
+    const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");
+
+    // 사용자가 확인을 선택한 경우에만 삭제 진행
+    if (confirmDelete) {
+      try {
+        const res = await axios.delete(
+          `${back_url}/memo?memoId=${whatnode.id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        // 삭제 성공
+        setIsModal(false);
+        setWhatNode(null);
+        setContent("");
+        setNewNode("");
+        setColor("#c7c7c7");
+        await getGraphData();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+  const handleConfirm = async () => {
+    const newnodeid = await addnode();
+    connectnode(newnodeid);
+  };
+  const handlefirst = async () => {
+    await addnode();
+    getGraphData();
+  };
+
   return (
     <div
       style={{
@@ -503,7 +667,24 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
             <MemoryGraphMainBox
             // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
             >
-              <MemoryGraph whatnode={whatnode} setWhatNode={setWhatNode} />
+              <MemoryGraph
+                newnode={newnode}
+                setNewNode={setNewNode}
+                setColor={setColor}
+                whatnode={whatnode}
+                setWhatNode={setWhatNode}
+                setGraphData={setGraphData}
+                graphData={graphData}
+                color={color}
+                isModal={isModal}
+                setIsModal={setIsModal}
+                content={content}
+                setContent={setContent}
+                fgRef={fgRef}
+                handlefirst={handlefirst}
+                handleConfirm={handleConfirm}
+                changenode={changenode}
+              />
             </MemoryGraphMainBox>
             {whatnode && (
               <MemoryGraphSideBox>
@@ -514,10 +695,19 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                   {whatnode.content}
                 </MemoryGraphDescribeBox>
                 <MemoryGraphButtonBox>
-                  <MemoryGraphButton onClick={handleShow}>
+                  <MemoryGraphButton
+                    onClick={() => setIsModal({ type: "add" })}
+                  >
                     Add Node
                   </MemoryGraphButton>
-                  <MemoryGraphButton onClick={handleShow}>
+                  <MemoryGraphButton
+                    onClick={() => (
+                      setIsModal({ type: "change" }),
+                      setColor(whatnode.color),
+                      setContent(whatnode.content),
+                      setNewNode(whatnode.label)
+                    )}
+                  >
                     Edit
                   </MemoryGraphButton>
                 </MemoryGraphButtonBox>
@@ -526,7 +716,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           </MemoryGraphContainer>
         </InnerArea>
         {/* 아래부분 모달 코드이므로 추후에 수정 필요 */}
-        {showModal && (
+        {/* {showModal && (
           <Modal show={showModal} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>나중에</Modal.Title>
@@ -541,7 +731,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
               </Button>
             </Modal.Footer>
           </Modal>
-        )}
+        )} */}
       </MyPageMainPanelContainer>
     </div>
   );
