@@ -14,11 +14,14 @@ const PrevNextButton = styled.div`
 const PagenationBox = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
-  margin: 30px 0 10px 0;
+  margin: 0 0 2rem 0;
   color: #888;
   font-size: 14px;
+
+  width: 73%;
+
 `
 
 const PageNumber = styled.div`
@@ -44,7 +47,7 @@ const PageList = styled.li`
   justify-content: center;
 `
 
-const Pagination = ({ totalItems, itemCountPerPage, pageCount, currentPage, selected, setCurrentPage }) => {
+const Pagination = ({ totalItems, itemCountPerPage, pageCount, currentPage, setCurrentPage }) => {
   const totalPages = Math.ceil(totalItems / itemCountPerPage);
   const [start, setStart] = useState(1);
   const noPrev = start === 1;

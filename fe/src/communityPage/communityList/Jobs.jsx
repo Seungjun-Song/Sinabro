@@ -7,6 +7,9 @@ const JobBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: start;
+    flex-direction: column;
+
+    margin: 1rem 0 0 0;
 
     gap: 0.5rem;
 `
@@ -14,16 +17,19 @@ const JobBox = styled.div`
 const Job = styled.div`
     border: 3px solid ${props => props.borderColor};
     color: ${props => props.borderColor};
+    background: white;
 
-    padding: 0.5rem 0.3rem;
-    gap: 10px;
-    border-radius: 5px;
-    max-height: 10px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    
+    padding: 1rem 0.6rem;
+    gap: 10px;
+    border-radius: 5px;
+    max-height: 10px;
     box-shadow: 3px 4px 3px rgba(217, 217, 217, 1);
-    font-size: 0.5rem;
+    font-size: 1rem;
+    width: 9rem;
 
 `
 const Jobs = ({kind, post }) => {
@@ -88,8 +94,9 @@ const Jobs = ({kind, post }) => {
             {kind.name == "member" && 
             <>
                 {memeberJobList.map((job, index) => (
-                <Job
-                style={{backgroundColor: "white" , border: `3px solid ${job.borderColor }`, color: `${job.borderColor}` }}
+                <>{job.target > 0 &&
+                    <Job
+                    borderColor={job.borderColor}
                 >
                     {job.icon && <FontAwesomeIcon icon={job.icon} style={{ fontSize: '10px' }} />}
                     <div>
@@ -97,6 +104,8 @@ const Jobs = ({kind, post }) => {
                     </div>
                     {job.current} / {job.target}
                 </Job>
+                }
+                </>
             ))}               
             
             </>}

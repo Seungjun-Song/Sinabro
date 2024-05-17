@@ -11,8 +11,13 @@ const Proceed = styled.div`
     font-family: LaundryGothicRegular;
     color: rgba(52, 69, 156, 1);
     font-size: 85%;
+    flex-shrink: 0;
+
+    text-align: center;
+    width: 5rem;
 
     padding: 0.2rem 0.9rem;
+    margin: 0 0 0.6rem 0;
 
     font-family: LaundryGothicRegular;
 

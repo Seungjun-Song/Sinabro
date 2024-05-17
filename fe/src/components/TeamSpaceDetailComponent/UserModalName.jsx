@@ -78,7 +78,7 @@ const UserModalName = ({ whatUser,userfind }) => {
           </div>
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <img style={{ width: "2rem" }} src="/images/@.png" />
-            <h5 style={{ margin: 0, fontSize: "1rem" }}>{userfind.memberEmail}</h5>
+            <h5 style={{ margin: 0, fontSize: "1rem" }}>{userfind.memberEmail ? userfind.memberEmail :"None"}</h5>
           </div>
         </div>
       </motion.div>

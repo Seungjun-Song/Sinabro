@@ -99,7 +99,7 @@ const CreatePage = () => {
         projectImg: "",
     });
 
-    const [ jobInfo, setJobInfo ] = useState([
+    const [ jobNumInfo, setJobNumInfo ] = useState([
             {
                 id: 1,
                 name: "백",
@@ -118,6 +118,22 @@ const CreatePage = () => {
             }
     ]);
 
+    const [ jobSelectInfo, setJobSelectInfo ] = useState([
+        {
+            id: 1,
+            name: "백",
+            borderColor: "#315DCC",
+            icon: faCog,
+            selected: 0,
+        }, 
+        {
+            id: 2, 
+            name: "프론트",
+            borderColor: "#3DC7AE",
+            icon: faDesktop,
+            selected: 0,
+        }
+    ])
     useEffect(() => {//글 수정시 데이터 초기세팅
         if(!data.isCreate){
             const post = data.detailData;
@@ -135,11 +151,6 @@ const CreatePage = () => {
                 title: post.title,
                 content: post.content,
                 tag: tags,
-                // recruitedBack: post.recruitedBack,
-                // recruitedFront: post.recruitedFront,
-                // requiredBack: post.requiredBack,
-                // requiredFront: post.requiredFront,
-
             })
 
             //프로젝트 정보
@@ -162,7 +173,7 @@ const CreatePage = () => {
 
             //인원수 정보
             if(data.kind.name === "member"){
-                setJobInfo([
+                setJobNumInfo([
                     {
                         id: 1,
                         name: "백",
@@ -182,7 +193,7 @@ const CreatePage = () => {
                 ])
             }
             else if(data.kind.name === "feadback"){
-                setJobInfo([
+                setJobNumInfo([
                     {
                         id: 1,
                         name: "백",
@@ -196,47 +207,6 @@ const CreatePage = () => {
                         borderColor: "#3DC7AE",
                         icon: faDesktop,
                         selected: post.requiredFront,
-                    }
-                ])
-            }
-        }
-        else{//글 작성 시 member, feadback의 경우 jobInfo 갱신 필요
-            //인원수 정보
-            if(data.kind.name === "member"){
-                setJobInfo([
-                    {
-                        id: 1,
-                        name: "백",
-                        borderColor: "#315DCC",
-                        icon: faCog,          
-                        target: 0,
-                        total: 0,
-                    },
-                    {
-                        id: 2, 
-                        name: "프론트",
-                        borderColor: "#3DC7AE",
-                        icon: faDesktop,
-                        target: 0,
-                        total: 0,
-                    }
-                ])
-            }
-            else if(data.kind.name === "feadback"){
-                setJobInfo([
-                    {
-                        id: 1,
-                        name: "백",
-                        borderColor: "#315DCC",
-                        icon: faCog,
-                        selected: 0,
-                    }, 
-                    {
-                        id: 2, 
-                        name: "프론트",
-                        borderColor: "#3DC7AE",
-                        icon: faDesktop,
-                        selected: 0,
                     }
                 ])
             }
@@ -289,8 +259,8 @@ const CreatePage = () => {
                         postContent={postContent}
                         setPostContent={setPostContent}
                         selectedPjtId={selectedPjt.id}
-                        jobInfo={jobInfo}
-                        setJobInfo={setJobInfo}
+                        jobInfo={jobNumInfo}
+                        setJobInfo={setJobNumInfo}
                     />
                 ) : ("")}
                 {selected.name === "team" ? (
@@ -307,8 +277,8 @@ const CreatePage = () => {
                         postContent={postContent}
                         setPostContent={setPostContent}
                         selectedPjtId={selectedPjt.id}
-                        jobInfo={jobInfo}
-                        setJobInfo={setJobInfo}
+                        jobInfo={jobSelectInfo}
+                        setJobInfo={setJobSelectInfo}
                     />
                 ) : ("")}
             </Create>

@@ -76,11 +76,11 @@ const UserSearchResult = ({ setSelectedRole, selectedRole }) => {
               <div>{item.memberName}</div>
             </div>
             {selectedUser && selectedUser.memberId === item.memberId ?
-              <div>
+              <div style={{ display: 'flex', width: '8rem' }} >
                 <select
                   value={selectedRole}
                   onChange={(e) => setSelectedRole(e.target.value)}
-                  style={{ padding: "0.5rem", borderRadius: "0.5rem" }}
+                  style={{ padding: "0.5rem", borderRadius: "0.5rem", cursor: 'pointer' }}
                 >
                   <option value="">역할 선택</option>
                   <option value="FE">프론트엔드</option>

@@ -77,6 +77,7 @@ const UserChat = () => {
   //     });
   //   };
   const [whatpjt, setWhatpjt] = useState(false); // 프로젝트 선택
+  
   return (
     <>
       <motion.div

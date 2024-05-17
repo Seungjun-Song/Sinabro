@@ -10,13 +10,13 @@ const Selection = styled(motion.div)`
     background-color: ${GlobalColor.colors.teamToggle};
     color: white;
 
-    margin-top: 2%;
-    width: 7rem;
+    margin-top: 3%;
+    width: 8.5rem;
 
     border: 2px solid ${ GlobalColor.colors.teamToggle};
     border-radius: 10px;
 
-    font-family: LaundryGothicRegular;
+    //font-family: LaundryGothicRegular;
 
     ${props => props.isDark && css`
         background-color: ${GlobalColor.colors.teamToggle_dark};
@@ -55,12 +55,12 @@ const Line = styled.hr`
 const TeamSelection = ({teamOption, setTeamOption, setTeamToggle, isDark}) => {
     const teamList = [
         {
-            id: 100,
-            name: "Back"
+            id: 200,
+            name: "백"
         },
         {
-            id: 200,
-            name: "Front",
+            id: 100,
+            name: "프론트",
         },
     ]
 

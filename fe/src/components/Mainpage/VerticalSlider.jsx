@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { GlobalColor } from "../../services/color";
+import axios from "axios";
+import getEnv from "../../utils/getEnv";
+import { useNavigate } from "react-router-dom";
 const DUMMY_DATA = [
   {
     id: 1,
@@ -50,10 +53,11 @@ function SamplePrevArrow(props) {
     />
   );
 }
-function CustomSlide({id,state,projectname,message,isDark}) {
+function CustomSlide({navigate,projectname,message,isDark}) {
   return (
     <div
       //   className="shadow"
+      // onClick={() => navigate('/communityDetail', {state: {kind: kind, postId: post.id} })}
       style={{
         padding: "1rem",
         display: "flex",
@@ -75,7 +79,7 @@ function CustomSlide({id,state,projectname,message,isDark}) {
         }}
       >
         {" "}
-        {state}
+        모집중
       </div>
       <div style={{fontWeight:"bold" , fontSize:"1.2rem" , color: isDark? "white" : "black"}}>{projectname}</div>
       {/* <div style={{marginLeft:"0.1rem"}}></div> */}
@@ -84,6 +88,8 @@ function CustomSlide({id,state,projectname,message,isDark}) {
   );
 }
 const VerticalSlider = ({isDark}) => {
+  const [data ,setData] = useState([])
+  const back_url = getEnv("BACK_URL");
   const settings = {
     // dots: true,
     speed: 500,
@@ -97,6 +103,19 @@ const VerticalSlider = ({isDark}) => {
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
+  const invitePeople = async () => {
+    try {
+      const res = await axios.get(`${back_url}/communities/lightPlate`);
+      setData(res.data.result)
+      console.log(res)
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(()=>{
+    invitePeople()
+  },[])
+  const navigate = useNavigate()
   return (
     <div
       className="shadow mt-5"
@@ -111,8 +130,8 @@ const VerticalSlider = ({isDark}) => {
       }}
     >
       <Slider {...settings}>
-        {DUMMY_DATA.map((item,index) =>(
-            <CustomSlide isDark={isDark} key={index}  id={item.id} projectname={item.projectname} state={item.state} message={item.message} />
+        {data.map((item,index) =>(
+            <CustomSlide navigate={navigate} isDark={isDark} key={index} projectname={item.projectName}  message={item.boardTitle} />
         ))}
       </Slider>
     </div>

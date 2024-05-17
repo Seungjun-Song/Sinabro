@@ -11,7 +11,9 @@ const Proceed = styled(motion.div)`
     align-items: start;
     justify-content: center;
 
-    font-family: LaundryGothicRegular;
+    font-size:1.2rem;
+
+    //font-family: LaundryGothicRegular;
 `
 
 const ProceedToggle = styled(motion.div)`
@@ -20,9 +22,9 @@ const ProceedToggle = styled(motion.div)`
     justify-content: center;
     gap: 0.5rem;
     background: ${GlobalColor.colors.proceedToggle};
-    padding: 0.2rem 1rem;
+    padding: 0.2rem 1.5rem;
 
-    width: 8rem;
+    //width: 8rem;
 
     color: white;
 

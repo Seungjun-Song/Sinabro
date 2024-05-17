@@ -18,7 +18,7 @@ const Button = styled(motion.div)`
     width: 8rem;
     gap: 0.5rem;
 
-    font-family: LaundryGothicRegular;
+    //font-family: LaundryGothicRegular;
     color: white;
 
     padding: 0 0.8rem;

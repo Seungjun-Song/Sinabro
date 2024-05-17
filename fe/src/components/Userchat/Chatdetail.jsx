@@ -60,155 +60,172 @@ const Chatdetail = ({ setWhatpjt, whatpjt }) => {
   useEffect(() => {
     messageEndRef.current.scrollIntoView({ behavior: "smooth" });
   });
+
+  // 숫자를 두 자리로 만들고 앞에 0을 채워주는 함수
+  const padZero = (num) => {
+    return num < 10 ? `0${num}` : num;
+  };
+
+  const timeFormatting = (time) => {
+
+    const dateObj = new Date(time)
+    const formattedDate = `${dateObj.getFullYear()}-${padZero(dateObj.getMonth() + 1)}-${padZero(dateObj.getDate())}`
+    const formattedTime = `${padZero(dateObj.getHours())}:${padZero(dateObj.getMinutes())}`
+
+    return (`${formattedDate} ${formattedTime}`);
+  }
+
   return (
     <>
-    <div style={{height:"100%" ,width:"100%"}} >
-      <motion.div
-        transition={{ duration: 0.2 }}
-        initial={{ opacity: 0, y: 10 }} // 초기 상태에서 opacity를 0으로 설정
-        animate={{ opacity: 1, y: 0 }} // 나타날 때 opacity를 1로 설정
-        exit={{ opacity: 0, y: 10 }} // 사라질 때 opacity를 0으로 설정
-        style={{
-          width: "100%",
-          borderBottom: "3px solid transparent", // 투명한 테두리 설정
-          borderImage: "linear-gradient(to left, #a8c0ff, #3f2b96 )", // 그라데이션 테두리 이미지
-          borderImageSlice: "1", // 이미지 슬라이스
-          padding: "1rem",
-          height: "10%",
-          justifyContent: "space-between",
-          alignItems: "center",
-          display: "flex",
-          // height: "5.5rem",
-          //   marginBottom: "0.5rem",
-        }}
-      >
-        <h5 style={{ margin: 0, fontWeight: "bold", fontSize: "1rem" }}>
-          {whatpjt.projectname}
-        </h5>
-        <motion.div onClick={()=>setWhatpjt(false)} whileHover={{x:2 , color:"#564CAD"}} style={{ color: "#9c9c9c" }}>
-          <FontAwesomeIcon
-            icon={faRightFromBracket}
-            style={{ cursor: "pointer" }}
-          />
-        </motion.div>
-      </motion.div>
-      <motion.div
-        transition={{ duration: 0.2, delay: 0.2 }}
-        initial={{ opacity: 0, y: 10 }} // 초기 상태에서 opacity를 0으로 설정
-        animate={{ opacity: 1, y: 0 }} // 나타날 때 opacity를 1로 설정
-        exit={{ opacity: 0, y: 10 }} // 사라질 때 opacity를 0으로 설정
-        style={{
-          overflowY: "scroll",
-          height: "80%",
-          // marginBottom: "1rem",
-          width: "auto",
-          overflowX: "hidden",
-          padding: "0 1rem ",
-          display: "flex",
-          flexDirection: "column",
-          gap: "0.3rem",
-        }}
-      >
-        {chats.map((chat, index) => (
-          <div key={index}>
-            {chat.sender === userInfo.currentUser.uid ? (
-              <div className="d-flex flex-column" style={{ width: "100%" }}>
-                <div
-                  style={{
-                    alignSelf: "flex-end",
-                    backgroundColor: "#564CAD",
-                    color: "white",
-                    padding: "0 0.5rem",
-                    margin: "0.2rem 0",
-                    borderRadius: "0.5rem 0.5rem 0 0.5rem",
-                    maxWidth: "80%",
-                  }}
-                >
-                  {chat.message}
-                </div>
-              </div>
-            ) : (
-              <div className="d-flex flex-column" style={{ width: "100%" }}>
-                <div
-                  style={{
-                    alignSelf: "flex-start",
-                    padding: "0 0.5rem",
-                    margin: "0.2rem 0",
-                    maxWidth: "12rem",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {chat.displayName}
-                </div>
-                <div
-                  style={{
-                    alignSelf: "flex-start",
-                    padding: "0 0.5rem",
-                    margin: "0.2rem 0",
-                    borderRadius: "0.5rem 0.5rem 0.5rem 0",
-                    maxWidth: "80%",
-                    border: "2px solid #D6D6D6",
-                  }}
-                >
-                  {chat.message}
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-        <div ref={messageEndRef}></div>
-      </motion.div>
-      {/* 채팅 입력 필드 */}
-      <motion.div
-        transition={{ duration: 0.2, delay: 0.4 }}
-        initial={{ opacity: 0, y: 10 }} // 초기 상태에서 opacity를 0으로 설정
-        animate={{ opacity: 1, y: 0 }} // 나타날 때 opacity를 1로 설정
-        exit={{ opacity: 0, y: 10 }} // 사라질 때 opacity를 0으로 설정
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          height: "10%",
-          alignItems: "center",
-          // marginBottom: "1rem",
-        }}
-      >
-        <div
+      <div style={{ height: "100%", width: "100%" }} >
+        <motion.div
+          transition={{ duration: 0.2 }}
+          initial={{ opacity: 0, y: 10 }} // 초기 상태에서 opacity를 0으로 설정
+          animate={{ opacity: 1, y: 0 }} // 나타날 때 opacity를 1로 설정
+          exit={{ opacity: 0, y: 10 }} // 사라질 때 opacity를 0으로 설정
           style={{
             width: "100%",
-            display: "flex",
-            alignItems: "center",
+            borderBottom: "3px solid transparent", // 투명한 테두리 설정
+            borderImage: "linear-gradient(to left, #a8c0ff, #3f2b96 )", // 그라데이션 테두리 이미지
+            borderImageSlice: "1", // 이미지 슬라이스
+            padding: "1rem",
+            height: "10%",
             justifyContent: "space-between",
-            // padding:"1rem"
-            height: "auto",
-            padding: "0 1rem",
-            minHeight: "50%",
+            alignItems: "center",
+            display: "flex",
+            // height: "5.5rem",
+            //   marginBottom: "0.5rem",
           }}
         >
-          <input
-            style={{
-              width: "90%",
-              borderRadius: "50px",
-              border: "1px solid #E5E5E5",
-              padding: "0 1rem",
-              outline: "none",
-              height: "auto",
-            }}
-            type="text"
-            value={message}
-            placeholder="채팅하기"
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyUp={(e) => enterSendMessage(e)}
-          />
-          {/* 채팅 전송 버튼 */}
-          <IconHoverBox>
+          <h5 style={{ margin: 0, fontWeight: "bold", fontSize: "1rem" }}>
+            {whatpjt.projectname}
+          </h5>
+          <motion.div onClick={() => setWhatpjt(false)} whileHover={{ x: 2, color: "#564CAD" }} style={{ color: "#9c9c9c" }}>
             <FontAwesomeIcon
-              icon={faPaperPlane}
-              onClick={sendMessage}
-              style={{ cursor: "pointer", color: "#3EC8AF" }}
+              icon={faRightFromBracket}
+              style={{ cursor: "pointer" }}
             />
-          </IconHoverBox>
-        </div>
-      </motion.div>
+          </motion.div>
+        </motion.div>
+        <motion.div
+          transition={{ duration: 0.2, delay: 0.2 }}
+          initial={{ opacity: 0, y: 10 }} // 초기 상태에서 opacity를 0으로 설정
+          animate={{ opacity: 1, y: 0 }} // 나타날 때 opacity를 1로 설정
+          exit={{ opacity: 0, y: 10 }} // 사라질 때 opacity를 0으로 설정
+          style={{
+            overflowY: "scroll",
+            height: "80%",
+            // marginBottom: "1rem",
+            width: "auto",
+            overflowX: "hidden",
+            padding: "0 1rem ",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.3rem",
+          }}
+        >
+          {chats.map((chat, index) => (
+            <div key={index}>
+              {chat.sender === userInfo.currentUser.uid ? (
+                <div className="d-flex flex-column" style={{ width: "100%" }}>
+                  <div
+                    style={{
+                      alignSelf: "flex-end",
+                      backgroundColor: "#564CAD",
+                      color: "white",
+                      padding: "0 0.5rem",
+                      margin: "0.2rem 0",
+                      borderRadius: "0.5rem 0.5rem 0 0.5rem",
+                      maxWidth: "80%",
+                    }}
+                  >
+                    {chat.message}
+                  </div>
+                  <div style={{ alignSelf: "flex-end", color: 'grey', fontSize: '0.7rem' }} >{timeFormatting(chat.timestamp)}</div>
+                </div>
+              ) : (
+                <div className="d-flex flex-column" style={{ width: "100%" }}>
+                  <div
+                    style={{
+                      alignSelf: "flex-start",
+                      padding: "0 0.5rem",
+                      margin: "0.2rem 0",
+                      maxWidth: "12rem",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {chat.displayName}
+                  </div>
+                  <div
+                    style={{
+                      alignSelf: "flex-start",
+                      padding: "0 0.5rem",
+                      margin: "0.2rem 0",
+                      borderRadius: "0.5rem 0.5rem 0.5rem 0",
+                      maxWidth: "80%",
+                      border: "2px solid #D6D6D6",
+                    }}
+                  >
+                    {chat.message}
+                  </div>
+                  <div style={{ alignSelf: "flex-start", color: 'grey', fontSize: '0.7rem' }} >{timeFormatting(chat.timestamp)}</div>
+                </div>
+              )}
+            </div>
+          ))}
+          <div ref={messageEndRef}></div>
+        </motion.div>
+        {/* 채팅 입력 필드 */}
+        <motion.div
+          transition={{ duration: 0.2, delay: 0.4 }}
+          initial={{ opacity: 0, y: 10 }} // 초기 상태에서 opacity를 0으로 설정
+          animate={{ opacity: 1, y: 0 }} // 나타날 때 opacity를 1로 설정
+          exit={{ opacity: 0, y: 10 }} // 사라질 때 opacity를 0으로 설정
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            height: "10%",
+            alignItems: "center",
+            // marginBottom: "1rem",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              // padding:"1rem"
+              height: "auto",
+              padding: "0 1rem",
+              minHeight: "50%",
+            }}
+          >
+            <input
+              style={{
+                width: "90%",
+                borderRadius: "50px",
+                border: "1px solid #E5E5E5",
+                padding: "0 1rem",
+                outline: "none",
+                height: "auto",
+              }}
+              type="text"
+              value={message}
+              placeholder="채팅하기"
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyUp={(e) => enterSendMessage(e)}
+            />
+            {/* 채팅 전송 버튼 */}
+            <IconHoverBox>
+              <FontAwesomeIcon
+                icon={faPaperPlane}
+                onClick={sendMessage}
+                style={{ cursor: "pointer", color: "#3EC8AF" }}
+              />
+            </IconHoverBox>
+          </div>
+        </motion.div>
       </div>
     </>
   );
