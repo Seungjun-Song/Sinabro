@@ -14,6 +14,7 @@ import getEnv from "../utils/getEnv";
 import ProjectLoadingPage from "./ProjectLoadingPage";
 import ProjectInfo from "./ProjectInfo";
 import { changeProjectCalenderState } from "../store/projectCalenderSlice";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const ProjectContainer = styled.div`
   position: relative; /* 부모 컨테이너를 기준으로 자식 요소의 위치를 설정하기 위해 */
@@ -92,7 +93,7 @@ const ProjectPage = () => {
   const [runDevPreviewUrl, setRunDevPreviewUrl] = useState(null);
   const [startPreviewUrl, setStartPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [selectedURL, setSelectedURL] = useState(null);
+  const [iframeList, setIframeList] = useState([])
 
   const userInfo = useSelector((state) => state.user.currentUser);
 
@@ -171,8 +172,8 @@ const ProjectPage = () => {
         setCodeServerURL(res.data.result.url);
         setRunDevPreviewUrl(res.data.result.runDevPreviewUrl);
         setStartPreviewUrl(res.data.result.startPreviewUrl);
-        setSelectedURL(res.data.result.url);
         setLoading(false);
+        setIframeList([res.data.result.url]) // 처음에는 코드 서버만 들어있음
       } catch (err) {
         console.error(err);
       }
@@ -197,6 +198,7 @@ const ProjectPage = () => {
       leaveCodeServer();
     };
   }, []);
+
 
   useEffect(() => {
     const getTeammateInfo = async () => {
@@ -232,6 +234,28 @@ const ProjectPage = () => {
     }
   };
 
+  const switchUrlState = (url) => {
+    setIframeList((prev) => {
+      if (prev.includes(url)) {
+        if (prev.length !== 1) {
+          return prev.filter(u => u !== url)
+        }
+      }
+      else {
+        return [...prev, url]
+      }
+    })
+  }
+
+  const includeCheck = (url) => {
+    if (iframeList.includes(url)) {
+      return true
+    }
+    else {
+      return false
+    }
+  }
+
   return (
     <>
       {!loading ? (
@@ -253,35 +277,17 @@ const ProjectPage = () => {
               <IframContainer>
                 <URLSelectContainer isDark={isDark}>
                   <URLSelectBox
-                    style={{
-                      borderBottom:
-                        selectedURL === codeServerURL
-                          ? "none"
-                          : "2px solid #b8b8b8",
-                    }}
-                    onClick={() => setSelectedURL(codeServerURL)}
+                    onClick={() => switchUrlState(codeServerURL)}
                   >
                     Code
                   </URLSelectBox>
                   <URLSelectBox
-                    style={{
-                      borderBottom:
-                        selectedURL === runDevPreviewUrl
-                          ? "none"
-                          : "2px solid #b8b8b8",
-                    }}
-                    onClick={() => setSelectedURL(runDevPreviewUrl)}
+                    onClick={() => switchUrlState(runDevPreviewUrl)}
                   >
                     Dev
                   </URLSelectBox>
                   <URLSelectBox
-                    style={{
-                      borderBottom:
-                        selectedURL === startPreviewUrl
-                          ? "none"
-                          : "2px solid #b8b8b8",
-                    }}
-                    onClick={() => setSelectedURL(startPreviewUrl)}
+                    onClick={() => switchUrlState(startPreviewUrl)}
                   >
                     Start
                   </URLSelectBox>
@@ -289,8 +295,18 @@ const ProjectPage = () => {
                 <iframe
                   ref={iframeRef}
                   title="code-server"
-                  src={selectedURL}
-                  style={{ width: "100%", height: "100%", border: "none" }}
+                  src={codeServerURL}
+                  style={{ width: "100%", height: "100%", border: "none", display: includeCheck(codeServerURL) ? 'block' : 'none' }}
+                ></iframe>
+                <iframe
+                  title="code-dev"
+                  src={runDevPreviewUrl}
+                  style={{ width: "100%", height: "100%", border: "none", display: includeCheck(runDevPreviewUrl) ? 'block' : 'none' }}
+                ></iframe>
+                <iframe
+                  title="code-start"
+                  src={startPreviewUrl}
+                  style={{ width: "100%", height: "100%", border: "none", display: includeCheck(startPreviewUrl) ? 'block' : 'none' }}
                 ></iframe>
               </IframContainer>
             )}
