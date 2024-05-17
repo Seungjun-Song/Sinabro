@@ -29,4 +29,7 @@ public interface ProjectService {
     ProjectCompletedPaginationResponseDto findProjectSliceSix(int page);
 
     List<ProjectTechStackDto> getProjectTechStacks(Integer projectId);
+
+    void finishProject(Integer projectId);
+    void restartProject(Integer projectId);
 }

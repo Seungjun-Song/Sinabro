@@ -28,6 +28,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -434,6 +436,24 @@ public class ProjectServiceImpl implements ProjectService{
                         .build()).toList();
 
         return techStackResponseDto;
+    }
+
+    // 프로젝트의 종료 선언
+    @Override
+    public void finishProject(Integer projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
+        project.setEndDttm(LocalDateTime.now());
+        project.setSubCategory( subCategoryRepository.findById(503)
+                .orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY)));
+    }
+
+    // 종료된 프로젝트 재시작
+    @Override
+    public void restartProject(Integer projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
+        project.setEndDttm(null);
+        project.setSubCategory( subCategoryRepository.findById(502)
+                .orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_SUB_CATEGORY)));
     }
 
     // 컨테이너 생성 프로세스 
