@@ -32,8 +32,6 @@ import getEnv from "../utils/getEnv";
 import { formatDate } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 
-import "./ProjectStyles.css";
-
 const ProjectPageLeftPanelContainer = styled(motion.div)`
   height: 100%;
 
@@ -42,6 +40,10 @@ const ProjectPageLeftPanelContainer = styled(motion.div)`
   border-right: 2px solid #b8b8b8;
   background-color: ${({ isDark }) => (isDark ? "white" : "#404040")};
   transition: background-color 0.3s ease; /* 배경색 변화를 자연스럽게 만듭니다. */
+
+  @media (max-width: 1000px) {
+    display: none
+  }
 `;
 
 const ProjectPageLeftPanelClosedContainer = styled.div`
@@ -137,6 +139,9 @@ const InnerTextBox = styled.div`
   font-size: 0.55rem;
   font-weight: bold;
   justify-content: center;
+  @media (max-width: 1200px) {
+    display: none
+  }
 `;
 
 const IconBox = styled.div`
@@ -429,8 +434,6 @@ const ProjectPageLeftPanel = ({
             initial={{ width: "2%", opacity: 0 }}
             animate={{ width: "30%", opacity: 1 }}
             isDark={isDark}
-            className="hide-all-panel"
-
           >
             <ProjectNameBox isDark={isDark}>
               {myCurrentProject.projectName}
@@ -507,7 +510,7 @@ const ProjectPageLeftPanel = ({
                               }
                             >
                               <UserImg src={item.memberImg} />
-                              <InnerTextBox className="hide-content-text">
+                              <InnerTextBox >
                                 <div style={{ fontSize: "1rem" }}>
                                   {truncate(item.calenderName, 10)}
                                 </div>
