@@ -70,7 +70,8 @@ const TeamSpacePage = () => {
           alignItems: "center",
           paddingTop: "7rem",
           // backgroundColor: "rgba(212, 223, 255, 0.2)",
-          transition: "0.3s"
+          transition: "0.3s",
+          minWidth: '1200px',
         }}
       >
         <Projectname

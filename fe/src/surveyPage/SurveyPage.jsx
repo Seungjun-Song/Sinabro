@@ -23,6 +23,7 @@ const SurveyContainer = styled.div`
   background-image: url("/images/survey_background.png");
   background-size: cover;
   background-position: center;
+  min-width: 1200px;
 `;
 
 const SurveyBox = styled.div`
