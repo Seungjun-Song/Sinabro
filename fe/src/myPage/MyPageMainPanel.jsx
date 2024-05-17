@@ -702,7 +702,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                       fontSize: "1rem",
                     }}
                   >
-                    <div>파란색 Add Node : 독립적으로 존재하는 노드 생성</div>
+                    <div>파란색 +버튼 : 독립적으로 존재하는 노드 생성</div>
                     <div>
                       노드 클릭시 나오는 Add Node : 그 노드와 연결된 노드 생성
                     </div>
@@ -734,6 +734,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                 changenode={changenode}
                 isDark={isDark}
                 hadleAllClick={hadleAllClick}
+                getGraphData={getGraphData}
               />
             </MemoryGraphMainBox>
             {whatnode && (
