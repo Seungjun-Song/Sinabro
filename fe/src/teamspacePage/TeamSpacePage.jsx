@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { clearProjectCreate, setProjectMemberList } from "../store/projectCreateSlice";
 import { clearInvitedUserList, setInvitedUserList } from "../store/invitedUserListSlice";
 import Swal from 'sweetalert2'
+import UserChat from "../components/Userchat/UserChat";
 
 const TeamSpacePage = () => {
   const [imgUrl, setImgUrl] = useState("/images/E103_Logo.png")
@@ -62,6 +63,7 @@ const TeamSpacePage = () => {
   return (
     <>
       <Navbar />
+      <UserChat/>
       <div
         className="d-flex flex-column"
         style={{

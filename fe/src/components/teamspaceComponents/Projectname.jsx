@@ -97,8 +97,9 @@ const ProjectName = ({ setProjectName, projectName, isDark, setImageUrl, imgUrl 
             className="shadow mt-3"
             style={{
               backgroundColor: isDark
-                ? GlobalColor.colors.primary_purple
-                : "white",
+                ? "white"
+                : "#564CAD",
+                color : isDark ? "grey":"white" 
             }}
           >
             <input type="file" style={{ display: 'none' }} onChange={handleImageChange} />

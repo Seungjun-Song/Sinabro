@@ -96,6 +96,7 @@ const UserChat = () => {
           // border: "solid 3px black",
           borderRadius: "1.5rem",
           backgroundColor: "#564CAD",
+          zIndex:"999999"
         }}
       >
         <motion.img
@@ -119,7 +120,7 @@ const UserChat = () => {
             initial={{ opacity: 0, y: 10 }} // 초기 상태에서 opacity를 0으로 설정
             animate={{ opacity: 1, y: 0 }} // 나타날 때 opacity를 1로 설정
             exit={{ opacity: 0, y: 10 }} // 사라질 때 opacity를 0으로 설정
-            style={{ position: "fixed", bottom: "6rem", right: "2rem" }}
+            style={{ position: "fixed", bottom: "6rem", right: "2rem", zIndex:"999999" }}
           >
             <Resizable
               size={size}
