@@ -153,7 +153,7 @@ const SendButton = styled(motion.span)`
     transform: scale(1.05);
   }
 `;
-const dataList = [
+const frontDataList = [
   {
     name: "React",
     img: "/images/react.png",
@@ -175,31 +175,49 @@ const dataList = [
     subCategoryId: 104,
   },
   {
-    name: "JavaScript",
+    name: "JavaScript(Front)",
     img: "/images/js.png",
     subCategoryId: 105,
   },
   {
-    name: "Java",
+    name: "Java(Front)",
     img: "/images/java.png",
-    subCategoryId: 204,
+    subCategoryId: 106,
   },
   {
-    name: "Python",
+    name: "Python(Front)",
     img: "/images/python.png",
     subCategoryId: 107,
-  },
-  {
-    name: "Spring",
-    img: "/images/spring.png",
-    subCategoryId: 201,
-  },
-  {
-    name: "Django",
-    img: "/images/django.png",
-    subCategoryId: 202,
-  },
-];
+  }]
+
+  const backDataList = [
+    {
+      name: "Spring",
+      img: "/images/spring.png",
+      subCategoryId: 201,
+    },
+    {
+      name: "Django",
+      img: "/images/django.png",
+      subCategoryId: 202,
+    },
+    {
+      name: "JavaScript(Back)",
+      img: "/images/js.png",
+      subCategoryId: 203,
+    },
+    {
+      name: "Java(Back)",
+      img: "/images/java.png",
+      subCategoryId: 204,
+    },
+    {
+      name: "Python(Back)",
+      img: "/images/python.png",
+      subCategoryId: 205,
+    },
+  ]
+
 const SurveyPage = () => {
   const isDark = useSelector(state => state.isDark.isDark)
   const [isSelected, setIsSelected] = useState(false);
@@ -211,6 +229,7 @@ const SurveyPage = () => {
   const [whatSearch, setWhatSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [choiceResults, setChoiceResults] = useState([]);
+  const [dataList, setDataList] = useState([])
 
   const back_url = getEnv('BACK_URL')
 
@@ -219,6 +238,7 @@ const SurveyPage = () => {
       setIsSelected(!isSelected);
       setFeIsSelected(!isFeSelected);
       setCategoryId(100)
+      setDataList(frontDataList)
     } else {
       if (isFeSelected) {
         setIsSelected(!isSelected);
@@ -232,6 +252,7 @@ const SurveyPage = () => {
       setIsSelected(!isSelected);
       setBeIsSelected(!isBeSelected);
       setCategoryId(200)
+      setDataList(backDataList)
     } else {
       if (isBeSelected) {
         setIsSelected(!isSelected);
@@ -245,6 +266,7 @@ const SurveyPage = () => {
       setIsSelected(!isSelected);
       setFullIsSelected(!isFullSelected);
       setCategoryId(300)
+      setDataList([...frontDataList, ...backDataList])
     } else {
       if (isFullSelected) {
         setIsSelected(!isSelected);
