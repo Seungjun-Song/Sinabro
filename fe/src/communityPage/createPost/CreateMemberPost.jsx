@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { faDesktop, faCog, faLeaf } from '@fortawesome/free-solid-svg-icons';
-
+import Swal from 'sweetalert2';
 import CkEditor from './CkEditor';
 
 import { GlobalColor } from '../../services/color';
@@ -191,12 +191,21 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId, 
             setBlocking(true);
             return;
         }
+        
+        //총원 3명 넘을 때
+        if(jobInfo[0].target + jobInfo[1].target > 3){
+            setWarning("프로젝트 인원은 3명 이하로 가능해요!")
+            setBlocking(true);
+            return;
+        }
         //required < recruite일 때 people
         if(jobInfo[0].target < jobInfo[0].total || jobInfo[1] < jobInfo[1]) {
             setWarning("목표 인원수는 현재 인원수를 넘으면 안돼요!")
             setBlocking(true);
             return;
         }
+
+        
 
         setBlocking(false)
     }, [postContent, jobInfo, selectedPjtId])
@@ -206,7 +215,10 @@ const CreateMemberPost = ({ isDark, postContent, setPostContent, selectedPjtId, 
         const tagList = postContent.tag.split(" ");
 
        // console.log("submit", postContent.content)
-        console.log("blocking", blocking)
+        if(blocking){
+            Swal.fire(warning);
+            return;
+        }
 
 
         if(!blocking){

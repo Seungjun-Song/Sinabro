@@ -25,8 +25,6 @@ const TeamSpaceDetailPage = () => {
 
   const back_url = getEnv('BACK_URL');
 
-  console.log("pjtId", pjtId)
-
   const convertTeammateRole = (originalRole) => {
     switch (originalRole) {
       case "프론트엔드":
