@@ -50,7 +50,7 @@ const TSDProjectName = ({ isDark }) => {
       }
     }
     getTeamInfo()
-  }, [myCurrentProject])
+  }, [myCurrentProject, projectState])
 
   const projectStateToggle = async () => {
     const endpoint = projectState === 502 ? 'end' : 'restart';
