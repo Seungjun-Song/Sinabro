@@ -1,18 +1,3 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-    value: false
-}
-
-export const addScheduleModalHandleSlice =  createSlice({
-    name: 'addScheduleModalHandle',
-    initialState,
-    reducers: {
-        changeScheduleModalState: (state, action) => {
-            state.value = action.payload
-        }
-    }
-})
-
-export const {changeScheduleModalState} = addScheduleModalHandleSlice.actions
-export default addScheduleModalHandleSlice.reducer
+version https://git-lfs.github.com/spec/v1
+oid sha256:b54c0dc874e0db318d4ddf15fd0e491cb597badd440ee161ab4ac707e37a3430
+size 464
