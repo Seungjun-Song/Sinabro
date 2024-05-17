@@ -198,8 +198,8 @@ const MemoryGraph = ({ setWhatNode, whatnode }) => {
       {graphData.nodes.length !== 0 && (
         <ForceGraph
           ref={fgRef}
-          width={"100%"}
-          height={"100%"}
+          width={whatnode ? 475 : 675}
+          height={475}
           graphData={graphData}
           nodeLabel={(node) => `
           <div class="shadow" style="display: flex; flex-direction: column; padding: 1rem; background-color: white; border-radius: 0.5rem;">
