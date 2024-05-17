@@ -243,8 +243,8 @@ const ProjectPageLeftPanel = ({
 
   // const [selectedWorker, setSelectedWorker] = useState(''); // 자기 일정만 추가할 수 있음
 
-  // let todayCount = 0; //오늘 할 일 0이면 없다고 표시
-  // let tomorrowCount = 0; //내일 할 일 0이면 없다고 표시
+  let todayCount = 0; //오늘 할 일 0이면 없다고 표시
+  let tomorrowCount = 0; //내일 할 일 0이면 없다고 표시
 
   const dispatch = useDispatch();
 
@@ -276,7 +276,7 @@ const ProjectPageLeftPanel = ({
       try {
         const res = await axios.get(`${back_url}/schedules/${projectRoomId}`); // 쿠키 되면 제대로 받아지는지 확인
         dispatch(setToDoList(res.data.result));
-        console.log(res)
+        console.log(res.data)
         console.log('280번째 줄 실행됨')
       } catch (err) {
         console.error(err);
@@ -496,7 +496,7 @@ const ProjectPageLeftPanel = ({
                       if (itemStartDate && itemEndDate) {
                         // 오늘 날짜인 경우에만 출력
                         if (itemStartDate <= today && today <= itemEndDate) {
-                          // todayCount++;
+                          todayCount++;
                           return (
                             <ContentBox
                               className="shadow"
@@ -589,7 +589,7 @@ const ProjectPageLeftPanel = ({
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
-                    {/* {todayCount === 0 && "예정된 일정이 없습니다."} */}
+                    {todayCount === 0 && "예정된 일정이 없습니다."}
                 </ListBox>
               </TodayBox>
               <TodayBox>
@@ -614,7 +614,7 @@ const ProjectPageLeftPanel = ({
                           itemStartDate <= tomorrow &&
                           tomorrow <= itemEndDate
                         ) {
-                          // tomorrowCount++;
+                          tomorrowCount++;
                           return (
                             <ContentBox
                               className="shadow"
@@ -707,9 +707,9 @@ const ProjectPageLeftPanel = ({
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
-                    {/* {tomorrowCount === 0 &&
+                    {tomorrowCount === 0 &&
                       "예정된 일정이 없습니다."
-                    } */}
+                    }
                 </ListBox>
               </TodayBox>
             </ToDoListBox>
