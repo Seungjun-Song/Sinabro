@@ -1,66 +1,38 @@
 import React from 'react';
-import styled from 'styled-components';
 import OpenViduVideoComponent from './OvVideo';
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const UserVideoWrapper = styled.div`
-  position: relative;
-  display: inline-block;
-`;
-
-const UserImg = styled.img`
-  height: 40px;
-  border-radius: 50%;
-  transition: transform 0.3s ease;
-`;
-
-const Tooltip = styled.div`
-  visibility: hidden;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  text-align: center;
-  border-radius: 5px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%; /* Position the tooltip above the image */
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.3s;
-
-  ${UserVideoWrapper}:hover & {
-    visibility: visible;
-    opacity: 1;
-  }
-`;
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function UserVideoComponent({ streamManager }) {
-  const getUserImg = () => {
-    return JSON.parse(streamManager.stream.connection.data).clientURL;
-  };
+    const getUserImg = () => {
+        // Gets the clientURL of the user
+        return JSON.parse(streamManager.stream.connection.data).clientURL;
+    };
 
-  const getUserName = () => {
-    return JSON.parse(streamManager.stream.connection.data).clientName;
-  };
+    const getUserName = () => {
+        // Gets the clientName of the user
+        return JSON.parse(streamManager.stream.connection.data).clientName;
+    };
 
-  return (
-    <Container>
-      {streamManager !== undefined ? (
-        <UserVideoWrapper>
-          <div style={{ height: '0', width: '0' }}>
-            <OpenViduVideoComponent streamManager={streamManager} />
-          </div>
-          <UserImg src={getUserImg()} alt="" />
-          <Tooltip>{getUserName()}</Tooltip>
-        </UserVideoWrapper>
-      ) : null}
-    </Container>
-  );
+    return (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {streamManager !== undefined ? (
+                <div>
+                    <div style={{ display: 'none' }}>
+                        <OpenViduVideoComponent streamManager={streamManager} />
+                    </div>
+                    <OverlayTrigger
+                        placement="bottom"
+                        overlay={<Tooltip>{getUserName()}</Tooltip>}
+                    >
+                        <img 
+                            src={getUserImg()} 
+                            alt="" 
+                            style={{ height: '40px', borderRadius: '50%', cursor: 'pointer' }} 
+                        />
+                    </OverlayTrigger>
+                </div>
+            ) : null}
+        </div>
+    );
 }
