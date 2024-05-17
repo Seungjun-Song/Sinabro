@@ -60,8 +60,9 @@ const UserChat = () => {
   // console.log("Asdf")
 
   const myProjectList = useSelector(state => state.myProjectList.value)
+  const userInfo = useSelector(state => state.user.currentUser)
   useEffect(() => {
-    const fixData = [DUMMY_DATA[0], ...myProjectList]
+    const fixData = [{projectId: userInfo.uid, projectName: 'GPT', projectImg: '/images/gptblack.jpg'}, ...myProjectList]
     setProjectData(fixData)
   }, []);
   console.log(projectData)
@@ -152,7 +153,7 @@ const UserChat = () => {
                 }}
               >
                 {whatpjt ? (
-                  whatpjt.projectname === "GPT" ? (
+                  whatpjt.projectName === "GPT" ? (
                     <GPTChat setWhatpjt={setWhatpjt} whatpjt={whatpjt} />
                   ) : (
                     <Chatdetail setWhatpjt={setWhatpjt} whatpjt={whatpjt} />
