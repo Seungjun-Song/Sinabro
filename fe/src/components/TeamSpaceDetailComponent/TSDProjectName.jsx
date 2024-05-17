@@ -11,7 +11,8 @@ import getEnv from "../../utils/getEnv";
 
 const TSDProjectName = ({ isDark ,isIn}) => {
   const [isHover, setIsHover] = useState(false);
-  const [projectSartDate, setProjectStartDate] = useState(false)
+  const [projectSartDate, setProjectStartDate] = useState(null)
+  const [projectEndDate, setProjectEndDate] = useState(null)
   const [teamLeader, setTeamLeader] = useState(null)
   const [projectState, setProjectState] = useState(null)
 
@@ -40,8 +41,14 @@ const TSDProjectName = ({ isDark ,isIn}) => {
     const getTeamInfo = async () => {
       try {
         const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`)
-        // console.log(res.data.result)
+        console.log(res.data.result)
         setProjectStartDate(formatProjectStartDate(res.data.result.createdDttm))
+        if (res.data.result.endDttm) {
+          setProjectEndDate(formatProjectStartDate(res.data.result.endDttm))
+        }
+        else {
+          setProjectEndDate(null)
+        }
         setTeamLeader(res.data.result.teammateInfoList[0]?.memberId);
         setProjectState(res.data.result.status)
       }
@@ -106,7 +113,7 @@ const TSDProjectName = ({ isDark ,isIn}) => {
             <h3 style={{ fontWeight: "bold", margin: 0 }}>
               {myCurrentProject?.projectName}
             </h3>
-            <p style={{ fontSize: '0.7rem', color: 'grey' }}>{projectSartDate} ~</p>
+            <p style={{ fontSize: '0.7rem', color: 'grey' }}>{projectSartDate} ~ {projectEndDate ? projectEndDate : null}</p>
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', }}>
