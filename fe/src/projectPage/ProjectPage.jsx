@@ -238,6 +238,8 @@ const ProjectPage = () => {
     setIframeList((prev) => {
       if (prev.includes(url)) {
         if (prev.length !== 1) {
+          console.log(prev)
+          console.log(prev.length)
           return prev.filter(u => u !== url)
         }
       }
