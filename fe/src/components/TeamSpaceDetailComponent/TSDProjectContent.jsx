@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 const TSDProjectContent = ({ whatInfo, isDark }) => {
   const [whatUser, setWhatUser] = useState(false);
   const myCurrentProject = useSelector(state => state.myCurrentProject.value);
+  const [teamInfo, setTeamInfo] = useState([]);
   return (
     <>
       {" "}
@@ -22,7 +23,7 @@ const TSDProjectContent = ({ whatInfo, isDark }) => {
           gap: "1rem",
           marginTop: "2rem",
           padding: "2rem",
-          height: "23rem",
+          height: teamInfo.length >=4 &&whatInfo == "팀원"  ? "46rem" : "23rem",
           border: "1px solid #554BAC", // 투명한 테두리 설정
           borderRadius: "1.5rem",
           width: "100%",
@@ -31,11 +32,12 @@ const TSDProjectContent = ({ whatInfo, isDark }) => {
           backgroundColor: isDark
             ? GlobalColor.colors.primary_black50
             : "white",
+          transition:"0.3s"
         }}
       >
         {whatInfo == "설명" && <Projectexplanation isDark={isDark} />}
         {whatInfo == "팀원" && (
-          <ProjectTeam isDark={isDark} setWhatUser={setWhatUser} />
+          <ProjectTeam teamInfo={teamInfo} isDark={isDark} setTeamInfo={setTeamInfo} setWhatUser={setWhatUser} />
         )}
         {whatInfo == "일정" && <Todo isDark={isDark} />}
         <AnimatePresence>

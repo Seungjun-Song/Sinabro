@@ -50,7 +50,7 @@ const WriterLink = styled.img`
 `
 
 const WriterLinkBox = ({detailData}) => {
-    console.log(detailData)
+    // console.log(detailData)
     const navigate = useNavigate();
     //console.log("writerBox", detailData)
     return(

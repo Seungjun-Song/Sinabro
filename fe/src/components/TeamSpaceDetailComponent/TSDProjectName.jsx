@@ -9,7 +9,7 @@ import { setProjectRoomId } from "../../store/projectRoomIdSlice";
 import axios from "axios";
 import getEnv from "../../utils/getEnv";
 
-const TSDProjectName = ({ isDark }) => {
+const TSDProjectName = ({ isDark ,isIn}) => {
   const [isHover, setIsHover] = useState(false);
   const [projectSartDate, setProjectStartDate] = useState(false)
   const [teamLeader, setTeamLeader] = useState(null)
@@ -135,7 +135,7 @@ const TSDProjectName = ({ isDark }) => {
               {projectState === 502 ? '프로젝트 완료' : '프로젝트 재시작'}
             </motion.div>
           }
-          <motion.div
+          {isIn && <motion.div
             onHoverStart={() => setIsHover(true)}
             onHoverEnd={() => setIsHover(false)}
             onClick={() => {
@@ -168,7 +168,7 @@ const TSDProjectName = ({ isDark }) => {
                 color={isHover ? "white" : "#304895"}
               />
             </motion.div>
-          </motion.div>
+          </motion.div>}
         </div>
       </motion.div>
     </>

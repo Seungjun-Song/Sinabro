@@ -74,7 +74,7 @@ const PjtLinkBox = ({ pjtData }) => {
       .get(`${back_url}/teams?projectId=${pjtData.id}`)
       .then((res) => {
         const getData = res.data.result;
-        console.log(getData);
+        // console.log(getData);
         setData(getData);
       })
       .catch((err) => {

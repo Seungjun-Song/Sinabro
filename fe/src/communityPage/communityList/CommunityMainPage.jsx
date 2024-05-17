@@ -20,7 +20,7 @@ display: flex;
 align-items: start;
 justify-content: space-between;
 width: 100%;
-
+min-height:100vh;
 padding: 2rem 0 0 0;
 
 ${props => props.isDark && css`

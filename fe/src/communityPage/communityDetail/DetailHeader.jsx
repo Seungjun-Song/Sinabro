@@ -45,10 +45,11 @@ const Writer = styled.div`
 `
 
 const ProfileImg = styled.img`
-    height: 90%;
+    height:2rem;
+    width:2rem;
 
     border: 0px solid black;
-    border-radius: 15px;
+    border-radius: 50%;
 `
 const RightBox = styled.div`
     display: flex;
@@ -109,7 +110,7 @@ const DetailHeader = ({kind, detailData, isDark}) => {
 
     const userInfo = useSelector(state => state.user.currentUser);
     const back_url = getEnv('BACK_URL')
-
+    // console.log(detailData)
     const navigate = useNavigate();
 
     const deletePost = () => {

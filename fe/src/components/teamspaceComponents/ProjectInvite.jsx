@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import ProjectInviteImg from "./ProjectInviteImg";
 import { GlobalColor } from "../../services/color";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 // const DUMMY_DATA = [
 //   {
 //     id: 1,
@@ -35,9 +36,8 @@ const ProjectInvite = ({
   setIsModalOpen,
   isDark,
 }) => {
-
-  const invitedUserList = useSelector(state => state.invitedUserList.value)
-
+  const invitedUserList = useSelector((state) => state.invitedUserList.value);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div
       style={{
@@ -68,12 +68,16 @@ const ProjectInvite = ({
           alignItems: "center",
           display: "flex",
           gap: "2rem",
-          backgroundColor: isDark ? GlobalColor.colors.primary_black50 : "white",
+          backgroundColor: isDark
+            ? GlobalColor.colors.primary_black50
+            : "white",
           // overflowX:"auto",
         }}
       >
         {invitedUserList.map((item, index) => (
           <ProjectInviteImg
+            setIsOpen={setIsOpen}
+            isOpen={isOpen}
             isDark={isDark}
             img={item.memberImg}
             name={item.memberName}
@@ -93,7 +97,9 @@ const ProjectInvite = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            backgroundImage:isDark ? "linear-gradient(135deg, #d3d3d3, #383838)" : "linear-gradient(135deg, #C7D6FF, #7375CA)", // 그라데이션 효과 추가
+            backgroundImage: isDark
+              ? "linear-gradient(135deg, #d3d3d3, #383838)"
+              : "linear-gradient(135deg, #C7D6FF, #7375CA)", // 그라데이션 효과 추가
           }}
         >
           <img
