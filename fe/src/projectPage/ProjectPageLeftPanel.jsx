@@ -711,7 +711,9 @@ const ProjectPageLeftPanel = ({
                       }
                     })}
                     {tomorrowCount === 0 &&
-                      "예정된 일정이 없습니다."
+                    <div style={{ color: isDark ? 'white' : 'black' }}>
+                      예정된 일정이 없습니다.
+                    </div>
                     }
                 </ListBox>
               </TodayBox>
