@@ -70,6 +70,7 @@ export default function WebRTC() {
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
   const [sessionId, setSessionId] = useState("");
   const [tokenId, setTokenId] = useState("");
+  const [speakingId, setSpeakingId] = useState(null); // 현재 말하는 사용자의 ID 저장
 
   const [isMicOn, setIsMicOn] = useState(true);
   const [isPhoneOn, setIsPhoneOn] = useState(true);
@@ -98,6 +99,15 @@ export default function WebRTC() {
       mySession.on("streamCreated", (event) => {
         const subscriber = mySession.subscribe(event.stream, undefined);
         setSubscribers((subscribers) => [...subscribers, subscriber]);
+
+        // 구독자 이벤트 핸들러 추가
+        subscriber.on('publisherStartSpeaking', (event) => {
+          setSpeakingId(event.connection.connectionId);
+        });
+
+        subscriber.on('publisherStopSpeaking', (event) => {
+          setSpeakingId(null);
+        });
       });
 
       mySession.on("streamDestroyed", (event) => {
@@ -119,11 +129,6 @@ export default function WebRTC() {
       if (session) {
         session.disconnect();
       }
-      // OV.current = new OpenVidu();
-      // setSession(undefined);
-      // setSubscribers([]);
-      // setMainStreamManager(undefined);
-      // setPublisher(undefined);
     };
   }, []);
 
@@ -163,6 +168,16 @@ export default function WebRTC() {
           setMainStreamManager(publisher);
           setPublisher(publisher);
           setCurrentVideoDevice(currentVideoDevice);
+
+          // 발행자 이벤트 핸들러 추가
+          publisher.on('publisherStartSpeaking', () => {
+            setSpeakingId(publisher.stream.connection.connectionId);
+          });
+
+          publisher.on('publisherStopSpeaking', () => {
+            setSpeakingId(null);
+          });
+          
         } catch (error) {
           console.log(
             "There was an error connecting to the session:",
@@ -324,12 +339,12 @@ export default function WebRTC() {
           onClick={toggleAllSubscribersAudio}
         />
         {publisher !== undefined ? (
-          <UserImage>
+          <UserImage style={{border: speakingId === publisher.stream.connection.connectionId ? '4px solid red' : '', borderRadius: '50%'}} >
             <UserVideoComponent streamManager={publisher} />
           </UserImage>
         ) : null}
-        {subscribers.map((sub, i) => (
-          <UserImage key={sub.id}>
+        {subscribers.map((sub) => (
+          <UserImage key={sub.id} style={{border: speakingId === sub.stream.connection.connectionId ? '4px solid red' : '', borderRadius: '50%'}} >
             <UserVideoComponent streamManager={sub} />
           </UserImage>
         ))}
