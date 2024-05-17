@@ -18,7 +18,7 @@ import { GlobalColor } from "../services/color";
 //       })),
 //   };
 // }
-const MemoryGraph = ({handleConfirm,changenode,handlefirst, content, setIsModal, isModal, color, graphData, setGraphData, setColor, newnode ,setNewNode, setContent ,fgRef ,setWhatNode, whatnode }) => {
+const MemoryGraph = ({isDark,handleConfirm,changenode,handlefirst, content, setIsModal, isModal, color, graphData, setGraphData, setColor, newnode ,setNewNode, setContent ,fgRef ,setWhatNode, whatnode }) => {
  
   return (
     <>
