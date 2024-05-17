@@ -7,6 +7,7 @@ const CalTime = (fullDate) => {
     let finalDate;
     const day = fullDate.getDate();
 
+        console.log(fullDate)
         if(day === nowDate.getDate()){
             const hour = fullDate.getHours();
             const minuet = fullDate.getMinutes();
@@ -23,7 +24,9 @@ const CalTime = (fullDate) => {
         else{
             finalDate = fullDate.getFullYear() + "." 
                         + fullDate.getMonth() + "." 
-                        + fullDate.getDate();
+                        + fullDate.getDate() + " "
+                        + fullDate.getHours() + ":"
+                        + fullDate.getMinutes() + " ";
         }
 
         return finalDate;

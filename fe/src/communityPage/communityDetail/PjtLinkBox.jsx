@@ -105,4 +105,3 @@ const PjtLinkBox = ({ pjtData }) => {
 };
 
 export default PjtLinkBox;
-
