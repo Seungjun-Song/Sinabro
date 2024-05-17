@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import { Form } from "react-bootstrap";
 import { GlobalColor } from "../services/color";
 import styled from "styled-components";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // function genRandomTree(N = 300, reverse = false) {
 //   return {
 //     nodes: [...Array(N).keys()].map((i) => ({ id: i })),
@@ -33,6 +35,7 @@ const MemoryGraphButton = styled.div`
   cursor: pointer;
 `;
 const MemoryGraph = ({
+  getGraphData,
   hadleAllClick,
   isDark,
   handleConfirm,
@@ -53,6 +56,11 @@ const MemoryGraph = ({
   whatnode,
 }) => {
   const [addOnlyNode, setAddOnlyNode] = useState(false);
+  const handlefirst = async () => {
+    await addnode();
+    getGraphData();
+    setAddOnlyNode(false);
+  };
   return (
     <>
       <div
@@ -73,7 +81,7 @@ const MemoryGraph = ({
             style={{ position: "absolute", bottom: 0, right: 0, zIndex: "1" }}
           >
             <MemoryGraphButton onClick={() => setAddOnlyNode(true)}>
-              Add Node
+              <FontAwesomeIcon icon={faCirclePlus} size="xl" />
             </MemoryGraphButton>
           </div>
         )}
