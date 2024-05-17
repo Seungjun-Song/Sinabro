@@ -712,6 +712,11 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                   >
                     Edit
                   </MemoryGraphButton>
+                  <MemoryGraphButton
+                    onClick={() => handleDelete()}
+                  >
+                    Del
+                  </MemoryGraphButton>
                 </MemoryGraphButtonBox>
               </MemoryGraphSideBox>
             )}
