@@ -66,7 +66,7 @@ const MemoryGraph = ({handleConfirm,changenode,handlefirst, content, setIsModal,
             onNodeClick={(node) => hadleAllClick(node)}
           />
         )}
-        {graphData.nodes.length == 0 && !isfirst && (
+        {graphData.nodes.length == 0  && (
           <div
             style={{
               width: "35rem",
