@@ -110,6 +110,7 @@ const Mainpage = () => {
           paddingTop: "80px",
           justifyContent: "center",
           backgroundColor: isDark ? GlobalColor.colors.primary_black : "white",
+          minWidth: '1300px',
         }}
       >
         <div style={{ width: "70%", margin: "20px"}}>
