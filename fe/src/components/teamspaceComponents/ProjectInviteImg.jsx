@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeProjectMemberAtIndex, updateProjectMemberAtIndex } from "../../store/projectCreateSlice";
 import { removeInvitedUserByIndex } from "../../store/invitedUserListSlice";
 
-const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ProjectInviteImg = ({ img, name, nameId, isDark, idx,isOpen,setIsOpen }) => {
+  // const [isOpen, setIsOpen] = useState(false);
   const list = ["FE", "BE", "FULL"];
   const [isHovered, setIsHovered] = useState(false);
   const [job, setJob] = useState(null);
@@ -39,47 +39,18 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
     setIsHovered(false);
     // 호버 종료 시 실행할 함수를 여기에 추가하세요
   };
+  const handleClick =(item)=>{
+    if(isOpen == item){
+      setIsOpen(false)
+    }else{
+      setIsOpen(item)
+    }
+  }
   return (
     <>
-      <div style={{ position: "relative" }}>
-        <motion.div style={{ gap: "1rem" }}>
-          <div style={{display: "flex", justifyContent:"center"}}>
-          <motion.img
-            onClick={() => setIsOpen(!isOpen)}
-            whileHover={{ cursor: "pointer", y: -7 }}
-            className="shadow"
-            src={img}
-            style={{ width: "5rem", height: "5rem", borderRadius: "3rem" }}
-          />
-          </div>
-          <div
-            style={{
-              textAlign: "center",
-              marginTop: "1rem",
-              color: isDark ? "white" : "black",
-            }}
-          >
-            {name}
-          </div>
-          {name !== userInfo.currentUser.displayName ?
-            <motion.img
-              whileHover={{ cursor: "pointer", opacity: 1.1, scale: 1.1 }}
-              style={{
-                position: "absolute",
-                width: "0.6rem",
-                top: -5,
-                right: -5,
-                opacity: isDark ? 1 : 0.3,
-              }}
-              src={isDark ? 'images/close_red.png' : "/images/close_blue.png"}
-              onClick={() => { dispatch(removeProjectMemberAtIndex(idx)), dispatch(removeInvitedUserByIndex(idx)) }}
-            />
-            :
-            <></>
-          }
-        </motion.div>
-        <AnimatePresence>
-          {isOpen && (
+      <div style={{ position: "relative" ,display:"flex" ,flexDirection:"column", justifyContent:"center" ,alignItems:"center"}}>
+      <AnimatePresence>
+          {isOpen == nameId && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -89,9 +60,11 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
               style={{
                 position: "absolute",
                 bottom: "10rem",
-                left: "-100%",
+                // left: "-50%",
                 backgroundColor: "white",
                 // borderRadius: "1rem",
+                transform: "translateX(-50%)", 
+                width:"15rem",
                 zIndex: 99,
               }}
             >
@@ -108,7 +81,7 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
                     onClick={() => (setJob(item), updateJob(item), setIsOpen(false))}
-                    transition={{ duration: 0.3, delay: 0.1 * index }}
+                    transition={{ duration: 0.3}}
                     whileHover={{
                       backgroundColor: getColor({ item, isDark }),
                       cursor: "pointer",
@@ -141,6 +114,43 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
             </motion.div>
           )}
         </AnimatePresence>
+        <motion.div style={{ gap: "1rem" }}>
+          <div style={{display: "flex", justifyContent:"center"}}>
+          <motion.img
+            onClick={() => handleClick(nameId)}
+            whileHover={{ cursor: "pointer", y: -7 }}
+            className="shadow"
+            src={img}
+            style={{ width: "5rem", height: "5rem", borderRadius: "3rem" }}
+          />
+          </div>
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: "1rem",
+              color: isDark ? "white" : "black",
+            }}
+          >
+            {name}
+          </div>
+          {name !== userInfo.currentUser.displayName ?
+            <motion.img
+              whileHover={{ cursor: "pointer", opacity: 1.1, scale: 1.1 }}
+              style={{
+                position: "absolute",
+                width: "0.6rem",
+                top: -5,
+                right: -5,
+                opacity: isDark ? 1 : 0.3,
+              }}
+              src={isDark ? 'images/close_red.png' : "/images/close_blue.png"}
+              onClick={() => { dispatch(removeProjectMemberAtIndex(idx)), dispatch(removeInvitedUserByIndex(idx)) }}
+            />
+            :
+            <></>
+          }
+        </motion.div>
+        
         <AnimatePresence>
           <motion.div
             whileHover={{ cursor: "pointer", y: -4 }}
@@ -151,7 +161,7 @@ const ProjectInviteImg = ({ img, name, nameId, isDark, idx }) => {
               justifyContent: "center",
               color: getColor({ item: job, isDark }),
             }}
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => handleClick(nameId)}
           >
             {getJob(job)}
           </motion.div>

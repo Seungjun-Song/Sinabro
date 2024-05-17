@@ -8,13 +8,12 @@ import axios from "axios";
 import getEnv from "../../utils/getEnv";
 import UserSearchModal from "./UserSearchModal";
 
-const ProjectTeam = ({ setWhatUser, isDark }) => {
+const ProjectTeam = ({ setWhatUser, isDark,teamInfo,setTeamInfo }) => {
   const displayedRoles = [];
 
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
   const back_url = getEnv("BACK_URL");
 
-  const [teamInfo, setTeamInfo] = useState([]);
   const [teamLeader, setTeamLeader] = useState(null);
   const [reloading, setReloading] = useState(false);
   const [IsModalOpen, setIsModalOpen] = useState(false);
@@ -93,7 +92,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 display: "flex",
                 gap: "1rem",
                 flexDirection: "column",
-                height: "100%",
+                height: "20rem",
                 marginBottom: "1rem",
                 // height:"15rem"
               }}
@@ -128,7 +127,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 display: "flex",
                 gap: "1rem",
                 flexDirection: "column",
-                height: "100%",
+                height: "20rem",
                 marginBottom: "1rem",
               }}
               variants={{

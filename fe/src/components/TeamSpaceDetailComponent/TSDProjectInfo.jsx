@@ -5,10 +5,10 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import getEnv from "../../utils/getEnv";
 
-const TSDProjectInfo = ({ whatInfo, setWhatInfo, isDark }) => {
+const TSDProjectInfo = ({isIn,setIsIn, whatInfo, setWhatInfo, isDark }) => {
   const back_url = getEnv("BACK_URL");
   const list = ["설명", "팀원", "일정", "소나큐브"];
-  const [isIn, setIsIn] = useState(false);
+
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
   const userInfo = useSelector((state) => state.user.currentUser);
   const [teamInfo, setTeamInfo] = useState([]);

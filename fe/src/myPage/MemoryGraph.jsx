@@ -82,7 +82,7 @@ const MemoryGraph = ({
         }}
       >
         {/* <div onClick={handlebutton}>button</div>  */}
-        {graphData.nodes.length !== 0 && !whatnode && (
+        {isMe && graphData.nodes.length !== 0 && !whatnode && (
           <div
             style={{ position: "absolute", bottom: 0, right: 0, zIndex: "1" }}
           >

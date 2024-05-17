@@ -113,7 +113,7 @@ const Mainpage = () => {
           minWidth: '1300px',
         }}
       >
-        <div style={{ width: "70%", margin: "20px"}}>
+        <div style={{ width: "70%"}}>
           <SimpleSlider />
           <VerticalSlider isDark={isDark} />
           <GotoTeamSpace
