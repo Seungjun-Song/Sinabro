@@ -56,7 +56,7 @@ const MemoryGraph = ({
   whatnode,
 }) => {
   const [addOnlyNode, setAddOnlyNode] = useState(false);
-  const handlefirst = async () => {
+  const handlefirstreal = async () => {
     await addnode();
     getGraphData();
     setAddOnlyNode(false);
@@ -517,7 +517,7 @@ const MemoryGraph = ({
                   padding: "0.5rem 1rem",
                   borderRadius: "1rem",
                 }}
-                onClick={() => handlefirst()}
+                onClick={() => handlefirstreal()}
               >
                 확인
               </div>
