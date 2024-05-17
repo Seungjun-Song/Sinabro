@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:988a6695c3a4eb4dad723d3f29cfe85132d46deb9fd974772694be79671b210d
-size 354
+const { createProxyMiddleware } = require("http-proxy-middleware");
+
+module.exports = function (app) {
+  app.use(
+    createProxyMiddleware("/login", {
+      target: "https://github.com",
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    createProxyMiddleware("/user", {
+      target: "https://api.github.com",
+      changeOrigin: true,
+    })
+  );
+};
