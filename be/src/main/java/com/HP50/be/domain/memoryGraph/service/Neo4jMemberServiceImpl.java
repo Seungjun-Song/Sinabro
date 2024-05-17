@@ -52,7 +52,7 @@ public class Neo4jMemberServiceImpl implements Neo4jMemberService{
 
     @Override
     public MemberForGraphDto findMemoByMember(Integer memberId) {
-        Neo4jMember member = neo4jMemberRepository.findByMemberId(memberId);
+        Neo4jMember member = neo4jMemberRepository.findNeo4jMemberByMemberId(memberId);
         List<NodesDto> nodeList = new ArrayList<>();
         List<LinksDto> linkList = new ArrayList<>();
         for(Memo memo: member.getMemos()){

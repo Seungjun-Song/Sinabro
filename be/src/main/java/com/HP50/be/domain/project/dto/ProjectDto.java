@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjectDto {
+    @Schema(example = "1")
+    private Integer projectId;
+
     @Schema(description = "나의 프로젝트 이름", example = "HP50의 성공하기 프로젝트")
     private String projectName;
     

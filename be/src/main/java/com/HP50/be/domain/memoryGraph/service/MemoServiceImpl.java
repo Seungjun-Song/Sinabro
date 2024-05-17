@@ -26,7 +26,7 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     public MemberForGraphDto findMemoByMemberId(Integer memberId){
-        Neo4jMember neo4jMember = neo4jMemberRepository.findByMemberId(memberId);
+        Neo4jMember neo4jMember = neo4jMemberRepository.findNeo4jMemberByMemberId(memberId);
 
         // 리액트에 시각화 하기 위해서는 데이터가 Nodes 와 Links 로 전달되어서 가야함
         List<NodesDto> nodeList = new ArrayList<>();

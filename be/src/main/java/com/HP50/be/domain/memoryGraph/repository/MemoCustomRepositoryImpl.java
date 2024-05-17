@@ -1,6 +1,7 @@
 package com.HP50.be.domain.memoryGraph.repository;
 
 import com.HP50.be.domain.memoryGraph.dto.MemoRequestDto;
+import com.HP50.be.domain.memoryGraph.entity.Neo4jMember;
 import com.HP50.be.global.jwt.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

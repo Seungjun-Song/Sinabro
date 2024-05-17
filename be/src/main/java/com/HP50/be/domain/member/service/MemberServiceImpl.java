@@ -61,6 +61,7 @@ public class MemberServiceImpl implements MemberService {
 
         List<ProjectDto> projectDtos = member.getTeammates().stream()
                 .map(project -> ProjectDto.builder()
+                        .projectId(project.getProject().getProjectId())
                         .projectName(project.getProject().getProjectName())
                         .projectInfo(project.getProject().getProjectInfo())
                         .projectImg(project.getProject().getProjectImg())
