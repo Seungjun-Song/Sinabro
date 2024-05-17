@@ -50,12 +50,19 @@ const TSDProjectName = ({ isDark }) => {
       }
     }
     getTeamInfo()
-  }, [myCurrentProject, projectState])
+  }, [myCurrentProject])
 
   const projectStateToggle = async () => {
     const endpoint = projectState === 502 ? 'end' : 'restart';
     const url = `${back_url}/teams/${endpoint}/${myCurrentProject.projectId}`;
   
+    if (projectState === 502) {
+      setProjectState(503)
+    }
+    else {
+      setProjectState(502)
+    }
+
     try {
       const res = await axios.put(url);
       console.log(res.data);
