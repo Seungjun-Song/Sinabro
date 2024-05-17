@@ -267,6 +267,7 @@ const MemoryGraph = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            zIndex:99,
           }}
         >
           <div
@@ -410,6 +411,7 @@ const MemoryGraph = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            zIndex:99,
           }}
         >
           <div
@@ -553,6 +555,7 @@ const MemoryGraph = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            zIndex:99,
           }}
         >
           <div
