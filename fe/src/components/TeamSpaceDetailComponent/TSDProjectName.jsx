@@ -19,7 +19,7 @@ const TSDProjectName = ({ isDark }) => {
   const dispatch = useDispatch();
 
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
-  console.log(myCurrentProject);
+  // console.log(myCurrentProject)
 
   const back_url = getEnv('BACK_URL')
 
@@ -40,7 +40,7 @@ const TSDProjectName = ({ isDark }) => {
     const getTeamInfo = async () => {
       try {
         const res = await axios.get(`${back_url}/teams?projectId=${myCurrentProject.projectId}`)
-        console.log(res.data.result)
+        // console.log(res.data.result)
         setProjectStartDate(formatProjectStartDate(res.data.result.createdDttm))
         setTeamLeader(res.data.result.teammateInfoList[0]?.memberId);
         setProjectState(res.data.result.status)

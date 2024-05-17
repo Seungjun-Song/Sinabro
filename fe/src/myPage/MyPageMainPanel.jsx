@@ -234,20 +234,32 @@ const dataList = [
     subCategoryId: 202,
   },
 ];
+const mapimg = {
+  React: "/images/react.png",
+  Vue: "/images/vue.png",
+  HTML: "/images/html.png",
+  CSS: "/images/css.png",
+  JavaScript: "/images/js.png",
+  Java: "/images/java.png",
+  Python: "/images/python.png",
+  Spring: "/images/spring.png",
+  Django: "/images/django.png",
+};
 
-const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
+const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
   const [whatnode, setWhatNode] = useState(null);
   const [isSideBoxVisible, setIsSidePanelVisible] = useState(false);
   const back_url = getEnv("BACK_URL");
   const [showModal, setShowModal] = useState(false);
   const [whatSearch, setWhatSearch] = useState("");
+  // console.log(userfind)
   const [searchResults, setSearchResults] = useState([]);
   // console.log(userfind)
   const [choiceResults, setChoiceResults] = useState([]);
   const findUser = async () => {
     //   console.log(userInfo.uid);
     try {
-      const res = await axios.get(`${back_url}/members/${userInfo.uid}`);
+      const res = await axios.get(`${back_url}/members/${userfind.memberId}`);
       console.log(res);
       setUserFind(res.data.result);
     } catch (err) {
@@ -261,6 +273,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
   const myProjectList = useSelector((state) => state.myProjectList.value); // 잘 들어오는지 확인, 페이지 이동 잘 되는지 확인
+
   const DelSkill = async (techStackId) => {
     //   console.log(userInfo.uid);
     try {
@@ -318,25 +331,26 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   };
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  console.log(userfind);
   // 메모리 그래프 구역
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
 
   const [color, setColor] = useState("#c7c7c7");
-
+  const [pjtlist, setPjtlist] = useState([]);
   const [newnode, setNewNode] = useState("");
   const [isModal, setIsModal] = useState(false);
   const [content, setContent] = useState(" ");
   const fgRef = useRef();
   const getGraphData = async () => {
     try {
-      const res = await axios.get(`${back_url}/memo`);
-      const memberList = res.data.result;
-      console.log(memberList);
-
-      setGraphData({ nodes: memberList.nodeList, links: memberList.linkList });
-    } catch (error) {
-      console.error("Error fetching data:", error);
+      const res = await axios.get(`${back_url}/members/${userfind.memberId}`);
+      console.log(res);
+      setGraphData({
+        nodes: res.data.result.graphDto.nodeList,
+        links: res.data.result.graphDto.linkList,
+      });
+    } catch (err) {
+      console.error(err);
     }
   };
   const changenode = async () => {
@@ -367,7 +381,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   };
   useEffect(() => {
     getGraphData();
-  }, []);
+  }, [userfind]);
 
   //   const gData = genRandomTree();
   //   console.log(gData);
@@ -428,11 +442,14 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
 
   const hadleAllClick = (node) => {
     // Aim at node from outside it
-    setWhatNode(node);
+    if(isMe){
+      setWhatNode(node);
+    }
+    
     console.log(node);
     const distance = 500;
     const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
-    if (graphData.nodes.length !== 0) {
+    if (graphData.nodes.length !== 1) {
       fgRef.current.cameraPosition(
         {
           x: node.x * distRatio,
@@ -478,6 +495,11 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   const handlefirst = async () => {
     await addnode();
     getGraphData();
+    setIsModal(false);
+    setWhatNode(null);
+    setContent("");
+    setNewNode("");
+    setColor("#c7c7c7");
   };
   const [isinfoHover, setIsInfoHover] = useState(false);
   return (
@@ -505,7 +527,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
             <div
               style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
             >
-              보유하신 기술 스택입니다!
+              {userfind.nickname}님이 보유하신 기술 스택입니다!
             </div>
           </InnerText>
 
@@ -532,28 +554,37 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                       >
                         {/* {없을 때 띄울 글자 생각해야함} */}
                         {item.subCategoryName}
-                        <SkillDelBtn onClick={() => handleDelete(item)}>
-                          X
-                        </SkillDelBtn>
+                        {isMe && (
+                          <SkillDelBtn onClick={() => handleDelete(item)}>
+                            X
+                          </SkillDelBtn>
+                        )}
+                        {!isMe && (
+                          <img
+                            src={mapimg[item.subCategoryName]}
+                            style={{ height: "1rem" }}
+                          />
+                        )}
                       </SkillDetail>
                     </motion.div>
                   ))}
               </AnimatePresence>
-
-              <SearchInput
-                style={{
-                  backgroundColor: isDark
-                    ? GlobalColor.colors.primary_black
-                    : "white",
-                  transition: "0.3s",
-                  color: isDark ? "white" : "black",
-                }}
-                onChange={handleChange}
-                value={whatSearch}
-              />
+              {isMe && (
+                <SearchInput
+                  style={{
+                    backgroundColor: isDark
+                      ? GlobalColor.colors.primary_black
+                      : "white",
+                    transition: "0.3s",
+                    color: isDark ? "white" : "black",
+                  }}
+                  onChange={handleChange}
+                  value={whatSearch}
+                />
+              )}
             </SearchContainerLeftSide>
             <SearchContainerRightSide>
-              <SearchIcon icon={faSearch} />
+              {isMe && <SearchIcon icon={faSearch} />}
             </SearchContainerRightSide>
           </SearchContainer>
           {whatSearch && (
@@ -616,24 +647,20 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
             <div
               style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
             >
-              {userInfo.displayName}님의 작품입니다!
+              {userfind.nickname}님의 작품입니다!
             </div>
           </InnerText>
           <InnerBox style={{ padding: "0", gap: "0" }}>
             {/* Works 내용 */}
-            {myProjectList.map((item, index) => {
-              const [imgHover, setimgHover] = useState(false);
-
-              return (
+            {userfind.projects &&
+              userfind.projects.map((item, index) => (
                 <PjtImg
-                  onClick={() => (
-                    dispatch(setMyCurrentProject(item)),
-                    navigate(`/TeamSpaceDetailPage/${item.projectId}`)
-                  )}
-                  className={imgHover ? "shadow" : ""}
-                  onHoverStart={() => setimgHover(true)}
-                  onHoverEnd={() => setimgHover(false)}
-                  // whileHover={{ opacity: 0.8 }}
+                  onClick={() => {
+                    dispatch(setMyCurrentProject({ ...item }));
+                    navigate(`/TeamSpaceDetailPage/${item.projectId}`);
+                  }}
+                  // className="shadow"
+                  whileHover={{ y: -5 }}
                   style={{ cursor: "pointer", borderRadius: "30px" }}
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -641,9 +668,8 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                   src={item.projectImg}
                   transition={{ delay: index * 0.1 + 0.6, duration: 0.3 }}
                 />
-              );
-            })}
-            {myProjectList.length == 0 && (
+              ))}
+            {userfind.projects && userfind.projects.length == 0 && (
               <div
                 style={{
                   padding: "1rem",
@@ -716,6 +742,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
             // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
             >
               <MemoryGraph
+                isMe={isMe}
                 newnode={newnode}
                 setNewNode={setNewNode}
                 setColor={setColor}
@@ -774,6 +801,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                   style={{
                     position: "absolute",
                     top: "0",
+
                     right: 0,
                     cursor: "pointer",
                     color: "rgb(86, 76, 173)",

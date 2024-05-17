@@ -53,19 +53,24 @@ function SamplePrevArrow(props) {
     />
   );
 }
-function CustomSlide({navigate,projectname,message,isDark}) {
+function CustomSlide({ id, navigate, projectname, message, isDark }) {
   return (
     <div
       //   className="shadow"
-      // onClick={() => navigate('/communityDetail', {state: {kind: kind, postId: post.id} })}
+      onClick={() =>
+        navigate("/communityDetail", {
+          state: { kind: { id: 401, name: "member" }, postId: id },
+        })
+      }
       style={{
+        cursor: "pointer",
         padding: "1rem",
         display: "flex",
         alignItems: "center",
         height: "5rem",
         gap: "2rem",
-        borderRadius:"1rem",
-        backgroundColor:isDark ? GlobalColor.colors.primary_black50 : "white"
+        borderRadius: "1rem",
+        backgroundColor: isDark ? GlobalColor.colors.primary_black50 : "white",
       }}
     >
       <div
@@ -81,14 +86,24 @@ function CustomSlide({navigate,projectname,message,isDark}) {
         {" "}
         모집중
       </div>
-      <div style={{fontWeight:"bold" , fontSize:"1.2rem" , color: isDark? "white" : "black"}}>{projectname}</div>
+      <div
+        style={{
+          fontWeight: "bold",
+          fontSize: "1.2rem",
+          color: isDark ? "white" : "black",
+        }}
+      >
+        {projectname}
+      </div>
       {/* <div style={{marginLeft:"0.1rem"}}></div> */}
-      <div style={{fontSize:"1.2rem"  ,color: isDark? "white" : "black"}} >{message}</div>
+      <div style={{ fontSize: "1.2rem", color: isDark ? "white" : "black" }}>
+        {message}
+      </div>
     </div>
   );
 }
-const VerticalSlider = ({isDark}) => {
-  const [data ,setData] = useState([])
+const VerticalSlider = ({ isDark }) => {
+  const [data, setData] = useState([]);
   const back_url = getEnv("BACK_URL");
   const settings = {
     // dots: true,
@@ -106,16 +121,16 @@ const VerticalSlider = ({isDark}) => {
   const invitePeople = async () => {
     try {
       const res = await axios.get(`${back_url}/communities/lightPlate`);
-      setData(res.data.result)
-      console.log(res)
+      setData(res.data.result);
+      console.log(res);
     } catch (err) {
       console.error(err);
     }
   };
-  useEffect(()=>{
-    invitePeople()
-  },[])
-  const navigate = useNavigate()
+  useEffect(() => {
+    invitePeople();
+  }, []);
+  const navigate = useNavigate();
   return (
     <div
       className="shadow mt-5"
@@ -123,15 +138,21 @@ const VerticalSlider = ({isDark}) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: isDark ? GlobalColor.colors.primary_black50: "white",
+        backgroundColor: isDark ? GlobalColor.colors.primary_black50 : "white",
         borderRadius: "1rem",
         height: "5rem",
-        
       }}
     >
       <Slider {...settings}>
-        {data.map((item,index) =>(
-            <CustomSlide navigate={navigate} isDark={isDark} key={index} projectname={item.projectName}  message={item.boardTitle} />
+        {data.map((item, index) => (
+          <CustomSlide
+            id={item.boardId}
+            navigate={navigate}
+            isDark={isDark}
+            key={index}
+            projectname={item.projectName}
+            message={item.boardTitle}
+          />
         ))}
       </Slider>
     </div>

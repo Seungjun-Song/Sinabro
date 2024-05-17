@@ -54,12 +54,18 @@ const MemoryGraph = ({
   fgRef,
   setWhatNode,
   whatnode,
+  isMe,
 }) => {
   const [addOnlyNode, setAddOnlyNode] = useState(false);
   const handlefirstreal = async () => {
     await addnode();
     getGraphData();
     setAddOnlyNode(false);
+    setIsModal(false);
+    setWhatNode(null);
+    setContent("");
+    setNewNode("");
+    setColor("#c7c7c7");
   };
   return (
     <>
@@ -117,7 +123,23 @@ const MemoryGraph = ({
             onNodeClick={(node) => hadleAllClick(node)}
           />
         )}
-        {graphData.nodes.length == 0 && (
+        {!isMe && graphData.nodes.length == 0 && (
+          <div
+            style={{
+          
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              justifyContent: "center",
+              backgroundColor: "white",
+              padding: "1rem",
+              borderRadius: "1rem",
+            }}
+          >
+            아직 노드가 없습니다!
+          </div>
+        )}
+        {isMe && graphData.nodes.length == 0 && (
           <div
             style={{
               width: "35rem",

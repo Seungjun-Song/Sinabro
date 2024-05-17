@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { GlobalColor } from "../services/color";
 import axios from "axios";
 import getEnv from "../utils/getEnv";
+import { useLocation } from "react-router-dom";
 
 const MyPageContainer = styled.div`
   display: flex;
@@ -29,21 +30,34 @@ const MyPage = () => {
   const isDark = useSelector((state) => state.isDark.isDark);
   const userInfo = useSelector((state) => state.user.currentUser);
   // console.log(userInfo)
+  const [isMe ,setIsMe] = useState(false)
+  const location = useLocation();
+  const { memberId } = location.state || {}; 
   const [userfind, setUserFind] = useState({});
+  
   const back_url = getEnv("BACK_URL");
   useEffect(() => {
     const findUser = async () => {
     //   console.log(userInfo.uid);
+    // console.log(memberId)
       try {
-        const res = await axios.get(`${back_url}/members/${userInfo.uid}`);
-        console.log(res);
+        let res = ""
+        if (memberId == 0 || userInfo.uid== memberId ){
+          res = await axios.get(`${back_url}/members/${userInfo.uid}`);
+          setIsMe(true)
+        } else{
+          res = await axios.get(`${back_url}/members/${memberId}`)
+          setIsMe(false)
+        }
+        
+        // console.log(res.data.result);
         setUserFind(res.data.result);
       } catch (err) {
         console.error(err);
       }
     };
     findUser();
-  }, []);
+  }, [memberId]);
   return (
     <MyPageContainer
       style={{
@@ -59,8 +73,9 @@ const MyPage = () => {
           userInfo={userInfo}
           userfind={userfind}
           isDark={isDark}
+          isMe={isMe}
         />
-        <MyPageMainPanel userInfo={userInfo} setUserFind={setUserFind} isDark={isDark} userfind={userfind} />
+        <MyPageMainPanel isMe={isMe} userInfo={userInfo} setUserFind={setUserFind} isDark={isDark} userfind={userfind} />
       </MainBox>
     </MyPageContainer>
   );
