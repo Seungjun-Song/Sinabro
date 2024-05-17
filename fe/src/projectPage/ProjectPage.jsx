@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import ProjectPageLeftPanel from "./ProjectPageLeftPanel";
 import ProjectPageRightPanel from "./ProjectPageRightPanel";
@@ -12,6 +12,7 @@ import { clearProjectRoomId } from "../store/projectRoomIdSlice";
 import axios from "axios";
 import getEnv from "../utils/getEnv";
 import ProjectLoadingPage from "./ProjectLoadingPage";
+import ProjectInfo from "./ProjectInfo";
 
 const ProjectContainer = styled.div`
   position: relative; /* 부모 컨테이너를 기준으로 자식 요소의 위치를 설정하기 위해 */
@@ -60,27 +61,74 @@ const MessageBody = styled.div`
   width: 100%;
 `;
 
+const IframContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 800px;
+`;
+
+const URLSelectContainer = styled.div`
+  display: flex;
+  width: 100%;
+  background-color: ${({ isDark }) =>
+    isDark ? "rgb(50, 50, 51)" : "rgb(229, 229, 229)"};
+  color: ${({ isDark }) =>
+    !isDark ? "rgb(50, 50, 51)" : "rgb(229, 229, 229)"};
+`;
+
+const URLSelectBox = styled.div`
+  padding: 0 0.5rem;
+  cursor: pointer;
+  border-right: 2px solid #b8b8b8;
+`;
+
 const ProjectPage = () => {
   const isProjectCalenderShow = useSelector((state) => state.projectCalender);
   const [lastMessage, setLastMessage] = useState(null);
   const [isFirstMount, setIsFirstMount] = useState(true);
   const [codeServerURL, setCodeServerURL] = useState(null);
+  const [runDevPreviewUrl, setRunDevPreviewUrl] = useState(null);
+  const [startPreviewUrl, setStartPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [teammate, setTeammate] = useState([]);
+  const [selectedURL, setSelectedURL] = useState(null);
 
-  const [selectedTeammates, setSelectedTeammates] = useState([]); // props로 넘겨주는 값
+  const userInfo = useSelector((state) => state.user.currentUser);
+
+  const [teammate, setTeammate] = useState([]);
+  const [selectedTeammates, setSelectedTeammates] = useState([userInfo.uid]); // props로 넘겨주는 값
 
   const dispatch = useDispatch();
 
   const newMessageInfo = useSelector((state) => state.newMessage);
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
-  console.log(myCurrentProject);
+  const isDark = useSelector((state) => state.isDark.isDark);
 
   const back_url = getEnv("BACK_URL");
 
+  const iframeRef = useRef(null);
+
+  const codeServerDarkMode = async () => {
+    try {
+      const res = await axios.post(`${back_url}/teams/projects/darkMode`);
+      console.log(res.data);
+      // Iframe 리로딩
+      if (iframeRef.current) {
+        iframeRef.current.src += "";
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    codeServerDarkMode();
+    console.log(isDark);
+  }, [isDark]);
+
   useEffect(() => {
     const db = getDatabase();
-    const chatRef = ref(db, "chats");
+    const chatRef = ref(db, `chats/${myCurrentProject.projectId}`);
 
     onValue(chatRef, (snapshot) => {
       const data = snapshot.val();
@@ -97,6 +145,7 @@ const ProjectPage = () => {
     });
     return () => {
       dispatch(clearProjectRoomId()); // 프로젝트 페이지를 떠나면 프로젝트 Id를 삭제
+      dispatch(changeProjectChatState(true)) // 프로젝트 페이지를 떠날 때 다음 접속시 바로 코드 서버 뜨게
     };
   }, []);
 
@@ -111,12 +160,22 @@ const ProjectPage = () => {
           { withCredentials: true }
         );
         console.log(res.data);
+        if (
+          (res.data.result.theme === "Light" && isDark) ||
+          (res.data.result.theme !== "Light" && !isDark)
+        ) {
+          codeServerDarkMode();
+        }
         setCodeServerURL(res.data.result.url);
+        setRunDevPreviewUrl(res.data.result.runDevPreviewUrl);
+        setStartPreviewUrl(res.data.result.startPreviewUrl);
+        setSelectedURL(res.data.result.url);
         setLoading(false);
       } catch (err) {
         console.error(err);
       }
     };
+
     getCodeServerURL();
 
     const leaveCodeServer = async () => {
@@ -151,6 +210,10 @@ const ProjectPage = () => {
       }
     };
     getTeammateInfo();
+    // const teammateId = teammate.map(item => item.memberId)
+    // setSelectedTeammates(teammateId)
+    // console.log('이거 왜 안보이지?', teammateId, selectedTeammates)
+    // 처음에 모든 사람의 Id를 미리 넣어놓고 싶은데, 안됨... 누가 이 주석을 발견하면 해결해주세요.
   }, []);
 
   const newChatState = () => {
@@ -175,28 +238,72 @@ const ProjectPage = () => {
         <ProjectContainer>
           <WebRTC />
           <ProjectMainContainer>
-            <ProjectPageLeftPanel teammate={teammate} selectedTeammates={selectedTeammates} setSelectedTeammates={setSelectedTeammates} />
+            <ProjectPageLeftPanel
+              teammate={teammate}
+              selectedTeammates={selectedTeammates}
+              setSelectedTeammates={setSelectedTeammates}
+            />
             {isProjectCalenderShow.value === true ? (
-              <div style={{ height: '100%', width: '100%' }}>
+              <div style={{ height: "100%", width: "100%" }}>
                 <Calender selectedTeammates={selectedTeammates} />
               </div>
             ) : (
-              <iframe
-                title="code-server"
-                src={codeServerURL}
-                style={{ width: "100%", height: "100%", border: "none" }}
-              ></iframe>
+              <IframContainer>
+                <URLSelectContainer isDark={isDark}>
+                  <URLSelectBox
+                    style={{
+                      borderBottom:
+                        selectedURL === codeServerURL
+                          ? "none"
+                          : "2px solid #b8b8b8",
+                    }}
+                    onClick={() => setSelectedURL(codeServerURL)}
+                  >
+                    Code
+                  </URLSelectBox>
+                  <URLSelectBox
+                    style={{
+                      borderBottom:
+                        selectedURL === runDevPreviewUrl
+                          ? "none"
+                          : "2px solid #b8b8b8",
+                    }}
+                    onClick={() => setSelectedURL(runDevPreviewUrl)}
+                  >
+                    Dev
+                  </URLSelectBox>
+                  <URLSelectBox
+                    style={{
+                      borderBottom:
+                        selectedURL === startPreviewUrl
+                          ? "none"
+                          : "2px solid #b8b8b8",
+                    }}
+                    onClick={() => setSelectedURL(startPreviewUrl)}
+                  >
+                    Start
+                  </URLSelectBox>
+                </URLSelectContainer>
+                <iframe
+                  ref={iframeRef}
+                  title="code-server"
+                  src={selectedURL}
+                  style={{ width: "100%", height: "100%", border: "none" }}
+                ></iframe>
+              </IframContainer>
             )}
             <ProjectPageRightPanel />
             {newChatState() && (
               <MessageContainer
                 onClick={() => dispatch(changeProjectChatState(true))}
               >
-                <MessageHeader>{lastMessage.displayName}</MessageHeader>
+                <MessageHeader>{lastMessage.displayName}</MessageHeader>{" "}
+                {/* 수정된 부분 */}
                 <MessageBody>{lastMessage.message}</MessageBody>
               </MessageContainer>
             )}
           </ProjectMainContainer>
+          {/* <ProjectInfo /> */}
         </ProjectContainer>
       )}
     </>

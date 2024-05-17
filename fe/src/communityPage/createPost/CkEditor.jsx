@@ -35,6 +35,7 @@ const StyledEditor = styled.div`
 
 const CkEditor = ({ isDark, postContent, setPostContent }) => {
 
+
     const edrtorConfiguration = {
 		toolbar: {
 			items: [

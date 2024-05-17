@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 import getEnv from "../utils/getEnv";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
+
 const SurveyContainer = styled.div`
   width: 100vw;
   height: 100vh;
@@ -289,14 +291,18 @@ const SurveyPage = () => {
   const chooseSubSkill = async () => {
     const subCategoryIds = choiceResults.map(item => ({ subCategoryId: item.subCategoryId }))
     console.log(subCategoryIds)
- 
-    try {
-      const res = await axios.post(`${back_url}/members`, subCategoryIds)
-      console.log(res.data)
-      navigate('/mainPage')
+    if (subCategoryIds) {
+      try {
+        const res = await axios.post(`${back_url}/members`, subCategoryIds)
+        console.log(res.data)
+        navigate('/mainPage')
+      }
+      catch (err) {
+        console.error(err)
+      }
     }
-    catch (err) {
-      console.error(err)
+    else {
+      Swal.fire("기술 스택을 하나 이상 선택해 주세요.")
     }
   }
   

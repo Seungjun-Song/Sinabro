@@ -16,8 +16,10 @@ import {
   setProjectRightPanelState,
 } from "../store/newMessageSlice";
 import { changeProjectChatState } from "../store/projectChatShow";
-import "./ProjectStyles.css";
 import { AnimatePresence, motion } from "framer-motion";
+
+import "./ProjectStyle.css";
+
 const ProjectPageRightPanelContainer = styled(motion.div)`
   height: 100%;
   /* width: 30%; */

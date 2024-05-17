@@ -23,7 +23,8 @@ const NavBar = styled.nav`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 80px;
+  min-width: 600px;
+  height: 100px;
   background-color: ${({ isScrolled }) =>
     !isScrolled ? "rgba(86, 76, 173, 1)" : "rgba(245, 248, 255, 1)"};
 
@@ -32,6 +33,8 @@ const NavBar = styled.nav`
   top: 0;
   transition: 0.5s; /* 부드러운 애니메이션을 위한 transition 설정 */
   color: ${({ isScrolled }) => (!isScrolled ? "white" : GlobalColor.colors.primary_black)};
+
+  font-size: 1.1rem;
 `;
 
 const LogoImage = styled.img`
@@ -50,7 +53,7 @@ const DropDown = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 1rem;
   cursor: pointer;
 
   /* color: white; */
@@ -83,17 +86,17 @@ const DropDownPage = styled.div`
   position: absolute; /* 절대 위치 지정 */
   z-index: 999;
   top: 70%;
-  left: 8%;
+  left: 9.5%;
 `;
 
 const LeftNavContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  width: 25%;
-
+  
+  gap: 2rem;
   margin-left: 1%;
+
 `;
 
 const RightNavContainer = styled.div`
@@ -101,13 +104,15 @@ const RightNavContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  width: 18%;
 
   margin-right: 3%;
 `;
 
 const Logos = styled.div`
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  margin-right: 1rem;
 `;
 
 const Navbar = () => {
@@ -206,16 +211,16 @@ const Navbar = () => {
           </DropDownPage>
         </DropDown>
 
-        <Community style={{ fontFamily: "Jamsil Light" }}
+        <Community style={{ fontFamily: "Jamsil Light", marginLeft: '1rem', minWidth: '4.5rem' }}
         onClick={() => navigate('/communityMainPage', { state: { kind: {id: 401, name: "member"}, page: 1 } })}
       >커뮤니티</Community>
       </LeftNavContainer>
       <RightNavContainer>
-        <MyPage style={{ fontFamily: "Jamsil Light" }}
+        <MyPage style={{ fontFamily: "Jamsil Light", minWidth: '4.8rem' }}
           onClick={() => navigate('/mypage')}
         >마이페이지</MyPage>
 
-        <Log style={{ fontFamily: "Jamsil Light" }}
+        <Log style={{ fontFamily: "Jamsil Light", minWidth: '4.5rem' }}
           onClick={() => logout()}
         >로그아웃</Log>
 

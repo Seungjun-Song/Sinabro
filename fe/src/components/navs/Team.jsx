@@ -11,6 +11,8 @@ const TeamDetail = styled.div`
   /* padding-left:1rem; */
   padding-right:1rem;
   width: 13rem;
+
+  border-radius: 0.5rem;
 `;
 
 const TotalInfo = styled.div`

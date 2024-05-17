@@ -101,7 +101,9 @@ const Section2 = ({ section2Ref }) => {
               <h5
                 style={{ color: currentSlideNumber == 1 ? "white" : "black" }}
               >
-                협업 프로젝트 공간
+                <div>협업</div>
+                <div>프로젝트</div> 
+                공간
               </h5>
             </div>
             <div
@@ -126,7 +128,8 @@ const Section2 = ({ section2Ref }) => {
               <h5
                 style={{ color: currentSlideNumber == 2 ? "white" : "black" }}
               >
-                라이브 피드백
+                <div>라이브</div> 
+                피드백
               </h5>
             </div>
             <div
@@ -151,7 +154,8 @@ const Section2 = ({ section2Ref }) => {
               <h5
                 style={{ color: currentSlideNumber == 3 ? "white" : "black" }}
               >
-                정적 코드 분석
+                <div>정적 코드</div>
+                 분석
               </h5>
             </div>
           </div>

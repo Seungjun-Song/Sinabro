@@ -10,6 +10,7 @@ import CommunityMemberPage from './CommunityMemberPage';
 import CommunityTeamPage from './CommunityTeamPage';
 import CommunityFeadBackPage from './CommunityFeadbackPage';
 import Pagination from './Pagination';
+import UserChat from '../../components/Userchat/UserChat';
 import { GlobalColor } from '../../services/color';
 import getEnv from '../../utils/getEnv';
 import CalTime from '../CalTime';
@@ -20,6 +21,8 @@ align-items: start;
 justify-content: space-between;
 width: 100%;
 
+padding: 2rem 0 0 0;
+
 ${props => props.isDark && css`
     background: ${ GlobalColor.colors.primary_black };
 `}
@@ -29,7 +32,7 @@ transition: 0.3s;
 
 const MainBox = styled.div`
     width: 100%;
-    padding: 0 0 0 10rem;
+    padding: 0 0 0 3rem;
 `
 
 const CommunityMainPage = () => {
@@ -43,17 +46,21 @@ const CommunityMainPage = () => {
     const [proceedOption, setProceedOption] = useState({id: 502, name: "모집 중"});
     const [teamOption, setTeamOption] = useState({id: 0, name: "분야 선택"});
     const [searchWord, setSearchWord] = useState("");
+    const [totalCount, setTotalCount] = useState(0);
 
     const back_url = getEnv('BACK_URL')
 
     const [postList, setPostList] = useState([])
 
     useEffect(() =>{
-        axios.get(`${back_url}/communities?catBoard=${selected.id}&catCalender=${proceedOption.id}&catJob=${teamOption.id}&keyword=${searchWord}&page=${currentPage-1}`)
+        axios.get(`${back_url}/communities?board=${selected.id}&cal=${proceedOption.id}&job=${teamOption.id}&keyword=${searchWord}&page=${currentPage-1}`)
         //axios.get(`${back_url}/communities?catBoard=0&catCalender=0&catJob=0&keyword=&page=0`)
         .then(res => {
             const totalData = res.data.result.boardListResponseDto;
             setPostList([]);
+
+            //console.log(res.data.result.totalCount);
+            setTotalCount(res.data.result.totalCount);
 
             totalData.forEach((data, index) => {
                 //시간 계산해서 넣기
@@ -143,16 +150,16 @@ const CommunityMainPage = () => {
             ) : ("")}
 
             <Pagination
-                totalItems={27}
+                totalItems={totalCount}
                 itemCountPerPage={10}
                 pageCount={2}
                 currentPage={currentPage}
-                selected={selected}
                 setCurrentPage={setCurrentPage}
             >
             </Pagination>
             </MainBox>
         </Community>
+        <UserChat/>
 
         </>
     )

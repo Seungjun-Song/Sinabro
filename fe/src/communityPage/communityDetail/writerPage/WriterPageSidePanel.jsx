@@ -14,6 +14,7 @@ const MyPageSidePanelContainer = styled(motion.div)`
   width: 30%;
   flex-direction: column;
   align-items: center;
+  justify-content:center;
 `;
 
 const SkillArea = styled.span`
@@ -92,31 +93,10 @@ const InfoTag = styled.div`
   flex-wrap: wrap;
 `;
 
-const WriterPageSidePanel = ({ isDark, userfind, userInfo }) => {
+const WriterPageSidePanel = ({ isDark, userfind }) => {
   const [selectedImage, setSelectedImage] = useState(
     "/images/default_my_image.png"
   );
-
-  const handleImageChange = async () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.onchange = async (event) => {
-      const file = event.target.files[0];
-
-      // Firebase Storage에 이미지 업로드
-      const storage = getStorage(app);
-      const storageRef = ref(storage, file.name);
-      await uploadBytes(storageRef, file);
-
-      // 업로드된 이미지의 다운로드 URL 받아오기
-      const imageUrl = await getDownloadURL(storageRef);
-
-      // 다운로드 URL을 state에 저장
-      setSelectedImage(imageUrl);
-    };
-    input.click();
-  };
 
   return (
     <MyPageSidePanelContainer
@@ -128,36 +108,11 @@ const WriterPageSidePanel = ({ isDark, userfind, userInfo }) => {
       <SkillArea>{userfind.memberJob}</SkillArea>
       <div style={{ position: "relative" }}>
         <MyImage src={userfind.memberImg} />
-        <motion.div
-          onClick={handleImageChange}
-          whileHover={{ color: "#BAB2FF" }}
-          className="shadow"
-          style={{
-            cursor: "pointer",
-            position: "absolute",
-            bottom: 0,
-            right: 0,
-            padding: "0.75rem",
-            borderRadius: "50%",
-            backgroundColor: "white",
-            display: "flex",
-          }}
-        >
-          <FontAwesomeIcon icon={faFaceSmile} />
-        </motion.div>
+
       </div>
-      <MyName style={{ color: isDark ? "white" : "black" }}>
+      <MyName style={{ color: isDark ? "white" : "black", marginTop: '1rem' }}>
         {userfind.nickname}
       </MyName>
-      <WithOur></WithOur>
-      <EditButton>
-        {/* <input
-          type="file"
-          style={{ display: "none" }}
-          onChange={handleImageChange}
-        />
-        E D I T */}
-      </EditButton>
       <MyInfoBox>
         <MyInfoInnerBox>
           <FontAwesomeIcon

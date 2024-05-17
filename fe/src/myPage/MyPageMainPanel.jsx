@@ -7,9 +7,12 @@ import { AnimatePresence, motion } from "framer-motion";
 // Import scrollbar styles
 import "./scrollbar.css";
 import { GlobalColor } from "../services/color";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import getEnv from "../utils/getEnv";
 import axios from "axios";
+import MemoryGraph from "./MemoryGraph";
+import { setMyCurrentProject } from "../store/myCurrentProjectSlice";
+import { useNavigate } from "react-router-dom";
 const SearchContainerRightSide = styled.div`
   height: 100%;
   width: 2rem;
@@ -40,12 +43,13 @@ const MyPageMainPanelContainer = styled.div`
   border: 3px solid #a2a2a2;
   width: 90%;
   overflow-y: auto;
-  margin-bottom: 3rem;
+  /* margin-bottom: 3rem; */
   border-radius: 10px;
   margin-left: 1rem;
   padding-left: 4rem;
   padding-right: 4rem;
-  max-height: 550px;
+  /* max-height: 550px; */
+  height: 80%;
   padding-bottom: 2rem;
 `;
 
@@ -98,8 +102,9 @@ const SearchIcon = styled(FontAwesomeIcon)`
 `;
 
 const PjtImg = styled(motion.img)`
-  width: 25%;
-  padding: 1rem;
+  width: 23%;
+  padding: 1.2rem;
+  margin-right: 10px;
 `;
 
 const MemoryGraphContainer = styled.div`
@@ -110,12 +115,12 @@ const MemoryGraphMainBox = styled.div`
   border: 3px solid transparent;
   border-image: linear-gradient(to right, #3dc7af, #613acd);
   border-image-slice: 1;
-  background-image: url("/images/obsidian.png");
+  /* background-image: url("/images/obsidian.png"); */
   background-size: cover;
   background-position: center;
   width: 100%;
   height: 30rem;
-  cursor: pointer;
+  /* cursor: pointer; */
   /* 커서 나중에 없애거나 해야함 */
 `;
 
@@ -132,7 +137,8 @@ const MemoryGraphDescribeBox = styled.div`
   margin-left: 2rem;
   width: 100%;
   padding: 1rem;
-  max-height: 26rem;
+  /* max-height: 26rem; */
+  height:100%;
   overflow-y: auto;
   margin-bottom: 1rem;
 `;
@@ -224,6 +230,7 @@ const dataList = [
 ];
 
 const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
+  const [whatnode, setWhatNode] = useState(null);
   const [isSideBoxVisible, setIsSidePanelVisible] = useState(false);
   const back_url = getEnv("BACK_URL");
   const [showModal, setShowModal] = useState(false);
@@ -265,6 +272,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   };
   const AddSkill = async (subCategoryId) => {
     const subCategoryIds = [{ subCategoryId: subCategoryId }];
+    console.log(subCategoryIds);
     try {
       const res = await axios.post(`${back_url}/members`, subCategoryIds, {
         withCredentials: true,
@@ -274,9 +282,14 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
       console.error(err);
     }
   };
-  const handleDelete = (item) => {
+  const handleDelete = async (item) => {
     // choiceResults에서 item.name과 같은 항목을 제외한 나머지를 새로운 배열로 만듭니다.
-    DelSkill(item.techStackId);
+    await DelSkill(item.techStackId);
+    findUser();
+  };
+  const handleAdd = async (item) => {
+    setWhatSearch("");
+    await AddSkill(item);
     findUser();
   };
 
@@ -297,8 +310,18 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
     // console.log(filteredResults); // 필터링된 결과를 console에 출력
     setSearchResults(filteredResults);
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
-    <div style={{width:"100%" ,height:"100%" ,justifyContent:"center" ,alignItems:"center" ,display:"flex"}}>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        display: "flex",
+      }}
+    >
       <MyPageMainPanelContainer>
         <InnerArea
           initial={{ opacity: 0, y: 5 }}
@@ -307,7 +330,17 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           transition={{ duration: 0.3, delay: 0.3 }}
           style={{ height: "12rem" }}
         >
-          <InnerText>Skills</InnerText>
+          <InnerText
+            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+          >
+            Skills
+            <div
+              style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
+            >
+              보유하신 기술 스택입니다!
+            </div>
+          </InnerText>
+
           <SearchContainer>
             <SearchContainerLeftSide>
               <AnimatePresence>
@@ -359,10 +392,14 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
             <div
               className="shadow"
               style={{
+                // padding:"1rem",
                 maxHeight: "100%",
+                height: "4rem",
+                alignItems: "center",
                 display: "flex",
-                flexDirection: "column",
-                gap: "0.5rem",
+                // flexDirection: "column",
+                flexWrap: "wrap",
+                // gap: "0.5rem",
                 overflowY: "auto",
                 borderRadius: "0rem 0rem 0.4rem 0.4rem",
                 // backgroundColor:isDark ? GlobalColor.colors.primary_black50 : "white"
@@ -370,11 +407,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
             >
               {searchResults.map((result, index) => (
                 <motion.div
-                  onClick={() => (
-                    setWhatSearch(""),
-                    AddSkill(result.subCategoryId),
-                    findUser()
-                  )}
+                  onClick={() => handleAdd(result.subCategoryId)}
                   transition={{ duration: 0.3 }}
                   whileHover={{
                     cursor: "pointer",
@@ -382,6 +415,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                     color: "white",
                   }}
                   style={{
+                    margin: "0.5rem",
                     display: "flex",
                     gap: "0.8rem",
                     alignItems: "center",
@@ -407,18 +441,40 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           transition={{ duration: 0.3, delay: 0.6 }}
           style={{ marginTop: 0 }}
         >
-          <InnerText>Works</InnerText>
+          <InnerText
+            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+          >
+            Works
+            <div
+              style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
+            >
+              {userInfo.displayName}님의 작품입니다!
+            </div>
+          </InnerText>
           <InnerBox style={{ padding: "0", gap: "0" }}>
             {/* Works 내용 */}
-            {myProjectList.map((item, index) => (
-              <PjtImg
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                key={index}
-                src={item.projectImg}
-                transition={{ delay: index * 0.1 + 0.6 }}
-              />
-            ))}
+            {myProjectList.map((item, index) => {
+              const [imgHover, setimgHover] = useState(false);
+
+              return (
+                <PjtImg
+                  onClick={() => (
+                    dispatch(setMyCurrentProject(item)),
+                    navigate(`/TeamSpaceDetailPage/${item.projectId}`)
+                  )}
+                  className={imgHover ? "shadow" : ""}
+                  onHoverStart={() => setimgHover(true)}
+                  onHoverEnd={() => setimgHover(false)}
+                  // whileHover={{ opacity: 0.8 }}
+                  style={{ cursor: "pointer", borderRadius: "30px" }}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  key={index}
+                  src={item.projectImg}
+                  transition={{ delay: index * 0.1 + 0.6, duration: 0.3 }}
+                />
+              );
+            })}
             {myProjectList.length == 0 && (
               <div
                 style={{
@@ -433,27 +489,29 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           </InnerBox>
         </InnerArea>
         <InnerArea>
-          <InnerText>Memory Graph</InnerText>
+          <InnerText
+            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+          >
+            Memory Graph
+            <div
+              style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
+            >
+              <div>노드간 정보를 입체적으로 저장하세요</div>
+            </div>
+          </InnerText>
           <MemoryGraphContainer>
             <MemoryGraphMainBox
-              onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
-            ></MemoryGraphMainBox>
-            {isSideBoxVisible && (
+            // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
+            >
+              <MemoryGraph whatnode={whatnode} setWhatNode={setWhatNode} />
+            </MemoryGraphMainBox>
+            {whatnode && (
               <MemoryGraphSideBox>
                 <MemoryGraphDescribeBox
                   style={{ color: isDark ? "white" : "black" }}
                 >
-                  <h1>제목</h1>
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용
+                  <h1>{whatnode.label}</h1>
+                  {whatnode.content}
                 </MemoryGraphDescribeBox>
                 <MemoryGraphButtonBox>
                   <MemoryGraphButton onClick={handleShow}>

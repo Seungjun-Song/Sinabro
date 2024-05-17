@@ -23,28 +23,7 @@ const Detail = styled.div`
 `
 const Line = styled.hr`
 `
-const DetailMember = ({ isDark, detailData, commentDate, setCommentDate, projectData }) => {
-
-
-    // const back_url = getEnv('BACK_URL');
-
-    // useEffect(() => {
-    //     console.log("in member" , detailData.projectId)
-    //     axios.get(`${back_url}/teams?projectId=${detailData.projectId}`)
-    //     .then((res) => {
-    //         //console.log(res.data.result);
-            
-    //         const getProject = res.data.result;
-    //         setProjectData({
-    //             id: detailData.projectId,
-    //             title: getProject.projectName,
-    //             projectImg: getProject.projectImg
-    //         })
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     })
-    // }, [detailData])
+const DetailMember = ({ isDark, detailData, commentDate, setCommentDate, projectData, totalCount, currentPage, setCurrentPage, setOpenChat, selectedUser, setSelectedUser, setTotalCount}) => {
 
     return(
         <Detail
@@ -71,6 +50,12 @@ const DetailMember = ({ isDark, detailData, commentDate, setCommentDate, project
                 commentDate={commentDate}
                 setCommentDate={setCommentDate}
                 boardId={detailData.id}
+                totalCount={totalCount}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                setOpenChat={setOpenChat}
+                setSelectedUser={setSelectedUser}
+                setTotalCount={setTotalCount}
             />
         </Detail>
     )

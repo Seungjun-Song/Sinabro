@@ -111,7 +111,7 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
                     </InputBox>
                 </Job>
             ))}               
-            6명 이하 인원만 가능해요!
+            3명 이하 인원만 가능해요!
             </>}
             
             {kind.name == "feadback" &&
@@ -125,6 +125,7 @@ const CreateJobsBox = ({kind, jobInfo, setJobInfo}) => {
                     {job.icon && <FontAwesomeIcon icon={job.icon} style={{ fontSize: '10px' }} />}
                     <div>
                     {job.name}
+                    {console.log(job.selected)}
                     </div>
                 </Job>
                 ))}   

@@ -5,7 +5,7 @@ import MoveToPjt from '/image/community/moveToPjt.png'
 import { useNavigate } from 'react-router-dom'
 
 const Box = styled(motion.div)`
-    font-size: 0.5rem;
+    font-size: 0.8rem;
     color: rgba(171, 171, 171, 1);
 `
 const Project = styled(motion.div)`
@@ -34,6 +34,7 @@ const PjtInfo = styled.div`
 
 const PjtProfile = styled.img`
     height: 3rem;
+    border-radius: 50px;
 `
 
 const PjtName = styled.div`
@@ -59,7 +60,7 @@ const pjtMotion = {
 const PjtLinkBox = ({pjtData}) => {
 
     const navigate = useNavigate();
-    console.log("in box", pjtData)
+
     return(
         <Box
             {...pjtMotion}
@@ -68,7 +69,7 @@ const PjtLinkBox = ({pjtData}) => {
         <Project
             whileHover={{ cursor: "pointer", scale: 1.05}}
             transition={{ type: "spring", stiffness: 100 }}
-            onClick={() => navigate(`/TeamSpaceDetailPage/${pjtData.id}`)}
+            onClick={() => navigate(`/teamLinkPage`, {state: {pjtId: pjtData.id}})}
         >
             <PjtInfo>
                 <PjtProfile

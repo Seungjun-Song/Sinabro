@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronRight,
@@ -19,6 +20,23 @@ const ideas = [
   "팀을 구하고 프로젝트를 진행해보세요",
   "팀원과 일정을 공유하고 계획적인 프로젝트를 진행해요",
 ];
+
+const Create = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: ${GlobalColor.colors.proceeding};
+  border-radius: 10px;
+  font-weight: bold;
+
+  width: 13rem;
+  height: 2.5rem;
+
+  margin: 1rem 0 0 0;
+
+  cursor: pointer;
+`;
+
 export default (props) => {
   const [activeSlide, setactiveSlide] = useState(props.activeSlide);
   const [isHover, setIsHover] = useState(false);
@@ -118,22 +136,6 @@ export default (props) => {
               ? "알고 계셨나요?"
               : "나의 팀스페이스로 이동"}
           </motion.h5>
-          <AnimatePresence>
-            {isHover && (
-              <motion.div
-                style={{
-                  marginLeft: "1rem",
-                  color: props.isDark ? "white" : "black",
-                }}
-                initial={{ opacity: 0, rotate: -45 }}
-                animate={{ opacity: 1, rotate: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <FontAwesomeIcon icon={faArrowRight} size="xl" />
-              </motion.div>
-            )}
-          </AnimatePresence>
         </motion.div>
         {props.data.length !== 0 && (
           <div className="slideC">
@@ -176,8 +178,9 @@ export default (props) => {
             ))}
           </div>
         )}
-        <AnimatePresence mode="wait">
-          {props.data.length == 0 && (
+        {props.data.length == 0 && (
+          <>
+          <AnimatePresence mode="wait">
             <motion.div
               key={index}
               initial={{ opacity: 0 }}
@@ -187,8 +190,14 @@ export default (props) => {
             >
               {ideas[index]}
             </motion.div>
-          )}
         </AnimatePresence>
+        <Create style={{color:"white", fontFamily:"Jamsil Light"}} onClick={() => navigate("/TeamSpacePage")}>
+          프로젝트 생성하기
+          <span style={{color: 'white'}}>+</span>
+          {/* <img src={Go}></img> */}
+        </Create>
+        </>
+        )}
         {/* carousel */}
         {props.data.length !== 0 && (
           <div style={{ marginTop: "3rem", zIndex: 99 }} className="btns">
@@ -221,7 +230,7 @@ const SliderContent = (props) => {
   //   console.log(props);
   return (
     <div className="sliderContent">
-      <img style={{ width: "12rem", height: "12rem" }} src={props.projectImg} />
+      <img style={{ width: "12rem", height: "12rem", borderRadius: "10px" }} src={props.projectImg} />
     </div>
   );
 };

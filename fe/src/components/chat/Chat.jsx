@@ -77,6 +77,20 @@ const Chat = () => {
         }
     }
 
+    // 숫자를 두 자리로 만들고 앞에 0을 채워주는 함수
+    const padZero = (num) => {
+        return num < 10 ? `0${num}` : num;
+    };
+
+    const timeFormatting = (time) => {
+
+        const dateObj = new Date(time)
+        const formattedDate = `${dateObj.getFullYear()}-${padZero(dateObj.getMonth() + 1)}-${padZero(dateObj.getDate())}`
+        const formattedTime = `${padZero(dateObj.getHours())}:${padZero(dateObj.getMinutes())}`
+
+        return (`${formattedDate} ${formattedTime}`);
+    }
+
     return (
         <div style={{ width: '100%', height: '100%', padding: '1rem', display: 'flex', flexDirection: 'column' }}>
             {/* 채팅 메시지 출력 */}
@@ -86,11 +100,13 @@ const Chat = () => {
                         {chat.sender === userInfo.currentUser.uid ?
                             <div className="d-flex flex-column" style={{ width: "100%" }}>
                                 <div style={{ alignSelf: "flex-end", backgroundColor: '#564CAD', color: 'white', padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0.5rem 0.5rem 0 0.5rem', maxWidth: '10rem' }}>{chat.message}</div>
+                                <div style={{ alignSelf: "flex-end", color: 'grey', fontSize: '0.7rem' }} >{timeFormatting(chat.timestamp)}</div>
                             </div>
                             :
                             <div className="d-flex flex-column" style={{ width: "100%" }}>
-                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', maxWidth: '12rem', fontWeight: 'bold', color: `${!isDark ? 'white' : 'black'}` }}>{chat.displayName}</div>
-                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0 0.5rem 0.5rem 0.5rem', maxWidth: '10rem', border: '2px solid #D6D6D6', backgroundColor: `${isDark ? 'white' : '#D6D6D6'}`}}>{chat.message}</div>
+                                <div style={{ alignSelf: "flex-start", maxWidth: '12rem', fontWeight: 'bold', color: `${!isDark ? 'white' : 'black'}` }}>{chat.displayName}</div>
+                                <div style={{ alignSelf: "flex-start", padding: '0 0.5rem', margin: '0.2rem 0', borderRadius: '0 0.5rem 0.5rem 0.5rem', maxWidth: '10rem', border: '2px solid #D6D6D6', backgroundColor: `${isDark ? 'white' : '#D6D6D6'}` }}>{chat.message}</div>
+                                <div style={{ alignSelf: "flex-start", color: 'grey', fontSize: '0.7rem', marginBottom: '0.3rem' }} >{timeFormatting(chat.timestamp)}</div>
                             </div>
                         }
                     </div>))}

@@ -100,7 +100,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, selectedTeammate
                 <div
                     className={`col cell ${!isSameMonth(day, monthStart)
                         ? 'disabled'
-                        : isSameDay(addDays(day, 1), selectedDate)
+                        : isSameDay(addDays(day, 0), selectedDate)
                             ? 'selected'
                             : format(currentMonth, 'M') !== format(day, 'M')
                                 ? 'not-valid'
@@ -151,11 +151,11 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, selectedTeammate
                                                     </Tooltip>}
                                                 >
                                                     {item.subCategoryId === 503 ?
-                                                        <div style={{ fontSize: '11px', backgroundColor: '#e8e6f4', borderRadius: '2rem', padding: '0 0.4rem', margin: '0.1rem 0.1rem', boxShadow: '1px 1px 1px 0px #564CAD', textDecoration: 'line-through' }}>
+                                                        <div className='shadow' style={{ fontSize: '15px', fontWeight: 'bold', backgroundColor: '#e8e6f4', borderRadius: '5px', padding: '0 0.4rem', margin: '0.1rem 0.1rem', backgroundColor: 'whitesmoke', border: '2px solid grey', textDecoration: 'line-through ' }}>
                                                             {truncate(item.calenderName, 10)}
                                                         </div>
                                                         :
-                                                        <div style={{ fontSize: '11px', backgroundColor: '#e8e6f4', borderRadius: '2rem', padding: '0 0.4rem', margin: '0.1rem 0.1rem', boxShadow: '1px 1px 1px 0px #564CAD' }}>
+                                                        <div className='shadow' style={{ fontSize: '15px', fontWeight: 'bold', backgroundColor: '#e8e6f4', borderRadius: '5px', padding: '0 0.4rem', margin: '0.1rem 0.1rem', backgroundColor: 'whitesmoke', border: '2px solid grey' }}>
                                                             {truncate(item.calenderName, 10)}
                                                         </div>
                                                     }
