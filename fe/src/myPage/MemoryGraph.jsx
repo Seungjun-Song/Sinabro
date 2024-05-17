@@ -52,6 +52,7 @@ const MemoryGraph = ({
   setWhatNode,
   whatnode,
 }) => {
+  const [addOnlyNode, setAddOnlyNode] = useState(false);
   return (
     <>
       <div
@@ -71,11 +72,7 @@ const MemoryGraph = ({
           <div
             style={{ position: "absolute", bottom: 0, right: 0, zIndex: "1" }}
           >
-            <MemoryGraphButton
-              onClick={() => (
-                setIsModal({ type: "first" }), console.log(isModal)
-              )}
-            >
+            <MemoryGraphButton onClick={() => addOnlyNode(true)}>
               Add Node
             </MemoryGraphButton>
           </div>
@@ -259,7 +256,7 @@ const MemoryGraph = ({
           </div>
         )} */}
       </div>
-      {isModal.type == "add"&& (
+      {isModal.type == "add" && (
         <div
           style={{
             position: "absolute",
@@ -403,8 +400,8 @@ const MemoryGraph = ({
           </div>
         </div>
       )}
-      
-      {isModal.type == "first" && (
+
+      {addOnlyNode && (
         <div
           style={{
             position: "absolute",
@@ -525,7 +522,7 @@ const MemoryGraph = ({
                   borderRadius: "1rem",
                 }}
                 onClick={() => (
-                  setIsModal(false),
+                  setAddOnlyNode(false),
                   setContent(""),
                   setNewNode(""),
                   setColor("#c7c7c7")
@@ -537,7 +534,7 @@ const MemoryGraph = ({
           </div>
         </div>
       )}
-      {isModal.type == "change"  && (
+      {isModal.type == "change" && (
         <div
           style={{
             position: "absolute",
