@@ -50,13 +50,13 @@ const WriterLink = styled.img`
 `
 
 const WriterLinkBox = ({detailData}) => {
-
+    console.log(detailData)
     const navigate = useNavigate();
     //console.log("writerBox", detailData)
     return(
         <WriterBox
             whileHover={{ cursor: "pointer", y: -3}}
-            onClick={() => navigate(`/writerPage`, {state: {memberId: detailData.memberId}})}
+            onClick={() => navigate(`/mypage`, {state: {memberId: detailData.memberId}})}
         >
             <WriterInfo>
                 <WriterProfile

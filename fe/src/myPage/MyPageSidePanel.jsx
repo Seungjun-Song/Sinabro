@@ -17,11 +17,10 @@ const MyPageSidePanelContainer = styled(motion.div)`
   width: 30%;
   flex-direction: column;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
 `;
 
 const SkillArea = styled.span`
-  background-color: #8fdd89;
   padding: 0.2rem;
   color: white;
   padding-left: 1rem;
@@ -42,10 +41,10 @@ const MyName = styled.div`
   font-size: 1.5rem;
   display: flex;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
 
   width: 100%;
-  margin: 1.5rem 0 1.5rem 0; 
+  margin: 1.5rem 0 1.5rem 0;
   word-break: break-all;
 `;
 
@@ -83,7 +82,7 @@ const MyInfoBox = styled.div`
 
   border-top: 4px solid #4f61bb;
 
-  margin: 10px
+  margin: 10px;
 `;
 
 const MyInfoInnerBox = styled.div`
@@ -91,7 +90,6 @@ const MyInfoInnerBox = styled.div`
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  
 `;
 
 const SmallImage = styled.img`
@@ -100,23 +98,32 @@ const SmallImage = styled.img`
 `;
 
 const GitLink = styled.a`
-font-weight: 5%;
-display: flex;
-flex-wrap: wrap;
-text-decoration: none;
-`
+  font-weight: 5%;
+  display: flex;
+  flex-wrap: wrap;
+  text-decoration: none;
+`;
 const InfoTag = styled.div`
   font-weight: 5%;
   display: flex;
   flex-wrap: wrap;
 `;
-
-const MyPageSidePanel = ({ isDark, userfind }) => {
-
-  const back_url = getEnv('BACK_URL')
-  const userInfo = useSelector(state => state.user.currentUser)
+const getColor = (memberJob) => {
+  // 여기에 item에 따라 적절한 색상을 반환하는 조건을 추가하세요
+  // 예를 들어, item이 "A"일 때는 빨간색, "B"일 때는 파란색 등등...
+  return memberJob === "프론트엔드"
+    ? "#3DC7AE"
+    : memberJob === "백엔드"
+    ? "#315DCC"
+    : memberJob === "풀스택"
+    ? "#6C31CC"
+    : "black";
+};
+const MyPageSidePanel = ({ isDark, userfind ,isMe}) => {
+  const back_url = getEnv("BACK_URL");
+  const userInfo = useSelector((state) => state.user.currentUser);
   // console.log('userInfo', userInfo)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleImageChange = async () => {
     const input = document.createElement("input");
@@ -134,13 +141,14 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
       const imageUrl = await getDownloadURL(storageRef);
 
       try {
-        const res = await axios.post(`${back_url}/members/images?img=${imageUrl}`)
-        console.log(res.data)
+        const res = await axios.post(
+          `${back_url}/members/images?img=${imageUrl}`
+        );
+        console.log(res.data);
+      } catch (err) {
+        console.error(err);
       }
-      catch (err) {
-        console.error(err)
-      }
-      dispatch(setPhotoURL(imageUrl))
+      dispatch(setPhotoURL(imageUrl));
     };
     input.click();
   };
@@ -152,29 +160,31 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
       exit={{ opacity: 0, y: 5 }}
       transition={{ duration: 0.3 }}
     >
-      <SkillArea>{userfind.memberJob}</SkillArea>
-      <div style={{ position: "relative"}}>
-        <MyImage src={userInfo.photoURL} />
-        <motion.div
-          onClick={handleImageChange}
-          whileHover={{ color: "#BAB2FF" }}
-          className="shadow"
-          style={{
-            cursor: "pointer",
-            position: "absolute",
-            bottom: 0,
-            right: 0,
-            padding: "0.75rem",
-            borderRadius: "50%",
-            backgroundColor: "white",
-            display: "flex",
-          }}
-        >
-          <FontAwesomeIcon icon={faFaceSmile} />
-        </motion.div>
+      <SkillArea style={{backgroundColor:getColor(userfind.memberJob)}} >{userfind.memberJob}</SkillArea>
+      <div style={{ position: "relative" }}>
+        <MyImage src={userfind.memberImg} />
+        {isMe && (
+          <motion.div
+            onClick={handleImageChange}
+            whileHover={{ color: "#BAB2FF" }}
+            className="shadow"
+            style={{
+              cursor: "pointer",
+              position: "absolute",
+              bottom: 0,
+              right: 0,
+              padding: "0.75rem",
+              borderRadius: "50%",
+              backgroundColor: "white",
+              display: "flex",
+            }}
+          >
+            <FontAwesomeIcon icon={faFaceSmile} />
+          </motion.div>
+        )}
       </div>
-      <MyName style={{color: isDark ? "white" : "black"}}>
-        {userInfo.displayName}
+      <MyName style={{ color: isDark ? "white" : "black" }}>
+        {userfind.nickname}
       </MyName>
       {/* <WithOur></WithOur> */}
       {/* <EditButton>
@@ -192,12 +202,12 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
             size="2xl"
             color={isDark ? "white" : "black"}
           />
-          <GitLink 
+          <GitLink
             style={{ color: isDark ? "white" : "black" }}
             href={userInfo.memberGit}
             target="_blank"
-            >
-            {userInfo.memberGit}
+          >
+            {userfind.memberGit}
           </GitLink>
         </MyInfoInnerBox>
         <MyInfoInnerBox>
@@ -207,7 +217,7 @@ const MyPageSidePanel = ({ isDark, userfind }) => {
             color={isDark ? "white" : "black"}
           />
           <InfoTag style={{ color: isDark ? "white" : "black" }}>
-            {userInfo.memberEmail == null ? "None" : userInfo.memberEmail}
+            {userfind.memberEmail == null ? "None" : userfind.memberEmail}
           </InfoTag>
         </MyInfoInnerBox>
       </MyInfoBox>
