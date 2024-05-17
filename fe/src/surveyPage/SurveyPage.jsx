@@ -215,8 +215,7 @@ const frontDataList = [
       name: "Python(Back)",
       img: "/images/python.png",
       subCategoryId: 205,
-    },
-  ]
+    }]
 
 const SurveyPage = () => {
   const isDark = useSelector(state => state.isDark.isDark)
