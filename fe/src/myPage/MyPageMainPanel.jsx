@@ -768,6 +768,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                     top: "0",
                     right: 0,
                     cursor: "pointer",
+                    color:"rgb(86, 76, 173)"
                   }}
                 >
                   <FontAwesomeIcon icon={faCircleXmark} />
