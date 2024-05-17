@@ -18,8 +18,26 @@ import { GlobalColor } from "../services/color";
 //       })),
 //   };
 // }
-const MemoryGraph = ({hadleAllClick,isDark,handleConfirm,changenode,handlefirst, content, setIsModal, isModal, color, graphData, setGraphData, setColor, newnode ,setNewNode, setContent ,fgRef ,setWhatNode, whatnode }) => {
- 
+const MemoryGraph = ({
+  hadleAllClick,
+  isDark,
+  handleConfirm,
+  changenode,
+  handlefirst,
+  content,
+  setIsModal,
+  isModal,
+  color,
+  graphData,
+  setGraphData,
+  setColor,
+  newnode,
+  setNewNode,
+  setContent,
+  fgRef,
+  setWhatNode,
+  whatnode,
+}) => {
   return (
     <>
       <div
@@ -66,7 +84,7 @@ const MemoryGraph = ({hadleAllClick,isDark,handleConfirm,changenode,handlefirst,
             onNodeClick={(node) => hadleAllClick(node)}
           />
         )}
-        {graphData.nodes.length == 0  && (
+        {graphData.nodes.length == 0 && (
           <div
             style={{
               width: "35rem",
@@ -109,7 +127,12 @@ const MemoryGraph = ({hadleAllClick,isDark,handleConfirm,changenode,handlefirst,
             >
               <div style={{ width: "18%" }}>내용 </div>
               <Form.Control
-                style={{ width: "82%" }}
+                style={{
+                  width: "82%",
+                  display: "flex",
+                  overflowY: "auto",
+                  height: "5rem",
+                }}
                 type="text"
                 placeholder="내용"
                 value={content}
@@ -281,7 +304,12 @@ const MemoryGraph = ({hadleAllClick,isDark,handleConfirm,changenode,handlefirst,
               >
                 <div style={{ width: "18%" }}>내용 </div>
                 <Form.Control
-                  style={{ width: "82%" ,height:"5rem" }}
+                  style={{
+                    width: "82%",
+                    display: "flex",
+                    overflowY: "auto",
+                    height: "5rem",
+                  }}
                   type="text"
                   placeholder="내용"
                   value={content}
@@ -420,7 +448,12 @@ const MemoryGraph = ({hadleAllClick,isDark,handleConfirm,changenode,handlefirst,
               >
                 <div style={{ width: "18%" }}>내용 </div>
                 <Form.Control
-                  style={{ width: "82%",height:"5rem"  }}
+                  style={{
+                    width: "82%",
+                    display: "flex",
+                    overflowY: "auto",
+                    height: "5rem",
+                  }}
                   type="text"
                   placeholder={whatnode.content}
                   value={content}
