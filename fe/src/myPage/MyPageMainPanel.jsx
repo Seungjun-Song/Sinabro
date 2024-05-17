@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Modal } from "react-bootstrap";
 import { AnimatePresence, motion } from "framer-motion";
@@ -135,8 +135,8 @@ const MemoryGraphDescribeBox = styled.div`
   border: 3px solid transparent;
   border-image: linear-gradient(to right, #3dc7af, #613acd);
   border-image-slice: 1;
-  margin-left:1rem;
-  width: 100%;
+  margin-left: 1rem;
+  width: 198px;
   padding: 1rem;
   /* max-height: 26rem; */
   height: 100%;
@@ -153,13 +153,13 @@ const MemoryGraphButtonBox = styled.div`
 
 const MemoryGraphButton = styled.div`
   font-size: 0.75rem;
-  padding: 0.3rem;
+  padding: 0.6rem;
   font-weight: bold;
   background-color: #6c32cd;
   color: white;
   border-radius: 1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5;
+  padding-left: 1rem;
+  padding-right: 1rem;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -319,7 +319,6 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
 
   const [color, setColor] = useState("#c7c7c7");
 
-
   const [newnode, setNewNode] = useState("");
   const [isModal, setIsModal] = useState(false);
   const [content, setContent] = useState(" ");
@@ -475,7 +474,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
     await addnode();
     getGraphData();
   };
-
+  const [isinfoHover, setIsInfoHover] = useState(false);
   return (
     <div
       style={{
@@ -654,14 +653,57 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
         </InnerArea>
         <InnerArea>
           <InnerText
-            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+              justifyContent: "space-between",
+            }}
           >
-            Memory Graph
-            <div
-              style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
-            >
-              <div>노드간 정보를 입체적으로 저장하세요</div>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div>Memory Graph</div>
+              <div
+                style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
+              >
+                <div>노드간 정보를 입체적으로 저장하세요</div>
+              </div>
             </div>
+            <motion.div style={{ marginRight: "2rem", position: "relative" }}>
+              <FontAwesomeIcon
+                onClick={() => setIsInfoHover(!isinfoHover)}
+                size="2xs"
+                style={{ color: "rgba(86, 76, 173, 1)", cursor: "pointer" }}
+                // flip="horizontal"
+                icon={faCircleInfo}
+              />
+              <AnimatePresence>
+                {isinfoHover && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    transition={{ duration: 0.3 }}
+                    className="shadow"
+                    style={{
+                      width: "28rem",
+                      position: "absolute",
+                      top: "2rem",
+                      right: "0",
+                      backgroundColor: "White",
+                      borderRadius: "1rem",
+                      padding: "1rem",
+                      color: "black",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    <div>파란색 Add Node : 독립적으로 존재하는 노드 생성</div>
+                    <div>
+                      노드 클릭시 나오는 Add Node : 그 노드와 연결된 노드 생성
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           </InnerText>
           <MemoryGraphContainer>
             <MemoryGraphMainBox
@@ -693,7 +735,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                 <MemoryGraphDescribeBox
                   style={{ color: isDark ? "white" : "black" }}
                 >
-                  <h1>{whatnode.label}</h1>
+                  <h3>{whatnode.label}</h3>
                   {whatnode.content}
                 </MemoryGraphDescribeBox>
                 <MemoryGraphButtonBox>
@@ -712,9 +754,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                   >
                     Edit
                   </MemoryGraphButton>
-                  <MemoryGraphButton
-                    onClick={() => handleNodeDel()}
-                  >
+                  <MemoryGraphButton onClick={() => handleNodeDel()}>
                     Del
                   </MemoryGraphButton>
                 </MemoryGraphButtonBox>

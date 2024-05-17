@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { Form } from "react-bootstrap";
 import { GlobalColor } from "../services/color";
+import styled from "styled-components";
 // function genRandomTree(N = 300, reverse = false) {
 //   return {
 //     nodes: [...Array(N).keys()].map((i) => ({ id: i })),
@@ -18,6 +19,19 @@ import { GlobalColor } from "../services/color";
 //       })),
 //   };
 // }
+const MemoryGraphButton = styled.div`
+  font-size: 0.75rem;
+  padding: 0.6rem;
+  font-weight: bold;
+  background-color: #3f6ecd;
+  color: white;
+  border-radius: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
 const MemoryGraph = ({
   hadleAllClick,
   isDark,
@@ -53,6 +67,16 @@ const MemoryGraph = ({
         }}
       >
         {/* <div onClick={handlebutton}>button</div>  */}
+        {graphData.nodes.length !== 0 && (
+          <div
+            style={{ position: "absolute", bottom: 0, right: 0, zIndex: "1" }}
+          >
+            <MemoryGraphButton onClick={() => handlefirst()}>
+              Add Node
+            </MemoryGraphButton>
+          </div>
+        )}
+
         {graphData.nodes.length !== 0 && (
           <ForceGraph
             ref={fgRef}
@@ -363,7 +387,6 @@ const MemoryGraph = ({
                 }}
                 onClick={() => (
                   setIsModal(false),
-              
                   setContent(""),
                   setNewNode(""),
                   setColor("")
@@ -507,7 +530,6 @@ const MemoryGraph = ({
                 }}
                 onClick={() => (
                   setIsModal(false),
-         
                   setContent(""),
                   setNewNode(""),
                   setColor("")
