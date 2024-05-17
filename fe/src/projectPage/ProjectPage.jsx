@@ -288,9 +288,9 @@ const ProjectPage = () => {
                     onClick={() => switchUrlState(codeServerURL)}
                   >
                     {includeCheck(codeServerURL) ?
-                      <FontAwesomeIcon icon={fasCircle} style={{color: 'rgb(114, 0, 0)'}}/>
+                      <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
                       :
-                      <FontAwesomeIcon icon={fasCircle} style={{color: isDark ? 'whitesmoke' : 'gray'}} />
+                      <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
                     }
                     <span style={{ marginLeft: '0.5rem' }}>
                       Code
@@ -300,9 +300,9 @@ const ProjectPage = () => {
                     onClick={() => switchUrlState(runDevPreviewUrl)}
                   >
                     {includeCheck(runDevPreviewUrl) ?
-                      <FontAwesomeIcon icon={fasCircle} style={{color: 'rgb(114, 0, 0)'}}/>
+                      <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
                       :
-                      <FontAwesomeIcon icon={fasCircle} style={{color: isDark ? 'whitesmoke' : 'gray'}} />
+                      <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
                     }
                     <span style={{ marginLeft: '0.5rem' }}>
                       Dev
@@ -312,9 +312,9 @@ const ProjectPage = () => {
                     onClick={() => switchUrlState(startPreviewUrl)}
                   >
                     {includeCheck(startPreviewUrl) ?
-                      <FontAwesomeIcon icon={fasCircle} style={{color: 'rgb(114, 0, 0)'}}/>
+                      <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
                       :
-                      <FontAwesomeIcon icon={fasCircle} style={{color: isDark ? 'whitesmoke' : 'gray'}} />
+                      <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
                     }
                     <span style={{ marginLeft: '0.5rem' }}>
                       Start
@@ -328,16 +328,24 @@ const ProjectPage = () => {
                     src={codeServerURL}
                     style={{ width: "100%", height: "100%", border: "none", display: includeCheck(codeServerURL) ? 'block' : 'none' }}
                   ></iframe>
-                  <iframe
-                    title="code-dev"
-                    src={runDevPreviewUrl}
-                    style={{ width: "100%", height: "100%", border: "none", display: includeCheck(runDevPreviewUrl) ? 'block' : 'none' }}
-                  ></iframe>
-                  <iframe
-                    title="code-start"
-                    src={startPreviewUrl}
-                    style={{ width: "100%", height: "100%", border: "none", display: includeCheck(startPreviewUrl) ? 'block' : 'none' }}
-                  ></iframe>
+                  {includeCheck(runDevPreviewUrl) ?
+                    <iframe
+                      title="code-dev"
+                      src={runDevPreviewUrl}
+                      style={{ width: "100%", height: "100%", border: "none" }}
+                    ></iframe>
+                    :
+                    null
+                  }
+                  {includeCheck(startPreviewUrl) ?
+                    <iframe
+                      title="code-start"
+                      src={startPreviewUrl}
+                      style={{ width: "100%", height: "100%", border: "none" }}
+                    ></iframe>
+                    :
+                    null
+                  }
                 </div>
               </IframContainer>
             )}
