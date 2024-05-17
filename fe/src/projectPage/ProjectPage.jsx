@@ -14,7 +14,9 @@ import getEnv from "../utils/getEnv";
 import ProjectLoadingPage from "./ProjectLoadingPage";
 import ProjectInfo from "./ProjectInfo";
 import { changeProjectCalenderState } from "../store/projectCalenderSlice";
-import { faL } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle as fasCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons';
 
 const ProjectContainer = styled.div`
   position: relative; /* 부모 컨테이너를 기준으로 자식 요소의 위치를 설정하기 위해 */
@@ -83,6 +85,7 @@ const URLSelectBox = styled.div`
   padding: 0 0.5rem;
   cursor: pointer;
   border-right: 2px solid #b8b8b8;
+  gap: 1rem;
 `;
 
 const ProjectPage = () => {
@@ -263,7 +266,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      {loading ? (
+      {!loading ? (
         <ProjectLoadingPage />
       ) : (
         <ProjectContainer>
@@ -284,17 +287,38 @@ const ProjectPage = () => {
                   <URLSelectBox
                     onClick={() => switchUrlState(codeServerURL)}
                   >
-                    Code
+                    {includeCheck(codeServerURL) ?
+                      <FontAwesomeIcon icon={fasCircle} style={{color: 'rgb(114, 0, 0)'}}/>
+                      :
+                      <FontAwesomeIcon icon={fasCircle} style={{color: isDark ? 'whitesmoke' : 'gray'}} />
+                    }
+                    <span style={{ marginLeft: '0.5rem' }}>
+                      Code
+                    </span>
                   </URLSelectBox>
                   <URLSelectBox
                     onClick={() => switchUrlState(runDevPreviewUrl)}
                   >
-                    Dev
+                    {includeCheck(runDevPreviewUrl) ?
+                      <FontAwesomeIcon icon={fasCircle} style={{color: 'rgb(114, 0, 0)'}}/>
+                      :
+                      <FontAwesomeIcon icon={fasCircle} style={{color: isDark ? 'whitesmoke' : 'gray'}} />
+                    }
+                    <span style={{ marginLeft: '0.5rem' }}>
+                      Dev
+                    </span>
                   </URLSelectBox>
                   <URLSelectBox
                     onClick={() => switchUrlState(startPreviewUrl)}
                   >
-                    Start
+                    {includeCheck(startPreviewUrl) ?
+                      <FontAwesomeIcon icon={fasCircle} style={{color: 'rgb(114, 0, 0)'}}/>
+                      :
+                      <FontAwesomeIcon icon={fasCircle} style={{color: isDark ? 'whitesmoke' : 'gray'}} />
+                    }
+                    <span style={{ marginLeft: '0.5rem' }}>
+                      Start
+                    </span>
                   </URLSelectBox>
                 </URLSelectContainer>
                 <div style={{ display: 'flex', flexDirection: 'row', height: '100%', width: '100%' }}>
