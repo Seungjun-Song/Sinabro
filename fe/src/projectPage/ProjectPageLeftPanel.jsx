@@ -592,7 +592,11 @@ const ProjectPageLeftPanel = ({
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
-                    {todayCount === 0 && "예정된 일정이 없습니다."}
+                  {todayCount === 0 &&
+                    <div style={{ color: isDark ? 'black' : 'white' }}>
+                      예정된 일정이 없습니다.
+                    </div>
+                  }
                 </ListBox>
               </TodayBox>
               <TodayBox>
@@ -710,11 +714,11 @@ const ProjectPageLeftPanel = ({
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
-                    {tomorrowCount === 0 &&
-                    <div style={{ color: isDark ? 'white' : 'black' }}>
+                  {tomorrowCount === 0 &&
+                    <div style={{ color: isDark ? 'black' : 'white' }}>
                       예정된 일정이 없습니다.
                     </div>
-                    }
+                  }
                 </ListBox>
               </TodayBox>
             </ToDoListBox>
