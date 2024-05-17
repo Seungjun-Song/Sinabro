@@ -342,12 +342,12 @@ export default function WebRTC() {
           onClick={toggleAllSubscribersAudio}
         />
         {publisher !== undefined ? (
-          <UserImage style={{border: speakingId === publisher.stream.connection.connectionId ? '2px solid rgb(114, 0, 0)' : ''}} >
+          <UserImage style={{border: speakingId === publisher.stream.connection.connectionId ? '4px solid rgb(114, 0, 0)' : '', borderRadius: '50%'}} >
             <UserVideoComponent streamManager={publisher} />
           </UserImage>
         ) : null}
         {subscribers.map((sub) => (
-          <UserImage key={sub.id} style={{border: speakingId === sub.stream.connection.connectionId ? '2px solid rgb(114, 0, 0)' : ''}} >
+          <UserImage key={sub.id} style={{border: speakingId === sub.stream.connection.connectionId ? '4px solid rgb(114, 0, 0)' : '', borderRadius: '50%'}} >
           </UserImage>
         ))}
       </NavRigthBox>
