@@ -291,7 +291,10 @@ const SurveyPage = () => {
   const chooseSubSkill = async () => {
     const subCategoryIds = choiceResults.map(item => ({ subCategoryId: item.subCategoryId }))
     console.log(subCategoryIds)
-    if (subCategoryIds) {
+    if (subCategoryIds.length === 0) {
+      Swal.fire("기술 스택을 하나 이상 선택해 주세요.")
+    }
+    else {
       try {
         const res = await axios.post(`${back_url}/members`, subCategoryIds)
         console.log(res.data)
@@ -300,9 +303,6 @@ const SurveyPage = () => {
       catch (err) {
         console.error(err)
       }
-    }
-    else {
-      Swal.fire("기술 스택을 하나 이상 선택해 주세요.")
     }
   }
   
