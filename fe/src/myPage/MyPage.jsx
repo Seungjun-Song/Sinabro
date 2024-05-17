@@ -15,6 +15,7 @@ const MyPageContainer = styled.div`
   width: 100vw;
   align-items: center;
   justify-content:"center";
+  min-width: 1200px;
 `;
 
 const MainBox = styled.div`

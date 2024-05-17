@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleInfo,
+  faCircleXmark,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Modal } from "react-bootstrap";
 import { AnimatePresence, motion } from "framer-motion";
@@ -43,6 +47,7 @@ const MyPageMainPanelContainer = styled.div`
   border: 3px solid #a2a2a2;
   width: 90%;
   overflow-y: auto;
+  overflow-x: none;
   /* margin-bottom: 3rem; */
   border-radius: 10px;
   margin-left: 1rem;
@@ -129,29 +134,30 @@ const MemoryGraphSideBox = styled.div`
   height: 30rem;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 const MemoryGraphDescribeBox = styled.div`
   border: 3px solid transparent;
   border-image: linear-gradient(to right, #3dc7af, #613acd);
   border-image-slice: 1;
-  margin-left: 2rem;
-  width: 100%;
+  margin-left: 1rem;
+  width: 198px;
   padding: 1rem;
   /* max-height: 26rem; */
-  height:100%;
+  height: 100%;
   overflow-y: auto;
   margin-bottom: 1rem;
 `;
 
 const MemoryGraphButtonBox = styled.div`
-  margin-left: 2rem;
+  margin-left: 1rem;
   display: flex;
   width: 100%;
   justify-content: space-between;
 `;
 
 const MemoryGraphButton = styled.div`
-  font-size: 1rem;
+  font-size: 0.75rem;
   padding: 0.6rem;
   font-weight: bold;
   background-color: #6c32cd;
@@ -312,6 +318,168 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   };
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // 메모리 그래프 구역
+  const [graphData, setGraphData] = useState({ nodes: [], links: [] });
+
+  const [color, setColor] = useState("#c7c7c7");
+
+  const [newnode, setNewNode] = useState("");
+  const [isModal, setIsModal] = useState(false);
+  const [content, setContent] = useState(" ");
+  const fgRef = useRef();
+  const getGraphData = async () => {
+    try {
+      const res = await axios.get(`${back_url}/memo`);
+      const memberList = res.data.result;
+      console.log(memberList);
+
+      setGraphData({ nodes: memberList.nodeList, links: memberList.linkList });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const changenode = async () => {
+    if (newnode == "") {
+      return;
+    } else if (content == "") {
+      return;
+    }
+    console.log(newnode);
+    console.log(content);
+    try {
+      const res = await axios.put(`${back_url}/memo/update`, {
+        memoId: whatnode.id,
+        title: newnode,
+        content: content,
+        color: color,
+      });
+      console.log(res);
+      setIsModal(false);
+      setWhatNode(null);
+      setContent("");
+      setNewNode("");
+      setColor("#c7c7c7");
+      await getGraphData();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    getGraphData();
+  }, []);
+
+  //   const gData = genRandomTree();
+  //   console.log(gData);
+  const addnode = async () => {
+    console.log(newnode);
+    console.log(content);
+    console.log(color);
+    if (newnode == "") {
+      return;
+    } else if (content == "") {
+      return;
+    }
+    try {
+      const res = await axios.post(
+        `${back_url}/memo`,
+        {
+          title: newnode, // newnode 변수를 제목으로 사용
+          content: content, // content 변수를 내용으로 사용
+          color: color,
+        },
+        { withCredentials: true }
+      );
+      return res.data.result;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const connectnode = async (newnodeid) => {
+    try {
+      const res = await axios.put(
+        `${back_url}/memo?memoId1=${whatnode.id}&memoId2=${newnodeid}`,
+        { withCredentials: true }
+      );
+      console.log(res);
+      await getGraphData();
+      const distance = 500;
+      const distRatio =
+        1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
+      console.log(fgRef.current);
+      fgRef.current.cameraPosition(
+        {
+          x: whatnode.x * distRatio,
+          y: whatnode.y * distRatio,
+          z: whatnode.z * distRatio,
+        }, // new position
+        whatnode, // lookAt ({ x, y, z })
+        1500 // ms transition duration
+      );
+      setIsModal(false);
+      setWhatNode(null);
+      setContent("");
+      setNewNode("");
+      setColor("#c7c7c7");
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const hadleAllClick = (node) => {
+    // Aim at node from outside it
+    setWhatNode(node);
+    console.log(node);
+    const distance = 500;
+    const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+    if (graphData.nodes.length !== 0) {
+      fgRef.current.cameraPosition(
+        {
+          x: node.x * distRatio,
+          y: node.y * distRatio,
+          z: node.z * distRatio,
+        }, // new position
+        node, // lookAt ({ x, y, z })
+        1500 // ms transition duration
+      );
+    }
+    //   fgRef = 0;
+  };
+  //   console.log(color);
+  const handleNodeDel = async () => {
+    // 경고 창을 통해 사용자에게 확인 메시지를 표시
+    const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");
+
+    // 사용자가 확인을 선택한 경우에만 삭제 진행
+    if (confirmDelete) {
+      try {
+        const res = await axios.delete(
+          `${back_url}/memo?memoId=${whatnode.id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        // 삭제 성공
+        setIsModal(false);
+        setWhatNode(null);
+        setContent("");
+        setNewNode("");
+        setColor("#c7c7c7");
+        await getGraphData();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+  const handleConfirm = async () => {
+    const newnodeid = await addnode();
+    connectnode(newnodeid);
+  };
+  const handlefirst = async () => {
+    await addnode();
+    getGraphData();
+  };
+  const [isinfoHover, setIsInfoHover] = useState(false);
   return (
     <div
       style={{
@@ -490,43 +658,135 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
         </InnerArea>
         <InnerArea>
           <InnerText
-            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+              justifyContent: "space-between",
+            }}
           >
-            Memory Graph
-            <div
-              style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
-            >
-              <div>노드간 정보를 입체적으로 저장하세요</div>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div>Memory Graph</div>
+              <div
+                style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
+              >
+                <div>노드간 정보를 입체적으로 저장하세요</div>
+              </div>
             </div>
+            <motion.div style={{ marginRight: "2rem", position: "relative" }}>
+              <FontAwesomeIcon
+                onClick={() => setIsInfoHover(!isinfoHover)}
+                size="2xs"
+                style={{ color: "rgba(86, 76, 173, 1)", cursor: "pointer" }}
+                // flip="horizontal"
+                icon={faCircleInfo}
+              />
+              <AnimatePresence>
+                {isinfoHover && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    transition={{ duration: 0.3 }}
+                    className="shadow"
+                    style={{
+                      zIndex: "99",
+                      width: "28rem",
+                      position: "absolute",
+                      top: "-1.1rem",
+                      right: "2rem",
+                      backgroundColor: "White",
+                      borderRadius: "1rem",
+                      padding: "1rem",
+                      color: "black",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    <div>파란색 +버튼 : 독립적으로 존재하는 노드 생성</div>
+                    <div>
+                      노드 클릭시 나오는 Add Node : 그 노드와 연결된 노드 생성
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           </InnerText>
           <MemoryGraphContainer>
             <MemoryGraphMainBox
             // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
             >
-              <MemoryGraph whatnode={whatnode} setWhatNode={setWhatNode} />
+              <MemoryGraph
+                newnode={newnode}
+                setNewNode={setNewNode}
+                setColor={setColor}
+                whatnode={whatnode}
+                setWhatNode={setWhatNode}
+                setGraphData={setGraphData}
+                graphData={graphData}
+                color={color}
+                isModal={isModal}
+                setIsModal={setIsModal}
+                content={content}
+                setContent={setContent}
+                fgRef={fgRef}
+                handlefirst={handlefirst}
+                handleConfirm={handleConfirm}
+                changenode={changenode}
+                isDark={isDark}
+                hadleAllClick={hadleAllClick}
+                getGraphData={getGraphData}
+                addnode={addnode}
+              />
             </MemoryGraphMainBox>
             {whatnode && (
               <MemoryGraphSideBox>
                 <MemoryGraphDescribeBox
                   style={{ color: isDark ? "white" : "black" }}
                 >
-                  <h1>{whatnode.label}</h1>
+                  <h3>{whatnode.label}</h3>
                   {whatnode.content}
                 </MemoryGraphDescribeBox>
                 <MemoryGraphButtonBox>
-                  <MemoryGraphButton onClick={handleShow}>
+                  <MemoryGraphButton
+                    onClick={() => (
+                      setIsModal({ type: "add" }), console.log(isModal)
+                    )}
+                  >
                     Add Node
                   </MemoryGraphButton>
-                  <MemoryGraphButton onClick={handleShow}>
+                  <MemoryGraphButton
+                    onClick={() => (
+                      setIsModal({ type: "change" }),
+                      setColor(whatnode.color),
+                      setContent(whatnode.content),
+                      setNewNode(whatnode.label),
+                      console.log(isModal)
+                    )}
+                  >
                     Edit
                   </MemoryGraphButton>
+                  <MemoryGraphButton onClick={() => handleNodeDel()}>
+                    Del
+                  </MemoryGraphButton>
                 </MemoryGraphButtonBox>
+                <div
+                  onClick={() => setWhatNode(null)}
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    right: 0,
+                    cursor: "pointer",
+                    color: "rgb(86, 76, 173)",
+                  }}
+                >
+                  <FontAwesomeIcon size="xl" icon={faCircleXmark} />
+                </div>
               </MemoryGraphSideBox>
             )}
           </MemoryGraphContainer>
         </InnerArea>
         {/* 아래부분 모달 코드이므로 추후에 수정 필요 */}
-        {showModal && (
+        {/* {showModal && (
           <Modal show={showModal} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>나중에</Modal.Title>
@@ -541,7 +801,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
               </Button>
             </Modal.Footer>
           </Modal>
-        )}
+        )} */}
       </MyPageMainPanelContainer>
     </div>
   );

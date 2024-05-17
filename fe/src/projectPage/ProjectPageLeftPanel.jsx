@@ -32,8 +32,6 @@ import getEnv from "../utils/getEnv";
 import { formatDate } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 
-import "./ProjectStyles.css";
-
 const ProjectPageLeftPanelContainer = styled(motion.div)`
   height: 100%;
 
@@ -42,6 +40,10 @@ const ProjectPageLeftPanelContainer = styled(motion.div)`
   border-right: 2px solid #b8b8b8;
   background-color: ${({ isDark }) => (isDark ? "white" : "#404040")};
   transition: background-color 0.3s ease; /* 배경색 변화를 자연스럽게 만듭니다. */
+
+  @media (max-width: 1000px) {
+    display: none
+  }
 `;
 
 const ProjectPageLeftPanelClosedContainer = styled.div`
@@ -137,6 +139,9 @@ const InnerTextBox = styled.div`
   font-size: 0.55rem;
   font-weight: bold;
   justify-content: center;
+  @media (max-width: 1200px) {
+    display: none
+  }
 `;
 
 const IconBox = styled.div`
@@ -243,8 +248,8 @@ const ProjectPageLeftPanel = ({
 
   // const [selectedWorker, setSelectedWorker] = useState(''); // 자기 일정만 추가할 수 있음
 
-  // let todayCount = 0; //오늘 할 일 0이면 없다고 표시
-  // let tomorrowCount = 0; //내일 할 일 0이면 없다고 표시
+  let todayCount = 0; //오늘 할 일 0이면 없다고 표시
+  let tomorrowCount = 0; //내일 할 일 0이면 없다고 표시
 
   const dispatch = useDispatch();
 
@@ -271,11 +276,13 @@ const ProjectPageLeftPanel = ({
   }, [modalState]);
 
   useEffect(() => {
+    console.log('274번째 줄 실행됨')
     const setProjectSchedules = async () => {
       try {
         const res = await axios.get(`${back_url}/schedules/${projectRoomId}`); // 쿠키 되면 제대로 받아지는지 확인
         dispatch(setToDoList(res.data.result));
-        console.log(res.data.result)
+        console.log(res.data)
+        console.log('280번째 줄 실행됨')
       } catch (err) {
         console.error(err);
       }
@@ -427,8 +434,6 @@ const ProjectPageLeftPanel = ({
             initial={{ width: "2%", opacity: 0 }}
             animate={{ width: "30%", opacity: 1 }}
             isDark={isDark}
-            className="hide-all-panel"
-
           >
             <ProjectNameBox isDark={isDark}>
               {myCurrentProject.projectName}
@@ -494,7 +499,7 @@ const ProjectPageLeftPanel = ({
                       if (itemStartDate && itemEndDate) {
                         // 오늘 날짜인 경우에만 출력
                         if (itemStartDate <= today && today <= itemEndDate) {
-                          // todayCount++;
+                          todayCount++;
                           return (
                             <ContentBox
                               className="shadow"
@@ -505,7 +510,7 @@ const ProjectPageLeftPanel = ({
                               }
                             >
                               <UserImg src={item.memberImg} />
-                              <InnerTextBox className="hide-content-text">
+                              <InnerTextBox >
                                 <div style={{ fontSize: "1rem" }}>
                                   {truncate(item.calenderName, 10)}
                                 </div>
@@ -587,7 +592,7 @@ const ProjectPageLeftPanel = ({
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
-                    {/* {todayCount === 0 && "예정된 일정이 없습니다."} */}
+                    {todayCount === 0 && "예정된 일정이 없습니다."}
                 </ListBox>
               </TodayBox>
               <TodayBox>
@@ -612,7 +617,7 @@ const ProjectPageLeftPanel = ({
                           itemStartDate <= tomorrow &&
                           tomorrow <= itemEndDate
                         ) {
-                          // tomorrowCount++;
+                          tomorrowCount++;
                           return (
                             <ContentBox
                               className="shadow"
@@ -705,9 +710,9 @@ const ProjectPageLeftPanel = ({
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
-                    {/* {tomorrowCount === 0 &&
+                    {tomorrowCount === 0 &&
                       "예정된 일정이 없습니다."
-                    } */}
+                    }
                 </ListBox>
               </TodayBox>
             </ToDoListBox>

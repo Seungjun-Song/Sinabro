@@ -18,14 +18,16 @@ import {
 import { changeProjectChatState } from "../store/projectChatShow";
 import { AnimatePresence, motion } from "framer-motion";
 
-import "./ProjectStyle.css";
-
 const ProjectPageRightPanelContainer = styled(motion.div)`
   height: 100%;
   /* width: 30%; */
   border-left: 2px solid #b8b8b8;
   background-color: ${({ isDark }) => (!isDark ? "#404040" : "white")};
   transition: background-color 0.3s ease; /* 배경색 변화를 자연스럽게 만듭니다. */
+
+  @media (max-width: 1000px) {
+    display: none
+  }
 `;
 
 const ProjectPageRightPanelClosedContainer = styled.div`
@@ -123,7 +125,6 @@ const ProjectPageRightPanel = () => {
             initial={{ width: "2%", opacity: 0 }}
             animate={{ width: "30%", opacity: 1 }}
             isDark={isDark}
-            className="hide-all-panel"
           >
             <UpperBox>
               <IconHoverBox isDark={isDark}>
