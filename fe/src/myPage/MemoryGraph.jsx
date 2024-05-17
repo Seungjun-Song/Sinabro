@@ -18,15 +18,15 @@ import { GlobalColor } from "../services/color";
 //       })),
 //   };
 // }
-const MemoryGraph = () => {
+const MemoryGraph = ({ setWhatNode, whatnode }) => {
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
   const [isfirst, setIsFirst] = useState(false);
   const back_url = getEnv("BACK_URL");
 
   const isDark = useSelector((state) => state.isDark.isDark);
-  const [color, setColor] = useState( "#c7c7c7");
+  const [color, setColor] = useState("#c7c7c7");
   //   const [islabel, setIslabel] = useState(false);
-  const [whatnode, setWhatNode] = useState(null);
+
   const [newnode, setNewNode] = useState("");
   const [isModal, setIsModal] = useState(false);
   const [content, setContent] = useState(" ");
@@ -61,7 +61,7 @@ const MemoryGraph = () => {
       setWhatNode(null);
       setContent("");
       setNewNode("");
-      setColor( "#c7c7c7");
+      setColor("#c7c7c7");
       await getGraphData();
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -122,7 +122,7 @@ const MemoryGraph = () => {
       setWhatNode(null);
       setContent("");
       setNewNode("");
-      setColor( "#c7c7c7");
+      setColor("#c7c7c7");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -166,7 +166,7 @@ const MemoryGraph = () => {
         setWhatNode(null);
         setContent("");
         setNewNode("");
-        setColor( "#c7c7c7");
+        setColor("#c7c7c7");
         await getGraphData();
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -198,13 +198,13 @@ const MemoryGraph = () => {
       {graphData.nodes.length !== 0 && (
         <ForceGraph
           ref={fgRef}
-          width={670}
-          height={475}
+          width={"100%"}
+          height={"100%"}
           graphData={graphData}
           nodeLabel={(node) => `
           <div class="shadow" style="display: flex; flex-direction: column; padding: 1rem; background-color: white; border-radius: 0.5rem;">
-            <span style="color: #000000; margin : 0">"제목 :"${node.label}</span>
-            <span style="color: #000000; margin : 0">"내용 :"${node.content}</span>
+            <span style="color: #000000; margin : 0">제목 :${node.label}</span>
+            <span style="color: #000000; margin : 0">내용 :${node.content}</span>
           </div>
         `}
           backgroundColor={isDark ? GlobalColor.colors.primary_black : "white"}

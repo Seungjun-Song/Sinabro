@@ -229,6 +229,7 @@ const dataList = [
 ];
 
 const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
+  const [whatnode, setWhatNode] = useState(null);
   const [isSideBoxVisible, setIsSidePanelVisible] = useState(false);
   const back_url = getEnv("BACK_URL");
   const [showModal, setShowModal] = useState(false);
@@ -464,7 +465,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                   onHoverStart={() => setimgHover(true)}
                   onHoverEnd={() => setimgHover(false)}
                   // whileHover={{ opacity: 0.8 }}
-                  style={{ cursor: "pointer", borderRadius: "30px"}}
+                  style={{ cursor: "pointer", borderRadius: "30px" }}
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   key={index}
@@ -495,31 +496,21 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
               style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
             >
               <div>노드간 정보를 입체적으로 저장하세요</div>
-              <div>노드를 클릭하면 작업이 가능합니다</div>
             </div>
           </InnerText>
           <MemoryGraphContainer>
             <MemoryGraphMainBox
             // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
             >
-              <MemoryGraph />
+              <MemoryGraph whatnode={whatnode} setWhatNode={setWhatNode} />
             </MemoryGraphMainBox>
-            {isSideBoxVisible && (
+            {whatnode && (
               <MemoryGraphSideBox>
                 <MemoryGraphDescribeBox
                   style={{ color: isDark ? "white" : "black" }}
                 >
-                  <h1>제목</h1>
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용
+                  <h1>{whatnode.label}</h1>
+                  {whatnode.content}
                 </MemoryGraphDescribeBox>
                 <MemoryGraphButtonBox>
                   <MemoryGraphButton onClick={handleShow}>
