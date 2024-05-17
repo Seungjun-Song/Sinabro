@@ -251,7 +251,7 @@ const MemoryGraph = ({
               // Handle your node actions here
             }}
             style={{
-              width: "50%",
+              width: "45%",
               height: "50%",
               backgroundColor: "White",
               borderRadius: "1rem",
@@ -363,7 +363,7 @@ const MemoryGraph = ({
                 }}
                 onClick={() => (
                   setIsModal(false),
-                  setWhatNode(null),
+              
                   setContent(""),
                   setNewNode(""),
                   setColor("")
@@ -395,7 +395,7 @@ const MemoryGraph = ({
               // Handle your node actions here
             }}
             style={{
-              width: "50%",
+              width: "45%",
               height: "50%",
               backgroundColor: "White",
               borderRadius: "1rem",
@@ -507,7 +507,7 @@ const MemoryGraph = ({
                 }}
                 onClick={() => (
                   setIsModal(false),
-                  setWhatNode(null),
+         
                   setContent(""),
                   setNewNode(""),
                   setColor("")
