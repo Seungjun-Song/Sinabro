@@ -35,4 +35,10 @@ public class MilestoneController {
         milestoneService.deleteMilestone(milestoneId);
         return ResponseEntity.ok().body(new BaseResponse<>(StatusCode.SUCCESS));
     }
+
+    @Operation(summary = "마일스톤 리스트")
+    @GetMapping("/{projectId}")
+    public ResponseEntity<BaseResponse<List<MilestoneResponseDto>>> findMilestones(@PathVariable Integer projectId){
+        return ResponseEntity.ok().body(new BaseResponse<>(milestoneService.findMilestoneByProjectId(projectId)));
+    }
 }
