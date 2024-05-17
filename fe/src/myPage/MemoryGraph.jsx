@@ -71,7 +71,11 @@ const MemoryGraph = ({
           <div
             style={{ position: "absolute", bottom: 0, right: 0, zIndex: "1" }}
           >
-            <MemoryGraphButton onClick={() => setIsModal({ type: "first" })}>
+            <MemoryGraphButton
+              onClick={() => (
+                setIsModal({ type: "first" }), console.log("Add Node")
+              )}
+            >
               Add Node
             </MemoryGraphButton>
           </div>
@@ -93,7 +97,7 @@ const MemoryGraph = ({
               isDark ? GlobalColor.colors.primary_black : "white"
             }
             nodeRelSize={10}
-            nodeOpacity={0.7}
+            nodeOpacity={0.9}
             nodeResolution={50}
             linkOpacity={1}
             linkResolution={12}
@@ -267,7 +271,7 @@ const MemoryGraph = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            zIndex:99,
+            zIndex: 99,
           }}
         >
           <div
@@ -390,7 +394,7 @@ const MemoryGraph = ({
                   setIsModal(false),
                   setContent(""),
                   setNewNode(""),
-                  setColor("")
+                  setColor("#c7c7c7")
                 )}
               >
                 취소
@@ -411,7 +415,7 @@ const MemoryGraph = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            zIndex:99,
+            zIndex: 99,
           }}
         >
           <div
@@ -534,7 +538,7 @@ const MemoryGraph = ({
                   setIsModal(false),
                   setContent(""),
                   setNewNode(""),
-                  setColor("")
+                  setColor("#c7c7c7")
                 )}
               >
                 취소
@@ -555,7 +559,7 @@ const MemoryGraph = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            zIndex:99,
+            zIndex: 99,
           }}
         >
           <div
@@ -667,7 +671,7 @@ const MemoryGraph = ({
                   setIsModal(false),
                   setContent(""),
                   setNewNode(""),
-                  setColor("")
+                  setColor("#c7c7c7")
                 )}
               >
                 취소

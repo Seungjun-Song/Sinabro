@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { faCircleInfo, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo, faCircleXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Modal } from "react-bootstrap";
 import { AnimatePresence, motion } from "framer-motion";
@@ -13,7 +13,6 @@ import axios from "axios";
 import MemoryGraph from "./MemoryGraph";
 import { setMyCurrentProject } from "../store/myCurrentProjectSlice";
 import { useNavigate } from "react-router-dom";
-import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 const SearchContainerRightSide = styled.div`
   height: 100%;
   width: 2rem;
