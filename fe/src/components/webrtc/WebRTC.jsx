@@ -137,7 +137,8 @@ export default function WebRTC() {
       getToken().then(async (token) => {
         try {
           await session.connect(token, {
-            clientData: userInfo.currentUser.photoURL,
+            clientURL: userInfo.currentUser.photoURL,
+            clientName: userInfo.currentUser.displayName,
           });
 
           let publisher = await OV.current.initPublisherAsync(undefined, {
