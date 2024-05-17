@@ -28,11 +28,12 @@ const ChatBot = () => {
 
     const isDark = !useSelector(state => state.isDark.isDark);
     const projectRoomId = useSelector(state => state.projectRoomId.value);
+    const userInfo = useSelector(state => state.user.currentUser)
 
     useEffect(() => {
         // Fetch chat history from Firebase Realtime Database
         const db = getDatabase();
-        const chatRef = ref(db, `chatBotChats/${projectRoomId}`);
+        const chatRef = ref(db, `chatBotChats/${projectRoomId}/${userInfo.uid}`);
         onValue(chatRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
