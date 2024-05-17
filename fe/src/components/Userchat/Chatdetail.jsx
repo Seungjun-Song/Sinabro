@@ -205,7 +205,7 @@ const Chatdetail = ({ setWhatpjt, whatpjt }) => {
                 outline: "none",
                 resize: "none",
                 height: "3rem",
-                margin: '2rem 0 0rem 0',
+                margin: '2rem 0 0 0',
               }}
               value={message}
               placeholder="채팅하기"
