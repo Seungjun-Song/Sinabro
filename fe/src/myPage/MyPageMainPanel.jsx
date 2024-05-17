@@ -779,7 +779,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                     color: "rgb(86, 76, 173)",
                   }}
                 >
-                  <FontAwesomeIcon icon={faCircleXmark} />
+                  <FontAwesomeIcon size="xl" icon={faCircleXmark} />
                 </div>
               </MemoryGraphSideBox>
             )}
