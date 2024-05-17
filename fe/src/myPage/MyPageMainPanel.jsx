@@ -135,7 +135,7 @@ const MemoryGraphDescribeBox = styled.div`
   border: 3px solid transparent;
   border-image: linear-gradient(to right, #3dc7af, #613acd);
   border-image-slice: 1;
-  margin-left: 2rem;
+  margin-left:1rem;
   width: 100%;
   padding: 1rem;
   /* max-height: 26rem; */
@@ -145,21 +145,21 @@ const MemoryGraphDescribeBox = styled.div`
 `;
 
 const MemoryGraphButtonBox = styled.div`
-  margin-left: 2rem;
+  margin-left: 1rem;
   display: flex;
   width: 100%;
   justify-content: space-between;
 `;
 
 const MemoryGraphButton = styled.div`
-  font-size: 1rem;
-  padding: 0.6rem;
+  font-size: 0.75rem;
+  padding: 0.3rem;
   font-weight: bold;
   background-color: #6c32cd;
   color: white;
   border-radius: 1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -713,7 +713,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                     Edit
                   </MemoryGraphButton>
                   <MemoryGraphButton
-                    onClick={() => handleDelete()}
+                    onClick={() => handleNodeDel()}
                   >
                     Del
                   </MemoryGraphButton>
