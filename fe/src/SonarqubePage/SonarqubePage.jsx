@@ -196,6 +196,7 @@ const SonarqubePage = () => {
             height: "100vh", // 부모 div의 높이를 화면 높이와 동일하게 설정
             width: "100vw", // 부모 div의 너비를 화면 너비와 동일하게 설정
             gap: "1rem", // 각 요소 간의 간격을 1rem로 설정
+            minWidth: '1200px',
             backgroundColor: isDark
               ? GlobalColor.colors.primary_black
               : "white",
