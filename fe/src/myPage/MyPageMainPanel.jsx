@@ -13,6 +13,7 @@ import axios from "axios";
 import MemoryGraph from "./MemoryGraph";
 import { setMyCurrentProject } from "../store/myCurrentProjectSlice";
 import { useNavigate } from "react-router-dom";
+import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 const SearchContainerRightSide = styled.div`
   height: 100%;
   width: 2rem;
@@ -130,6 +131,7 @@ const MemoryGraphSideBox = styled.div`
   height: 30rem;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 const MemoryGraphDescribeBox = styled.div`
   border: 3px solid transparent;
@@ -685,10 +687,11 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                     transition={{ duration: 0.3 }}
                     className="shadow"
                     style={{
+                      zIndex: "99",
                       width: "28rem",
                       position: "absolute",
                       top: "2rem",
-                      right: "0",
+                      right: "-3rem",
                       backgroundColor: "White",
                       borderRadius: "1rem",
                       padding: "1rem",
@@ -758,6 +761,17 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                     Del
                   </MemoryGraphButton>
                 </MemoryGraphButtonBox>
+                <div
+                  onClick={() => setWhatNode(null)}
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    right: 0,
+                    cursor: "pointer",
+                  }}
+                >
+                  <FontAwesomeIcon icon={faCircleXmark} />
+                </div>
               </MemoryGraphSideBox>
             )}
           </MemoryGraphContainer>
