@@ -182,7 +182,7 @@ const dataList = [
   {
     name: "Java",
     img: "/images/java.png",
-    subCategoryId: 106,
+    subCategoryId: 204,
   },
   {
     name: "Python",
