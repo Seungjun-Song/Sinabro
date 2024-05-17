@@ -165,7 +165,6 @@ const DetailMainPage = () => {
                     totalCount={totalCount}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
-
                     setTotalCount={setTotalCount}
                 />
             ) : ("")}
@@ -175,11 +174,11 @@ const DetailMainPage = () => {
                     isDark={isDark}
                     detailData={post}
                     commentDate={commentDate}
+                    projectData={projectData}
                     setCommentDate={setCommentDate}
                     totalCount={totalCount}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
-
                     setTotalCount={setTotalCount}
                 />
             ) : ("")}
