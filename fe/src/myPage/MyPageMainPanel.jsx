@@ -735,6 +735,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                 isDark={isDark}
                 hadleAllClick={hadleAllClick}
                 getGraphData={getGraphData}
+                addnode={addnode}
               />
             </MemoryGraphMainBox>
             {whatnode && (

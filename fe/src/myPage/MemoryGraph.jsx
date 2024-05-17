@@ -35,6 +35,7 @@ const MemoryGraphButton = styled.div`
   cursor: pointer;
 `;
 const MemoryGraph = ({
+  addnode,
   getGraphData,
   hadleAllClick,
   isDark,
