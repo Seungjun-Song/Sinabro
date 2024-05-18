@@ -1,18 +1,3 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import { BrowserRouter } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import store, { persistor } from './store/store.jsx'
-import { PersistGate } from 'redux-persist/integration/react'
-import "bootstrap/dist/css/bootstrap.min.css"
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>
-)
+version https://git-lfs.github.com/spec/v1
+oid sha256:7c32c8ab8536426c55102ba97e3e9a54da41ae58eda8d5355cafd969c40585d4
+size 582
