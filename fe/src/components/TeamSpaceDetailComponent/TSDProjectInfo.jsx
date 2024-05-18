@@ -14,8 +14,8 @@ const TSDProjectInfo = ({isIn,setIsIn, whatInfo, setWhatInfo, isDark }) => {
   const [teamInfo, setTeamInfo] = useState([]);
   // console.log(userInfo);
   // console.log(myCurrentProject);
-  const isTeam = (data) => {
-    console.log(data);
+  const isTeam = (data) => {  
+    // console.log(data);
     if (data) {
       const isUserInTeam = data.some(
         (teammate) => teammate.memberId === userInfo.uid
@@ -47,6 +47,7 @@ const TSDProjectInfo = ({isIn,setIsIn, whatInfo, setWhatInfo, isDark }) => {
           gap: "1rem",
           marginTop: "2rem",
           paddingRight: "2rem",
+          
         }}
         initial="hidden"
         animate="visible"
