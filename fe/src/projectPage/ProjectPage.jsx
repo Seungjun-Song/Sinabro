@@ -19,6 +19,8 @@ import { faCircle as fasCircle } from '@fortawesome/free-solid-svg-icons';
 import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons';
 import Navbar from "../components/navs/Navbar";
 import ProjectFeedLoadingPage from "./ProjectFeedbackLoadingPage";
+import ProjectFeedbackRightPanel from "./ProjectFeedbackRightPanel";
+import { changeFeedbackRoomIdState } from "../store/feedbackMemberIdSlice";
 
 const ProjectContainer = styled.div`
   position: relative; /* 부모 컨테이너를 기준으로 자식 요소의 위치를 설정하기 위해 */
@@ -103,7 +105,7 @@ const ProjectPage = () => {
   const [feedbackURL, setFeedbackURL] = useState(null)
 
   const userInfo = useSelector((state) => state.user.currentUser);
-  const [dbport , setDbPort] = useState(null)
+  const [dbport, setDbPort] = useState(null)
   const [teammate, setTeammate] = useState([]);
   const [selectedTeammates, setSelectedTeammates] = useState([userInfo.uid]); // props로 넘겨주는 값
 
@@ -136,8 +138,8 @@ const ProjectPage = () => {
   useEffect(() => {
     const getFeedbackURL = async () => {
       try {
-        console.log('feedbackMemberId: ', feedbackMemberId)
-        const res = await axios.get(`${back_url}/teams/projects/${feedbackMemberId}/feedbacks`)
+        console.log('feedbackMemberId: ', feedbackMemberId.id)
+        const res = await axios.get(`${back_url}/teams/projects/${feedbackMemberId.id}/feedbacks`)
         console.log(res.data)
         setFeedbackURL(res.data.result.feedbackUrl)
         console.log('feedbackURL: ', res.data.result.feedbackUrl)
@@ -147,7 +149,9 @@ const ProjectPage = () => {
         console.error(err)
       }
     }
-
+    const currentURL = window.location.href.split('/')
+    dispatch(changeFeedbackRoomIdState(currentURL[currentURL.length-1]))
+    console.log('currentURL: ', currentURL[currentURL.length-1])
     getFeedbackURL()
   }, [])
 
@@ -402,17 +406,18 @@ const ProjectPage = () => {
         </>
         :
         <>
-          {feedbackLoading ?
+          {!feedbackLoading ?
             <ProjectFeedLoadingPage />
             :
             <ProjectContainer>
               <Navbar />
-              <ProjectMainContainer style={{marginTop: '80px'}}>
+              <ProjectMainContainer style={{ marginTop: '80px' }}>
                 <iframe
                   title="feedback-code-server"
                   src={feedbackURL}
                   style={{ width: "100%", height: "100%", border: "none" }}
                 ></iframe>
+                <ProjectFeedbackRightPanel />
               </ProjectMainContainer>
             </ProjectContainer>
           }

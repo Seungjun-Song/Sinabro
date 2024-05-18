@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    value: false
+    value: {
+        id: null,
+        roomId: null,
+    }
 }
 
 export const feedbackMemberIdSlice =  createSlice({
@@ -9,10 +12,13 @@ export const feedbackMemberIdSlice =  createSlice({
     initialState,
     reducers: {
         changeFeedbackMemberIdState: (state, action) => {
-            state.value = action.payload
-        }
+            state.value.id = action.payload
+        },
+        changeFeedbackRoomIdState: (state, action) => {
+            state.value.roomId = action.payload
+        },
     }
 })
 
-export const {changeFeedbackMemberIdState} = feedbackMemberIdSlice.actions
+export const {changeFeedbackMemberIdState, changeFeedbackRoomIdState} = feedbackMemberIdSlice.actions
 export default feedbackMemberIdSlice.reducer
