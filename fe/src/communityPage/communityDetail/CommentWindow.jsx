@@ -162,7 +162,7 @@ const CommentWindow = ({ isDark, commentDate, boardId, totalCount, currentPage, 
             <Pagenation
                 totalItems={totalCount}
                 itemCountPerPage={10}
-                pageCount={2}
+                pageCount={5}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
             >
