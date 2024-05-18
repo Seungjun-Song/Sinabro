@@ -407,7 +407,7 @@ const ProjectPage = () => {
             :
             <ProjectContainer>
               <Navbar />
-              <ProjectMainContainer>
+              <ProjectMainContainer style={{height: '100%'}}>
                 <iframe
                   title="feedback-code-server"
                   src={feedbackURL}
