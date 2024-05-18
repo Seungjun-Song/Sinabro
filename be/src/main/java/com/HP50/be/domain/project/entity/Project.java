@@ -47,7 +47,7 @@ public class Project extends BaseTimeEntity {
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Milestone> milestones;
 
     //연관관계 image

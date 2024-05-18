@@ -30,10 +30,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,7 +43,6 @@ public class ProjectServiceImpl implements ProjectService{
     private final ProjectRepository projectRepository;
     private final SubCategoryRepository subCategoryRepository;
     private final TeammateRepository teammateRepository;
-    private final PjtTechStackRepository pjtTechStackRepository;
     private final PortRepository portRepository;
     private final PortCustomRepository portCustomRepository;
     private final MemberCustomRepository memberCustomRepository;
@@ -122,7 +118,6 @@ public class ProjectServiceImpl implements ProjectService{
                 techStacks = techStackCustomRepository.getByMemberIdAndCategoryId(memberId, selectCategoryId);
             }
 
-
             if(techStacks.isEmpty()){
                 throw new BaseException(StatusCode.NOT_EXIST_STACK);
             }
@@ -156,6 +151,12 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
 
+        // 중복된 사람을 초대한다면 503 반환
+        if(!checkDupliTeammate(project.getProjectId(),
+                member.getMemberId())) throw new BaseException(StatusCode.DUPLICATE_PROJECT_TEAMMATE);
+
+        // 초대했는데 프로젝트의 최대 인원을 넘는다면 503
+        if(isSizeOutOfBounds(project)) throw new BaseException(StatusCode.EXCEED_PROJECT_TEAMMATE);
 
         int selectedCategoryId = 0;
         //풀스택이면 선택한 카테고리로
@@ -502,5 +503,31 @@ public class ProjectServiceImpl implements ProjectService{
         if(!jschUtil.executeCommand(session, mysqlRestartCommand)) {
             throw new BaseException(StatusCode.MYSQL_RESTART_FAIL);
         }
+    }
+
+    public boolean checkDupliTeammate(Integer projectId, Integer memberId){
+        List<Integer> memberIdList = teammateRepository.findTeammatesByProjectProjectId(projectId).stream()
+                .map(teammate -> teammate.getMember().getMemberId())
+                .toList();
+
+        for(Integer id: memberIdList){
+            // 중복된 데이터가 있다면 false
+            if(id == memberId) return false;
+        }
+
+        // 중복된 값이 없다면 true
+        return true;
+    }
+
+    public boolean isSizeOutOfBounds(Project project){
+        int projectMemberLimit = 3;
+
+        int currentProjectMemberCnt = projectRepository.findById(project.getProjectId())
+                .orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_PROJECT))
+                .getTeammates().size();
+
+        // 프로젝트의 최대 인원수를 초과한다면 false
+        // 프로젝트의 최대 인원수보다 현재 인원수가 작으면 true
+        return projectMemberLimit <= currentProjectMemberCnt;
     }
 }
