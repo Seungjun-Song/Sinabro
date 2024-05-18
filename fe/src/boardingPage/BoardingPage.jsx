@@ -64,7 +64,7 @@ const BoardingPage = () => {
           alignItems: "center",
         }}
       >
-        <ProjectInfo  />
+        {/* <ProjectInfo  /> */}
         <AnimatePresence>
           {whereref !== 4 && !scroll && (
             <motion.div
