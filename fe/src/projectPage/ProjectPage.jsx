@@ -99,7 +99,7 @@ const ProjectPage = () => {
   const [iframeList, setIframeList] = useState([])
 
   const userInfo = useSelector((state) => state.user.currentUser);
-
+  const [dbport , setDbPort] = useState(null)
   const [teammate, setTeammate] = useState([]);
   const [selectedTeammates, setSelectedTeammates] = useState([userInfo.uid]); // props로 넘겨주는 값
 
@@ -178,6 +178,7 @@ const ProjectPage = () => {
         setRunDevPreviewUrl(res.data.result.runDevPreviewUrl);
         setStartPreviewUrl(res.data.result.startPreviewUrl);
         setLoading(false);
+        setDbPort(res.data.result.dbPort)
         setIframeList([res.data.result.url]) // 처음에는 코드 서버만 들어있음
       } catch (err) {
         console.error(err);
@@ -276,11 +277,11 @@ const ProjectPage = () => {
 
   return (
     <>
-      {!loading ? (
+      {loading ? (
         <ProjectLoadingPage />
       ) : (
         <ProjectContainer>
-          <WebRTC />
+          <WebRTC dbport={dbport} />
           <ProjectMainContainer>
             <ProjectPageLeftPanel
               teammate={teammate}

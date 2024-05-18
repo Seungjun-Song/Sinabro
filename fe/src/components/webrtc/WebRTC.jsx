@@ -58,7 +58,7 @@ const RightNavContainer = styled.div`
   margin: 0 1rem;
 `;
 
-export default function WebRTC() {
+export default function WebRTC({dbport}) {
   const [mySessionId, setMySessionId] = useState("SessionA");
   const [myUserName, setMyUserName] = useState(
     `Participant${Math.floor(Math.random() * 100)}`
