@@ -56,8 +56,16 @@ const UserSearchModal = ({ setIsModalOpen, projectName, isDark, reloading, setRe
         memberId: invitedUser.value.memberId,
         categoryId: categoryId,
         projectId: myCurrentProject.projectId
-      })
-      console.log(res.data)
+      });
+      
+      if(res.data.code === 507){
+        Swal.fire("중복된 인원입니다.");
+        return;
+      }
+      if(res.data.code === 508){
+        Swal.fire("프로젝트의 최대 인원수를 초과 했습니다. 최대 인원은 3명입니다.");
+        return;
+      }
       setReloading(!reloading)
 
     }
