@@ -12,6 +12,7 @@ import { clearUserSearch } from "../../store/userSearchSlice";
 import { addProjectMemberList } from "../../store/projectCreateSlice";
 import { clearInviteUser } from "../../store/inviteUserSlice";
 import { addInvitedUserList } from "../../store/invitedUserListSlice";
+import Swal from "sweetalert2";
 
 const UserSearchModal = ({ setIsModalOpen, projectName, isDark }) => {
   const [userName, setUserName] = useState("");
@@ -30,16 +31,24 @@ const UserSearchModal = ({ setIsModalOpen, projectName, isDark }) => {
   }, [])
 
   const invitedUser = useSelector(state => state.inviteUser)
+  const invitedUserList = useSelector(state => state.invitedUserList.value)
 
   const invitingUser = () => {
-    dispatch(addProjectMemberList({
-      memberId: invitedUser.value.memberId,
-      categoryId: null,
-    }))
-    dispatch(addInvitedUserList(invitedUser.value))
-    dispatch(clearInviteUser())
-    setIsModalOpen(false)
-  }  
+    const inviteduserIds = invitedUserList.map(userInfo => userInfo.memberId)
+    if (inviteduserIds.includes(invitedUser.value.memberId)) {
+      Swal.fire("이미 초대된 유저입니다.")
+      return
+    }
+    else {
+      dispatch(addProjectMemberList({
+        memberId: invitedUser.value.memberId,
+        categoryId: null,
+      }))
+      dispatch(addInvitedUserList(invitedUser.value))
+      dispatch(clearInviteUser())
+      setIsModalOpen(false)
+    }
+  }
 
   return (
     <motion.div
