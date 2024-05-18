@@ -23,6 +23,9 @@ public enum StatusCode {
     FAIL_DELETE_TEAMMATE(false,504,"팀원 삭제에 실패했습니다."),
     FAIL_UPDATE_REPO(false, 505, "레포 수정에 실패했습니다"),
     NOT_TEAM_MEMBER(false,506,"요청한 유저가 해당 프로젝트의 팀원이 아닙니다"),
+    DUPLICATE_PROJECT_TEAMMATE(false, 507, "중복된 팀원입니다."),
+    EXCEED_PROJECT_TEAMMATE(false, 508, "프로젝트의 최대 인원을 초과했습니다."),
+
 
     // Member ( 600 )
     NOT_EXIST_MEMBER(false,601,"해당하는 멤버가 없습니다."),
