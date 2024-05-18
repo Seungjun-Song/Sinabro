@@ -90,7 +90,7 @@ const PjtLinkBox = ({ pjtData }) => {
         onClick={() => (
           console.log(data),
           dispatch(setMyCurrentProject({ ...data, projectId: pjtData.id })),
-          navigate(`/TeamSpaceDetailPage/${pjtData.id}`)
+          navigate(`/TeamSpaceDetailPage/${pjtData.id}`, {state: {from: '/communityDetail'}})
         )}
       >
         <PjtInfo>
