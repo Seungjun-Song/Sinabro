@@ -14,6 +14,7 @@ import { clearInviteUser } from "../../store/inviteUserSlice";
 import { addInvitedUserList } from "../../store/invitedUserListSlice";
 import getEnv from "../../utils/getEnv";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const UserSearchModal = ({ setIsModalOpen, projectName, isDark, reloading, setReloading, teamInfo }) => {
   const [userName, setUserName] = useState("");
@@ -57,7 +58,16 @@ const UserSearchModal = ({ setIsModalOpen, projectName, isDark, reloading, setRe
         categoryId: categoryId,
         projectId: myCurrentProject.projectId
       })
-      console.log(res.data)
+      
+      if(res.data.code === 507){
+        Swal.fire("중복된 인원입니다.");
+        return;
+      }
+      if(res.data.code === 508){
+        Swal.fire("프로젝트의 최대 인원수를 초과 했습니다. 최대 인원은 3명입니다.");
+        return;
+      }
+
       setReloading(!reloading)
 
     }
