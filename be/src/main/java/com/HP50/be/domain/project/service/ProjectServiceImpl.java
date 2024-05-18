@@ -390,7 +390,7 @@ public class ProjectServiceImpl implements ProjectService{
         session.disconnect();
 
         return ProjectFeedbackDto.builder()
-                .url("https://projectsinabro.store/" + codeServerName + "-t0s1e8u7g")
+                .feedbackUrl("https://projectsinabro.store/" + codeServerName + "-t0s1e8u7g")
                 .theme(currentTheme)
                 .build();
     }

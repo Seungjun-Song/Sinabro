@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ProjectFeedbackDto {
-    private String url;
+    private String feedbackUrl;
     private String theme;
 }
