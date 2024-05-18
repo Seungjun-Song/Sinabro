@@ -22,7 +22,7 @@ public interface ProjectService {
     // 프로젝트 다크모드
     String projectDarkMode(String token);
     // 프로젝트 피드백 초대
-    String getFeedbackUrl(Integer memberId);
+    ProjectFeedbackDto getFeedbackUrl(Integer memberId);
 
     List<ProjectListResponseDto> getProjectListInMember(String token);
 
