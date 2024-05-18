@@ -112,7 +112,7 @@ const PjtImg = styled(motion.img)`
   margin-right: 10px;
 `;
 
-const MemoryGraphContainer = styled.div`
+const MemoryGraphContainer = styled(motion.div)`
   display: flex;
 `;
 
@@ -442,10 +442,10 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
 
   const hadleAllClick = (node) => {
     // Aim at node from outside it
-    if(isMe){
+    if (isMe) {
       setWhatNode(node);
     }
-    
+
     console.log(node);
     const distance = 500;
     const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
@@ -502,6 +502,11 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
     setColor("#c7c7c7");
   };
   const [isinfoHover, setIsInfoHover] = useState(false);
+  useEffect(() => {
+    if (fgRef.current) {
+      fgRef.current.d3Force("link").iterations(1).distance(100);
+    }
+  }, [graphData]);
   return (
     <div
       style={{
@@ -682,7 +687,13 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
             )}
           </InnerBox>
         </InnerArea>
-        <InnerArea>
+        <InnerArea
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 5 }}
+          transition={{ duration: 0.3, delay: 0.9 }}
+          // style={{ marginTop: 0 }} 
+        >
           <InnerText
             style={{
               display: "flex",
@@ -719,8 +730,8 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
                       zIndex: "99",
                       width: "28rem",
                       position: "absolute",
-                      top: "-1.1rem",
-                      right: "2rem",
+                      top: "3rem",
+                      right: "-1rem",
                       backgroundColor: "White",
                       borderRadius: "1rem",
                       padding: "1rem",

@@ -204,7 +204,7 @@ const MyPageSidePanel = ({ isDark, userfind ,isMe}) => {
           />
           <GitLink
             style={{ color: isDark ? "white" : "black" }}
-            href={userInfo.memberGit}
+            href={userfind.memberGit}
             target="_blank"
           >
             {userfind.memberGit}

@@ -43,7 +43,7 @@ const CommunityMainPage = () => {
 
     const [selected, setSelected] = useState({id: data.kind.id, name: data.kind.name});
     const [currentPage, setCurrentPage] = useState(data.page);
-    const [proceedOption, setProceedOption] = useState({id: 502, name: "모집 중"});
+    const [proceedOption, setProceedOption] = useState({id: 502, name: data.kind.name === "feakback" ? "요청 중" : "모집 중"});
     const [teamOption, setTeamOption] = useState({id: 0, name: "분야 선택"});
     const [searchWord, setSearchWord] = useState("");
     const [totalCount, setTotalCount] = useState(0);

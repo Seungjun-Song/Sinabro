@@ -73,7 +73,7 @@ const SideMenu = ({selected, setSelected, isDark, setCurrentPage, proceedOption,
             setProceedOption({id: 502, name: "모집 중"})
         }
         else{
-            setProceedOption({id: 502, name: "구걸 중"})
+            setProceedOption({id: 502, name: "요청 중"})
         }
 
         if(kind.name === "member" || kind.name === "feadback"){

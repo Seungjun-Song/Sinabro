@@ -42,32 +42,32 @@ const DUMMUY_DATA = [
   },
 ];
 const color_list = [
-  "#fbf8cc",
-  "#fde4cf",
-  "#ffcfd2",
-  "#f1c0e8",
+  "#ccd9fb",
+  "#fdd7cf",
+  "#ffcfd0",
+  "#523ca4",
   "#cfbaf0",
   "#a3c4f3",
-  "#90dbf4",
+  "#9098f4",
   "#8eecf5",
   "#98f5e1",
-  "#b9fbc0",
+  "#b9cbfb",
 ];
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-const Todo = ({ isDark }) => {
+const Todo = ({ isDark, setMilestone, milestone }) => {
   const today = new Date();
   const nextWeek = new Date(today);
   nextWeek.setDate(today.getDate() + 7);
-
+  console.log(milestone);
   const currentDate = new Date(today);
-  const filteredData = DUMMUY_DATA.filter((item) => {
-    const startDate = new Date(item.calenderStartDt);
-    const endDate = new Date(item.calenderEndDt);
+  const filteredData = milestone.filter((item) => {
+    const startDate = new Date(item.milestoneStartDt);
+    const endDate = new Date(item.milestoneEndDt);
     const today = new Date();
     const nextWeek = new Date(today);
     nextWeek.setDate(today.getDate() + 7);
-
+    console.log(startDate, endDate);
     // enddate가 오늘보다 크거나 같은 항목은 유지하고,
     // startdate가 오늘부터 일주일 후를 넘어가는 항목은 유지하지 않음
     if (endDate <= today || startDate > nextWeek) {
@@ -101,7 +101,7 @@ const Todo = ({ isDark }) => {
     }
   }
   function getColorForCalenderId(calenderId) {
-    return color_list[calenderId ** 2 % 11];
+    return color_list[calenderId ** 3 % 11];
   }
   function isDateInRangeList(
     setIsWhat,
@@ -166,8 +166,8 @@ const Todo = ({ isDark }) => {
                         fontSize: "0.9rem",
                       }}
                     >
-                      <div>작성자:{memberName}</div>
-                      <div>내용 : {calenderName}</div>
+                      <div>마일스톤 :{memberName}</div>
+                      <div>할 일: {calenderName}</div>
                       <div>
                         기한 : {startDate} ~ {endDate}{" "}
                       </div>
@@ -225,8 +225,8 @@ const Todo = ({ isDark }) => {
                         fontSize: "0.9rem",
                       }}
                     >
-                      <div>작성자:{memberName}</div>
-                      <div>내용 : {calenderName}</div>
+                      <div>마일스톤 :{memberName}</div>
+                      <div>할 일: {calenderName}</div>
                       <div>
                         기한 : {startDate} ~ {endDate}{" "}
                       </div>
@@ -272,8 +272,8 @@ const Todo = ({ isDark }) => {
                         fontSize: "0.9rem",
                       }}
                     >
-                      <div>작성자:{memberName}</div>
-                      <div>내용 : {calenderName}</div>
+                      <div>마일스톤 :{memberName}</div>
+                      <div>할 일: {calenderName}</div>
                       <div>
                         기한 : {startDate} ~ {endDate}{" "}
                       </div>
@@ -334,17 +334,17 @@ const Todo = ({ isDark }) => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.3, delay: index * 0.1 }} // stagger 효과를 부모 요소인 motion.div에 적용
-              style={{ display: "flex", marginTop: "1rem" }}
+              style={{ display: "flex", marginTop: "1rem", zIndex: "9" }}
             >
               {isDateInRangeList(
                 setIsWhat,
                 index,
                 dateList,
-                item.calenderStartDt,
-                item.calenderEndDt,
-                item.calenderId,
-                item.memberName,
-                item.calenderName
+                item.milestoneStartDt,
+                item.milestoneEndDt,
+                item.milestoneId,
+                item.milestoneTitle,
+                item.milestoneContent
               )}
             </motion.div>
           ))}

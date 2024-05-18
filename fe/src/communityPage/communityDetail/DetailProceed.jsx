@@ -50,9 +50,9 @@ const DetailProceed = ({detailData, kind, isDark}) => {
         {kind.name === "feadback" ? (
             <>
                 {detailData.proceed === true ? 
-                    ("구걸 중")
+                    ("요청 중")
                     :
-                    ("구걸 완료")
+                    ("요청 완료")
                 }
             </>
         ) :
