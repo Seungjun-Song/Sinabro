@@ -23,7 +23,7 @@ const Detail = styled.div`
 
 const Line = styled.hr`
 `
-const DetailTeam = ({ isDark, detailData, commentDate, setCommentDate, totalCount, currentPage, setCurrentPage, setTotalCount }) => {
+const DetailTeam = ({ isDark, detailData, commentDate, setCommentDate, totalCount, currentPage, setCurrentPage, setTotalCount, setOpenChat, selectedUser, setSelectedUser }) => {
     
     return(
         <Detail

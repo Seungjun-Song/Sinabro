@@ -194,6 +194,9 @@ const DetailMainPage = () => {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             setTotalCount={setTotalCount}
+            setOpenChat={setOpenChat}
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
           />
         ) : ("")}
 
@@ -207,6 +210,9 @@ const DetailMainPage = () => {
             totalCount={totalCount}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            setOpenChat={setOpenChat}
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
             setTotalCount={setTotalCount}
           />
         ) : ("")}
