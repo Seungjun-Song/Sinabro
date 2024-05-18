@@ -49,7 +49,7 @@ const TSDProjectName = ({ isDark ,isIn}) => {
         else {
           setProjectEndDate(null)
         }
-        setTeamLeader(res.data.result.teammateInfoList[0]?.memberId);
+        setTeamLeader(res.data.result.teamReaderId);
         setProjectState(res.data.result.status)
       }
       catch (err) {

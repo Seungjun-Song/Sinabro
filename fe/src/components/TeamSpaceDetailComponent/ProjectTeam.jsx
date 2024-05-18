@@ -32,7 +32,7 @@ const ProjectTeam = ({ setWhatUser, isDark,teamInfo,setTeamInfo }) => {
           `${back_url}/teams?projectId=${myCurrentProject.projectId}`
         );
         console.log(res.data);
-        setTeamLeader(res.data.result.teammateInfoList[0]?.memberId);
+        setTeamLeader(res.data.result.teamReaderId);
         const transformedTeamInfo = res.data.result.teammateInfoList?.map(
           (item) => ({
             ...item,
