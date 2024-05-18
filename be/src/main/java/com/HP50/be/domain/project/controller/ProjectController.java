@@ -7,12 +7,10 @@ import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
 import com.HP50.be.global.jwt.JwtConstants;
 import com.HP50.be.global.jwt.JwtUtil;
-import io.jsonwebtoken.Jwt;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import retrofit2.http.Path;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,11 +103,9 @@ public class ProjectController {
     @Operation(summary = "프로젝트 피드백 초대")
     @GetMapping("/projects/{memberId}/feedbacks")
     public ResponseEntity<Object> getFeedbackUrl(@PathVariable Integer memberId) {
-        String feedbackUrl = service.getFeedbackUrl(memberId);
-        Map<String, String> url = new HashMap<>();
-        url.put("feedbackUrl", feedbackUrl);
+        ProjectFeedbackDto projectFeedbackDto = service.getFeedbackUrl(memberId);
 
-        return ResponseEntity.ok(new BaseResponse<>(url));
+        return ResponseEntity.ok(new BaseResponse<>(projectFeedbackDto));
     }
 
     @Operation(summary = "우리 사이트에서 완성된 프로젝트 목록")

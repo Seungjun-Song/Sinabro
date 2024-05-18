@@ -15,7 +15,10 @@ import com.HP50.be.domain.port.repository.PortRepository;
 import com.HP50.be.domain.project.dto.*;
 import com.HP50.be.domain.project.entity.Project;
 import com.HP50.be.domain.project.entity.Teammate;
-import com.HP50.be.domain.project.repository.*;
+import com.HP50.be.domain.project.repository.PjtTechStackCustomRepository;
+import com.HP50.be.domain.project.repository.ProjectCustomRepository;
+import com.HP50.be.domain.project.repository.ProjectRepository;
+import com.HP50.be.domain.project.repository.TeammateRepository;
 import com.HP50.be.global.common.JschUtil;
 import com.HP50.be.global.common.StatusCode;
 import com.HP50.be.global.exception.BaseException;
@@ -28,9 +31,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -354,7 +359,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     // 프로젝트 피드백 초대
     @Override
-    public String getFeedbackUrl(Integer memberId) {
+    public ProjectFeedbackDto getFeedbackUrl(Integer memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         String codeServerName = member.getCodeServerName();
 
@@ -377,9 +382,17 @@ public class ProjectServiceImpl implements ProjectService{
             throw new BaseException(StatusCode.WEB_SOCKET_RUN_FAIL);
         }
 
+        // 테마 확인
+        String getCurrentThemeCommand = "docker exec " + codeServerName + " cat /home/coder/.local/share/code-server/User/settings.json";
+        String currentTheme = jschUtil.executeCommandAndGetOutput(session, getCurrentThemeCommand).split("\"")[3].split(" ")[2];
+        log.info("currentTheme : {}", currentTheme);
+
         session.disconnect();
 
-        return "https://projectsinabro.store/" + codeServerName + "-t0s1e8u7g";
+        return ProjectFeedbackDto.builder()
+                .url("https://projectsinabro.store/" + codeServerName + "-t0s1e8u7g")
+                .theme(currentTheme)
+                .build();
     }
 
 
