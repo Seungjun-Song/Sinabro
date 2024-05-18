@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0ad73c646d480bd4464738da30f196f582c0d402416ccaa25556e7b9d4f5b6ae
-size 264
+package com.HP50.be.domain.community.dto;
+
+import lombok.Builder;
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+@Builder
+public class CommentPaginationResponseDto {
+    Boolean hasNext;
+    long totalCount;
+    List<CommentResponseDto> commentResponseDtos;
+}
