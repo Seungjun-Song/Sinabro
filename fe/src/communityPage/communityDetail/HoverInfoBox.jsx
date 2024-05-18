@@ -14,9 +14,10 @@ const HoverInfo = styled(motion.div)`
     z-index: 999;
 
     bottom: 2.6rem;
-    right: -4rem;
+    right: -3rem;
 
-    border: 0px solid black;
+    border: 1px solid black;
+    box-shadow: 2px 3px 5px 0px gray;
     border-radius: 4px;
 
     display: flex;
@@ -154,11 +155,6 @@ const HoverInfoBox = ({hoverTurnOff, comment, setOpenChat, setSelectedUser}) => 
             >
                 
             </UserDetail>
-            <PlusUser
-                src={PlusIcon}
-            >
-                
-            </PlusUser>
             <Chatting
                 src={ChattingIcon}
                 onClick={() => startChating(true)}
