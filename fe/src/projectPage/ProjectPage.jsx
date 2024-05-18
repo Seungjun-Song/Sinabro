@@ -103,6 +103,8 @@ const ProjectPage = () => {
   const [teammate, setTeammate] = useState([]);
   const [selectedTeammates, setSelectedTeammates] = useState([userInfo.uid]); // props로 넘겨주는 값
 
+  const [teammateIds, setTeammateIds] = useState([])
+
   const dispatch = useDispatch();
 
   const newMessageInfo = useSelector((state) => state.newMessage);
@@ -212,6 +214,8 @@ const ProjectPage = () => {
         console.log("팀원 정보", res.data.result.teammateInfoList);
         setTeammate(res.data.result.teammateInfoList);
         console.log("팀메이트", teammate);
+        setTeammateIds(res.data.result.teammateInfoList.map(teamInfo => teamInfo.memberId))
+        console.log('팀메이트 아이디', teammateIds)
       } catch (err) {
         console.error(err);
       }
@@ -266,7 +270,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      {loading ? (
+      {!loading ? (
         <ProjectLoadingPage />
       ) : (
         <ProjectContainer>
