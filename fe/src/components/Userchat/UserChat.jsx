@@ -5,7 +5,8 @@ import Draggable from "react-draggable";
 import { Resizable } from "re-resizable";
 import Chatdetail from "./Chatdetail";
 import GPTChat from "./GPTChat";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setChatSize } from "../../store/sizeSlice";
 const DUMMY_DATA = [
   {
     id: 0,
@@ -54,18 +55,26 @@ const DUMMY_DATA = [
 const UserChat = () => {
   const [openChat, setOpenChat] = useState(false);
   const [position, setPosition] = useState({ x: 100, y: 100 });
-  const [size, setSize] = useState({ width: 300, height: 400 });
-  const [projectData, setProjectData] = useState([])
-
+  // const [size, setSize] = useState({ width: 300, height: 400 });
+  const [projectData, setProjectData] = useState([]);
+  const size = useSelector((state) => state.size.value);
+  // console.log(size)
   // console.log("Asdf")
-
-  const myProjectList = useSelector(state => state.myProjectList.value)
-  const userInfo = useSelector(state => state.user.currentUser)
+  const dispatch = useDispatch();
+  const myProjectList = useSelector((state) => state.myProjectList.value);
+  const userInfo = useSelector((state) => state.user.currentUser);
   useEffect(() => {
-    const fixData = [{projectId: userInfo.uid, projectName: 'GPT', projectImg: '/images/gptblack.jpg'}, ...myProjectList]
-    setProjectData(fixData)
+    const fixData = [
+      {
+        projectId: userInfo.uid,
+        projectName: "GPT",
+        projectImg: "/images/gptblack.jpg",
+      },
+      ...myProjectList,
+    ];
+    setProjectData(fixData);
   }, []);
-  console.log(projectData)
+  // console.log(projectData);
 
   const trackPos = (data) => {
     setPosition({ x: data.x, y: data.y });
@@ -78,7 +87,7 @@ const UserChat = () => {
   //     });
   //   };
   const [whatpjt, setWhatpjt] = useState(false); // 프로젝트 선택
-  
+
   return (
     <>
       <motion.div
@@ -96,7 +105,7 @@ const UserChat = () => {
           // border: "solid 3px black",
           borderRadius: "1.5rem",
           backgroundColor: "#564CAD",
-          zIndex:"999999"
+          zIndex: "999999",
         }}
       >
         <motion.img
@@ -120,7 +129,12 @@ const UserChat = () => {
             initial={{ opacity: 0, y: 10 }} // 초기 상태에서 opacity를 0으로 설정
             animate={{ opacity: 1, y: 0 }} // 나타날 때 opacity를 1로 설정
             exit={{ opacity: 0, y: 10 }} // 사라질 때 opacity를 0으로 설정
-            style={{ position: "fixed", bottom: "6rem", right: "2rem", zIndex:"999999" }}
+            style={{
+              position: "fixed",
+              bottom: "6rem",
+              right: "2rem",
+              zIndex: "999999",
+            }}
           >
             <Resizable
               size={size}
@@ -128,11 +142,13 @@ const UserChat = () => {
               minHeight={400}
               maxHeight={550}
               maxWidth={550}
-              onResizeStop={(e, direction, ref, d) => {
-                setSize({
+              onResizeStop={(e, direction, ref, d) => {(dispatch(
+                setChatSize({
                   width: size.width + d.width,
                   height: size.height + d.height,
-                });
+                })
+              ),console.log(d))
+                
               }}
             >
               <motion.div
@@ -150,7 +166,7 @@ const UserChat = () => {
                   flexDirection: "column",
                   borderRadius: "1rem",
                   //   padding: "1.5rem 0",
-                  overflowY: whatpjt !== false ? "hidden" : "auto", 
+                  overflowY: whatpjt !== false ? "hidden" : "auto",
                 }}
               >
                 {whatpjt ? (
@@ -204,7 +220,11 @@ const UserChat = () => {
                           hidden: { opacity: 0, y: 30 },
                         }}
                       >
-                        <Chatlist setWhatpjt={setWhatpjt} item={item} whatpjt={whatpjt} />
+                        <Chatlist
+                          setWhatpjt={setWhatpjt}
+                          item={item}
+                          whatpjt={whatpjt}
+                        />
                       </motion.div>
                     ))}
                   </motion.div>
