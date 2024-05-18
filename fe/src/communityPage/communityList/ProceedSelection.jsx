@@ -85,11 +85,11 @@ const ProceedSelection = ({proceedOption, setProceedOption, setProceedToggle, ki
         },
         { 
             id: 502,
-            name: "구걸 중",
+            name: "요청 중",
         },
         {
             id: 503,
-            name: "구걸 완료",
+            name: "요청 완료",
         }
     ]
 

@@ -5,8 +5,11 @@ import Draggable from "react-draggable";
 import { Resizable } from "re-resizable";
 import Chatdetail from "./Chatdetail";
 import GPTChat from "./GPTChat";
+import { getDatabase, ref, push, onValue } from "firebase/database";
+import { setMyChatingList } from "../../store/myChatingListSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setChatSize } from "../../store/sizeSlice";
+
 const DUMMY_DATA = [
   {
     id: 0,
@@ -55,26 +58,31 @@ const DUMMY_DATA = [
 const UserChat = () => {
   const [openChat, setOpenChat] = useState(false);
   const [position, setPosition] = useState({ x: 100, y: 100 });
-  // const [size, setSize] = useState({ width: 300, height: 400 });
-  const [projectData, setProjectData] = useState([]);
+  //const [size, setSize] = useState({ width: 300, height: 400 });
+  const [projectData, setProjectData] = useState([])
   const size = useSelector((state) => state.size.value);
-  // console.log(size)
-  // console.log("Asdf")
+
   const dispatch = useDispatch();
-  const myProjectList = useSelector((state) => state.myProjectList.value);
-  const userInfo = useSelector((state) => state.user.currentUser);
+  const myProjectList = useSelector(state => state.myProjectList.value)
+  const userInfo = useSelector(state => state.user.currentUser)
+
   useEffect(() => {
-    const fixData = [
-      {
-        projectId: userInfo.uid,
-        projectName: "GPT",
-        projectImg: "/images/gptblack.jpg",
-      },
-      ...myProjectList,
-    ];
-    setProjectData(fixData);
+    let fixData = [{projectId: userInfo.uid, projectName: 'GPT', projectImg: '/images/gptblack.jpg'}, ...myProjectList]
+
+    const db = getDatabase();
+    const chatRef = ref(db, `chatList/${userInfo.uid}`);
+    onValue(chatRef, (snapshot) => {
+      const data = snapshot.val();
+      if(data){
+        const chatMessages = Object.values(data);
+        fixData = [...fixData, ...chatMessages];
+      }
+    })
+    setProjectData(fixData)
+    console.log(fixData);
+
   }, []);
-  // console.log(projectData);
+
 
   const trackPos = (data) => {
     setPosition({ x: data.x, y: data.y });
@@ -212,7 +220,7 @@ const UserChat = () => {
                     >
                       <img src="/image/nav/Sinabro_blue.png" />
                     </div>
-                    {projectData.map((item, index) => (
+                    {projectData && projectData.map((item, index) => (
                       <motion.div
                         key={index}
                         variants={{
