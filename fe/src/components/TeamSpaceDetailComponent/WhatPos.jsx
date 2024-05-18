@@ -46,7 +46,8 @@ const WhatPos = ({ item, isDark }) => {
           textAlign: "center",
           borderColor: getColor(item),
           height: "4rem"
-          ,transition:"0.3s"
+          ,transition:"0.3s",
+          backgroundColor : isDark ? "#323232" :"white"
           
         }}
       >
