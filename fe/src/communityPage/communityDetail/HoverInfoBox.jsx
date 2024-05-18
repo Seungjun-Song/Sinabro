@@ -92,13 +92,6 @@ const HoverInfoBox = ({hoverTurnOff, comment, setOpenChat, setSelectedUser}) => 
                     projectImg: userInfo.photoURL,
                   })
 
-                  setMyChatingList([...myChatingList, {
-                    projectId: roomId,
-                    projectName: userInfo.displayName,
-                    lastChat: "?",
-                    day: "2024.04.26",
-                    projectImg: userInfo.photoURL,
-                  }])
 
                 }
             }
@@ -110,14 +103,6 @@ const HoverInfoBox = ({hoverTurnOff, comment, setOpenChat, setSelectedUser}) => 
                   day: "2024.04.26",
                   projectImg: userInfo.photoURL,
                 })
-
-                setMyChatingList([...myChatingList, {
-                    projectId: roomId,
-                    projectName: userInfo.displayName,
-                    lastChat: "?",
-                    day: "2024.04.26",
-                    projectImg: userInfo.photoURL,
-                  }])
               }
         }
 
@@ -144,13 +129,6 @@ const HoverInfoBox = ({hoverTurnOff, comment, setOpenChat, setSelectedUser}) => 
                 projectImg: comment.memberImg,
                 })
 
-                setMyChatingList([...myChatingList, {
-                    projectId: roomId,
-                    projectName: userInfo.displayName,
-                    lastChat: "?",
-                    day: "2024.04.26",
-                    projectImg: userInfo.photoURL,
-                  }])
                 }
             }
             else{
@@ -161,14 +139,6 @@ const HoverInfoBox = ({hoverTurnOff, comment, setOpenChat, setSelectedUser}) => 
                     day: "2024.04.26",
                     projectImg: comment.memberImg,
                 })
-
-                setMyChatingList([...myChatingList, {
-                    projectId: roomId,
-                    projectName: userInfo.displayName,
-                    lastChat: "?",
-                    day: "2024.04.26",
-                    projectImg: userInfo.photoURL,
-                  }])
             }
         }
 
