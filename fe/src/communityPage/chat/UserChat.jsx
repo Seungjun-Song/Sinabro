@@ -5,7 +5,7 @@ import Draggable from "react-draggable";
 import { Resizable } from "re-resizable";
 import Chatdetail from "./Chatdetail";
 import GPTChat from "./GPTChat";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDatabase, onValue, ref, get, child, push, remove} from "firebase/database";
 
 const DUMMY_DATA = [
@@ -56,14 +56,16 @@ const DUMMY_DATA = [
 const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
 //  const [openChat, setOpenChat] = useState(false);
   const [position, setPosition] = useState({ x: 100, y: 100 });
-  const [size, setSize] = useState({ width: 300, height: 400 });
+  //const [size, setSize] = useState({ width: 300, height: 400 });
   const [projectData, setProjectData] = useState([])
+  const size = useSelector((state) => state.size.value);
 
+  const dispatch = useDispatch();
   const userInfo = useSelector(state => state.user.currentUser);
-
   const myProjectList = useSelector(state => state.myProjectList.value)
+  
   useEffect(() => {
-    let fixData = [DUMMY_DATA[0], ...myProjectList]
+    let fixData = [{projectId: userInfo.uid, projectName: 'GPT', projectImg: '/images/gptblack.jpg'}, ...myProjectList]
 
     const db = getDatabase()
     const chatRef = ref(db, `chatList/${userInfo.uid}`)
@@ -138,7 +140,12 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
             initial={{ opacity: 0, y: 10 }} // 초기 상태에서 opacity를 0으로 설정
             animate={{ opacity: 1, y: 0 }} // 나타날 때 opacity를 1로 설정
             exit={{ opacity: 0, y: 10 }} // 사라질 때 opacity를 0으로 설정
-            style={{ position: "fixed", bottom: "6rem", right: "2rem" }}
+            style={{ 
+              position: "fixed", 
+              bottom: "6rem", 
+              right: "2rem" ,
+              zIndex: "999999",
+            }}
           >
             <Resizable
               size={size}
@@ -146,11 +153,12 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
               minHeight={400}
               maxHeight={550}
               maxWidth={550}
-              onResizeStop={(e, direction, ref, d) => {
+              onResizeStop={(e, direction, ref, d) => {(dispatch(
                 setSize({
                   width: size.width + d.width,
                   height: size.height + d.height,
-                });
+                })
+              ), console.log(d))
               }}
             >
               <motion.div
@@ -214,7 +222,7 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
                     >
                       <img src="/image/nav/Sinabro_blue.png" />
                     </div>
-                    {projectData.map((item, index) => (
+                    {projectData && projectData.map((item, index) => (
                       <motion.div
                         key={index}
                         variants={{
@@ -222,7 +230,10 @@ const UserChat = ({ openChat, setOpenChat, selectedUser }) => {
                           hidden: { opacity: 0, y: 30 },
                         }}
                       >
-                        <Chatlist setWhatpjt={setWhatpjt} item={item} whatpjt={whatpjt} />
+                        <Chatlist 
+                        setWhatpjt={setWhatpjt} 
+                        item={item} 
+                        whatpjt={whatpjt} />
                       </motion.div>
                     ))}
                   </motion.div>
