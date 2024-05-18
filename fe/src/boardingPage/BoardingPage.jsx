@@ -9,6 +9,8 @@ import Section4 from "../components/boarding/Section4";
 import Section5 from "../components/boarding/Section5";
 import "./styles.css";
 import SectionButton from "../components/boarding/SectionButton";
+import ProjectInfo from "../projectPage/ProjectInfo";
+
 const BoardingPage = () => {
   const section1Ref = useRef(null);
   const section2Ref = useRef(null);
@@ -62,6 +64,7 @@ const BoardingPage = () => {
           alignItems: "center",
         }}
       >
+        <ProjectInfo  />
         <AnimatePresence>
           {whereref !== 4 && !scroll && (
             <motion.div
