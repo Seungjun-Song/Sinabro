@@ -21,9 +21,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //       })),
 //   };
 // }
-const MemoryGraphButton = styled.div`
+const MemoryGraphButton = styled(motion.div)`
   font-size: 0.75rem;
-  padding: 0.6rem;
+  padding: 0.9rem;
   font-weight: bold;
   background-color: #3f6ecd;
   color: white;
@@ -67,6 +67,8 @@ const MemoryGraph = ({
     setNewNode("");
     setColor("#c7c7c7");
   };
+  // fgRef.d3Force('link').distance(link => "10rem");
+
   return (
     <>
       <div
@@ -86,7 +88,10 @@ const MemoryGraph = ({
           <div
             style={{ position: "absolute", bottom: 0, right: 0, zIndex: "1" }}
           >
-            <MemoryGraphButton onClick={() => setAddOnlyNode(true)}>
+            <MemoryGraphButton
+              whileHover={{ y: -5 }}
+              onClick={() => setAddOnlyNode(true)}
+            >
               <FontAwesomeIcon icon={faCirclePlus} size="xl" />
             </MemoryGraphButton>
           </div>
@@ -108,11 +113,11 @@ const MemoryGraph = ({
               isDark ? GlobalColor.colors.primary_black : "white"
             }
             nodeRelSize={10}
-            nodeOpacity={0.9}
+            nodeOpacity={0.8}
             nodeResolution={50}
-            linkOpacity={1}
+            linkOpacity={0.8}
             linkResolution={12}
-            nodeColor={(node) => (node.color ? node.color : "#c7c7c7")}
+            nodeColor={(node) => (node.color ? node.color : "#ffffff")}
             // linkColor={(node) => (node.id === "node1" ? "red" : "blue")}
             //   nodeAutoColorBy={(d) => d.id % GROUPS}
             //   linkAutoColorBy={(d) => gData.nodes[d.source].id % GROUPS}
@@ -126,7 +131,6 @@ const MemoryGraph = ({
         {!isMe && graphData.nodes.length == 0 && (
           <div
             style={{
-          
               display: "flex",
               flexDirection: "column",
               gap: "1rem",
