@@ -406,7 +406,7 @@ const ProjectPage = () => {
         </>
         :
         <>
-          {!feedbackLoading ?
+          {feedbackLoading ?
             <ProjectFeedLoadingPage />
             :
             <ProjectContainer>
