@@ -35,6 +35,9 @@ const UserSearchResult = () => {
   const [selectedUser, setSelectedUser] = useState(null)
 
   const userData = useSelector(state => state.userSearch.value)
+  const invitedUser = useSelector(state => state.invitedUserList.value)
+
+  console.log('invitedUser: ', invitedUser)
 
   const dispatch = useDispatch()
 

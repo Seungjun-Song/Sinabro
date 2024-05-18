@@ -19,6 +19,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import "./styles.css";
 import ProjectInfo from "../../projectPage/ProjectInfo";
 
+
 const NavContainer = styled.div`
   width: 100vw;
   height: 8%;
@@ -58,7 +59,7 @@ const RightNavContainer = styled.div`
   margin: 0 1rem;
 `;
 
-export default function WebRTC({dbport}) {
+export default function WebRTC({dbport ,codeServerURL}) {
   const [mySessionId, setMySessionId] = useState("SessionA");
   const [myUserName, setMyUserName] = useState(
     `Participant${Math.floor(Math.random() * 100)}`
@@ -309,12 +310,13 @@ export default function WebRTC({dbport}) {
           <FontAwesomeIcon
             style={{ color: "white", cursor: "pointer" }}
             flip="horizontal"
+            size="lg"
             icon={faCircleInfo}
           />
         </motion.div>
         <AnimatePresence mode="wait">
           {isHover && (
-            <ProjectInfo/>
+            <ProjectInfo codeServerURL={codeServerURL} dbport={dbport} />
           )}
         </AnimatePresence>
       </motion.div>

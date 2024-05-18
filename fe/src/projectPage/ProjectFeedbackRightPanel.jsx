@@ -17,7 +17,6 @@ import {
 } from "../store/newMessageSlice";
 import { changeProjectChatState } from "../store/projectChatShow";
 import { AnimatePresence, motion } from "framer-motion";
-import { set } from "firebase/database";
 import Feedback from "../components/feedback/Feedback";
 
 const ProjectPageRightPanelContainer = styled(motion.div)`
@@ -79,22 +78,23 @@ const IconHoverBox = styled.div`
   }
 `;
 
-const ProjectPageRightPanel = () => {
+const TextBox = styled.div`
+  
+`
+
+const ProjectFeedbackRightPanel = () => {
   const dispatch = useDispatch();
 
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
   const [isChatsNow, setIsChatsNow] = useState(true);
-  const [isHelpNow, setIsHelpNow] = useState(false)
   const [isNotification, setIsNotification] = useState(true);
 
   const isDark = !useSelector((state) => state.isDark.isDark);
 
   const states = useSelector((state) => state.newMessage);
   const chatOpenForced = useSelector((state) => state.projectChatShow.value);
+  const feedbackMemberId = useSelector(state => state.feedbackMemberId.value)
 
-  const userInfo = useSelector((state) => state.user.currentUser);
-  const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
-  
   useEffect(() => {
     dispatch(setProjectRightPanelState(isSidePanelOpen));
   }, [isSidePanelOpen]);
@@ -143,104 +143,10 @@ const ProjectPageRightPanel = () => {
                   }}
                 />
               </IconHoverBox>
-              <ChatImgBox>
-                <IconHoverBox>
-                  <FontAwesomeIcon
-                    icon={faBell}
-                    style={{
-                      justifySelf: "center",
-                      height: "1.2rem",
-                      cursor: "pointer",
-                      color: isNotification ? "#3EC8AF" : "grey",
-                    }}
-                    onClick={() => setIsNotification(!isNotification)}
-                  />
-                </IconHoverBox>
-                {isChatsNow ? (
-                  <>
-                    <IconHoverBox>
-                      <IconImg src="/images/chat.png" />
-                    </IconHoverBox>
-                    <IconHoverBox>
-                      <IconImg
-                        src="/images/chatbot_fade.png"
-                        onClick={() => {
-                          setIsChatsNow(false),
-                            setIsHelpNow(false),
-                            dispatch(changeProjectChatState(false));
-                        }}
-                      />
-                    </IconHoverBox>
-                    <IconHoverBox>
-                      <IconImg
-                        src="/images/help_fade.png"
-                        onClick={() => {
-                          setIsChatsNow(false),
-                            setIsHelpNow(true),
-                            dispatch(changeProjectChatState(false))
-                        }}
-                      />
-                    </IconHoverBox>
-                  </>
-                ) : (
-                  <>
-                    {isHelpNow ?
-
-                      <>
-                        <IconHoverBox>
-                          <IconImg
-                            src="/images/chat_fade.png"
-                            onClick={() => {setIsChatsNow(true), setIsHelpNow(false), dispatch(changeProjectChatState(false))}}
-                          />
-                        </IconHoverBox>
-                        <IconHoverBox>
-                          <IconImg src="/images/chatbot_fade.png"
-                            onClick={() => {
-                              setIsChatsNow(false),
-                                setIsHelpNow(false),
-                                dispatch(changeProjectChatState(false))
-                            }}
-                          />
-                        </IconHoverBox>
-                        <IconHoverBox>
-                          <IconImg
-                            src="/images/help.png"
-                          />
-                        </IconHoverBox>
-                      </>
-                      :
-                      <>
-                        <IconHoverBox>
-                          <IconImg
-                            src="/images/chat_fade.png"
-                            onClick={() => {setIsChatsNow(true), setIsHelpNow(false), dispatch(changeProjectChatState(false))}}
-                          />
-                        </IconHoverBox>
-                        <IconHoverBox>
-                          <IconImg src="/images/chatbot.png" />
-                        </IconHoverBox>
-                        <IconHoverBox>
-                          <IconImg
-                            src="/images/help_fade.png"
-                            onClick={() => {
-                              setIsChatsNow(false),
-                                setIsHelpNow(true),
-                                dispatch(changeProjectChatState(false))
-                            }}
-                          />
-                        </IconHoverBox>
-                      </>
-                    }
-                  </>
-                )}
-              </ChatImgBox>
+              <TextBox>SHARE YOUR FEEDBACK</TextBox>
             </UpperBox>
             <MainBox>
-              {isChatsNow ? <Chat />
-                :
-                <>
-                  {isHelpNow ? <Feedback endpoint={`${userInfo.uid}/${myCurrentProject.projectId}`} /> : <ChatBot />}
-                </>}
+              <Feedback endpoint={`${feedbackMemberId.id}/${feedbackMemberId.roomId}`} />
             </MainBox>
           </ProjectPageRightPanelContainer>
         ) : (
@@ -248,7 +154,6 @@ const ProjectPageRightPanel = () => {
             <IconHoverBox>
               <FontAwesomeIcon
                 icon={faChevronLeft}
-
                 style={{
                   cursor: "pointer",
                   color: isDark ? "#564CAD" : "white",
@@ -262,4 +167,4 @@ const ProjectPageRightPanel = () => {
   );
 };
 
-export default ProjectPageRightPanel;
+export default ProjectFeedbackRightPanel;
