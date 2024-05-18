@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 import Navbar from "../../components/navs/Navbar";
@@ -14,6 +14,7 @@ import ProfileTempImg from "/images/default_my_image.png";
 import getEnv from "../../utils/getEnv";
 import CalTime from "../CalTime";
 import UserChat from "../chat/UserChat";
+import { changeFeedbackMemberIdState } from "../../store/feedbackMemberIdSlice";
 
 const Community = styled.div`
   display: flex;
@@ -38,6 +39,8 @@ const DetailMainPage = () => {
   const location = useLocation();
   const data = location.state;
 
+  const dispatch = useDispatch()
+
   const [selected, setSelected] = useState({
     id: data.kind.id,
     name: data.kind.name,
@@ -49,6 +52,9 @@ const DetailMainPage = () => {
     // title: "BUNG",
     // projectImg: PjtImg,
   });
+
+  console.log('post.memberId: ', post.memberId)
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -76,6 +82,7 @@ const DetailMainPage = () => {
 
     // 비동기 함수 호출
     getTeammateInfo();
+    dispatch(changeFeedbackMemberIdState(post.memberId))
   }, [post.memberId, setPost]);
 
   useEffect(() => {

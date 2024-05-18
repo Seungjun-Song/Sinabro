@@ -17,6 +17,8 @@ import { changeProjectCalenderState } from "../store/projectCalenderSlice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle as fasCircle } from '@fortawesome/free-solid-svg-icons';
 import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons';
+import Navbar from "../components/navs/Navbar";
+import ProjectFeedLoadingPage from "./ProjectFeedbackLoadingPage";
 
 const ProjectContainer = styled.div`
   position: relative; /* 부모 컨테이너를 기준으로 자식 요소의 위치를 설정하기 위해 */
@@ -97,6 +99,8 @@ const ProjectPage = () => {
   const [startPreviewUrl, setStartPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [iframeList, setIframeList] = useState([])
+  const [feedbackLoading, setFeedbackLoading] = useState(true)
+  const [feedbackURL, setFeedbackURL] = useState(null)
 
   const userInfo = useSelector((state) => state.user.currentUser);
   const [dbport , setDbPort] = useState(null)
@@ -110,6 +114,7 @@ const ProjectPage = () => {
   const newMessageInfo = useSelector((state) => state.newMessage);
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
   const isDark = useSelector((state) => state.isDark.isDark);
+  const feedbackMemberId = useSelector(state => state.feedbackMemberId.value)
 
   const back_url = getEnv("BACK_URL");
 
@@ -127,6 +132,24 @@ const ProjectPage = () => {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    const getFeedbackURL = async () => {
+      try {
+        console.log('feedbackMemberId: ', feedbackMemberId)
+        const res = await axios.get(`${back_url}/teams/projects/${feedbackMemberId}/feedbacks`)
+        console.log(res.data)
+        setFeedbackURL(res.data.result.feedbackUrl)
+        console.log('feedbackURL: ', res.data.result.feedbackUrl)
+        setFeedbackLoading(false)
+      }
+      catch (err) {
+        console.error(err)
+      }
+    }
+
+    getFeedbackURL()
+  }, [])
 
   useEffect(() => {
     dispatch(changeProjectCalenderState(false))
@@ -213,13 +236,13 @@ const ProjectPage = () => {
           `${back_url}/teams?projectId=${myCurrentProject.projectId}`
         );
         console.log("팀원 정보", res.data.result.teammateInfoList);
-      
+
         const teammateList = res.data.result.teammateInfoList;
         setTeammate(teammateList);
-  
+
         const teammateIdsList = teammateList.map(teamInfo => teamInfo.memberId);
         setTeammateIds(teammateIdsList);
-  
+
         // 콘솔 로그는 상태가 설정된 후 별도로 출력
         console.log("팀메이트", teammateList);
         console.log('팀메이트 아이디', teammateIdsList);
@@ -277,103 +300,124 @@ const ProjectPage = () => {
 
   return (
     <>
-      {loading ? (
-        <ProjectLoadingPage />
-      ) : (
-        <ProjectContainer>
-          <WebRTC dbport={dbport} />
-          <ProjectMainContainer>
-            <ProjectPageLeftPanel
-              teammate={teammate}
-              selectedTeammates={selectedTeammates}
-              setSelectedTeammates={setSelectedTeammates}
-            />
-            {isProjectCalenderShow.value === true ? (
-              <div style={{ height: "100%", width: "100%" }}>
-                <Calender selectedTeammates={selectedTeammates} />
-              </div>
-            ) : (
-              <IframContainer>
-                <URLSelectContainer isDark={isDark}>
-                  <URLSelectBox
-                    onClick={() => switchUrlState(codeServerURL)}
+      {teammateIds.includes(userInfo.uid) ?
+        <>
+          {loading ? (
+            <ProjectLoadingPage />
+          ) : (
+            <ProjectContainer>
+              <WebRTC dbport={dbport} />
+              <ProjectMainContainer>
+                <ProjectPageLeftPanel
+                  teammate={teammate}
+                  selectedTeammates={selectedTeammates}
+                  setSelectedTeammates={setSelectedTeammates}
+                />
+                {isProjectCalenderShow.value === true ? (
+                  <div style={{ height: "100%", width: "100%" }}>
+                    <Calender selectedTeammates={selectedTeammates} />
+                  </div>
+                ) : (
+                  <IframContainer>
+                    <URLSelectContainer isDark={isDark}>
+                      <URLSelectBox
+                        onClick={() => switchUrlState(codeServerURL)}
+                      >
+                        {includeCheck(codeServerURL) ?
+                          <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
+                          :
+                          <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
+                        }
+                        <span style={{ marginLeft: '0.5rem' }}>
+                          Code
+                        </span>
+                      </URLSelectBox>
+                      <URLSelectBox
+                        onClick={() => switchUrlState(runDevPreviewUrl)}
+                      >
+                        {includeCheck(runDevPreviewUrl) ?
+                          <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
+                          :
+                          <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
+                        }
+                        <span style={{ marginLeft: '0.5rem' }}>
+                          Dev
+                        </span>
+                      </URLSelectBox>
+                      <URLSelectBox
+                        onClick={() => switchUrlState(startPreviewUrl)}
+                      >
+                        {includeCheck(startPreviewUrl) ?
+                          <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
+                          :
+                          <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
+                        }
+                        <span style={{ marginLeft: '0.5rem' }}>
+                          Start
+                        </span>
+                      </URLSelectBox>
+                    </URLSelectContainer>
+                    <div style={{ display: 'flex', flexDirection: 'row', height: '100%', width: '100%' }}>
+                      <iframe
+                        ref={iframeRef}
+                        title="code-server"
+                        src={codeServerURL}
+                        style={{ width: "100%", height: "100%", border: "none", display: includeCheck(codeServerURL) ? 'block' : 'none' }}
+                      ></iframe>
+                      {includeCheck(runDevPreviewUrl) ?
+                        <iframe
+                          title="code-dev"
+                          src={runDevPreviewUrl}
+                          style={{ width: "100%", height: "100%", border: "none" }}
+                        ></iframe>
+                        :
+                        null
+                      }
+                      {includeCheck(startPreviewUrl) ?
+                        <iframe
+                          title="code-start"
+                          src={startPreviewUrl}
+                          style={{ width: "100%", height: "100%", border: "none" }}
+                        ></iframe>
+                        :
+                        null
+                      }
+                    </div>
+                  </IframContainer>
+                )}
+                <ProjectPageRightPanel />
+                {newChatState() && (
+                  <MessageContainer
+                    onClick={() => dispatch(changeProjectChatState(true))}
                   >
-                    {includeCheck(codeServerURL) ?
-                      <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
-                      :
-                      <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
-                    }
-                    <span style={{ marginLeft: '0.5rem' }}>
-                      Code
-                    </span>
-                  </URLSelectBox>
-                  <URLSelectBox
-                    onClick={() => switchUrlState(runDevPreviewUrl)}
-                  >
-                    {includeCheck(runDevPreviewUrl) ?
-                      <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
-                      :
-                      <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
-                    }
-                    <span style={{ marginLeft: '0.5rem' }}>
-                      Dev
-                    </span>
-                  </URLSelectBox>
-                  <URLSelectBox
-                    onClick={() => switchUrlState(startPreviewUrl)}
-                  >
-                    {includeCheck(startPreviewUrl) ?
-                      <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
-                      :
-                      <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
-                    }
-                    <span style={{ marginLeft: '0.5rem' }}>
-                      Start
-                    </span>
-                  </URLSelectBox>
-                </URLSelectContainer>
-                <div style={{ display: 'flex', flexDirection: 'row', height: '100%', width: '100%' }}>
-                  <iframe
-                    ref={iframeRef}
-                    title="code-server"
-                    src={codeServerURL}
-                    style={{ width: "100%", height: "100%", border: "none", display: includeCheck(codeServerURL) ? 'block' : 'none' }}
-                  ></iframe>
-                  {includeCheck(runDevPreviewUrl) ?
-                    <iframe
-                      title="code-dev"
-                      src={runDevPreviewUrl}
-                      style={{ width: "100%", height: "100%", border: "none" }}
-                    ></iframe>
-                    :
-                    null
-                  }
-                  {includeCheck(startPreviewUrl) ?
-                    <iframe
-                      title="code-start"
-                      src={startPreviewUrl}
-                      style={{ width: "100%", height: "100%", border: "none" }}
-                    ></iframe>
-                    :
-                    null
-                  }
-                </div>
-              </IframContainer>
-            )}
-            <ProjectPageRightPanel />
-            {newChatState() && (
-              <MessageContainer
-                onClick={() => dispatch(changeProjectChatState(true))}
-              >
-                <MessageHeader>{lastMessage.displayName}</MessageHeader>{" "}
-                {/* 수정된 부분 */}
-                <MessageBody>{lastMessage.message}</MessageBody>
-              </MessageContainer>
-            )}
-          </ProjectMainContainer>
-          {/* <ProjectInfo /> */}
-        </ProjectContainer>
-      )}
+                    <MessageHeader>{lastMessage.displayName}</MessageHeader>{" "}
+                    {/* 수정된 부분 */}
+                    <MessageBody>{lastMessage.message}</MessageBody>
+                  </MessageContainer>
+                )}
+              </ProjectMainContainer>
+              {/* <ProjectInfo /> */}
+            </ProjectContainer>
+          )}
+        </>
+        :
+        <>
+          {feedbackLoading ?
+            <ProjectFeedLoadingPage />
+            :
+            <ProjectContainer>
+              <Navbar />
+              <ProjectMainContainer>
+                <iframe
+                  title="feedback-code-server"
+                  src={feedbackURL}
+                  style={{ width: "100%", height: "100%", border: "none" }}
+                ></iframe>
+              </ProjectMainContainer>
+            </ProjectContainer>
+          }
+        </>
+      }
     </>
   );
 };
