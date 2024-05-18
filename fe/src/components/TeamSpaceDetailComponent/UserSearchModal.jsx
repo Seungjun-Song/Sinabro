@@ -37,45 +37,61 @@ const UserSearchModal = ({ setIsModalOpen, projectName, isDark, reloading, setRe
 
   const invitedUser = useSelector(state => state.inviteUser) // teamInfo의 user 정보와 비교해서 없는값이면 조건부로 넣을 수 있음
 
+  console.log('teamInfo: ', teamInfo)
+  console.log('invitedUser: ', invitedUser)
+
   const back_url = getEnv('BACK_URL')
 
   const invitingUser = async () => {
-    const categoryId =
-      selectedRole === "FE"
-        ? 100
-        : selectedRole === "BE"
-          ? 200
-          : selectedRole === "FULL"
-            ? 300
-            : null;
-    if (categoryId === null) {
-      alert("역할을 선택하세요.")
-      return
+    
+    const teamIds = teamInfo.map(userInfo => userInfo.memberId)
+    if (teamIds.includes(invitedUser.value.memberId)) {
+      Swal.fire("이미 초대된 유저입니다.");
+      return;
     }
-    try {
-      const res = await axios.post(`${back_url}/teams`, {
-        memberId: invitedUser.value.memberId,
-        categoryId: categoryId,
-        projectId: myCurrentProject.projectId
-      })
-      
-      if(res.data.code === 507){
-        Swal.fire("중복된 인원입니다.");
-        return;
+    else if (teamInfo.length >= 3) {
+      Swal.fire("최대 인원은 3명입니다.");
+      return;
+    }
+    else {
+      const categoryId =
+        selectedRole === "FE"
+          ? 100
+          : selectedRole === "BE"
+            ? 200
+            : selectedRole === "FULL"
+              ? 300
+              : null;
+      if (categoryId === null) {
+        alert("역할을 선택하세요.")
+        return
       }
-      if(res.data.code === 508){
-        Swal.fire("프로젝트의 최대 인원수를 초과 했습니다. 최대 인원은 3명입니다.");
-        return;
+      try {
+        const res = await axios.post(`${back_url}/teams`, {
+          memberId: invitedUser.value.memberId,
+          categoryId: categoryId,
+          projectId: myCurrentProject.projectId
+        })
+        
+        if(res.data.code === 507){
+          Swal.fire("중복된 인원입니다.");
+          return;
+        }
+        if(res.data.code === 508){
+          Swal.fire("프로젝트의 최대 인원수를 초과 했습니다. 최대 인원은 3명입니다.");
+          return;
+        }
+  
+        setReloading(!reloading)
+  
       }
-
-      setReloading(!reloading)
-
+      catch (err) {
+        console.error(err)
+      }
+  
+      setIsModalOpen(false)
     }
-    catch (err) {
-      console.error(err)
-    }
 
-    setIsModalOpen(false)
   }
 
   return (
