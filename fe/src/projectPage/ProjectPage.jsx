@@ -103,6 +103,8 @@ const ProjectPage = () => {
   const [teammate, setTeammate] = useState([]);
   const [selectedTeammates, setSelectedTeammates] = useState([userInfo.uid]); // props로 넘겨주는 값
 
+  const [teammateIds, setTeammateIds] = useState([])
+
   const dispatch = useDispatch();
 
   const newMessageInfo = useSelector((state) => state.newMessage);
@@ -210,8 +212,16 @@ const ProjectPage = () => {
           `${back_url}/teams?projectId=${myCurrentProject.projectId}`
         );
         console.log("팀원 정보", res.data.result.teammateInfoList);
-        setTeammate(res.data.result.teammateInfoList);
-        console.log("팀메이트", teammate);
+      
+        const teammateList = res.data.result.teammateInfoList;
+        setTeammate(teammateList);
+  
+        const teammateIdsList = teammateList.map(teamInfo => teamInfo.memberId);
+        setTeammateIds(teammateIdsList);
+  
+        // 콘솔 로그는 상태가 설정된 후 별도로 출력
+        console.log("팀메이트", teammateList);
+        console.log('팀메이트 아이디', teammateIdsList);
       } catch (err) {
         console.error(err);
       }
@@ -266,7 +276,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      {loading ? (
+      {!loading ? (
         <ProjectLoadingPage />
       ) : (
         <ProjectContainer>

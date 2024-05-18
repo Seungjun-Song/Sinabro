@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { setProjectRoomId } from "../../store/projectRoomIdSlice";
 import axios from "axios";
 import getEnv from "../../utils/getEnv";
@@ -18,6 +18,10 @@ const TSDProjectName = ({ isDark ,isIn}) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation()
+
+  const isFromSpecificUrl = location.state?.from === "/communityDetail"
+  console.log('isFromSpecificUrl : ', isFromSpecificUrl)
 
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
   // console.log(myCurrentProject)
@@ -49,7 +53,7 @@ const TSDProjectName = ({ isDark ,isIn}) => {
         else {
           setProjectEndDate(null)
         }
-        setTeamLeader(res.data.result.teammateInfoList[0]?.memberId);
+        setTeamLeader(res.data.result.teamReaderId);
         setProjectState(res.data.result.status)
       }
       catch (err) {
@@ -142,7 +146,7 @@ const TSDProjectName = ({ isDark ,isIn}) => {
               {projectState === 502 ? '프로젝트 완료' : '프로젝트 재시작'}
             </motion.div>
           }
-          {isIn && <motion.div
+          {(isIn || isFromSpecificUrl) && <motion.div
             onHoverStart={() => setIsHover(true)}
             onHoverEnd={() => setIsHover(false)}
             onClick={() => {
