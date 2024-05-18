@@ -502,11 +502,13 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
     setColor("#c7c7c7");
   };
   const [isinfoHover, setIsInfoHover] = useState(false);
+  const [is2D, setIs2D] = useState(false);
   useEffect(() => {
     if (fgRef.current) {
-      fgRef.current.d3Force("link").iterations(1).distance(100);
+      fgRef.current.d3Force("link").iterations(1).distance(85);
     }
-  }, [graphData]);
+  }, [graphData, is2D]);
+
   return (
     <div
       style={{
@@ -692,7 +694,7 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 5 }}
           transition={{ duration: 0.3, delay: 0.9 }}
-          // style={{ marginTop: 0 }} 
+          // style={{ marginTop: 0 }}
         >
           <InnerText
             style={{
@@ -753,6 +755,8 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
             // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
             >
               <MemoryGraph
+                is2D={is2D}
+                setIs2D={setIs2D}
                 isMe={isMe}
                 newnode={newnode}
                 setNewNode={setNewNode}

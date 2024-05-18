@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
-import ForceGraph from "react-force-graph-3d";
+
 import getEnv from "../utils/getEnv";
 import SpriteText from "three-spritetext";
 import { motion } from "framer-motion";
@@ -10,6 +10,8 @@ import { GlobalColor } from "../services/color";
 import styled from "styled-components";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ForceGraph2D from "react-force-graph-2d";
+import ForceGraph3D from "react-force-graph-3d";
 // function genRandomTree(N = 300, reverse = false) {
 //   return {
 //     nodes: [...Array(N).keys()].map((i) => ({ id: i })),
@@ -55,6 +57,8 @@ const MemoryGraph = ({
   setWhatNode,
   whatnode,
   isMe,
+  is2D,
+  setIs2D
 }) => {
   const [addOnlyNode, setAddOnlyNode] = useState(false);
   const handlefirstreal = async () => {
@@ -68,7 +72,7 @@ const MemoryGraph = ({
     setColor("#c7c7c7");
   };
   // fgRef.d3Force('link').distance(link => "10rem");
-
+  
   return (
     <>
       <div
@@ -83,6 +87,23 @@ const MemoryGraph = ({
           position: "relative",
         }}
       >
+        <div
+          onClick={() => setIs2D(!is2D)}
+          style={{
+            zIndex: 1,
+            cursor:"pointer",
+            color: "white",
+            backgroundColor: "rgba(86, 76, 173, 1)",
+            padding: "0.5rem",
+            borderRadius: "0.5rem",
+            position: "absolute",
+            top: "0",
+            left: 0,
+            fontSize:"0.8rem"
+          }}
+        >
+          {is2D ? "2D" :"3D"}
+        </div>
         {/* <div onClick={handlebutton}>button</div>  */}
         {isMe && graphData.nodes.length !== 0 && !whatnode && (
           <div
@@ -97,37 +118,57 @@ const MemoryGraph = ({
           </div>
         )}
 
-        {graphData.nodes.length !== 0 && (
-          <ForceGraph
-            ref={fgRef}
-            width={whatnode ? 475 : 675}
-            height={475}
-            graphData={graphData}
-            nodeLabel={(node) => `
-          <div class="shadow" style="display: flex; flex-direction: column; padding: 1rem; background-color: white; border-radius: 0.5rem;">
-            <span style="color: #000000; margin : 0">제목 :${node.label}</span>
-            <span style="color: #000000; margin : 0">내용 :${node.content}</span>
-          </div>
-        `}
-            backgroundColor={
-              isDark ? GlobalColor.colors.primary_black : "white"
-            }
-            nodeRelSize={10}
-            nodeOpacity={0.8}
-            nodeResolution={50}
-            linkOpacity={0.8}
-            linkResolution={12}
-            nodeColor={(node) => (node.color ? node.color : "#ffffff")}
-            // linkColor={(node) => (node.id === "node1" ? "red" : "blue")}
-            //   nodeAutoColorBy={(d) => d.id % GROUPS}
-            //   linkAutoColorBy={(d) => gData.nodes[d.source].id % GROUPS}
-            // linkDirectionalArrowLength={13}
-            // linkDirectionalArrowRelPos={0}
-            linkWidth={2}
-            //   numDimensions={3}
-            onNodeClick={(node) => hadleAllClick(node)}
-          />
-        )}
+        {graphData.nodes.length !== 0 &&
+          (is2D ? (
+            <ForceGraph2D
+              ref={fgRef}
+              width={whatnode ? 475 : 675}
+              height={475}
+              graphData={graphData}
+              nodeLabel={(node) => `
+        <div class="shadow" style="display: flex; flex-direction: column; padding: 1rem; background-color: white; border-radius: 0.5rem;">
+          <span style="color: #000000; margin: 0;">제목: ${node.label}</span>
+          <span style="color: #000000; margin: 0;">내용: ${node.content}</span>
+        </div>
+      `}
+              backgroundColor={
+                isDark ? GlobalColor.colors.primary_black : "rgb(245, 248, 255)"
+              }
+              nodeRelSize={10}
+              nodeOpacity={0.8}
+              nodeResolution={50}
+              linkOpacity={0.8}
+              linkResolution={12}
+              nodeColor={(node) => (node.color ? node.color : "#ffffff")}
+              linkWidth={2}
+              onNodeClick={(node) => hadleAllClick(node)}
+            />
+          ) : (
+            // 여기에 is2d가 false일 때 렌더링할 다른 컴포넌트를 넣으세요
+            <ForceGraph3D
+              ref={fgRef}
+              width={whatnode ? 475 : 675}
+              height={475}
+              graphData={graphData}
+              nodeLabel={(node) => `
+        <div class="shadow" style="display: flex; flex-direction: column; padding: 1rem; background-color: white; border-radius: 0.5rem;">
+          <span style="color: #000000; margin: 0;">제목: ${node.label}</span>
+          <span style="color: #000000; margin: 0;">내용: ${node.content}</span>
+        </div>
+      `}
+              backgroundColor={
+                isDark ? GlobalColor.colors.primary_black : "rgb(245, 248, 255)"
+              }
+              nodeRelSize={10}
+              nodeOpacity={0.8}
+              nodeResolution={50}
+              linkOpacity={0.8}
+              linkResolution={12}
+              nodeColor={(node) => (node.color ? node.color : "#ffffff")}
+              linkWidth={2}
+              onNodeClick={(node) => hadleAllClick(node)}
+            />
+          ))}
         {!isMe && graphData.nodes.length == 0 && (
           <div
             style={{
