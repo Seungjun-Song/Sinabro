@@ -43,11 +43,11 @@ const TeamSpaceDetailPage = () => {
     .then((res) => {
       // console.log("get data", res.data.result);
       const getData = res.data.result;
-      // console.log(getData);
+      console.log(getData);
 
       setPjtInfo(getData);
 
-      setTeamLeader(getData.teammateInfoList[0]?.memberId);
+      setTeamLeader(getData.teamReaderId);
       const transformedTeamInfo = res.data.result.teammateInfoList?.map(
         (item) => ({
           ...item,
