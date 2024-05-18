@@ -6,6 +6,8 @@ import { Resizable } from "re-resizable";
 import Chatdetail from "./Chatdetail";
 import GPTChat from "./GPTChat";
 import { useSelector } from "react-redux";
+import { getDatabase, ref, push, onValue } from "firebase/database";
+import { setMyChatingList } from "../../store/myChatingListSlice";
 const DUMMY_DATA = [
   {
     id: 0,
@@ -57,15 +59,24 @@ const UserChat = () => {
   const [size, setSize] = useState({ width: 300, height: 400 });
   const [projectData, setProjectData] = useState([])
 
-  // console.log("Asdf")
-
   const myProjectList = useSelector(state => state.myProjectList.value)
   const userInfo = useSelector(state => state.user.currentUser)
   useEffect(() => {
-    const fixData = [{projectId: userInfo.uid, projectName: 'GPT', projectImg: '/images/gptblack.jpg'}, ...myProjectList]
+    let fixData = [{projectId: userInfo.uid, projectName: 'GPT', projectImg: '/images/gptblack.jpg'}, ...myProjectList]
+
+    const db = getDatabase();
+    const chatRef = ref(db, `chatList/${userInfo.uid}`);
+    onValue(chatRef, (snapshot) => {
+      const data = snapshot.val();
+      if(data){
+        const chatMessages = Object.values(data);
+        fixData = [...fixData, ...chatMessages];
+      }
+    })
     setProjectData(fixData)
+    console.log(fixData);
+
   }, []);
-  console.log(projectData)
 
   const trackPos = (data) => {
     setPosition({ x: data.x, y: data.y });
@@ -196,7 +207,7 @@ const UserChat = () => {
                     >
                       <img src="/image/nav/Sinabro_blue.png" />
                     </div>
-                    {projectData.map((item, index) => (
+                    {projectData && projectData.map((item, index) => (
                       <motion.div
                         key={index}
                         variants={{
