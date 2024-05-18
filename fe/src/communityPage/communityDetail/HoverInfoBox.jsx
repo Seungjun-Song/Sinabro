@@ -55,7 +55,7 @@ const HoverInfoBox = ({hoverTurnOff, comment, setOpenChat, setSelectedUser}) => 
     const navigate = useNavigate();
 
     const moveToUser = () => {
-        navigate(`/writerPage`, {state: {memberId: comment.memberId}})
+        navigate(`/mypage`, {state: {memberId: comment.memberId}})
     }
 
     const startChating = async () =>{
