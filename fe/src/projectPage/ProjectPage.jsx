@@ -212,10 +212,16 @@ const ProjectPage = () => {
           `${back_url}/teams?projectId=${myCurrentProject.projectId}`
         );
         console.log("팀원 정보", res.data.result.teammateInfoList);
-        setTeammate(res.data.result.teammateInfoList);
-        console.log("팀메이트", teammate);
-        setTeammateIds(res.data.result.teammateInfoList.map(teamInfo => teamInfo.memberId))
-        console.log('팀메이트 아이디', teammateIds)
+      
+        const teammateList = res.data.result.teammateInfoList;
+        setTeammate(teammateList);
+  
+        const teammateIdsList = teammateList.map(teamInfo => teamInfo.memberId);
+        setTeammateIds(teammateIdsList);
+  
+        // 콘솔 로그는 상태가 설정된 후 별도로 출력
+        console.log("팀메이트", teammateList);
+        console.log('팀메이트 아이디', teammateIdsList);
       } catch (err) {
         console.error(err);
       }
