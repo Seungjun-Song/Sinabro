@@ -303,7 +303,7 @@ public class ProjectServiceImpl implements ProjectService{
         return ProjectEnterDto.builder()
                 .url("https://projectsinabro.store/" + codeServerName + "/?folder=/home/coder/code-server/" + repoName)
                 .runDevPreviewUrl("https://projectsinabro.store/" + codeServerName + "/proxy/5173/")
-                .startPreviewUrl("https://projectsinabro.store/" + codeServerName + "/proxy/3000/")
+                .startPreviewUrl("https://projectsinabro.store/" + codeServerName + "/proxy/8080/")
                 .theme(currentTheme)
                 .dbPort(dbPort)
                 .build();
