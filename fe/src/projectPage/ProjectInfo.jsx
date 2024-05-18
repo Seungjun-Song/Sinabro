@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-const ProjectInfo = () => {
+const ProjectInfo = ({dbport,codeServerURL}) => {
   const [whatpage, setWhatPage] = useState(1);
   const [isCopy, setIsCopy] = useState(false);
   const handleCopy = (item) => {
@@ -18,6 +18,19 @@ const ProjectInfo = () => {
       setIsCopy(false); // 5초 후에 isCopy 상태를 false로 설정
     }, 2000); // 5000 밀리초 (5초)
   };
+  function extractPath(url) {
+    // URL에서 '/code-server'로 시작하는 부분을 찾기
+    const startIndex = url.indexOf('/code-server');
+    
+    // '/code-server'로 시작하는 부분이 없다면 null 반환
+    if (startIndex === -1) {
+      return null;
+    }
+  
+    // '/code-server'로 시작하는 부분부터 끝까지 추출
+    return url.substring(startIndex);
+  }
+  
   return (
     <>
       <motion.div
@@ -101,7 +114,7 @@ const ProjectInfo = () => {
                   <div style={{ display: "flex", gap: "2rem" }}>
                     <div>
                       <div>외부에서 접근 </div>
-                      <div>{`URL : projectsinabro.store:{dbPort}`}</div>
+                      {dbport && <div>{`URL : projectsinabro.store:${dbport}`}</div>}
                       <div>PASSWORD : ssafy</div>
                     </div>
                     <div>
@@ -242,7 +255,7 @@ const ProjectInfo = () => {
                             
                             export default defineConfig({
                               plugins: [react()],
-                              base: '/code-server-04ad78a4-55ce-441c-9a37-f8b250706be7/proxy/5173/',
+                              base: '${extractPath(codeServerURL)}',
                               server: {
                                 host: '0.0.0.0',
                                 port: 5173,
