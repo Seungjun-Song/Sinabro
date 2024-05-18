@@ -18,6 +18,7 @@ import {
 import { changeProjectChatState } from "../store/projectChatShow";
 import { AnimatePresence, motion } from "framer-motion";
 import { set } from "firebase/database";
+import Feedback from "../components/feedback/Feedback";
 
 const ProjectPageRightPanelContainer = styled(motion.div)`
   height: 100%;
@@ -172,7 +173,7 @@ const ProjectPageRightPanel = () => {
                     </IconHoverBox>
                     <IconHoverBox>
                       <IconImg
-                        src="/imges/help_fade.png"
+                        src="/images/help_fade.png"
                         onClick={() => {
                           setIsChatsNow(false),
                             setIsHelpNow(true),
@@ -203,7 +204,7 @@ const ProjectPageRightPanel = () => {
                         </IconHoverBox>
                         <IconHoverBox>
                           <IconImg
-                            src="/imges/help.png"
+                            src="/images/help.png"
                           />
                         </IconHoverBox>
                       </>
@@ -220,7 +221,7 @@ const ProjectPageRightPanel = () => {
                         </IconHoverBox>
                         <IconHoverBox>
                           <IconImg
-                            src="/imges/help_fade.png"
+                            src="/images/help_fade.png"
                             onClick={() => {
                               setIsChatsNow(false),
                                 setIsHelpNow(true),
