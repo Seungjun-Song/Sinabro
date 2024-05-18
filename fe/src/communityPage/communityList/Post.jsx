@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 const Detail = styled(motion.div)`
     font-family: Pretendard Medium;
 
-    margin: 1.5rem 0;
+    margin: 1.2rem 0;
 
     cursor: pointer;
 
@@ -33,7 +33,7 @@ const Proceed = styled.div`
 
     font-family: LaundryGothicRegular;
     color: rgba(52, 69, 156, 1);
-    font-size: 100%;
+    font-size: 80%;
 
     padding: 0.2rem 0.9rem;
 
@@ -62,7 +62,7 @@ const Title = styled.div`
     font-family: Pretendard SemiBold;
     max-width: 80%;
 
-    font-size: 1.5rem;
+    font-size: 1.1rem;
 `
 
 const Content = styled.div`
@@ -70,9 +70,9 @@ const Content = styled.div`
 display: flex;
 align-items: center;
 justify-content: space-between;
-font-size: 1.2rem;
+font-size: 0.9rem;
 
-    padding: 0.8rem;
+padding: 0.5rem 0.5rem 0 0;
 `
 
 const PlusInfo = styled.div`
@@ -201,13 +201,11 @@ const Post = ({post, kind, isDark}) => {
             </Jobs> */}
             </Content>
             </div>
-            <div>
-                <Jobs
+            <Jobs
                     kind={kind}
                     post={post}
                 >
             </Jobs>
-            </div>
             </div>
             <PlusInfo>
                 <Hashs>
