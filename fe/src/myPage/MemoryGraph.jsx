@@ -3,7 +3,7 @@ import axios from "axios";
 
 import getEnv from "../utils/getEnv";
 import SpriteText from "three-spritetext";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { Form } from "react-bootstrap";
 import { GlobalColor } from "../services/color";
@@ -108,18 +108,29 @@ const MemoryGraph = ({
         )}
 
         {/* <div onClick={handlebutton}>button</div>  */}
-        {isMe && graphData.nodes.length !== 0 && !whatnode && (
-          <div
-            style={{ position: "absolute", bottom: "0.5rem", right: "0.5rem", zIndex: "1" }}
-          >
-            <MemoryGraphButton
-              whileHover={{ y: -5 }}
-              onClick={() => setAddOnlyNode(true)}
+        <AnimatePresence>
+          {isMe && graphData.nodes.length !== 0 && !whatnode && (
+            <motion.div
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 5 }}
+              transition={{ duration: 0.3 }}
+              style={{
+                position: "absolute",
+                bottom: "0.5rem",
+                right: "0.5rem",
+                zIndex: "1",
+              }}
             >
-              <FontAwesomeIcon icon={faCirclePlus} size="xl" />
-            </MemoryGraphButton>
-          </div>
-        )}
+              <MemoryGraphButton
+                whileHover={{ y: -5 }}
+                onClick={() => setAddOnlyNode(true)}
+              >
+                <FontAwesomeIcon icon={faCirclePlus} size="xl" />
+              </MemoryGraphButton>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {graphData.nodes.length !== 0 &&
           (is2D ? (
