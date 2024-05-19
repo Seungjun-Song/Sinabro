@@ -167,7 +167,7 @@ const Todo = ({ isDark, setMilestone, milestone }) => {
                       }}
                     >
                       <div>마일스톤 :{memberName}</div>
-                      <div>할 일: {calenderName}</div>
+                      {/* <div>할 일: {calenderName}</div> */}
                       <div>
                         기한 : {startDate} ~ {endDate}{" "}
                       </div>
@@ -226,7 +226,7 @@ const Todo = ({ isDark, setMilestone, milestone }) => {
                       }}
                     >
                       <div>마일스톤 :{memberName}</div>
-                      <div>할 일: {calenderName}</div>
+                      {/* <div>할 일: {calenderName}</div> */}
                       <div>
                         기한 : {startDate} ~ {endDate}{" "}
                       </div>
@@ -273,7 +273,7 @@ const Todo = ({ isDark, setMilestone, milestone }) => {
                       }}
                     >
                       <div>마일스톤 :{memberName}</div>
-                      <div>할 일: {calenderName}</div>
+                      {/* <div>할 일: {calenderName}</div> */}
                       <div>
                         기한 : {startDate} ~ {endDate}{" "}
                       </div>

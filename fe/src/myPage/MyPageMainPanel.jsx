@@ -712,43 +712,45 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
                 <div>노드간 정보를 입체적으로 저장하세요</div>
               </div>
             </div>
-            <motion.div style={{ marginRight: "2rem", position: "relative" }}>
-              <FontAwesomeIcon
-                onClick={() => setIsInfoHover(!isinfoHover)}
-                size="2xs"
-                style={{ color: "rgba(86, 76, 173, 1)", cursor: "pointer" }}
-                // flip="horizontal"
-                icon={faCircleInfo}
-              />
-              <AnimatePresence>
-                {isinfoHover && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 5 }}
-                    transition={{ duration: 0.3 }}
-                    className="shadow"
-                    style={{
-                      zIndex: "99",
-                      width: "28rem",
-                      position: "absolute",
-                      top: "3rem",
-                      right: "-1rem",
-                      backgroundColor: "White",
-                      borderRadius: "1rem",
-                      padding: "1rem",
-                      color: "black",
-                      fontSize: "1rem",
-                    }}
-                  >
-                    <div>파란색 +버튼 : 독립적으로 존재하는 노드 생성</div>
-                    <div>
-                      노드 클릭시 나오는 Add Node : 그 노드와 연결된 노드 생성
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+            {graphData.nodes.length !== 0 && (
+              <motion.div style={{ marginRight: "2rem", position: "relative" }}>
+                <FontAwesomeIcon
+                  onClick={() => setIsInfoHover(!isinfoHover)}
+                  size="2xs"
+                  style={{ color: "rgba(86, 76, 173, 1)", cursor: "pointer" }}
+                  // flip="horizontal"
+                  icon={faCircleInfo}
+                />
+                <AnimatePresence>
+                  {isinfoHover && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 5 }}
+                      transition={{ duration: 0.3 }}
+                      className="shadow"
+                      style={{
+                        zIndex: "99",
+                        width: "28rem",
+                        position: "absolute",
+                        top: "3rem",
+                        right: "-1rem",
+                        backgroundColor: "White",
+                        borderRadius: "1rem",
+                        padding: "1rem",
+                        color: "black",
+                        fontSize: "1rem",
+                      }}
+                    >
+                      <div>파란색 +버튼 : 독립적으로 존재하는 노드 생성</div>
+                      <div>
+                        노드 클릭시 나오는 Add Node : 그 노드와 연결된 노드 생성
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
           </InnerText>
           <MemoryGraphContainer>
             <MemoryGraphMainBox
