@@ -310,7 +310,7 @@ const ProjectPage = () => {
             <ProjectLoadingPage />
           ) : (
             <ProjectContainer>
-              <WebRTC dbport={dbport} codeServerURL={codeServerURL} />
+              <WebRTC dbport={dbport} runDevPreviewUrl={runDevPreviewUrl} />
               <ProjectMainContainer>
                 <ProjectPageLeftPanel
                   teammate={teammate}
