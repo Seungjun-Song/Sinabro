@@ -294,63 +294,70 @@ const Todo = ({ isDark, setMilestone, milestone }) => {
   }
   const [isWhat, setIsWhat] = useState(false);
   return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <div style={{ display: "flex", width: "100%" }}>
-        {dateList.map((item, index) => (
-          <div
-            key={index}
-            style={{
-              width: "14%",
-              textAlign: "center",
-              fontWeight: isWhat === index ? "bold" : "",
-              color: isDark ? "white" : "black",
-            }}
-          >
-            {item.toLocaleDateString()}
+    <>
+      {filteredData.length !== 0 && (
+        <div style={{ width: "100%", height: "100%" }}>
+          <div style={{ display: "flex", width: "100%" }}>
+            {dateList.map((item, index) => (
+              <div
+                key={index}
+                style={{
+                  width: "14%",
+                  textAlign: "center",
+                  fontWeight: isWhat === index ? "bold" : "",
+                  color: isDark ? "white" : "black",
+                }}
+              >
+                {item.toLocaleDateString()}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div style={{ display: "flex", width: "100%" }}>
-        {day_list.map((item, index) => (
-          <div
-            key={index}
-            style={{
-              width: "14%",
-              textAlign: "center",
-              fontWeight: isWhat === index ? "bold" : "",
-              color: isDark ? "white" : "black",
-            }}
-          >
-            {item}
+          <div style={{ display: "flex", width: "100%" }}>
+            {day_list.map((item, index) => (
+              <div
+                key={index}
+                style={{
+                  width: "14%",
+                  textAlign: "center",
+                  fontWeight: isWhat === index ? "bold" : "",
+                  color: isDark ? "white" : "black",
+                }}
+              >
+                {item}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div>
-        <AnimatePresence>
-          {filteredData.map((item, index) => (
-            <motion.div
-              key={item.calenderId}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }} // stagger 효과를 부모 요소인 motion.div에 적용
-              style={{ display: "flex", marginTop: "1rem", zIndex: "9" }}
-            >
-              {isDateInRangeList(
-                setIsWhat,
-                index,
-                dateList,
-                item.milestoneStartDt,
-                item.milestoneEndDt,
-                item.milestoneId,
-                item.milestoneTitle,
-                item.milestoneContent
-              )}
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-    </div>
+          <div>
+            <AnimatePresence>
+              {filteredData.map((item, index) => (
+                <motion.div
+                  key={item.calenderId}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }} // stagger 효과를 부모 요소인 motion.div에 적용
+                  style={{ display: "flex", marginTop: "1rem", zIndex: "9" }}
+                >
+                  {isDateInRangeList(
+                    setIsWhat,
+                    index,
+                    dateList,
+                    item.milestoneStartDt,
+                    item.milestoneEndDt,
+                    item.milestoneId,
+                    item.milestoneTitle,
+                    item.milestoneContent
+                  )}
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        </div>
+      )}
+      {
+        filteredData.length === 0 && <div>아직 일정이 없습니다</div>
+      }
+    </>
   );
 };
 export default Todo;
