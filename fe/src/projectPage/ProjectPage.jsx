@@ -21,6 +21,7 @@ import Navbar from "../components/navs/Navbar";
 import ProjectFeedLoadingPage from "./ProjectFeedbackLoadingPage";
 import ProjectFeedbackRightPanel from "./ProjectFeedbackRightPanel";
 import { changeFeedbackRoomIdState } from "../store/feedbackMemberIdSlice";
+import { toggleisDarkState } from "../store/isDarkSlice";
 
 const ProjectContainer = styled.div`
   position: relative; /* 부모 컨테이너를 기준으로 자식 요소의 위치를 설정하기 위해 */
@@ -143,6 +144,15 @@ const ProjectPage = () => {
         console.log(res.data)
         setFeedbackURL(res.data.result.feedbackUrl)
         console.log('feedbackURL: ', res.data.result.feedbackUrl)
+
+        const feedbackTheme = res.data.result.theme
+        if (feedbackTheme === 'Light' && isDark) {
+          dispatch(toggleisDarkState())
+        }
+        else if (feedbackTheme !== 'Light' && !isDark) {
+          dispatch(toggleisDarkState())
+        }
+
         setFeedbackLoading(false)
       }
       catch (err) {
