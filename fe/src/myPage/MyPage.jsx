@@ -30,16 +30,17 @@ const MainBox = styled.div`
 const MyPage = () => {
   const isDark = useSelector((state) => state.isDark.isDark);
   const userInfo = useSelector((state) => state.user.currentUser);
-  // console.log(userInfo)
+  console.log(userInfo)
   const [isMe, setIsMe] = useState(false);
   const location = useLocation();
-  const { memberId } = location.state || {};
+  const { memberId } = location.state|| {};
+  console.log(memberId)
   const [userfind, setUserFind] = useState({});
 
   const back_url = getEnv("BACK_URL");
   useEffect(() => {
     const findUser = async () => {
-      //   console.log(userInfo.uid);
+        console.log(userInfo.uid);
       // console.log(memberId)
       try {
         let res = "";

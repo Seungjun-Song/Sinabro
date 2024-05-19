@@ -575,7 +575,7 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
                       </SkillDetail>
                     </motion.div>
                   ))}
-                  {choiceResults.length == 0 && <div>기술 스택이 존재하지 않습니다</div>}
+                  {choiceResults && choiceResults.length == 0 && <div>기술 스택이 존재하지 않습니다</div>}
               </AnimatePresence>
               {isMe && (
                 <SearchInput
