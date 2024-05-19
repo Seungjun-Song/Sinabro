@@ -137,35 +137,6 @@ const ProjectPage = () => {
   };
 
   useEffect(() => {
-    const getFeedbackURL = async () => {
-      try {
-        console.log('feedbackMemberId: ', feedbackMemberId.id)
-        const res = await axios.get(`${back_url}/teams/projects/${feedbackMemberId.id}/feedbacks`)
-        console.log(res.data)
-        setFeedbackURL(res.data.result.feedbackUrl)
-        console.log('feedbackURL: ', res.data.result.feedbackUrl)
-
-        const feedbackTheme = res.data.result.theme
-        if (feedbackTheme === 'Light' && isDark) {
-          dispatch(toggleisDarkState())
-        }
-        else if (feedbackTheme !== 'Light' && !isDark) {
-          dispatch(toggleisDarkState())
-        }
-
-        setFeedbackLoading(false)
-      }
-      catch (err) {
-        console.error(err)
-      }
-    }
-    const currentURL = window.location.href.split('/')
-    dispatch(changeFeedbackRoomIdState(currentURL[currentURL.length-1]))
-    console.log('currentURL: ', currentURL[currentURL.length-1])
-    getFeedbackURL()
-  }, [])
-
-  useEffect(() => {
     dispatch(changeProjectCalenderState(false))
     codeServerDarkMode();
     console.log(isDark);
@@ -270,6 +241,37 @@ const ProjectPage = () => {
     // console.log('이거 왜 안보이지?', teammateId, selectedTeammates)
     // 처음에 모든 사람의 Id를 미리 넣어놓고 싶은데, 안됨... 누가 이 주석을 발견하면 해결해주세요.
   }, []);
+
+  useEffect(() => {
+    const getFeedbackURL = async () => {
+      try {
+        console.log('feedbackMemberId: ', feedbackMemberId.id)
+        const res = await axios.get(`${back_url}/teams/projects/${feedbackMemberId.id}/feedbacks`)
+        console.log(res.data)
+        setFeedbackURL(res.data.result.feedbackUrl)
+        console.log('feedbackURL: ', res.data.result.feedbackUrl)
+        
+        if (!teammateIds.includes(userInfo.uid)) {
+          const feedbackTheme = res.data.result.theme
+          if (feedbackTheme === 'Light' && isDark) {
+            dispatch(toggleisDarkState())
+          }
+          else if (feedbackTheme !== 'Light' && !isDark) {
+            dispatch(toggleisDarkState())
+          }
+        }
+
+        setFeedbackLoading(false)
+      }
+      catch (err) {
+        console.error(err)
+      }
+    }
+    const currentURL = window.location.href.split('/')
+    dispatch(changeFeedbackRoomIdState(currentURL[currentURL.length-1]))
+    console.log('currentURL: ', currentURL[currentURL.length-1])
+    getFeedbackURL()
+  }, [])
 
   const newChatState = () => {
     if (
