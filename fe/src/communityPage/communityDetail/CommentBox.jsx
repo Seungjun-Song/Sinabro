@@ -104,7 +104,7 @@ const commentMotion = {
 }
 
 
-const CommentBox = ({comment, index, setOpenChat, setSelectedUser}) => {
+const CommentBox = ({comment, index, setOpenChat, setSelectedUser, deleteComment}) => {
     const [ hoverState, setHoverState ] = useState(false);
 
     //const [ hoverPointer, setHoverPointer ] = useState(false);
@@ -136,16 +136,6 @@ const CommentBox = ({comment, index, setOpenChat, setSelectedUser}) => {
         else{
             setHoverState(true);
         }
-    }
-
-    const deleteComment = () => {
-        axios.delete(`${back_url}/communities/comments/${comment.commentId}`)
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
     }
 
     return(
@@ -182,7 +172,7 @@ const CommentBox = ({comment, index, setOpenChat, setSelectedUser}) => {
                 </DateBox>
                 {comment.memberId === userInfo.uid &&
                     <DeleteButton
-                        onClick={() => deleteComment()}
+                        onClick={() => deleteComment(comment.commentId)}
                     >
                         삭제
                     </DeleteButton>

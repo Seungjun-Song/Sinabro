@@ -82,8 +82,9 @@ const DetailMainPage = () => {
 
     // 비동기 함수 호출
     getTeammateInfo();
-    console.log(post.memberId)
-    // dispatch(changeFeedbackMemberIdState(post.memberId))  
+    if (post) {
+      dispatch(changeFeedbackMemberIdState(post?.memberId))
+    }
   }, [post.memberId, setPost]);
 
   useEffect(() => {
@@ -193,6 +194,9 @@ const DetailMainPage = () => {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             setTotalCount={setTotalCount}
+            setOpenChat={setOpenChat}
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
           />
         ) : ("")}
 
@@ -206,6 +210,9 @@ const DetailMainPage = () => {
             totalCount={totalCount}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            setOpenChat={setOpenChat}
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
             setTotalCount={setTotalCount}
           />
         ) : ("")}

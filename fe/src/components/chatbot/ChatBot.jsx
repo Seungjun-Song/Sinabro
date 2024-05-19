@@ -88,7 +88,7 @@ const ChatBot = () => {
 
         // Save the chat message to Firebase Realtime Database
         const db = getDatabase();
-        const chatRef = ref(db, `chatBotChats/${projectRoomId}`);
+        const chatRef = ref(db, `chatBotChats/${projectRoomId}/${userInfo.uid}`);
         push(chatRef, {
             role: "user",
             content: text,

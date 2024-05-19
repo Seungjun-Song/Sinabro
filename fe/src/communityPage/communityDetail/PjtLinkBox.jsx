@@ -63,7 +63,7 @@ const pjtMotion = {
   transition: { duration: 0.3 },
 };
 
-const PjtLinkBox = ({ pjtData }) => {
+const PjtLinkBox = ({ pjtData, kind }) => {
   const back_url = getEnv("BACK_URL");
   //   console.log(pjtData);
   const [data, setData] = useState(null);
@@ -90,7 +90,7 @@ const PjtLinkBox = ({ pjtData }) => {
         onClick={() => (
           console.log(data),
           dispatch(setMyCurrentProject({ ...data, projectId: pjtData.id })),
-          navigate(`/TeamSpaceDetailPage/${pjtData.id}`, {state: {from: '/communityDetail'}})
+          navigate(`/TeamSpaceDetailPage/${pjtData.id}`, {state: {from: '/communityDetail', kind: kind}})
         )}
       >
         <PjtInfo>
