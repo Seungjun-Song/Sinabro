@@ -196,7 +196,7 @@ const ProjectInfo = ({ dbport, runDevPreviewUrl, startPreviewUrl }) => {
                   <div style={{ fontSize: "1.3rem" }}>{"<실행 결과>"}</div>
                   <div style={{ display: "flex", gap: "1rem" }}>
                     <div style={{ width: "5rem" }}>백엔드</div>
-                    <div style={{ display: "flex", gap: "1rem" }} >{"(URL 복사하기) "}<motion.div style={{ cursor: "pointer" }}>
+                    <div style={{ display: "flex", gap: "1rem" }} >{"BackEnd 섹션으로 (URL 복사하기)"}<motion.div style={{ cursor: "pointer" }}>
                         <AnimatePresence mode="wait">
                           {isCopy == 4? (
                             <motion.div
