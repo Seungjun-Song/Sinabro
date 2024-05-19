@@ -11,9 +11,9 @@ const UserSkill = ({ item }) => {
   const getimg = (item) => {
     if (item == "React") {
       return "/images/react.png";
-    } else if (item == "Css") {
+    } else if (item == "CSS") {
       return "/images/css.png";
-    } else if (item == "Html") {
+    } else if (item == "HTML") {
       return "/images/html.png";
     } else if (item == "JavaScript") {
       return "/images/js.png";
@@ -21,7 +21,7 @@ const UserSkill = ({ item }) => {
       return "/images/vue.png";
     } else if (item == "Java") {
       return "/images/java.png";
-    } else if (item == "django") {
+    } else if (item == "Django") {
       return "/images/django.png";
     } else if (item == "Python") {
       return "/images/python.png";
