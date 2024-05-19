@@ -20,7 +20,7 @@ import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons';
 import Navbar from "../components/navs/Navbar";
 import ProjectFeedLoadingPage from "./ProjectFeedbackLoadingPage";
 import ProjectFeedbackRightPanel from "./ProjectFeedbackRightPanel";
-import { changeFeedbackRoomIdState } from "../store/feedbackMemberIdSlice";
+import { changeFeedbackRoomIdState, clearFeedbackMemberId } from "../store/feedbackMemberIdSlice";
 import { toggleisDarkState } from "../store/isDarkSlice";
 
 const ProjectContainer = styled.div`
@@ -210,6 +210,7 @@ const ProjectPage = () => {
       setCodeServerURL(null); // 프로젝트를 떠나면 주소 초기화
       setLoading(true);
       leaveCodeServer();
+      dispatch(clearFeedbackMemberId())
     };
   }, []);
 
@@ -250,8 +251,7 @@ const ProjectPage = () => {
         console.log(res.data)
         setFeedbackURL(res.data.result.feedbackUrl)
         console.log('feedbackURL: ', res.data.result.feedbackUrl)
-        console.log('teammatedIds includes', teammateIds.includes(userInfo.uid))
-        if (teammateIds.includes(userInfo.uid) === false) {
+
           const feedbackTheme = res.data.result.theme
           if (feedbackTheme === 'Light' && isDark) {
             dispatch(toggleisDarkState())
@@ -259,7 +259,6 @@ const ProjectPage = () => {
           else if (feedbackTheme !== 'Light' && !isDark) {
             dispatch(toggleisDarkState())
           }
-        }
 
         setFeedbackLoading(false)
       }

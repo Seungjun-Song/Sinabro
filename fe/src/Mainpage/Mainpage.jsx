@@ -14,6 +14,7 @@ import { GlobalColor } from "../services/color";
 import { useDispatch, useSelector } from "react-redux";
 import getEnv from "../utils/getEnv";
 import { setMyProjectList } from "../store/myProjectListSlice";
+import { clearFeedbackMemberId } from "../store/feedbackMemberIdSlice";
 
 const Mainpage = () => {
   const isDark = useSelector((state) => state.isDark.isDark);
@@ -37,6 +38,7 @@ const Mainpage = () => {
       }
     };
     getMyProjects();
+    dispatch(clearFeedbackMemberId())
   }, []);
   const getAllProjects = async (newpage) => {
     try {
