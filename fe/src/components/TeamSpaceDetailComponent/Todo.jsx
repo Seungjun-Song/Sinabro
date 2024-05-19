@@ -42,16 +42,16 @@ const DUMMUY_DATA = [
   },
 ];
 const color_list = [
-  "#ccd9fb",
-  "#fdd7cf",
-  "#ffcfd0",
-  "#523ca4",
-  "#cfbaf0",
-  "#a3c4f3",
-  "#9098f4",
-  "#8eecf5",
-  "#98f5e1",
-  "#b9cbfb",
+  "#757bc8",
+  "#8187dc",
+  "#8e94f2",
+  "#9fa0ff",
+  "#ada7ff",
+  "#bbadff",
+  "#cbb2fe",
+  "#dab6fc",
+  "#ddbdfc",
+  "#e0c3fc",
 ];
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
