@@ -32,8 +32,10 @@ const TeamSpaceDetailPage = () => {
       <div
         className="d-flex flex-column"
         style={{
+          justifyContent:"center",
           width: "100vw",
           minHeight:"100vh",
+          // height:"100%",
           alignItems: "center",
           paddingTop: "5rem",
           backgroundColor : isDark ? GlobalColor.colors.primary_black : "white",
@@ -44,7 +46,7 @@ const TeamSpaceDetailPage = () => {
         
       >
         <TSDProjectName isIn={isIn} isDark={isDark} />
-        <div style={{ display: "flex", width: "70%" }}>
+        <div style={{ display: "flex", width: "70%" ,height:"100%" }}>
           <TSDProjectInfo isIn={isIn} setIsIn={setIsIn} isDark={isDark}  whatInfo={whatInfo} setWhatInfo={setWhatInfo} />
           <TSDProjectContent isDark={isDark} whatInfo={whatInfo} />
         </div>

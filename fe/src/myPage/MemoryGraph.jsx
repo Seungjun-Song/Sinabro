@@ -110,7 +110,7 @@ const MemoryGraph = ({
         {/* <div onClick={handlebutton}>button</div>  */}
         {isMe && graphData.nodes.length !== 0 && !whatnode && (
           <div
-            style={{ position: "absolute", bottom: 0, right: 0, zIndex: "1" }}
+            style={{ position: "absolute", bottom: "0.5rem", right: "0.5rem", zIndex: "1" }}
           >
             <MemoryGraphButton
               whileHover={{ y: -5 }}

@@ -141,7 +141,7 @@ const MemoryGraphDescribeBox = styled.div`
   border-image: linear-gradient(to right, #3dc7af, #613acd);
   border-image-slice: 1;
   margin-left: 1rem;
-  width: 198px;
+  width:214px;
   padding: 1rem;
   /* max-height: 26rem; */
   height: 100%;
@@ -525,7 +525,7 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 5 }}
           transition={{ duration: 0.3, delay: 0.3 }}
-          style={{ height: "12rem" }}
+          style={{ height: "12rem"  ,position:"relative"}}
         >
           <InnerText
             style={{ display: "flex", alignItems: "center", gap: "1rem" }}
@@ -575,6 +575,7 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
                       </SkillDetail>
                     </motion.div>
                   ))}
+                  {choiceResults.length == 0 && <div>기술 스택이 존재하지 않습니다</div>}
               </AnimatePresence>
               {isMe && (
                 <SearchInput
@@ -594,12 +595,15 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
               {isMe && <SearchIcon icon={faSearch} />}
             </SearchContainerRightSide>
           </SearchContainer>
-          {whatSearch && (
+          {searchResults.length !==0 && whatSearch && (
             <div
               className="shadow"
               style={{
                 // padding:"1rem",
-                maxHeight: "100%",
+                position:"absolute",
+                top:"8rem",
+                width:"100%",
+                height: "3rem",
                 height: "4rem",
                 alignItems: "center",
                 display: "flex",
@@ -817,9 +821,9 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
                   onClick={() => setWhatNode(null)}
                   style={{
                     position: "absolute",
-                    top: "0",
+                    top: "0.5rem",
 
-                    right: 0,
+                    right: "0.5rem",
                     cursor: "pointer",
                     color: "rgb(86, 76, 173)",
                   }}
