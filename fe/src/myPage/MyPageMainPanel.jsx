@@ -141,7 +141,7 @@ const MemoryGraphDescribeBox = styled.div`
   border-image: linear-gradient(to right, #3dc7af, #613acd);
   border-image-slice: 1;
   margin-left: 1rem;
-  width:214px;
+  width:230px;
   padding: 1rem;
   /* max-height: 26rem; */
   height: 100%;
