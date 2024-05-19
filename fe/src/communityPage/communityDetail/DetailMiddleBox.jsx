@@ -113,6 +113,7 @@ const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
             (
                 <PjtLinkBox
                 pjtData={pjtData}
+                kind={kind}
             />
             )}
         </LinkBox>
