@@ -250,8 +250,8 @@ const ProjectPage = () => {
         console.log(res.data)
         setFeedbackURL(res.data.result.feedbackUrl)
         console.log('feedbackURL: ', res.data.result.feedbackUrl)
-        
-        if (!teammateIds.includes(userInfo.uid)) {
+        console.log('teammatedIds includes', teammateIds.includes(userInfo.uid))
+        if (teammateIds.includes(userInfo.uid) === false) {
           const feedbackTheme = res.data.result.theme
           if (feedbackTheme === 'Light' && isDark) {
             dispatch(toggleisDarkState())
