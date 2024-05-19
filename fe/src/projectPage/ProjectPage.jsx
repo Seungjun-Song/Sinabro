@@ -345,7 +345,7 @@ const ProjectPage = () => {
                           <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
                         }
                         <span style={{ marginLeft: '0.5rem' }}>
-                          Dev
+                          Frontend
                         </span>
                       </URLSelectBox>
                       <URLSelectBox
@@ -357,7 +357,7 @@ const ProjectPage = () => {
                           <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
                         }
                         <span style={{ marginLeft: '0.5rem' }}>
-                          Start
+                          Backend
                         </span>
                       </URLSelectBox>
                     </URLSelectContainer>
