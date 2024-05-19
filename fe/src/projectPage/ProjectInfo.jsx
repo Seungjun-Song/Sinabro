@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-const ProjectInfo = ({dbport,runDevPreviewUrl}) => {
+const ProjectInfo = ({ dbport, runDevPreviewUrl, startPreviewUrl }) => {
   const [whatpage, setWhatPage] = useState(1);
   const [isCopy, setIsCopy] = useState(false);
   const handleCopy = (item) => {
@@ -20,17 +20,17 @@ const ProjectInfo = ({dbport,runDevPreviewUrl}) => {
   };
   function extractPath(url) {
     // URL에서 '/code-server'로 시작하는 부분을 찾기
-    const startIndex = url.indexOf('/code-server');
-    
+    const startIndex = url.indexOf("/code-server");
+
     // '/code-server'로 시작하는 부분이 없다면 null 반환
     if (startIndex === -1) {
       return null;
     }
-  
+
     // '/code-server'로 시작하는 부분부터 끝까지 추출
     return url.substring(startIndex);
   }
-  
+
   return (
     <>
       <motion.div
@@ -83,13 +83,52 @@ const ProjectInfo = ({dbport,runDevPreviewUrl}) => {
         )} */}
         <div style={{ position: "absolute", top: "1rem", right: "1rem" }}>
           <div style={{ display: "flex", gap: "1rem" }}>
-            <motion.div className="shadow" whileHover={{y:-5}} onClick={()=>setWhatPage(1)}  style={{ cursor:"pointer", color:whatpage==1 ?  "white" : "black", borderRadius:"1rem" ,padding:"0.6rem" ,fontSize:"0.8rem" ,backgroundColor: whatpage==1 ? "rgb(86, 76, 173)" : "rgb(245, 248, 255)"}}>
+            <motion.div
+              className="shadow"
+              whileHover={{ y: -5 }}
+              onClick={() => setWhatPage(1)}
+              style={{
+                cursor: "pointer",
+                color: whatpage == 1 ? "white" : "black",
+                borderRadius: "1rem",
+                padding: "0.6rem",
+                fontSize: "0.8rem",
+                backgroundColor:
+                  whatpage == 1 ? "rgb(86, 76, 173)" : "rgb(245, 248, 255)",
+              }}
+            >
               프론트엔드 설명
             </motion.div>
-            <motion.div className="shadow" whileHover={{y:-5}} onClick={()=>setWhatPage(2)}  style={{ cursor:"pointer", color:whatpage==2 ?  "white" : "black", borderRadius:"1rem" ,padding:"0.6rem" ,fontSize:"0.8rem" ,backgroundColor: whatpage==2 ? "rgb(86, 76, 173)" : "rgb(245, 248, 255)"}}>
+            <motion.div
+              className="shadow"
+              whileHover={{ y: -5 }}
+              onClick={() => setWhatPage(2)}
+              style={{
+                cursor: "pointer",
+                color: whatpage == 2 ? "white" : "black",
+                borderRadius: "1rem",
+                padding: "0.6rem",
+                fontSize: "0.8rem",
+                backgroundColor:
+                  whatpage == 2 ? "rgb(86, 76, 173)" : "rgb(245, 248, 255)",
+              }}
+            >
               백엔드 설명
             </motion.div>
-            <motion.div className="shadow" whileHover={{y:-5}} onClick={()=>setWhatPage(0)}  style={{ cursor:"pointer", color:whatpage==0 ?  "white" : "black", borderRadius:"1rem" ,padding:"0.6rem" ,fontSize:"0.8rem" ,backgroundColor: whatpage==0? "rgb(86, 76, 173)" : "rgb(245, 248, 255)"}}>
+            <motion.div
+              className="shadow"
+              whileHover={{ y: -5 }}
+              onClick={() => setWhatPage(0)}
+              style={{
+                cursor: "pointer",
+                color: whatpage == 0 ? "white" : "black",
+                borderRadius: "1rem",
+                padding: "0.6rem",
+                fontSize: "0.8rem",
+                backgroundColor:
+                  whatpage == 0 ? "rgb(86, 76, 173)" : "rgb(245, 248, 255)",
+              }}
+            >
               기타 설명
             </motion.div>
           </div>
@@ -114,7 +153,9 @@ const ProjectInfo = ({dbport,runDevPreviewUrl}) => {
                   <div style={{ display: "flex", gap: "2rem" }}>
                     <div>
                       <div>외부에서 접근 </div>
-                      {dbport && <div>{`URL : projectsinabro.store:${dbport}`}</div>}
+                      {dbport && (
+                        <div>{`URL : projectsinabro.store:${dbport}`}</div>
+                      )}
                       <div>PASSWORD : ssafy</div>
                     </div>
                     <div>
@@ -152,16 +193,78 @@ const ProjectInfo = ({dbport,runDevPreviewUrl}) => {
                   <img style={{ width: "35rem" }} src="/images/Group_198.png" />
                 </div>
                 <div style={{ marginTop: "1rem" }}>
-                  <div style={{ fontSize: "1.3rem" }}>{"<URL 연결>"}</div>
+                  <div style={{ fontSize: "1.3rem" }}>{"<실행 결과>"}</div>
                   <div style={{ display: "flex", gap: "1rem" }}>
                     <div style={{ width: "5rem" }}>백엔드</div>
-                    <div>{"{자신의 코드 서버 URL}/proxy/8080/ "}</div>
+                    <div style={{ display: "flex", gap: "1rem" }} >{"(URL 복사하기) "}<motion.div style={{ cursor: "pointer" }}>
+                        <AnimatePresence mode="wait">
+                          {isCopy == 3 ? (
+                            <motion.div
+                              animate={{ opacity: 1 }}
+                              initial={{ opacity: 0 }}
+                              exit={{ opacity: 0 }}
+                              key="check"
+                            >
+                              <FontAwesomeIcon color="#5D6CD0" icon={faCheck} />
+                            </motion.div>
+                          ) : (
+                            <motion.div
+                              animate={{ opacity: 1 }}
+                              initial={{ opacity: 0 }}
+                              exit={{ opacity: 0 }}
+                              key="clone"
+                            >
+                              <CopyToClipboard
+                                text={startPreviewUrl}
+                                onCopy={() => handleCopy(3)}
+                              >
+                                <FontAwesomeIcon
+                                  color="#5D6CD0"
+                                  icon={faClone}
+                                />
+                              </CopyToClipboard>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div></div>
                   </div>
                   <div style={{ display: "flex", gap: "1rem" }}>
                     <div style={{ width: "5rem" }}>프론트 엔드</div>
-                    <div>
-                      <div>{"npm run dev 한 경우 Dev 섹션으로 "}</div>
-                      <div>{"npm start 한 경우 Start 섹션으로 "}</div>
+                    <div style={{ display: "flex" ,gap:"1rem" }}>
+                      <div>
+                        {"npm run dev 한 후 FrontEnd 섹션으로 (URL 복사하기) "}
+                      </div>
+                      <motion.div style={{ cursor: "pointer" }}>
+                        <AnimatePresence mode="wait">
+                          {isCopy == 3 ? (
+                            <motion.div
+                              animate={{ opacity: 1 }}
+                              initial={{ opacity: 0 }}
+                              exit={{ opacity: 0 }}
+                              key="check"
+                            >
+                              <FontAwesomeIcon color="#5D6CD0" icon={faCheck} />
+                            </motion.div>
+                          ) : (
+                            <motion.div
+                              animate={{ opacity: 1 }}
+                              initial={{ opacity: 0 }}
+                              exit={{ opacity: 0 }}
+                              key="clone"
+                            >
+                              <CopyToClipboard
+                                text={runDevPreviewUrl}
+                                onCopy={() => handleCopy(3)}
+                              >
+                                <FontAwesomeIcon
+                                  color="#5D6CD0"
+                                  icon={faClone}
+                                />
+                              </CopyToClipboard>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
                     </div>
                   </div>
                 </div>
@@ -230,26 +333,27 @@ const ProjectInfo = ({dbport,runDevPreviewUrl}) => {
                     {`3.`} <FontAwesomeIcon icon={faStar} />{" "}
                     {`(필수)루트 디렉토리의 vite.config.js 설정 (base: 뒤에만 다름)`}
                   </div>
-                  <motion.div style={{ cursor: "pointer" }}>
-                    <AnimatePresence mode="wait">
-                      {isCopy == 2 ? (
-                        <motion.div
-                          animate={{ opacity: 1 }}
-                          initial={{ opacity: 0 }}
-                          exit={{ opacity: 0 }}
-                          key="check"
-                        >
-                          <FontAwesomeIcon color="#5D6CD0" icon={faCheck} />
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          animate={{ opacity: 1 }}
-                          initial={{ opacity: 0 }}
-                          exit={{ opacity: 0 }}
-                          key="clone"
-                        >
-                          <CopyToClipboard
-                            text={`
+                  {runDevPreviewUrl && (
+                    <motion.div style={{ cursor: "pointer" }}>
+                      <AnimatePresence mode="wait">
+                        {isCopy == 2 ? (
+                          <motion.div
+                            animate={{ opacity: 1 }}
+                            initial={{ opacity: 0 }}
+                            exit={{ opacity: 0 }}
+                            key="check"
+                          >
+                            <FontAwesomeIcon color="#5D6CD0" icon={faCheck} />
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            animate={{ opacity: 1 }}
+                            initial={{ opacity: 0 }}
+                            exit={{ opacity: 0 }}
+                            key="clone"
+                          >
+                            <CopyToClipboard
+                              text={`
                             import { defineConfig } from 'vite'
                             import react from '@vitejs/plugin-react'
                             
@@ -267,14 +371,15 @@ const ProjectInfo = ({dbport,runDevPreviewUrl}) => {
                                 }
                               }
                             })`}
-                            onCopy={() => handleCopy(2)}
-                          >
-                            <FontAwesomeIcon color="#5D6CD0" icon={faClone} />
-                          </CopyToClipboard>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
+                              onCopy={() => handleCopy(2)}
+                            >
+                              <FontAwesomeIcon color="#5D6CD0" icon={faClone} />
+                            </CopyToClipboard>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  )}
                 </div>
                 <div>
                   <div>예시 이미지</div>

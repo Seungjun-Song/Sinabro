@@ -59,7 +59,7 @@ const RightNavContainer = styled.div`
   margin: 0 1rem;
 `;
 
-export default function WebRTC({dbport ,runDevPreviewUrl}) {
+export default function WebRTC({dbport ,runDevPreviewUrl,startPreviewUrl}) {
   const [mySessionId, setMySessionId] = useState("SessionA");
   const [myUserName, setMyUserName] = useState(
     `Participant${Math.floor(Math.random() * 100)}`
@@ -316,7 +316,7 @@ export default function WebRTC({dbport ,runDevPreviewUrl}) {
         </motion.div>
         <AnimatePresence mode="wait">
           {isHover && (
-            <ProjectInfo runDevPreviewUrl={runDevPreviewUrl} dbport={dbport} />
+            <ProjectInfo runDevPreviewUrl={runDevPreviewUrl} dbport={dbport} startPreviewUrl={startPreviewUrl} />
           )}
         </AnimatePresence>
       </motion.div>
