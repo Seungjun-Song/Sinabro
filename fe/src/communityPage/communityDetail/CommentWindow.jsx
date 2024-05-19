@@ -111,15 +111,35 @@ const CommentWindow = ({ isDark, commentDate, boardId, totalCount, currentPage, 
             .then((res) => {
             setTotalCount(res.data.result.totalCount);
             setCommentDate(res.data.result.commentResponseDtos);
-        })
-        .catch((err) => {
-        })
+            })
+            .catch((err) => {
+            })
 
         })
         .catch(err => {
             console.log(err);
         })
     }
+
+    const deleteComment = (commentId) => {
+        axios.delete(`${back_url}/communities/comments/${commentId}`)
+        .then((res) => {
+            console.log(res);
+            axios.get(`${back_url}/communities/comments/${boardId}/${currentPage-1}`)
+            .then((res) => {
+            setTotalCount(res.data.result.totalCount);
+            setCommentDate(res.data.result.commentResponseDtos);
+            })
+            .catch((err) => {
+            })
+            
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    
 
     return(
         <Window>
@@ -156,6 +176,7 @@ const CommentWindow = ({ isDark, commentDate, boardId, totalCount, currentPage, 
                         key={index}
                         setOpenChat={setOpenChat}
                         setSelectedUser={setSelectedUser}
+                        deleteComment={deleteComment}
                     />
                 ))}
             </Comments>
