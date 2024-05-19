@@ -198,7 +198,7 @@ const ProjectInfo = ({ dbport, runDevPreviewUrl, startPreviewUrl }) => {
                     <div style={{ width: "5rem" }}>백엔드</div>
                     <div style={{ display: "flex", gap: "1rem" }} >{"(URL 복사하기) "}<motion.div style={{ cursor: "pointer" }}>
                         <AnimatePresence mode="wait">
-                          {isCopy == 3 ? (
+                          {isCopy == 4? (
                             <motion.div
                               animate={{ opacity: 1 }}
                               initial={{ opacity: 0 }}
@@ -216,7 +216,7 @@ const ProjectInfo = ({ dbport, runDevPreviewUrl, startPreviewUrl }) => {
                             >
                               <CopyToClipboard
                                 text={startPreviewUrl}
-                                onCopy={() => handleCopy(3)}
+                                onCopy={() => handleCopy(4)}
                               >
                                 <FontAwesomeIcon
                                   color="#5D6CD0"
