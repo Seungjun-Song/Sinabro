@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9145ac5a02eac1260f00e556601b05adeec217a9a4b8a7272ad4b5f86cf082c4
-size 910
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+    newMessageState: false,
+    projectRightPanelState: false,
+    chatState: false,
+    isNotificationOn: false,
+}
+
+export const newMessageSlice =  createSlice({
+    name: 'newMessage',
+    initialState,
+    reducers: {
+        setNewMessageState: (state, action) => {
+            state.newMessageState = action.payload
+        },
+        setProjectRightPanelState: (state, action) => {
+            state.projectRightPanelState = action.payload
+        },
+        setChatState: (state, action) => {
+            state.chatState = action.payload
+        },
+        setIsNotificationOn: (state, action) => {
+            state.isNotificationOn = action.payload
+        }
+    }
+})
+
+export const {setChatState, setIsNotificationOn, setNewMessageState, setProjectRightPanelState} = newMessageSlice.actions
+export default newMessageSlice.reducer
