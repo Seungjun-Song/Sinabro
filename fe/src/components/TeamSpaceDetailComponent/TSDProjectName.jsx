@@ -21,7 +21,9 @@ const TSDProjectName = ({ isDark ,isIn}) => {
   const location = useLocation()
 
   const isFromSpecificUrl = location.state?.from === "/communityDetail"
+  const isFromFeadback = location.state?.kind.name === "feadback";
   console.log('isFromSpecificUrl : ', isFromSpecificUrl)
+  console.log('isFromFeadback: ', isFromFeadback)
 
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
   // console.log(myCurrentProject)
@@ -146,7 +148,7 @@ const TSDProjectName = ({ isDark ,isIn}) => {
               {projectState === 502 ? '프로젝트 완료' : '프로젝트 재시작'}
             </motion.div>
           }
-          {(isIn || isFromSpecificUrl) && <motion.div
+          {(isIn || (isFromSpecificUrl && isFromFeadback)) && <motion.div
             onHoverStart={() => setIsHover(true)}
             onHoverEnd={() => setIsHover(false)}
             onClick={() => {
