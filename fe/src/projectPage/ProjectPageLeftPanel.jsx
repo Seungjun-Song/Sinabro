@@ -42,7 +42,7 @@ const ProjectPageLeftPanelContainer = styled(motion.div)`
   transition: background-color 0.3s ease; /* 배경색 변화를 자연스럽게 만듭니다. */
 
   @media (max-width: 1000px) {
-    display: none
+    display: none;
   }
 `;
 
@@ -140,7 +140,7 @@ const InnerTextBox = styled.div`
   font-weight: bold;
   justify-content: center;
   @media (max-width: 1200px) {
-    display: none
+    display: none;
   }
 `;
 
@@ -281,7 +281,7 @@ const ProjectPageLeftPanel = ({
       try {
         const res = await axios.get(`${back_url}/schedules/${projectRoomId}`); // 쿠키 되면 제대로 받아지는지 확인
         dispatch(setToDoList(res.data.result));
-        console.log(res.data)
+        console.log(res.data);
       } catch (err) {
         console.error(err);
       }
@@ -313,7 +313,6 @@ const ProjectPageLeftPanel = ({
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
   };
 
-
   const back_url = getEnv("BACK_URL");
 
   // 팀원 선택/해제 핸들러 props로 념겨주는 함수
@@ -342,20 +341,20 @@ const ProjectPageLeftPanel = ({
         console.error(err);
       }
       if (mileston) {
+        const nullmilestoneId = milestonid ? milestonid : null;
         try {
           const res = await axios.post(`${back_url}/milestones`, {
-            milestoneId: null,
+            milestoneId: nullmilestoneId,
             milestoneTitle: mileston,
             milestoneContent: toDoText,
             milestoneStartDt: fromatDatedForBack(startDate),
             milestoneEndDt: fromatDatedForBack(endDate),
             projectId: myCurrentProject.projectId,
-            subCategoryId: 502
-          })
-          console.log('milestones complete', res.data)
-        }
-        catch (err) {
-          console.error(err)
+            subCategoryId: 502,
+          });
+          console.log("milestones complete", res.data);
+        } catch (err) {
+          console.error(err);
         }
       }
 
@@ -366,7 +365,7 @@ const ProjectPageLeftPanel = ({
         console.error(err);
       }
 
-      setMileston(null)
+      setMileston(null);
       handleCloseModal();
     }
   };
@@ -420,7 +419,24 @@ const ProjectPageLeftPanel = ({
     const day = date.getDate().toString().padStart(2, "0"); // 일도 두 자리로 만들기 위해 padStart 사용
     return `${year}-${month}-${day}`;
   };
-
+  // 재성 추가 코드
+  const [milestones, setMilestones] = useState([]);
+  useEffect(() => {
+    const getmilestone = async () => {
+      try {
+        const res = await axios.get(
+          `${back_url}/milestones/${myCurrentProject.projectId}`
+        );
+        console.log(res.data.result);
+        setMilestones(res.data.result);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getmilestone();
+  }, [myCurrentProject]);
+  const [milestonid, setMilestonId] = useState(null);
+  const [isFocused, setIsFocused] = useState(false);
   return (
     <>
       <AnimatePresence mode="wait">
@@ -490,9 +506,9 @@ const ProjectPageLeftPanel = ({
                         ? new Date(item.calenderEndDt)
                         : null;
                       const today = new Date();
-                      itemStartDate.setHours(0, 0, 0, 0)
-                      itemEndDate.setHours(0, 0, 0, 0)
-                      today.setHours(0, 0, 0, 0)
+                      itemStartDate.setHours(0, 0, 0, 0);
+                      itemEndDate.setHours(0, 0, 0, 0);
+                      today.setHours(0, 0, 0, 0);
 
                       // start와 end가 모두 유효한 경우에만 처리
                       if (itemStartDate && itemEndDate) {
@@ -509,7 +525,7 @@ const ProjectPageLeftPanel = ({
                               }
                             >
                               <UserImg src={item.memberImg} />
-                              <InnerTextBox >
+                              <InnerTextBox>
                                 <div style={{ fontSize: "1rem" }}>
                                   {truncate(item.calenderName, 10)}
                                 </div>
@@ -591,11 +607,11 @@ const ProjectPageLeftPanel = ({
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
-                  {todayCount === 0 &&
-                    <div style={{ color: isDark ? 'black' : 'white' }}>
+                  {todayCount === 0 && (
+                    <div style={{ color: isDark ? "black" : "white" }}>
                       예정된 일정이 없습니다.
                     </div>
-                  }
+                  )}
                 </ListBox>
               </TodayBox>
               <TodayBox>
@@ -611,8 +627,8 @@ const ProjectPageLeftPanel = ({
                         ? new Date(item.calenderEndDt)
                         : null;
                       const tomorrow = new Date();
-                      itemStartDate.setHours(0, 0, 0, 0)
-                      itemEndDate.setHours(0, 0, 0, 0)
+                      itemStartDate.setHours(0, 0, 0, 0);
+                      itemEndDate.setHours(0, 0, 0, 0);
                       tomorrow.setDate(tomorrow.getDate() + 1); // 내일 날짜로 설정
                       tomorrow.setHours(0, 0, 0, 0); // 시간을 0시 0분 0초로 설정
                       // start와 end가 모두 유효한 경우에만 처리
@@ -715,11 +731,11 @@ const ProjectPageLeftPanel = ({
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
-                  {tomorrowCount === 0 &&
-                    <div style={{ color: isDark ? 'black' : 'white' }}>
+                  {tomorrowCount === 0 && (
+                    <div style={{ color: isDark ? "black" : "white" }}>
                       예정된 일정이 없습니다.
                     </div>
-                  }
+                  )}
                 </ListBox>
               </TodayBox>
             </ToDoListBox>
@@ -758,14 +774,57 @@ const ProjectPageLeftPanel = ({
                 onChange={(e) => setToDoText(e.target.value)}
               />
             </Form.Group>
-            <Form.Group style={{ marginBottom: "1rem" }}>
+            <Form.Group style={{ marginBottom: "1rem", position: "relative" }}>
               <Form.Label>마일스톤</Form.Label>
               <Form.Control
+                onClick={() => setIsFocused(!isFocused)}
                 type="text"
                 placeholder="선택 사항"
                 value={mileston}
-                onChange={(e) => setMileston(e.target.value)}
+                onChange={(e) => (
+                  setMileston(e.target.value), setMilestonId(null)
+                )}
               />
+              {isFocused && (
+                <div
+                  className="shadow"
+                  style={{
+                    position: "absolute",
+                    top: "4.5rem",
+                    width: "100%",
+                    backgroundColor: "white",
+                    zIndex: "9",
+                    padding: "0.5rem",
+                    height: "10rem",
+                    overflowY: "auto",
+                    borderRadius: "1rem",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  {milestones.map((item, index) => (
+                    <motion.div
+                      onClick={() => (
+                        setMilestonId(item.milestoneId),
+                        setMileston(item.milestoneTitle),
+                        setIsFocused(false)
+                      )}
+                      whileHover={{
+                        backgroundColor: "rgb(205, 216, 245)",
+                        color: "white",
+                      }}
+                      style={{
+                        transition: "0.3s",
+                        padding: "0.5rem 1rem",
+                        color: "black",
+                        backgroundColor: "white",
+                      }}
+                    >
+                      {item.milestoneTitle}
+                    </motion.div>
+                  ))}
+                </div>
+              )}
             </Form.Group>
             <Form.Group style={{ marginBottom: "1rem" }}>
               <Form.Label style={{ marginRight: "1rem" }}>시작 날짜</Form.Label>

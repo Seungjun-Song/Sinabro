@@ -82,7 +82,8 @@ const DetailMainPage = () => {
 
     // 비동기 함수 호출
     getTeammateInfo();
-    dispatch(changeFeedbackMemberIdState(post.memberId))
+    console.log(post.memberId)
+    // dispatch(changeFeedbackMemberIdState(post.memberId))  
   }, [post.memberId, setPost]);
 
   useEffect(() => {

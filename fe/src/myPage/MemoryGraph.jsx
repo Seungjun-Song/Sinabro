@@ -58,7 +58,7 @@ const MemoryGraph = ({
   whatnode,
   isMe,
   is2D,
-  setIs2D
+  setIs2D,
 }) => {
   const [addOnlyNode, setAddOnlyNode] = useState(false);
   const handlefirstreal = async () => {
@@ -72,7 +72,7 @@ const MemoryGraph = ({
     setColor("#c7c7c7");
   };
   // fgRef.d3Force('link').distance(link => "10rem");
-  
+
   return (
     <>
       <div
@@ -87,23 +87,26 @@ const MemoryGraph = ({
           position: "relative",
         }}
       >
-        <div
-          onClick={() => setIs2D(!is2D)}
-          style={{
-            zIndex: 1,
-            cursor:"pointer",
-            color: "white",
-            backgroundColor: "rgba(86, 76, 173, 1)",
-            padding: "0.5rem",
-            borderRadius: "0.5rem",
-            position: "absolute",
-            top: "0",
-            left: 0,
-            fontSize:"0.8rem"
-          }}
-        >
-          {is2D ? "2D" :"3D"}
-        </div>
+        {graphData.nodes.length !== 0 && (
+          <div
+            onClick={() => setIs2D(!is2D)}
+            style={{
+              zIndex: 1,
+              cursor: "pointer",
+              color: "white",
+              backgroundColor: "rgba(86, 76, 173, 1)",
+              padding: "0.5rem",
+              borderRadius: "0.5rem",
+              position: "absolute",
+              top: "0",
+              left: 0,
+              fontSize: "0.8rem",
+            }}
+          >
+            {is2D ? "2D" : "3D"}
+          </div>
+        )}
+
         {/* <div onClick={handlebutton}>button</div>  */}
         {isMe && graphData.nodes.length !== 0 && !whatnode && (
           <div

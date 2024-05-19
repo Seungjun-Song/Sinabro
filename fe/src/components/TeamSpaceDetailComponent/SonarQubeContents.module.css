@@ -8,7 +8,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* 전체 높이 */
+    /* height: 100vh; 전체 높이 */
 }
 
 .btn {

@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-const ProjectInfo = ({dbport,codeServerURL}) => {
+const ProjectInfo = ({dbport,runDevPreviewUrl}) => {
   const [whatpage, setWhatPage] = useState(1);
   const [isCopy, setIsCopy] = useState(false);
   const handleCopy = (item) => {
@@ -255,7 +255,7 @@ const ProjectInfo = ({dbport,codeServerURL}) => {
                             
                             export default defineConfig({
                               plugins: [react()],
-                              base: '${extractPath(codeServerURL)}',
+                              base: '${extractPath(runDevPreviewUrl)}',
                               server: {
                                 host: '0.0.0.0',
                                 port: 5173,
