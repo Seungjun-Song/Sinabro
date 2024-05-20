@@ -328,7 +328,7 @@ const Section3 = ({ section3Ref ,scroll,setScroll }) => {
                 animate={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: 20 }}
                 // exit={{ opacity: 0, y: -5 }}
-                transition={{ duration: 0.3, delay: 1.5 }}
+                transition={{ duration: 0.3, delay: 1.3 }}
                 src="/images/up.png"
                 style={{ width: "4.5rem", height: "5rem" }}
               />
@@ -337,7 +337,7 @@ const Section3 = ({ section3Ref ,scroll,setScroll }) => {
               animate={{ opacity: 1, y: 0 }}
               initial={{ opacity: 0, y: 20 }}
               // exit={{ opacity: 0, y: -5 }}
-              transition={{ duration: 0.3, delay: 1.5 }}
+              transition={{ duration: 0.3, delay: 1.3}}
               style={{ fontSize: "3rem", fontWeight: "bold" }}
             >
               실력 오르는 소리
@@ -346,7 +346,7 @@ const Section3 = ({ section3Ref ,scroll,setScroll }) => {
               animate={{ opacity: 1, y: 0 }}
               initial={{ opacity: 0, y: 20 }}
               // exit={{ opacity: 0, y: -5 }}
-              transition={{ duration: 0.3, delay: 1.7 }}
+              transition={{ duration: 0.3, delay: 1.5 }}
               style={{ fontSize: "1rem" }}
             >
               개발자 성장을 위한 최고의 파트너, 실제 고객들의 후기로 증명합니다!
@@ -355,7 +355,7 @@ const Section3 = ({ section3Ref ,scroll,setScroll }) => {
               animate={{ opacity: 1, y: 0 }}
               initial={{ opacity: 0, y: 20 }}
               // exit={{ opacity: 0, y: -5 }}
-              transition={{ duration: 0.3, delay: 1.9 }}
+              transition={{ duration: 0.3, delay: 1.5 }}
               style={{
                 marginTop: "2rem",
                 fontWeight: "bold",
@@ -375,7 +375,7 @@ const Section3 = ({ section3Ref ,scroll,setScroll }) => {
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
               // exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, delay: 2.1 }}
+              transition={{ duration: 0.3, delay: 1.7 }}
               onHoverStart={() => setIsHover(true)}
               onHoverEnd={() => setIsHover(false)}
               style={{
@@ -405,7 +405,7 @@ const Section3 = ({ section3Ref ,scroll,setScroll }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, x: 0 }}
             // exit={{ opacity: 0 }}
-            transition={{ delay: 2.3 }}
+            transition={{ delay: 1.7 }}
             style={{
               width: "50%",
               display: "flex",
