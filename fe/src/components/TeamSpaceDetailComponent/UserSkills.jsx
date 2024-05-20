@@ -60,7 +60,7 @@ const UserSkills = ({whatUser}) => {
           transition: {
             when: "beforeChildren",
             staggerChildren: 0.1, // 순차적으로 애니메이션 적용
-            // delay:0.2
+            delay:0.4
           },
         },
         hidden: { opacity: 0 },
