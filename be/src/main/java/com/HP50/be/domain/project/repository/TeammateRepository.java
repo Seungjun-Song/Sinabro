@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:17e6b51c6742f50cbf53af6a3b605def79a278b5466da46cf0a219d751a93d8f
-size 387
+package com.HP50.be.domain.project.repository;
+
+
+import com.HP50.be.domain.member.entity.Member;
+import com.HP50.be.domain.project.entity.Teammate;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface TeammateRepository  extends JpaRepository<Teammate,Integer> {
+    List<Teammate> findTeammatesByProjectProjectId(Integer projectId);
+}

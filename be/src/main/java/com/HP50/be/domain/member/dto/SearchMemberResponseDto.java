@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:53f0e6ec2004ac08ee7b120dbac3e0a2f879808070a48c6500b37d87d24a2fc2
-size 273
+package com.HP50.be.domain.member.dto;
+
+import lombok.*;
+
+import java.util.List;
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class SearchMemberResponseDto {
+    Integer page;
+    Boolean hasNext;
+    List<SearchMemberSimpleInfoDto> searchList;
+}
