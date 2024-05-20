@@ -1,0 +1,58 @@
+spring:
+    application:
+        name: be
+    profiles:
+        active: test
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: ${DB_USERNAME}
+        url: ${DB_URL}
+        password: ${DB_PASSWORD}
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        properties:
+            hibernate:
+                format_sql: 'true'
+    security:
+      oauth2:
+        client:
+          registration:
+            github:
+              redirect-uri: ${GITHUB_REDIRECT_URL}
+              clientId: ${GITHUB_CLIENT_ID}
+              clientSecret: ${GITHUB_CLIENT_SECRET}
+
+    neo4j:
+      uri: ${NEO4J_URI}
+      authentication:
+        username: ${NEO4J_USERNAME}
+        password: ${NEO4J_PASSWORD}
+    data:
+      neo4j:
+        database: neo4j
+
+      redis:
+        host: ${REDIS_HOST}
+        password: ${REDIS_PASSWORD}
+        port: 6379
+
+        repositories:
+          enabled: false
+    jwt:
+      header: ${JWT_HEADER}
+      secret: ${JWT_SECRET_KEY}
+      token-validity-in-seconds: 86400
+
+server:
+  servlet:
+    context-path: ${API}
+
+openvidu:
+  url: ${OPENVIDU_URL}
+  secret: ${OPENVIDU_SECRET}
+
+portOne:
+    api: ${PORT_API}
+    secret: ${PORT_SECERET_API}
