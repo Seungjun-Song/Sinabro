@@ -408,6 +408,31 @@ public class ProjectServiceImpl implements ProjectService{
             throw new BaseException(StatusCode.WEB_SOCKET_RUN_FAIL);
         }
 
+        // 웹 소켓 서버 상태 확인 명령
+        String webSocketCheckCommand = "pgrep -f proxy-server.js";
+        boolean isWebSocketRunning = false;
+        int retryCount = 0;
+        int maxRetries = 5; // 최대 재시도 횟수
+        int waitTime = 2000; // 2초 대기
+
+        while (!isWebSocketRunning && retryCount < maxRetries) {
+            try {
+                Thread.sleep(waitTime); // 대기 시간
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new BaseException(StatusCode.WEB_SOCKET_RUN_FAIL);
+            }
+            String webSocketStatus = jschUtil.executeCommandAndGetOutput(session, webSocketCheckCommand).trim();
+            if (!webSocketStatus.isEmpty()) {
+                isWebSocketRunning = true;
+            }
+            retryCount++;
+        }
+
+        if (!isWebSocketRunning) {
+            throw new BaseException(StatusCode.WEB_SOCKET_RUN_FAIL);
+        }
+
         // 테마 확인
         String getCurrentThemeCommand = "docker exec " + codeServerName + " cat /home/coder/.local/share/code-server/User/settings.json";
         String currentTheme = jschUtil.executeCommandAndGetOutput(session, getCurrentThemeCommand).split("\"")[3].split(" ")[2];
