@@ -340,8 +340,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     // 프로젝트 다크모드
     @Override
-    public String projectDarkMode(String token) {
-        Integer memberId = jwtUtil.getMemberId(token); // accessToken에서 memberId 추출
+    public String projectDarkMode(Integer memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(StatusCode.NOT_EXIST_MEMBER));
         String codeServerName = member.getCodeServerName();
 
