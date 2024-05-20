@@ -36,6 +36,8 @@ const MemoryGraphButton = styled(motion.div)`
   cursor: pointer;
 `;
 const MemoryGraph = ({
+  isText,
+  setIsText,
   addnode,
   getGraphData,
   hadleAllClick,
@@ -106,7 +108,25 @@ const MemoryGraph = ({
             {is2D ? "2D" : "3D"}
           </div>
         )}
-
+        {graphData.nodes.length !== 0 && is2D !== true&& (
+          <div
+            onClick={() => setIsText(!isText)}
+            style={{
+              zIndex: 1,
+              cursor: "pointer",
+              color: "white",
+              backgroundColor: "rgba(86, 76, 173, 1)",
+              padding: "0.5rem",
+              borderRadius: "0.5rem",
+              position: "absolute",
+              top: "0",
+              left: "2rem",
+              fontSize: "0.8rem",
+            }}
+          >
+            {isText ? "Text" : "Node"}
+          </div>
+        )}
         {/* <div onClick={handlebutton}>button</div>  */}
         <AnimatePresence>
           {isMe && graphData.nodes.length !== 0 && !whatnode && (
@@ -181,6 +201,15 @@ const MemoryGraph = ({
               nodeColor={(node) => (node.color ? node.color : "#ffffff")}
               linkWidth={2}
               onNodeClick={(node) => hadleAllClick(node)}
+              nodeThreeObject={(node) => {
+                if(isText){
+                  const sprite = new SpriteText(node.label);
+                  sprite.color = node.color;
+                  sprite.textHeight = 8;
+                  return sprite;
+                }
+                return
+              }}  
             />
           ))}
         {!isMe && graphData.nodes.length == 0 && (
