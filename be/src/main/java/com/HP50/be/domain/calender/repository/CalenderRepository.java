@@ -1,11 +1,3 @@
-package com.HP50.be.domain.calender.repository;
-
-import com.HP50.be.domain.calender.entity.Calender;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
-
-
-public interface CalenderRepository extends JpaRepository<Calender,Integer> {
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:8ee9e1a7391d1aeb8ceebad6798aad8db95707c58e7910cadb215034423640a3
+size 270
