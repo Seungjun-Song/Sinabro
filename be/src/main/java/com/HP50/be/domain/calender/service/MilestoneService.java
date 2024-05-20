@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1c83aa648403cec81fac5aec7ae9660472e102c18fb06cd82834d04ad99de983
-size 483
+package com.HP50.be.domain.calender.service;
+
+import com.HP50.be.domain.calender.dto.MilestoneResponseDto;
+import com.HP50.be.domain.calender.dto.MilestoneSaveRequestDto;
+
+import java.util.List;
+
+public interface MilestoneService {
+    void saveMilestone(MilestoneSaveRequestDto requestDto);
+    void deleteMilestone(Integer milestoneId);
+    MilestoneResponseDto findMileStoneById(Integer milestoneId);
+    List<MilestoneResponseDto> findMilestoneByProjectId(Integer projectId);
+
+}

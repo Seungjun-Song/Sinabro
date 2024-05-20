@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:36fcc50094f76956257930828e207a1e002714b1cb359c7ffaead05ba24aa819
-size 346
+package com.HP50.be.domain.project.repository;
+
+import com.HP50.be.domain.code.entity.SubCategory;
+import com.HP50.be.domain.project.entity.Project;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+public interface ProjectRepository extends JpaRepository<Project,Integer> {
+}
