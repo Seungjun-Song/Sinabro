@@ -174,7 +174,7 @@ const MemoryGraph = ({
               linkOpacity={0.8}
               linkResolution={12}
               nodeColor={(node) => (node.color ? node.color : "#ffffff")}
-              linkWidth={2}
+              linkWidth={1}
               onNodeClick={(node) => hadleAllClick(node)}
             />
           ) : (

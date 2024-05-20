@@ -108,6 +108,7 @@ const SearchIcon = styled(FontAwesomeIcon)`
 
 const PjtImg = styled(motion.img)`
   width: 23%;
+  aspect-ratio:1;
   padding: 1.2rem;
   margin-right: 10px;
 `;
@@ -672,8 +673,7 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
                     dispatch(setMyCurrentProject({ ...item }));
                     navigate(`/TeamSpaceDetailPage/${item.projectId}`);
                   }}
-                  // className="shadow"
-                  whileHover={{ y: -5 }}
+
                   style={{ cursor: "pointer", borderRadius: "30px" }}
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
