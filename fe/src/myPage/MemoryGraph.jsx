@@ -205,7 +205,7 @@ const MemoryGraph = ({
                 if(isText){
                   const sprite = new SpriteText(node.label);
                   sprite.color = node.color;
-                  sprite.textHeight = 8;
+                  sprite.textHeight =20;
                   return sprite;
                 }
                 return

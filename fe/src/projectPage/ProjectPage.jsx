@@ -14,13 +14,16 @@ import getEnv from "../utils/getEnv";
 import ProjectLoadingPage from "./ProjectLoadingPage";
 import ProjectInfo from "./ProjectInfo";
 import { changeProjectCalenderState } from "../store/projectCalenderSlice";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle as fasCircle } from '@fortawesome/free-solid-svg-icons';
-import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle as fasCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCircle as farCircle } from "@fortawesome/free-regular-svg-icons";
 import Navbar from "../components/navs/Navbar";
 import ProjectFeedLoadingPage from "./ProjectFeedbackLoadingPage";
 import ProjectFeedbackRightPanel from "./ProjectFeedbackRightPanel";
-import { changeFeedbackRoomIdState, clearFeedbackMemberId } from "../store/feedbackMemberIdSlice";
+import {
+  changeFeedbackRoomIdState,
+  clearFeedbackMemberId,
+} from "../store/feedbackMemberIdSlice";
 import { toggleisDarkState } from "../store/isDarkSlice";
 
 const ProjectContainer = styled.div`
@@ -101,23 +104,23 @@ const ProjectPage = () => {
   const [runDevPreviewUrl, setRunDevPreviewUrl] = useState(null);
   const [startPreviewUrl, setStartPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [iframeList, setIframeList] = useState([])
-  const [feedbackLoading, setFeedbackLoading] = useState(true)
-  const [feedbackURL, setFeedbackURL] = useState(null)
+  const [iframeList, setIframeList] = useState([]);
+  const [feedbackLoading, setFeedbackLoading] = useState(true);
+  const [feedbackURL, setFeedbackURL] = useState(null);
 
   const userInfo = useSelector((state) => state.user.currentUser);
-  const [dbport, setDbPort] = useState(null)
+  const [dbport, setDbPort] = useState(null);
   const [teammate, setTeammate] = useState([]);
   const [selectedTeammates, setSelectedTeammates] = useState([userInfo.uid]); // props로 넘겨주는 값
 
-  const [teammateIds, setTeammateIds] = useState([])
+  const [teammateIds, setTeammateIds] = useState([]);
 
   const dispatch = useDispatch();
 
   const newMessageInfo = useSelector((state) => state.newMessage);
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
   const isDark = useSelector((state) => state.isDark.isDark);
-  const feedbackMemberId = useSelector(state => state.feedbackMemberId.value)
+  const feedbackMemberId = useSelector((state) => state.feedbackMemberId.value);
 
   const back_url = getEnv("BACK_URL");
 
@@ -137,7 +140,7 @@ const ProjectPage = () => {
   };
 
   useEffect(() => {
-    dispatch(changeProjectCalenderState(false))
+    dispatch(changeProjectCalenderState(false));
     codeServerDarkMode();
     console.log(isDark);
   }, [isDark]);
@@ -161,11 +164,62 @@ const ProjectPage = () => {
     });
     return () => {
       dispatch(clearProjectRoomId()); // 프로젝트 페이지를 떠나면 프로젝트 Id를 삭제
-      dispatch(changeProjectChatState(true)) // 프로젝트 페이지를 떠날 때 다음 접속시 바로 코드 서버 뜨게
+      dispatch(changeProjectChatState(true)); // 프로젝트 페이지를 떠날 때 다음 접속시 바로 코드 서버 뜨게
     };
   }, []);
 
+  // useEffect(() => {
+  //   const getCodeServerURL = async () => {
+  //     try {
+  //       const res = await axios.post(
+  //         `${back_url}/teams/projects/enter`,
+  //         {
+  //           repoUrl: myCurrentProject.projectRepo,
+  //         },
+  //         { withCredentials: true }
+  //       );
+  //       console.log(res.data);
+  //       if (
+  //         (res.data.result.theme === "Light" && isDark) ||
+  //         (res.data.result.theme !== "Light" && !isDark)
+  //       ) {
+  //         codeServerDarkMode();
+  //       }
+  //       setCodeServerURL(res.data.result.url);
+  //       setRunDevPreviewUrl(res.data.result.runDevPreviewUrl);
+  //       setStartPreviewUrl(res.data.result.startPreviewUrl);
+  //       setLoading(false);
+  //       setDbPort(res.data.result.dbPort);
+  //       setIframeList([res.data.result.url]); // 처음에는 코드 서버만 들어있음
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+
+  //   getCodeServerURL();
+
+  //   const leaveCodeServer = async () => {
+  //     try {
+  //       const res = await axios.post(`${back_url}/teams/projects/exit`, {
+  //         withCredentials: true,
+  //       });
+  //       console.log(res.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+
+  //   return () => {
+  //     setCodeServerURL(null); // 프로젝트를 떠나면 주소 초기화
+  //     setLoading(true);
+  //     leaveCodeServer();
+  //     dispatch(clearFeedbackMemberId());
+  //   };
+  // }, []);
+
   useEffect(() => {
+    //재성 추가
+
     const getCodeServerURL = async () => {
       try {
         const res = await axios.post(
@@ -186,14 +240,12 @@ const ProjectPage = () => {
         setRunDevPreviewUrl(res.data.result.runDevPreviewUrl);
         setStartPreviewUrl(res.data.result.startPreviewUrl);
         setLoading(false);
-        setDbPort(res.data.result.dbPort)
-        setIframeList([res.data.result.url]) // 처음에는 코드 서버만 들어있음
+        setDbPort(res.data.result.dbPort);
+        setIframeList([res.data.result.url]); // 처음에는 코드 서버만 들어있음
       } catch (err) {
         console.error(err);
       }
     };
-
-    getCodeServerURL();
 
     const leaveCodeServer = async () => {
       try {
@@ -206,16 +258,6 @@ const ProjectPage = () => {
       }
     };
 
-    return () => {
-      setCodeServerURL(null); // 프로젝트를 떠나면 주소 초기화
-      setLoading(true);
-      leaveCodeServer();
-      dispatch(clearFeedbackMemberId())
-    };
-  }, []);
-
-
-  useEffect(() => {
     const getTeammateInfo = async () => {
       try {
         const res = await axios.get(
@@ -226,17 +268,31 @@ const ProjectPage = () => {
         const teammateList = res.data.result.teammateInfoList;
         setTeammate(teammateList);
 
-        const teammateIdsList = teammateList.map(teamInfo => teamInfo.memberId);
+        const teammateIdsList = teammateList.map(
+          (teamInfo) => teamInfo.memberId
+        );
         setTeammateIds(teammateIdsList);
 
         // 콘솔 로그는 상태가 설정된 후 별도로 출력
         console.log("팀메이트", teammateList);
-        console.log('팀메이트 아이디', teammateIdsList);
+        console.log("팀메이트 아이디", teammateIdsList);
+
+        const isTeammate = teammateIdsList.includes(userInfo.uid);
+        if (isTeammate) {
+          getCodeServerURL();
+          return () => {
+            setCodeServerURL(null); // 프로젝트를 떠나면 주소 초기화
+            setLoading(true);
+            leaveCodeServer();
+            dispatch(clearFeedbackMemberId());
+          };
+        }
       } catch (err) {
         console.error(err);
       }
     };
     getTeammateInfo();
+
     // const teammateId = teammate.map(item => item.memberId)
     // setSelectedTeammates(teammateId)
     // console.log('이거 왜 안보이지?', teammateId, selectedTeammates)
@@ -246,31 +302,31 @@ const ProjectPage = () => {
   useEffect(() => {
     const getFeedbackURL = async () => {
       try {
-        console.log('feedbackMemberId: ', feedbackMemberId.id)
-        const res = await axios.get(`${back_url}/teams/projects/${feedbackMemberId.id}/feedbacks`)
-        console.log(res.data)
-        setFeedbackURL(res.data.result.feedbackUrl)
-        console.log('feedbackURL: ', res.data.result.feedbackUrl)
+        console.log("feedbackMemberId: ", feedbackMemberId.id);
+        const res = await axios.get(
+          `${back_url}/teams/projects/${feedbackMemberId.id}/feedbacks`
+        );
+        console.log(res.data);
+        setFeedbackURL(res.data.result.feedbackUrl);
+        console.log("feedbackURL: ", res.data.result.feedbackUrl);
 
-          const feedbackTheme = res.data.result.theme
-          if (feedbackTheme === 'Light' && isDark) {
-            dispatch(toggleisDarkState())
-          }
-          else if (feedbackTheme !== 'Light' && !isDark) {
-            dispatch(toggleisDarkState())
-          }
+        const feedbackTheme = res.data.result.theme;
+        if (feedbackTheme === "Light" && isDark) {
+          dispatch(toggleisDarkState());
+        } else if (feedbackTheme !== "Light" && !isDark) {
+          dispatch(toggleisDarkState());
+        }
 
-        setFeedbackLoading(false)
+        setFeedbackLoading(false);
+      } catch (err) {
+        console.error(err);
       }
-      catch (err) {
-        console.error(err)
-      }
-    }
-    const currentURL = window.location.href.split('/')
-    dispatch(changeFeedbackRoomIdState(currentURL[currentURL.length-1]))
-    console.log('currentURL: ', currentURL[currentURL.length-1])
-    getFeedbackURL()
-  }, [])
+    };
+    const currentURL = window.location.href.split("/");
+    dispatch(changeFeedbackRoomIdState(currentURL[currentURL.length - 1]));
+    console.log("currentURL: ", currentURL[currentURL.length - 1]);
+    getFeedbackURL();
+  }, []);
 
   const newChatState = () => {
     if (
@@ -290,38 +346,39 @@ const ProjectPage = () => {
     setIframeList((prev) => {
       if (prev.includes(url)) {
         if (prev.length === 1) {
-          return prev
+          return prev;
+        } else {
+          console.log(prev);
+          console.log(prev.length);
+          return prev.filter((u) => u !== url);
         }
-        else {
-          console.log(prev)
-          console.log(prev.length)
-          return prev.filter(u => u !== url)
-        }
+      } else {
+        return [...prev, url];
       }
-      else {
-        return [...prev, url]
-      }
-    })
-  }
+    });
+  };
 
   const includeCheck = (url) => {
     if (iframeList.includes(url)) {
-      return true
+      return true;
+    } else {
+      return false;
     }
-    else {
-      return false
-    }
-  }
+  };
 
   return (
     <>
-      {teammateIds.includes(userInfo.uid) ?
+      {teammateIds.includes(userInfo.uid) ? (
         <>
           {loading ? (
             <ProjectLoadingPage />
           ) : (
             <ProjectContainer>
-              <WebRTC dbport={dbport} runDevPreviewUrl={runDevPreviewUrl} startPreviewUrl={startPreviewUrl} />
+              <WebRTC
+                dbport={dbport}
+                runDevPreviewUrl={runDevPreviewUrl}
+                startPreviewUrl={startPreviewUrl}
+              />
               <ProjectMainContainer>
                 <ProjectPageLeftPanel
                   teammate={teammate}
@@ -338,65 +395,95 @@ const ProjectPage = () => {
                       <URLSelectBox
                         onClick={() => switchUrlState(codeServerURL)}
                       >
-                        {includeCheck(codeServerURL) ?
-                          <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
-                          :
-                          <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
-                        }
-                        <span style={{ marginLeft: '0.5rem' }}>
-                          Code
-                        </span>
+                        {includeCheck(codeServerURL) ? (
+                          <FontAwesomeIcon
+                            icon={fasCircle}
+                            style={{ color: "rgb(114, 0, 0)" }}
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={fasCircle}
+                            style={{ color: isDark ? "whitesmoke" : "gray" }}
+                          />
+                        )}
+                        <span style={{ marginLeft: "0.5rem" }}>Code</span>
                       </URLSelectBox>
                       <URLSelectBox
                         onClick={() => switchUrlState(runDevPreviewUrl)}
                       >
-                        {includeCheck(runDevPreviewUrl) ?
-                          <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
-                          :
-                          <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
-                        }
-                        <span style={{ marginLeft: '0.5rem' }}>
-                          Frontend
-                        </span>
+                        {includeCheck(runDevPreviewUrl) ? (
+                          <FontAwesomeIcon
+                            icon={fasCircle}
+                            style={{ color: "rgb(114, 0, 0)" }}
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={fasCircle}
+                            style={{ color: isDark ? "whitesmoke" : "gray" }}
+                          />
+                        )}
+                        <span style={{ marginLeft: "0.5rem" }}>Frontend</span>
                       </URLSelectBox>
                       <URLSelectBox
                         onClick={() => switchUrlState(startPreviewUrl)}
                       >
-                        {includeCheck(startPreviewUrl) ?
-                          <FontAwesomeIcon icon={fasCircle} style={{ color: 'rgb(114, 0, 0)' }} />
-                          :
-                          <FontAwesomeIcon icon={fasCircle} style={{ color: isDark ? 'whitesmoke' : 'gray' }} />
-                        }
-                        <span style={{ marginLeft: '0.5rem' }}>
-                          Backend
-                        </span>
+                        {includeCheck(startPreviewUrl) ? (
+                          <FontAwesomeIcon
+                            icon={fasCircle}
+                            style={{ color: "rgb(114, 0, 0)" }}
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={fasCircle}
+                            style={{ color: isDark ? "whitesmoke" : "gray" }}
+                          />
+                        )}
+                        <span style={{ marginLeft: "0.5rem" }}>Backend</span>
                       </URLSelectBox>
                     </URLSelectContainer>
-                    <div style={{ display: 'flex', flexDirection: 'row', height: '100%', width: '100%' }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        height: "100%",
+                        width: "100%",
+                      }}
+                    >
                       <iframe
                         ref={iframeRef}
                         title="code-server"
                         src={codeServerURL}
-                        style={{ width: "100%", height: "100%", border: "none", display: includeCheck(codeServerURL) ? 'block' : 'none' }}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          border: "none",
+                          display: includeCheck(codeServerURL)
+                            ? "block"
+                            : "none",
+                        }}
                       ></iframe>
-                      {includeCheck(runDevPreviewUrl) ?
+                      {includeCheck(runDevPreviewUrl) ? (
                         <iframe
                           title="code-dev"
                           src={runDevPreviewUrl}
-                          style={{ width: "100%", height: "100%", border: "none" }}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            border: "none",
+                          }}
                         ></iframe>
-                        :
-                        null
-                      }
-                      {includeCheck(startPreviewUrl) ?
+                      ) : null}
+                      {includeCheck(startPreviewUrl) ? (
                         <iframe
                           title="code-start"
                           src={startPreviewUrl}
-                          style={{ width: "100%", height: "100%", border: "none" }}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            border: "none",
+                          }}
                         ></iframe>
-                        :
-                        null
-                      }
+                      ) : null}
                     </div>
                   </IframContainer>
                 )}
@@ -415,14 +502,14 @@ const ProjectPage = () => {
             </ProjectContainer>
           )}
         </>
-        :
+      ) : (
         <>
-          {feedbackLoading ?
+          {feedbackLoading ? (
             <ProjectFeedLoadingPage />
-            :
+          ) : (
             <ProjectContainer>
               <Navbar />
-              <ProjectMainContainer style={{ marginTop: '80px' }}>
+              <ProjectMainContainer style={{ marginTop: "80px" }}>
                 <iframe
                   title="feedback-code-server"
                   src={feedbackURL}
@@ -431,9 +518,9 @@ const ProjectPage = () => {
                 <ProjectFeedbackRightPanel />
               </ProjectMainContainer>
             </ProjectContainer>
-          }
+          )}
         </>
-      }
+      )}
     </>
   );
 };

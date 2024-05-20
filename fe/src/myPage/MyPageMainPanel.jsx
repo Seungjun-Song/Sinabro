@@ -153,7 +153,7 @@ const MemoryGraphDescribeBox = styled.div`
 const MemoryGraphButtonBox = styled.div`
   margin-left: 1rem;
   display: flex;
-  width: 100%;
+  width: 230px;
   justify-content: space-between;
 `;
 
