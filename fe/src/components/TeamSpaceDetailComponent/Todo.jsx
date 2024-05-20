@@ -354,9 +354,21 @@ const Todo = ({ isDark, setMilestone, milestone }) => {
           </div>
         </div>
       )}
-      {
-        filteredData.length === 0 && <div>아직 일정이 없습니다</div>
-      }
+      {filteredData.length === 0 && (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize:"2rem",
+            color: isDark ? "white" :"black"
+          }}
+        >
+          아직 일정이 없습니다
+        </div>
+      )}
     </>
   );
 };
