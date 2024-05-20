@@ -1,0 +1,111 @@
+@font-face {
+    font-family: "Jamsil Thin";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 1 Thin.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Jamsil Light";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 2 Light.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Jamsil Regular";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 3 Regular.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Jamsil Medium";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 4 Medium.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Jamsil Bold";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 5 Bold.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Jamsil ExtraBold";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./The Jamsil 6 ExtraBold.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Pretendard Black";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./Pretendard-Black.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Pretendard Bold";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./Pretendard-Bold.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Pretendard ExtraBold";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./Pretendard-ExtraBold.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Pretendard ExtraLight";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./Pretendard-ExtraLight.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Pretendard Light";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./Pretendard-Light.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Pretendard Medium";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./Pretendard-Medium.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Pretendard Regular";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./Pretendard-Regular.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Pretendard SemiBold";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./Pretendard-SemiBold.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "Pretendard Thin";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./Pretendard-Thin.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "LaundryGothicBold";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./LaundryGothic-Bold.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "LaundryGothicRegular";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./LaundryGothic-Regular.ttf") format("woff");
+  }
+  @font-face {
+    font-family: "YeongdeokSnowCrab";
+    font-style: normal;
+    font-weight: 100;
+    src: url("./Yeongdeok-Snow-Crab.ttf") format("woff");
+  }
+  body {
+    font-family: "Jamsil Regular", sans-serif;
+  }
