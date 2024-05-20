@@ -90,9 +90,9 @@ public class ProjectController {
 
     // 프로젝트 다크 모드
     @Operation(summary = "프로젝트 다크 모드")
-    @PostMapping("/projects/darkMode")
-    public ResponseEntity<Object> projectDarkMode(@CookieValue(JwtConstants.JWT_HEADER) String token) {
-        String theme = service.projectDarkMode(token);
+    @PostMapping("/projects/{memberId}/darkMode")
+    public ResponseEntity<Object> projectDarkMode(@PathVariable Integer memberId) {
+        String theme = service.projectDarkMode(memberId);
         Map<String, String> currentTheme = new HashMap<>();
         currentTheme.put("theme", theme);
 

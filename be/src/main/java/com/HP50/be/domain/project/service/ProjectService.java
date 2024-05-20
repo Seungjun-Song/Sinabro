@@ -20,7 +20,7 @@ public interface ProjectService {
     // 프로젝트 퇴장
     void exitProject(String token);
     // 프로젝트 다크모드
-    String projectDarkMode(String token);
+    String projectDarkMode(Integer memberId);
     // 프로젝트 피드백 초대
     ProjectFeedbackDto getFeedbackUrl(Integer memberId);
 
