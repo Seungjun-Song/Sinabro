@@ -276,8 +276,9 @@ const ProjectPage = () => {
         // 콘솔 로그는 상태가 설정된 후 별도로 출력
         console.log("팀메이트", teammateList);
         console.log("팀메이트 아이디", teammateIdsList);
-
+          //재성 추가
         const isTeammate = teammateIdsList.includes(userInfo.uid);
+        console.log(isTeammate , "피드백인지 아닌지 true 이면 피드백X, false이면 피드백 O")
         if (isTeammate) {
           getCodeServerURL();
           return () => {
