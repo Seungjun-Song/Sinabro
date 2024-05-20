@@ -256,14 +256,20 @@ public class ProjectServiceImpl implements ProjectService{
 
         // 컨테이너가 존재하는지 확인
         String isContainerExistsCommand = "docker inspect --format='{{.State.Health.Status}}' " + codeServerName;
-        if(!jschUtil.executeCommand(session, isContainerExistsCommand)) {
-            // 컨테이너가 존재하지 않으면 docker run 프로세스 실행
+        String containerStatus = jschUtil.executeCommandAndGetOutput(session, isContainerExistsCommand).trim();
+
+        if (containerStatus.isEmpty()) {
             log.info("컨테이너 없음");
             runContainer(session, codeServerName, dbPort);
         } else {
-            // 컨테이너가 존재하면 docker start 프로세스 실행
-            log.info("컨테이너 있음");
-            startContainer(session, codeServerName);
+            log.info("컨테이너 상태: {}", containerStatus);
+            // 컨테이너가 존재하지만 실행 중이지 않다면 startContainer 실행
+            if (!containerStatus.equals("healthy")) {
+                log.info("컨테이너가 실행 중이 아님, 컨테이너 시작");
+                startContainer(session, codeServerName);
+            } else {
+                log.info("컨테이너가 이미 실행 중임");
+            }
         }
 
         // 리버스 프록시 설정
@@ -367,13 +373,33 @@ public class ProjectServiceImpl implements ProjectService{
 
         // 컨테이너가 존재하는지 확인
         String isContainerExistsCommand = "docker inspect --format='{{.State.Health.Status}}' " + codeServerName;
-        if(!jschUtil.executeCommand(session, isContainerExistsCommand)) {
+        String containerStatus = jschUtil.executeCommandAndGetOutput(session, isContainerExistsCommand).trim();
+
+        if (containerStatus.isEmpty()) {
             log.info("컨테이너 없음");
             throw new BaseException(StatusCode.NOT_EXISTS_CONTAINER);
         } else {
-            // 컨테이너가 존재하면 docker start 프로세스 실행
-            log.info("컨테이너 있음");
-            startContainer(session, codeServerName);
+            log.info("컨테이너 상태: {}", containerStatus);
+            // 컨테이너가 존재하지만 실행 중이지 않다면 startContainer 실행
+            if (!containerStatus.equals("healthy")) {
+                log.info("컨테이너가 실행 중이 아님, 컨테이너 시작");
+                startContainer(session, codeServerName);
+            } else {
+                log.info("컨테이너가 이미 실행 중임");
+            }
+        }
+
+        // 리버스 프록시 설정
+        String nginxUpdateCommand = "sudo python3 nginx_updater.py";
+        if(!jschUtil.executeCommand(session, nginxUpdateCommand)) {
+            throw new BaseException(StatusCode.NGINX_UPDATE_FAIL);
+        }
+
+        // Nginx 상태 확인
+        String nginxCheckCommand = "sudo nginx -t";
+        String nginxCheckOutput = jschUtil.executeCommandAndGetOutput(session, nginxCheckCommand);
+        if (!nginxCheckOutput.contains("syntax is ok") || !nginxCheckOutput.contains("test is successful")) {
+            throw new BaseException(StatusCode.NGINX_UPDATE_FAIL);
         }
 
         // 웹 소켓 서버 실행 명령
