@@ -108,7 +108,7 @@ const SearchIcon = styled(FontAwesomeIcon)`
 
 const PjtImg = styled(motion.img)`
   width: 23%;
-  aspect-ratio:1;
+  aspect-ratio: 1;
   padding: 1.2rem;
   margin-right: 10px;
 `;
@@ -158,7 +158,7 @@ const MemoryGraphButtonBox = styled.div`
 `;
 
 const MemoryGraphButton = styled.div`
-  font-size: 0.75rem;
+  font-size: 0.6rem;
   padding: 0.6rem;
   font-weight: bold;
   background-color: #6c32cd;
@@ -441,13 +441,8 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
     }
   };
 
-  const hadleAllClick = (node) => {
+  const hadleAllClick =async (node) => {
     // Aim at node from outside it
-    if (isMe) {
-      setWhatNode(node);
-    }
-
-    console.log(node);
     const distance = 500;
     const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
     if (graphData.nodes.length !== 1) {
@@ -461,6 +456,50 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
         1500 // ms transition duration
       );
     }
+    if (isMe) {
+      if(isLink){
+        const beforeNode = whatnode
+        // setNowNode(whatnode)
+        try {
+          const res = await axios.put(
+            `${back_url}/memo?memoId1=${node.id}&memoId2=${beforeNode.id}`,
+            { withCredentials: true }
+          );
+          console.log(res);
+          await getGraphData();
+          const distance = 500;
+          const distRatio =
+            1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
+          console.log(fgRef.current);
+          fgRef.current.cameraPosition(
+            {
+              x: whatnode.x * distRatio,
+              y: whatnode.y * distRatio,
+             z: whatnode.z * distRatio,
+            }, // new position
+            whatnode, // lookAt ({ x, y, z })
+            1500 // ms transition duration
+          );
+          setIsModal(false);
+          setWhatNode(null);
+          setContent("");
+          setNewNode("");
+          setIsLink(false)
+          setColor("#c7c7c7");
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          alert("에러가 발생했습니다.")
+        }
+      }
+      setWhatNode(node);
+    }
+
+
+    
+   
+      
+    
+
     //   fgRef = 0;
   };
   //   console.log(color);
@@ -510,6 +549,10 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
     }
   }, [graphData, is2D]);
   const [isText, setIsText] = useState(false);
+  const [isLink ,setIsLink] = useState(false)
+  const handleNodeLink=()=>{  
+    setIsLink(true)
+  }
   return (
     <div
       style={{
@@ -673,7 +716,6 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
                     dispatch(setMyCurrentProject({ ...item }));
                     navigate(`/TeamSpaceDetailPage/${item.projectId}`);
                   }}
-
                   style={{ cursor: "pointer", borderRadius: "30px" }}
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -793,7 +835,12 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
             {whatnode && (
               <MemoryGraphSideBox>
                 <MemoryGraphDescribeBox
-                  style={{ color: isDark ? "white" : "black" }}
+                  style={{
+                    color: isDark ? "white" : "black",
+                    backgroundColor: isDark
+                      ? GlobalColor.colors.primary_black
+                      : "rgb(245, 248, 255)",
+                  }}
                 >
                   <h3>{whatnode.label}</h3>
                   {whatnode.content}
@@ -817,9 +864,13 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
                   >
                     Edit
                   </MemoryGraphButton>
+                  <MemoryGraphButton onClick={() => handleNodeLink()}>
+                    Link
+                  </MemoryGraphButton>
                   <MemoryGraphButton onClick={() => handleNodeDel()}>
                     Del
                   </MemoryGraphButton>
+                  
                 </MemoryGraphButtonBox>
                 <div
                   onClick={() => setWhatNode(null)}
