@@ -320,11 +320,18 @@ const ProjectPage = () => {
         setFeedbackURL(res.data.result.feedbackUrl);
         console.log("feedbackURL: ", res.data.result.feedbackUrl);
 
-        const feedbackTheme = res.data.result.theme;
-        if (feedbackTheme === "Light" && isDark) {
-          dispatch(toggleisDarkState());
-        } else if (feedbackTheme !== "Light" && !isDark) {
-          dispatch(toggleisDarkState());
+        // const feedbackTheme = res.data.result.theme;
+        // if (feedbackTheme === "Light" && isDark) {
+        //   dispatch(toggleisDarkState());
+        // } else if (feedbackTheme !== "Light" && !isDark) {
+        //   dispatch(toggleisDarkState());
+        // }
+
+        if (
+          (res.data.result.theme === "Light" && isDark) ||
+          (res.data.result.theme !== "Light" && !isDark)
+        ) {
+          codeServerDarkMode();
         }
 
         setFeedbackLoading(false);
