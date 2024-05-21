@@ -193,27 +193,30 @@ const SonarQubeContents = () => {
                 "success"
               );
               setIsPaid(true);
-            } else {
-              Swal.fire({
-                title: "결제 실패",
-                text: "다시 요청해주세요.",
-                icon: "error",
-              });
             }
-          } else {
-            // 결제 요청이 실패했을 때
-            Swal.fire({
-              title: "결제 실패",
-              text: "다시 요청해주세요.",
-              icon: "error",
-            });
-            console.log(rsp);
+            // else {
+            //   Swal.fire({
+            //     title: "결제 실패",
+            //     text: "다시 요청해주세요.",
+            //     icon: "error",
+            //   });
+            // }
           }
+          // else {
+          // 결제 요청이 실패했을 때
+          //   Swal.fire({
+          //     title: "결제 실패",
+          //     text: "다시 요청해주세요.",
+          //     icon: "error",
+          //   });
+          //   console.log(rsp);
+          // }
         }
       );
-    } else {
-      console.log("Payment information could not be saved.");
     }
+    // else {
+    //   console.log("Payment information could not be saved.");
+    // }
   };
   const getPercentage = () => {
     const t = Math.round(((total - openTotal) / total) * 100);
