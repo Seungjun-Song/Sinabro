@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:789a0eeeec484fc977f738b6a1b19944ba329cb0ca1f97d2918c707e221eab6c
-size 745
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+    value: {
+        id: null,
+        roomId: null,
+    }
+}
+
+export const feedbackMemberIdSlice =  createSlice({
+    name: 'feedbackMemberId',
+    initialState,
+    reducers: {
+        changeFeedbackMemberIdState: (state, action) => {
+            state.value.id = action.payload
+        },
+        changeFeedbackRoomIdState: (state, action) => {
+            state.value.roomId = action.payload
+        },
+        clearFeedbackMemberId: (state) => {
+            state.value.id = null
+        }
+    }
+})
+
+export const {changeFeedbackMemberIdState, changeFeedbackRoomIdState, clearFeedbackMemberId} = feedbackMemberIdSlice.actions
+export default feedbackMemberIdSlice.reducer
