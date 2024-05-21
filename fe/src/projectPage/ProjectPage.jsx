@@ -126,6 +126,10 @@ const ProjectPage = () => {
 
   const userId = isFromFeedback === true ? feedbackMemberId.id : userInfo.uid
 
+  console.log('project page isFromFeedback: ', isFromFeedback)
+  console.log('userId: ', userId)
+  console.log('userInfo.uid', userInfo.uid)
+
   const back_url = getEnv("BACK_URL");
 
   const iframeRef = useRef(null);
