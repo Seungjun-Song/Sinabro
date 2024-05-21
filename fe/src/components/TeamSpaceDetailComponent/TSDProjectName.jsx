@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { setProjectRoomId } from "../../store/projectRoomIdSlice";
 import axios from "axios";
 import getEnv from "../../utils/getEnv";
+import { setFeedbackState } from "../../store/feedbackSlice";
 
 const TSDProjectName = ({ isDark ,isIn}) => {
   const [isHover, setIsHover] = useState(false);
@@ -24,6 +25,7 @@ const TSDProjectName = ({ isDark ,isIn}) => {
   const isFromFeadback = location.state?.kind.name === "feadback";
   console.log('isFromSpecificUrl : ', isFromSpecificUrl)
   console.log('isFromFeadback: ', isFromFeadback)
+  dispatch(setFeedbackState(isFromFeadback))
 
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
   // console.log(myCurrentProject)
