@@ -128,7 +128,7 @@ const ProjectPage = () => {
 
   const codeServerDarkMode = async () => {
     try {
-      const res = await axios.post(`${back_url}/teams/projects/darkMode`);
+      const res = await axios.post(`${back_url}/teams/projects/${userInfo.uid}/darkMode`);
       console.log(res.data);
       // Iframe 리로딩
       if (iframeRef.current) {
