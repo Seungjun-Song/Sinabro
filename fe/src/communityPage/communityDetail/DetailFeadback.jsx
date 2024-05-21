@@ -1,3 +1,64 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4ca2675a22195eee695f2f6f33b59bd618553bc5f77b087cb3a14ce969ef44e3
-size 1488
+import styled, { css } from 'styled-components'
+
+import CommentWindow from './CommentWindow'
+
+import ProfileTempImg from '/images/default_my_image.png'
+import PjtImg from '/image/community/pjtTempImg.png'
+import DetailHeader from './DetailHeader'
+import DetailMiddle from './DetailMiddleBox'
+
+const Detail = styled.div`
+    display: flex;        
+    flex-direction: column;
+    width: 50%;
+    margin: 4rem 20rem 0 5rem;
+
+    ${props => props.isDark && css`
+        color: white;
+    `}
+
+    transition: 0.3s;
+
+`
+
+const Line = styled.hr`
+`
+const DetailFeadback = ({ isDark, detailData, commentDate, setCommentDate, projectData, totalCount, currentPage, setCurrentPage, setTotalCount, setOpenChat, selectedUser, setSelectedUser }) => {
+
+    return(
+        <Detail
+            isDark={isDark}
+        >
+            <DetailHeader
+                kind={{id: 403, name: "feadback"}}
+                detailData={detailData}
+                isDark={isDark}
+            />
+            
+            <Line/>
+            <DetailMiddle
+                detailData={detailData}
+                pjtData={projectData}
+                kind={{id: 403, name: "feadback"}}
+                isDark={isDark}
+            />
+            
+            <Line/>
+
+            <CommentWindow
+                isDark={isDark}
+                commentDate={commentDate}
+                setCommentDate={setCommentDate}
+                boardId={detailData.id}
+                totalCount={totalCount}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                setOpenChat={setOpenChat}
+                setSelectedUser={setSelectedUser}
+                setTotalCount={setTotalCount}
+            />
+        </Detail>
+    )
+}
+
+export default DetailFeadback;
