@@ -8,13 +8,12 @@ import axios from "axios";
 import getEnv from "../../utils/getEnv";
 import UserSearchModal from "./UserSearchModal";
 
-const ProjectTeam = ({ setWhatUser, isDark }) => {
+const ProjectTeam = ({ setWhatUser, isDark,teamInfo,setTeamInfo }) => {
   const displayedRoles = [];
 
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
   const back_url = getEnv("BACK_URL");
 
-  const [teamInfo, setTeamInfo] = useState([]);
   const [teamLeader, setTeamLeader] = useState(null);
   const [reloading, setReloading] = useState(false);
   const [IsModalOpen, setIsModalOpen] = useState(false);
@@ -33,7 +32,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
           `${back_url}/teams?projectId=${myCurrentProject.projectId}`
         );
         console.log(res.data);
-        setTeamLeader(res.data.result.teammateInfoList[0]?.memberId);
+        setTeamLeader(res.data.result.teamReaderId);
         const transformedTeamInfo = res.data.result.teammateInfoList?.map(
           (item) => ({
             ...item,
@@ -93,7 +92,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 display: "flex",
                 gap: "1rem",
                 flexDirection: "column",
-                height: "100%",
+                height: "20rem",
                 marginBottom: "1rem",
                 // height:"15rem"
               }}
@@ -107,7 +106,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 isDark={isDark}
                 setWhatUser={setWhatUser}
                 item={item.teammateRole}
-                state={item.teamReader ? "Reader" : "Member"}
+                state={item.teamReader ? "Leader" : "Member"}
                 name={item.memberName}
                 memberId={item.memberId}
                 teamLeader={teamLeader}
@@ -128,7 +127,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 display: "flex",
                 gap: "1rem",
                 flexDirection: "column",
-                height: "100%",
+                height: "20rem",
                 marginBottom: "1rem",
               }}
               variants={{
@@ -141,7 +140,7 @@ const ProjectTeam = ({ setWhatUser, isDark }) => {
                 isDark={isDark}
                 setWhatUser={setWhatUser}
                 item={item.teammateRole}
-                state={item.teamReader ? "Reader" : "Member"}
+                state={item.teamReader ? "Leader" : "Member"}
                 name={item.memberName}
                 memberId={item.memberId}
                 teamLeader={teamLeader}

@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleInfo,
+  faCircleXmark,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Modal } from "react-bootstrap";
 import { AnimatePresence, motion } from "framer-motion";
@@ -43,6 +47,7 @@ const MyPageMainPanelContainer = styled.div`
   border: 3px solid #a2a2a2;
   width: 90%;
   overflow-y: auto;
+  overflow-x: none;
   /* margin-bottom: 3rem; */
   border-radius: 10px;
   margin-left: 1rem;
@@ -102,11 +107,13 @@ const SearchIcon = styled(FontAwesomeIcon)`
 `;
 
 const PjtImg = styled(motion.img)`
-  width: 25%;
-  padding: 1rem;
+  width: 23%;
+  aspect-ratio: 1;
+  padding: 1.2rem;
+  margin-right: 10px;
 `;
 
-const MemoryGraphContainer = styled.div`
+const MemoryGraphContainer = styled(motion.div)`
   display: flex;
 `;
 
@@ -128,28 +135,30 @@ const MemoryGraphSideBox = styled.div`
   height: 30rem;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 const MemoryGraphDescribeBox = styled.div`
   border: 3px solid transparent;
   border-image: linear-gradient(to right, #3dc7af, #613acd);
   border-image-slice: 1;
-  margin-left: 2rem;
-  width: 100%;
+  margin-left: 1rem;
+  width: 230px;
   padding: 1rem;
-  max-height: 26rem;
+  /* max-height: 26rem; */
+  height: 100%;
   overflow-y: auto;
   margin-bottom: 1rem;
 `;
 
 const MemoryGraphButtonBox = styled.div`
-  margin-left: 2rem;
+  margin-left: 1rem;
   display: flex;
-  width: 100%;
+  width: 230px;
   justify-content: space-between;
 `;
 
 const MemoryGraphButton = styled.div`
-  font-size: 1rem;
+  font-size: 0.75rem;
   padding: 0.6rem;
   font-weight: bold;
   background-color: #6c32cd;
@@ -226,19 +235,32 @@ const dataList = [
     subCategoryId: 202,
   },
 ];
+const mapimg = {
+  React: "/images/react.png",
+  Vue: "/images/vue.png",
+  HTML: "/images/html.png",
+  CSS: "/images/css.png",
+  JavaScript: "/images/js.png",
+  Java: "/images/java.png",
+  Python: "/images/python.png",
+  Spring: "/images/spring.png",
+  Django: "/images/django.png",
+};
 
-const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
+const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
+  const [whatnode, setWhatNode] = useState(null);
   const [isSideBoxVisible, setIsSidePanelVisible] = useState(false);
   const back_url = getEnv("BACK_URL");
   const [showModal, setShowModal] = useState(false);
   const [whatSearch, setWhatSearch] = useState("");
+  // console.log(userfind)
   const [searchResults, setSearchResults] = useState([]);
   // console.log(userfind)
   const [choiceResults, setChoiceResults] = useState([]);
   const findUser = async () => {
     //   console.log(userInfo.uid);
     try {
-      const res = await axios.get(`${back_url}/members/${userInfo.uid}`);
+      const res = await axios.get(`${back_url}/members/${userfind.memberId}`);
       console.log(res);
       setUserFind(res.data.result);
     } catch (err) {
@@ -252,6 +274,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
   const myProjectList = useSelector((state) => state.myProjectList.value); // 잘 들어오는지 확인, 페이지 이동 잘 되는지 확인
+
   const DelSkill = async (techStackId) => {
     //   console.log(userInfo.uid);
     try {
@@ -309,6 +332,184 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
   };
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log(userfind);
+  // 메모리 그래프 구역
+  const [graphData, setGraphData] = useState({ nodes: [], links: [] });
+
+  const [color, setColor] = useState("#c7c7c7");
+  const [pjtlist, setPjtlist] = useState([]);
+  const [newnode, setNewNode] = useState("");
+  const [isModal, setIsModal] = useState(false);
+  const [content, setContent] = useState(" ");
+  const fgRef = useRef();
+  const getGraphData = async () => {
+    try {
+      const res = await axios.get(`${back_url}/members/${userfind.memberId}`);
+      console.log(res);
+      setGraphData({
+        nodes: res.data.result.graphDto.nodeList,
+        links: res.data.result.graphDto.linkList,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const changenode = async () => {
+    if (newnode == "") {
+      return;
+    } else if (content == "") {
+      return;
+    }
+    console.log(newnode);
+    console.log(content);
+    try {
+      const res = await axios.put(`${back_url}/memo/update`, {
+        memoId: whatnode.id,
+        title: newnode,
+        content: content,
+        color: color,
+      });
+      console.log(res);
+      setIsModal(false);
+      setWhatNode(null);
+      setContent("");
+      setNewNode("");
+      setColor("#c7c7c7");
+      await getGraphData();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    getGraphData();
+  }, [userfind]);
+
+  //   const gData = genRandomTree();
+  //   console.log(gData);
+  const addnode = async () => {
+    console.log(newnode);
+    console.log(content);
+    console.log(color);
+    if (newnode == "") {
+      return;
+    } else if (content == "") {
+      return;
+    }
+    try {
+      const res = await axios.post(
+        `${back_url}/memo`,
+        {
+          title: newnode, // newnode 변수를 제목으로 사용
+          content: content, // content 변수를 내용으로 사용
+          color: color,
+        },
+        { withCredentials: true }
+      );
+      return res.data.result;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const connectnode = async (newnodeid) => {
+    try {
+      const res = await axios.put(
+        `${back_url}/memo?memoId1=${whatnode.id}&memoId2=${newnodeid}`,
+        { withCredentials: true }
+      );
+      console.log(res);
+      await getGraphData();
+      const distance = 500;
+      const distRatio =
+        1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
+      console.log(fgRef.current);
+      fgRef.current.cameraPosition(
+        {
+          x: whatnode.x * distRatio,
+          y: whatnode.y * distRatio,
+          z: whatnode.z * distRatio,
+        }, // new position
+        whatnode, // lookAt ({ x, y, z })
+        1500 // ms transition duration
+      );
+      setIsModal(false);
+      setWhatNode(null);
+      setContent("");
+      setNewNode("");
+      setColor("#c7c7c7");
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const hadleAllClick = (node) => {
+    // Aim at node from outside it
+    if (isMe) {
+      setWhatNode(node);
+    }
+
+    console.log(node);
+    const distance = 500;
+    const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+    if (graphData.nodes.length !== 1) {
+      fgRef.current.cameraPosition(
+        {
+          x: node.x * distRatio,
+          y: node.y * distRatio,
+          z: node.z * distRatio,
+        }, // new position
+        node, // lookAt ({ x, y, z })
+        1500 // ms transition duration
+      );
+    }
+    //   fgRef = 0;
+  };
+  //   console.log(color);
+  const handleNodeDel = async () => {
+    // 경고 창을 통해 사용자에게 확인 메시지를 표시
+    const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");
+
+    // 사용자가 확인을 선택한 경우에만 삭제 진행
+    if (confirmDelete) {
+      try {
+        const res = await axios.delete(
+          `${back_url}/memo?memoId=${whatnode.id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        // 삭제 성공
+        setIsModal(false);
+        setWhatNode(null);
+        setContent("");
+        setNewNode("");
+        setColor("#c7c7c7");
+        await getGraphData();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+  const handleConfirm = async () => {
+    const newnodeid = await addnode();
+    connectnode(newnodeid);
+  };
+  const handlefirst = async () => {
+    await addnode();
+    getGraphData();
+    setIsModal(false);
+    setWhatNode(null);
+    setContent("");
+    setNewNode("");
+    setColor("#c7c7c7");
+  };
+  const [isinfoHover, setIsInfoHover] = useState(false);
+  const [is2D, setIs2D] = useState(false);
+  useEffect(() => {
+    if (fgRef.current) {
+      fgRef.current.d3Force("link").iterations(1).distance(85);
+    }
+  }, [graphData, is2D]);
+  const [isText, setIsText] = useState(false);
   return (
     <div
       style={{
@@ -325,9 +526,19 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 5 }}
           transition={{ duration: 0.3, delay: 0.3 }}
-          style={{ height: "12rem" }}
+          style={{ height: "12rem", position: "relative" }}
         >
-          <InnerText>Skills</InnerText>
+          <InnerText
+            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+          >
+            Skills
+            <div
+              style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
+            >
+              {userfind.nickname}님이 보유하신 기술 스택입니다!
+            </div>
+          </InnerText>
+
           <SearchContainer>
             <SearchContainerLeftSide>
               <AnimatePresence>
@@ -351,37 +562,53 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                       >
                         {/* {없을 때 띄울 글자 생각해야함} */}
                         {item.subCategoryName}
-                        <SkillDelBtn onClick={() => handleDelete(item)}>
-                          X
-                        </SkillDelBtn>
+                        {isMe && (
+                          <SkillDelBtn onClick={() => handleDelete(item)}>
+                            X
+                          </SkillDelBtn>
+                        )}
+                        {!isMe && (
+                          <img
+                            src={mapimg[item.subCategoryName]}
+                            style={{ height: "1rem" }}
+                          />
+                        )}
                       </SkillDetail>
                     </motion.div>
                   ))}
+                {choiceResults && choiceResults.length == 0 && (
+                  <div>기술 스택이 존재하지 않습니다</div>
+                )}
               </AnimatePresence>
-
-              <SearchInput
-                style={{
-                  backgroundColor: isDark
-                    ? GlobalColor.colors.primary_black
-                    : "white",
-                  transition: "0.3s",
-                  color: isDark ? "white" : "black",
-                }}
-                onChange={handleChange}
-                value={whatSearch}
-              />
+              {isMe && (
+                <SearchInput
+                  style={{
+                    backgroundColor: isDark
+                      ? GlobalColor.colors.primary_black
+                      : "white",
+                    transition: "0.3s",
+                    color: isDark ? "white" : "black",
+                  }}
+                  onChange={handleChange}
+                  value={whatSearch}
+                />
+              )}
             </SearchContainerLeftSide>
             <SearchContainerRightSide>
-              <SearchIcon icon={faSearch} />
+              {isMe && <SearchIcon icon={faSearch} />}
             </SearchContainerRightSide>
           </SearchContainer>
-          {whatSearch && (
+          {searchResults.length !== 0 && whatSearch && (
             <div
               className="shadow"
               style={{
                 // padding:"1rem",
-                maxHeight: "100%",
-                // height:"4rem",
+                position: "absolute",
+                top: "8rem",
+                width: "100%",
+                height: "3rem",
+                height: "4rem",
+                alignItems: "center",
                 display: "flex",
                 // flexDirection: "column",
                 flexWrap: "wrap",
@@ -401,7 +628,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
                     color: "white",
                   }}
                   style={{
-                    margin: "1rem",
+                    margin: "0.5rem",
                     display: "flex",
                     gap: "0.8rem",
                     alignItems: "center",
@@ -427,32 +654,34 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
           transition={{ duration: 0.3, delay: 0.6 }}
           style={{ marginTop: 0 }}
         >
-          <InnerText>Works</InnerText>
+          <InnerText
+            style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+          >
+            Works
+            <div
+              style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
+            >
+              {userfind.nickname}님의 작품입니다!
+            </div>
+          </InnerText>
           <InnerBox style={{ padding: "0", gap: "0" }}>
             {/* Works 내용 */}
-            {myProjectList.map((item, index) => {
-              const [imgHover, setimgHover] = useState(false);
-
-              return (
+            {userfind.projects &&
+              userfind.projects.map((item, index) => (
                 <PjtImg
-                  onClick={() => (
-                    dispatch(setMyCurrentProject(item)),
-                    navigate(`/TeamSpaceDetailPage/${item.projectId}`)
-                  )}
-                  className={imgHover ? "shadow" : ""}
-                  onHoverStart={() => setimgHover(true)}
-                  onHoverEnd={() => setimgHover(false)}
-                  // whileHover={{ opacity: 0.8 }}
-                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    dispatch(setMyCurrentProject({ ...item }));
+                    navigate(`/TeamSpaceDetailPage/${item.projectId}`);
+                  }}
+                  style={{ cursor: "pointer", borderRadius: "30px" }}
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   key={index}
                   src={item.projectImg}
                   transition={{ delay: index * 0.1 + 0.6, duration: 0.3 }}
                 />
-              );
-            })}
-            {myProjectList.length == 0 && (
+              ))}
+            {userfind.projects && userfind.projects.length == 0 && (
               <div
                 style={{
                   padding: "1rem",
@@ -465,45 +694,154 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
             )}
           </InnerBox>
         </InnerArea>
-        <InnerArea>
-          <InnerText>Memory Graph</InnerText>
+        <InnerArea
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 5 }}
+          transition={{ duration: 0.3, delay: 0.9 }}
+          // style={{ marginTop: 0 }}
+        >
+          <InnerText
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div>Memory Graph</div>
+              <div
+                style={{ fontSize: "1rem", color: isDark ? "white" : "black" }}
+              >
+                <div>노드간 정보를 입체적으로 저장하세요</div>
+              </div>
+            </div>
+            {graphData.nodes.length !== 0 && (
+              <motion.div style={{ marginRight: "2rem", position: "relative" }}>
+                <FontAwesomeIcon
+                  onClick={() => setIsInfoHover(!isinfoHover)}
+                  size="2xs"
+                  style={{ color: "rgba(86, 76, 173, 1)", cursor: "pointer" }}
+                  // flip="horizontal"
+                  icon={faCircleInfo}
+                />
+                <AnimatePresence>
+                  {isinfoHover && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 5 }}
+                      transition={{ duration: 0.3 }}
+                      className="shadow"
+                      style={{
+                        zIndex: "99",
+                        width: "28rem",
+                        position: "absolute",
+                        top: "3rem",
+                        right: "-1rem",
+                        backgroundColor: "White",
+                        borderRadius: "1rem",
+                        padding: "1rem",
+                        color: "black",
+                        fontSize: "1rem",
+                      }}
+                    >
+                      <div>파란색 +버튼 : 독립적으로 존재하는 노드 생성</div>
+                      <div>
+                        노드 클릭시 나오는 Add Node : 그 노드와 연결된 노드 생성
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
+          </InnerText>
           <MemoryGraphContainer>
             <MemoryGraphMainBox
-              // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
+            // onClick={() => setIsSidePanelVisible(!isSideBoxVisible)}
             >
-              <MemoryGraph />
+              <MemoryGraph
+                setIsText={setIsText}
+                isText={isText}
+                is2D={is2D}
+                setIs2D={setIs2D}
+                isMe={isMe}
+                newnode={newnode}
+                setNewNode={setNewNode}
+                setColor={setColor}
+                whatnode={whatnode}
+                setWhatNode={setWhatNode}
+                setGraphData={setGraphData}
+                graphData={graphData}
+                color={color}
+                isModal={isModal}
+                setIsModal={setIsModal}
+                content={content}
+                setContent={setContent}
+                fgRef={fgRef}
+                handlefirst={handlefirst}
+                handleConfirm={handleConfirm}
+                changenode={changenode}
+                isDark={isDark}
+                hadleAllClick={hadleAllClick}
+                getGraphData={getGraphData}
+                addnode={addnode}
+              />
             </MemoryGraphMainBox>
-            {isSideBoxVisible && (
+            {whatnode && (
               <MemoryGraphSideBox>
                 <MemoryGraphDescribeBox
-                  style={{ color: isDark ? "white" : "black" }}
+                  style={{
+                    color: isDark ? "white" : "black",
+                    backgroundColor: isDark ? "black" : "rgb(245, 248, 255)",
+                  }}
                 >
-                  <h1>제목</h1>
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용 내용내용내용내용내용내용
-                  내용내용내용내용내용내용
+                  <h3>{whatnode.label}</h3>
+                  {whatnode.content}
                 </MemoryGraphDescribeBox>
                 <MemoryGraphButtonBox>
-                  <MemoryGraphButton onClick={handleShow}>
+                  <MemoryGraphButton
+                    onClick={() => (
+                      setIsModal({ type: "add" }), console.log(isModal)
+                    )}
+                  >
                     Add Node
                   </MemoryGraphButton>
-                  <MemoryGraphButton onClick={handleShow}>
+                  <MemoryGraphButton
+                    onClick={() => (
+                      setIsModal({ type: "change" }),
+                      setColor(whatnode.color),
+                      setContent(whatnode.content),
+                      setNewNode(whatnode.label),
+                      console.log(isModal)
+                    )}
+                  >
                     Edit
                   </MemoryGraphButton>
+                  <MemoryGraphButton onClick={() => handleNodeDel()}>
+                    Del
+                  </MemoryGraphButton>
                 </MemoryGraphButtonBox>
+                <div
+                  onClick={() => setWhatNode(null)}
+                  style={{
+                    position: "absolute",
+                    top: "0.5rem",
+
+                    right: "0.5rem",
+                    cursor: "pointer",
+                    color: "rgb(86, 76, 173)",
+                  }}
+                >
+                  <FontAwesomeIcon size="xl" icon={faCircleXmark} />
+                </div>
               </MemoryGraphSideBox>
             )}
           </MemoryGraphContainer>
         </InnerArea>
         {/* 아래부분 모달 코드이므로 추후에 수정 필요 */}
-        {showModal && (
+        {/* {showModal && (
           <Modal show={showModal} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>나중에</Modal.Title>
@@ -518,7 +856,7 @@ const MyPageMainPanel = ({ isDark, userfind, setUserFind, userInfo }) => {
               </Button>
             </Modal.Footer>
           </Modal>
-        )}
+        )} */}
       </MyPageMainPanelContainer>
     </div>
   );

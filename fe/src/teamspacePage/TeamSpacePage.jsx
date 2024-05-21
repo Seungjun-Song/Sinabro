@@ -15,7 +15,8 @@ import ProjectCreateBtn from "../components/teamspaceComponents/ProjectCreateBtn
 import { useEffect } from "react";
 import { clearProjectCreate, setProjectMemberList } from "../store/projectCreateSlice";
 import { clearInvitedUserList, setInvitedUserList } from "../store/invitedUserListSlice";
-
+import Swal from 'sweetalert2'
+import UserChat from "../components/Userchat/UserChat";
 
 const TeamSpacePage = () => {
   const [imgUrl, setImgUrl] = useState("/images/E103_Logo.png")
@@ -62,6 +63,7 @@ const TeamSpacePage = () => {
   return (
     <>
       <Navbar />
+      <UserChat/>
       <div
         className="d-flex flex-column"
         style={{
@@ -70,7 +72,8 @@ const TeamSpacePage = () => {
           alignItems: "center",
           paddingTop: "7rem",
           // backgroundColor: "rgba(212, 223, 255, 0.2)",
-          transition: "0.3s"
+          transition: "0.3s",
+          minWidth: '1200px',
         }}
       >
         <Projectname
@@ -103,7 +106,7 @@ const TeamSpacePage = () => {
           )}
         </AnimatePresence>
         <ProjectCreateBtn isDark={isDark} setRoleCheck={setRoleCheck}/>
-        {roleCheck === true ? (window.alert('팀원의 역할을 선택해 주세요'), setRoleCheck(false)) : null}
+        {roleCheck === true ? (Swal.fire("팀원의 역할을 선택해 주세요"), setRoleCheck(false)) : null}
       </div>
     </>
   );

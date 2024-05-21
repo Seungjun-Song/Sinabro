@@ -14,6 +14,7 @@ import { GlobalColor } from "../services/color";
 import { useDispatch, useSelector } from "react-redux";
 import getEnv from "../utils/getEnv";
 import { setMyProjectList } from "../store/myProjectListSlice";
+import { clearFeedbackMemberId } from "../store/feedbackMemberIdSlice";
 
 const Mainpage = () => {
   const isDark = useSelector((state) => state.isDark.isDark);
@@ -31,12 +32,13 @@ const Mainpage = () => {
           withCredentials: true,
         });
         dispatch(setMyProjectList(res.data.result));
-        console.log('이거 되나', res.data)
+        console.log("이거 되나", res.data);
       } catch (err) {
         console.error(err);
       }
     };
     getMyProjects();
+    dispatch(clearFeedbackMemberId())
   }, []);
   const getAllProjects = async (newpage) => {
     try {
@@ -110,15 +112,23 @@ const Mainpage = () => {
           paddingTop: "80px",
           justifyContent: "center",
           backgroundColor: isDark ? GlobalColor.colors.primary_black : "white",
+          minWidth: '1300px',
         }}
       >
-        <div style={{ width: "70%" }}>
+        <div style={{ width: "70%"}}>
           <SimpleSlider />
           <VerticalSlider isDark={isDark} />
           <GotoTeamSpace
             isDark={isDark}
             data={myProjectList}
-            activeSlide={Math.min(Math.floor(myProjectList && myProjectList.length > 0 && myProjectList.length / 2), 2)}
+            activeSlide={Math.min(
+              Math.floor(
+                myProjectList &&
+                  myProjectList.length > 0 &&
+                  myProjectList.length / 2
+              ),
+              2
+            )}
           />
           <SinabroTeamProject
             allPage={allPage}
@@ -175,6 +185,7 @@ const Mainpage = () => {
         style={{ originX: isPresent ? 0 : 1 }}
         className="privacy-screen"
       /> */}
+
     </>
   );
 };

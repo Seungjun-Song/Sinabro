@@ -309,6 +309,7 @@ const SonarQubeContents = () => {
                     marginBottom: "20px",
                     color: isDark ? "white" : "",
                     backgroundColor: isDark ? "#00ff0000" : "",
+                    transition:"0.3s"
                   }}
                 >
                   소나큐브 결과 페이지 이동

@@ -15,12 +15,13 @@ const MyPageContainer = styled.div`
   height: 100vh;
   width: 100vw;
   align-items: center;
+  justify-content:"center";
 `;
 
 const MainBox = styled.div`
   display: flex;
   width: 80%;
-  height: 100%;
+  height: calc(100% - 80px);
   margin-top: 4rem;
 `;
 

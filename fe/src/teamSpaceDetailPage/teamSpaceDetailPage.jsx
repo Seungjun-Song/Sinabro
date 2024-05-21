@@ -6,6 +6,7 @@ import TSDProjectContent from "../components/TeamSpaceDetailComponent/TSDProject
 import { motion } from "framer-motion";
 import { GlobalColor } from "../services/color";
 import { useSelector } from "react-redux";
+import UserChat from "../components/Userchat/UserChat";
 // import api from "../services/api";
 const TeamSpaceDetailPage = () => {
   const isDark = useSelector(state =>state.isDark.isDark)
@@ -23,25 +24,30 @@ const TeamSpaceDetailPage = () => {
   //   };
   // }, []);
   const [whatInfo, setWhatInfo] = useState("설명"); // 왼쪽 버튼 선택
+  const [isIn, setIsIn] = useState(false);
   return (
     <>
       <Navbar />
+      <UserChat/>
       <div
         className="d-flex flex-column"
         style={{
+          justifyContent:"center",
           width: "100vw",
-          height:"100vh",
+          minHeight:"100vh",
+          // height:"100%",
           alignItems: "center",
           paddingTop: "5rem",
           backgroundColor : isDark ? GlobalColor.colors.primary_black : "white",
           // backgroundColor: "rgba(212, 223, 255, 0.2)",
-          transition:"0.3s"
+          transition:"0.3s",
+          minWidth: '1200px',
         }}
         
       >
-        <TSDProjectName isDark={isDark} />
-        <div style={{ display: "flex", width: "70%" }}>
-          <TSDProjectInfo  isDark={isDark}  whatInfo={whatInfo} setWhatInfo={setWhatInfo} />
+        <TSDProjectName isIn={isIn} isDark={isDark} />
+        <div style={{ display: "flex", width: "70%" ,height:"100%" }}>
+          <TSDProjectInfo isIn={isIn} setIsIn={setIsIn} isDark={isDark}  whatInfo={whatInfo} setWhatInfo={setWhatInfo} />
           <TSDProjectContent isDark={isDark} whatInfo={whatInfo} />
         </div>
       </div>

@@ -18,13 +18,12 @@ const CalTime = (fullDate) => {
       finalDate = diff + "시간 전";
     }
   } else {
-    console.log(`아니 왜 이럼? 살려줘요 ${finalDate}`);
-    finalDate =
-      fullDate.getFullYear() +
-      "." +
-      fullDate.getMonth() +
-      "." +
-      fullDate.getDate();
+    // date의 getMonth 를 하면 현재의 달에 - 1 이 나오기 때문에 + 1 을 해줌
+    finalDate = `${fullDate.getFullYear()}. 
+                    ${fullDate.getMonth() + 1}.
+                    ${fullDate.getDate()}.
+                    ${fullDate.getHours()}.
+                    ${fullDate.getMinutes()}`;
   }
 
   return finalDate;

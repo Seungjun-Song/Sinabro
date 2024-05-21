@@ -10,6 +10,7 @@ import CommunityMemberPage from './CommunityMemberPage';
 import CommunityTeamPage from './CommunityTeamPage';
 import CommunityFeadBackPage from './CommunityFeadbackPage';
 import Pagination from './Pagination';
+import UserChat from '../../components/Userchat/UserChat';
 import { GlobalColor } from '../../services/color';
 import getEnv from '../../utils/getEnv';
 import CalTime from '../CalTime';
@@ -19,7 +20,7 @@ display: flex;
 align-items: start;
 justify-content: space-between;
 width: 100%;
-
+min-height:100vh;
 padding: 2rem 0 0 0;
 
 ${props => props.isDark && css`
@@ -42,7 +43,7 @@ const CommunityMainPage = () => {
 
     const [selected, setSelected] = useState({id: data.kind.id, name: data.kind.name});
     const [currentPage, setCurrentPage] = useState(data.page);
-    const [proceedOption, setProceedOption] = useState({id: 502, name: "모집 중"});
+    const [proceedOption, setProceedOption] = useState({id: 502, name: data.kind.name === "feakback" ? "요청 중" : "모집 중"});
     const [teamOption, setTeamOption] = useState({id: 0, name: "분야 선택"});
     const [searchWord, setSearchWord] = useState("");
     const [totalCount, setTotalCount] = useState(0);
@@ -151,14 +152,14 @@ const CommunityMainPage = () => {
             <Pagination
                 totalItems={totalCount}
                 itemCountPerPage={10}
-                pageCount={2}
+                pageCount={5}
                 currentPage={currentPage}
-                selected={selected}
                 setCurrentPage={setCurrentPage}
             >
             </Pagination>
             </MainBox>
         </Community>
+        <UserChat/>
 
         </>
     )

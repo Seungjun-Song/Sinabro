@@ -85,7 +85,6 @@ const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
 
     return(
     <Middle
-        {...middleMotion}
     >
         <Content dangerouslySetInnerHTML={{ __html : detailData.content}}>
         </Content>
@@ -114,6 +113,7 @@ const DetailMiddle = ({detailData, pjtData, kind, isDark}) => {
             (
                 <PjtLinkBox
                 pjtData={pjtData}
+                kind={kind}
             />
             )}
         </LinkBox>

@@ -32,8 +32,6 @@ import getEnv from "../utils/getEnv";
 import { formatDate } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 
-import "./ProjectStyles.css";
-
 const ProjectPageLeftPanelContainer = styled(motion.div)`
   height: 100%;
 
@@ -42,6 +40,10 @@ const ProjectPageLeftPanelContainer = styled(motion.div)`
   border-right: 2px solid #b8b8b8;
   background-color: ${({ isDark }) => (isDark ? "white" : "#404040")};
   transition: background-color 0.3s ease; /* 배경색 변화를 자연스럽게 만듭니다. */
+
+  @media (max-width: 1000px) {
+    display: none;
+  }
 `;
 
 const ProjectPageLeftPanelClosedContainer = styled.div`
@@ -73,7 +75,9 @@ const CalendarBox = styled.div`
   align-items: center;
   margin-left: 1.2rem;
   margin-right: 1.2rem;
+  margin-top: 0.5rem;
   font-weight: bold;
+  /* background-color:white; */
   color: ${({ isDark }) => (isDark ? "#564CAD" : "white")};
 `;
 
@@ -135,6 +139,9 @@ const InnerTextBox = styled.div`
   font-size: 0.55rem;
   font-weight: bold;
   justify-content: center;
+  @media (max-width: 1200px) {
+    display: none;
+  }
 `;
 
 const IconBox = styled.div`
@@ -164,12 +171,12 @@ const TeammateBox = styled.div`
   align-items: center;
   width: 100%;
   padding: 0.2rem;
-`
+`;
 const TeammateImg = styled.img`
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  border: 3px solid  ${({ selected }) => (selected ? '#564cad' : 'whiteSmoke')};
+  border: 3px solid ${({ selected }) => (selected ? "#564cad" : "whiteSmoke")};
   align-self: center;
   margin: 0.5rem;
   cursor: pointer;
@@ -228,14 +235,22 @@ const CustomModal = styled(Modal)`
   }
 `;
 
-const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammates }) => {
+const ProjectPageLeftPanel = ({
+  teammate,
+  selectedTeammates,
+  setSelectedTeammates,
+}) => {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [toDoText, setToDoText] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [mileston, setMileston] = useState(null);
+
   // const [selectedWorker, setSelectedWorker] = useState(''); // 자기 일정만 추가할 수 있음
 
+  let todayCount = 0; //오늘 할 일 0이면 없다고 표시
+  let tomorrowCount = 0; //내일 할 일 0이면 없다고 표시
 
   const dispatch = useDispatch();
 
@@ -249,9 +264,9 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
   const userInfo = useSelector((state) => state.user);
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
 
-  console.log(selectedTeammates)
+  console.log(selectedTeammates);
 
-  console.log(toDoList)
+  console.log(toDoList);
 
   useEffect(() => {
     if (modalState) {
@@ -266,6 +281,7 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
       try {
         const res = await axios.get(`${back_url}/schedules/${projectRoomId}`); // 쿠키 되면 제대로 받아지는지 확인
         dispatch(setToDoList(res.data.result));
+        console.log(res.data);
       } catch (err) {
         console.error(err);
       }
@@ -289,28 +305,21 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
     setShowModal(true);
     dispatch(changeProjectCalenderState(true));
     setToDoText("");
-    // setSelectedWorker('') // 자기 일정만 추가할 수 있음
     setStartDate(null);
     setEndDate(null);
   };
-
-  // const workers = ['worker1', 'worker2']
 
   const truncate = (str, n) => {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
   };
 
-  // const handleWorkerSelectChange = (e) => { // 자기 일정만 추가할 수 있음
-  //     setSelectedWorker(e.target.value);
-  // };
-
   const back_url = getEnv("BACK_URL");
 
   // 팀원 선택/해제 핸들러 props로 념겨주는 함수
   const toggleTeammateSelection = (memberId) => {
-    setSelectedTeammates(prev => {
+    setSelectedTeammates((prev) => {
       if (prev.includes(memberId)) {
-        return prev.filter(id => id !== memberId); // 이미 선택된 팀원이면 제거
+        return prev.filter((id) => id !== memberId); // 이미 선택된 팀원이면 제거
       } else {
         return [...prev, memberId]; // 선택되지 않았다면 추가
       }
@@ -319,18 +328,6 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
 
   const addSchedule = async () => {
     if (toDoText !== "" && startDate !== null && endDate !== null) {
-      // const schedule = {
-      //     projectId: projectRoomId,
-      //     managerId: userInfo.currentUser.uid,
-      //     calenderStartDt: startDate,
-      //     calenderEndDt: endDate,
-      //     calenderName: toDoText,
-      //     subCategoryId: 502,
-      //     memberImg: userInfo.currentUser.photoURL,
-      //     memberName: userInfo.currentUser.displayName,
-      // }
-
-      // dispatch(addToDoList(schedule)) // 스케쥴 제대로 받아올 수 있으면 주석처리된 코드는 필요없음
       try {
         const res = await axios.post(`${back_url}/schedules`, {
           projectId: projectRoomId,
@@ -343,6 +340,23 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
       } catch (err) {
         console.error(err);
       }
+      if (mileston) {
+        const nullmilestoneId = milestonid ? milestonid : null;
+        try {
+          const res = await axios.post(`${back_url}/milestones`, {
+            milestoneId: nullmilestoneId,
+            milestoneTitle: mileston,
+            milestoneContent: toDoText,
+            milestoneStartDt: fromatDatedForBack(startDate),
+            milestoneEndDt: fromatDatedForBack(endDate),
+            projectId: myCurrentProject.projectId,
+            subCategoryId: 502,
+          });
+          console.log("milestones complete", res.data);
+        } catch (err) {
+          console.error(err);
+        }
+      }
 
       try {
         const res = await axios.get(`${back_url}/schedules/${projectRoomId}`);
@@ -351,6 +365,7 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
         console.error(err);
       }
 
+      setMileston(null);
       handleCloseModal();
     }
   };
@@ -404,7 +419,24 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
     const day = date.getDate().toString().padStart(2, "0"); // 일도 두 자리로 만들기 위해 padStart 사용
     return `${year}-${month}-${day}`;
   };
-  const [mileston, setMileston] = useState("");
+  // 재성 추가 코드
+  const [milestones, setMilestones] = useState([]);
+  useEffect(() => {
+    const getmilestone = async () => {
+      try {
+        const res = await axios.get(
+          `${back_url}/milestones/${myCurrentProject.projectId}`
+        );
+        console.log(res.data.result);
+        setMilestones(res.data.result);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getmilestone();
+  }, [myCurrentProject]);
+  const [milestonid, setMilestonId] = useState(null);
+  const [isFocused, setIsFocused] = useState(false);
   return (
     <>
       <AnimatePresence mode="wait">
@@ -415,7 +447,6 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
             initial={{ width: "2%", opacity: 0 }}
             animate={{ width: "30%", opacity: 1 }}
             isDark={isDark}
-            className="hide-all-panel"
           >
             <ProjectNameBox isDark={isDark}>
               {myCurrentProject.projectName}
@@ -447,8 +478,15 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
             <TeammateBox>
               {teammate.map((item, index) => {
                 return (
-                  <TeammateImg key={index} src={item.memberImg} selected={selectedTeammates.includes(item.memberId) ? true : false} onClick={() => toggleTeammateSelection(item.memberId)} />
-                )
+                  <TeammateImg
+                    key={index}
+                    src={item.memberImg}
+                    selected={
+                      selectedTeammates.includes(item.memberId) ? true : false
+                    }
+                    onClick={() => toggleTeammateSelection(item.memberId)}
+                  />
+                );
               })}
             </TeammateBox>
             <ToDoListBox>
@@ -459,7 +497,7 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
                 <ListBox>
                   {/* 오늘의 할 일 목록 출력 */}
                   {toDoList
-                    .filter(item => selectedTeammates.includes(item.memberId)) // 선택된 팀원들의 일정만 필터링
+                    .filter((item) => selectedTeammates.includes(item.memberId)) // 선택된 팀원들의 일정만 필터링
                     .map((item, index) => {
                       const itemStartDate = item.calenderStartDt
                         ? new Date(item.calenderStartDt)
@@ -468,12 +506,15 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
                         ? new Date(item.calenderEndDt)
                         : null;
                       const today = new Date();
+                      itemStartDate.setHours(0, 0, 0, 0);
+                      itemEndDate.setHours(0, 0, 0, 0);
                       today.setHours(0, 0, 0, 0);
 
                       // start와 end가 모두 유효한 경우에만 처리
                       if (itemStartDate && itemEndDate) {
                         // 오늘 날짜인 경우에만 출력
                         if (itemStartDate <= today && today <= itemEndDate) {
+                          todayCount++;
                           return (
                             <ContentBox
                               className="shadow"
@@ -484,7 +525,7 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
                               }
                             >
                               <UserImg src={item.memberImg} />
-                              <InnerTextBox className="hide-content-text">
+                              <InnerTextBox>
                                 <div style={{ fontSize: "1rem" }}>
                                   {truncate(item.calenderName, 10)}
                                 </div>
@@ -566,13 +607,18 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
+                  {todayCount === 0 && (
+                    <div style={{ color: isDark ? "black" : "white" }}>
+                      예정된 일정이 없습니다.
+                    </div>
+                  )}
                 </ListBox>
               </TodayBox>
               <TodayBox>
                 <DayText isDark={isDark}>내일 할 일</DayText>
                 <ListBox>
                   {toDoList
-                    .filter(item => selectedTeammates.includes(item.memberId)) // 선택된 팀원들의 일정만 필터링
+                    .filter((item) => selectedTeammates.includes(item.memberId)) // 선택된 팀원들의 일정만 필터링
                     .map((item, index) => {
                       const itemStartDate = item.calenderStartDt
                         ? new Date(item.calenderStartDt)
@@ -581,6 +627,8 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
                         ? new Date(item.calenderEndDt)
                         : null;
                       const tomorrow = new Date();
+                      itemStartDate.setHours(0, 0, 0, 0);
+                      itemEndDate.setHours(0, 0, 0, 0);
                       tomorrow.setDate(tomorrow.getDate() + 1); // 내일 날짜로 설정
                       tomorrow.setHours(0, 0, 0, 0); // 시간을 0시 0분 0초로 설정
                       // start와 end가 모두 유효한 경우에만 처리
@@ -590,6 +638,7 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
                           itemStartDate <= tomorrow &&
                           tomorrow <= itemEndDate
                         ) {
+                          tomorrowCount++;
                           return (
                             <ContentBox
                               className="shadow"
@@ -682,6 +731,11 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
                         return null; // start 또는 end가 유효하지 않은 경우는 출력하지 않음
                       }
                     })}
+                  {tomorrowCount === 0 && (
+                    <div style={{ color: isDark ? "black" : "white" }}>
+                      예정된 일정이 없습니다.
+                    </div>
+                  )}
                 </ListBox>
               </TodayBox>
             </ToDoListBox>
@@ -720,24 +774,58 @@ const ProjectPageLeftPanel = ({ teammate, selectedTeammates, setSelectedTeammate
                 onChange={(e) => setToDoText(e.target.value)}
               />
             </Form.Group>
-            <Form.Group style={{ marginBottom: "1rem" }}>
+            <Form.Group style={{ marginBottom: "1rem", position: "relative" }}>
               <Form.Label>마일스톤</Form.Label>
               <Form.Control
+                onClick={() => setIsFocused(!isFocused)}
                 type="text"
                 placeholder="선택 사항"
                 value={mileston}
-                onChange={(e) => setMileston(e.target.value)}
+                onChange={(e) => (
+                  setMileston(e.target.value), setMilestonId(null)
+                )}
               />
+              {isFocused && (
+                <div
+                  className="shadow"
+                  style={{
+                    position: "absolute",
+                    top: "4.5rem",
+                    width: "100%",
+                    backgroundColor: "white",
+                    zIndex: "9",
+                    padding: "0.5rem",
+                    height: "10rem",
+                    overflowY: "auto",
+                    borderRadius: "1rem",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  {milestones.map((item, index) => (
+                    <motion.div
+                      onClick={() => (
+                        setMilestonId(item.milestoneId),
+                        setMileston(item.milestoneTitle),
+                        setIsFocused(false)
+                      )}
+                      whileHover={{
+                        backgroundColor: "rgb(205, 216, 245)",
+                        color: "white",
+                      }}
+                      style={{
+                        transition: "0.3s",
+                        padding: "0.5rem 1rem",
+                        color: "black",
+                        backgroundColor: "white",
+                      }}
+                    >
+                      {item.milestoneTitle}
+                    </motion.div>
+                  ))}
+                </div>
+              )}
             </Form.Group>
-            {/* <Form.Group style={{ marginBottom: '1rem' }}>
-                            <Form.Label>작업자</Form.Label>
-                            <Form.Select value={selectedWorker} onChange={handleWorkerSelectChange}>
-                                <option value="">작업자를 선택하세요</option>
-                                {workers.map((worker, index) => (
-                                    <option key={index} value={worker}>{worker}</option>
-                                ))}
-                            </Form.Select>
-                        </Form.Group> */}
             <Form.Group style={{ marginBottom: "1rem" }}>
               <Form.Label style={{ marginRight: "1rem" }}>시작 날짜</Form.Label>
               <DatePicker

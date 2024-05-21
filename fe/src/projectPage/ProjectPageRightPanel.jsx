@@ -17,8 +17,8 @@ import {
 } from "../store/newMessageSlice";
 import { changeProjectChatState } from "../store/projectChatShow";
 import { AnimatePresence, motion } from "framer-motion";
-
-import "./ProjectStyle.css";
+import { set } from "firebase/database";
+import Feedback from "../components/feedback/Feedback";
 
 const ProjectPageRightPanelContainer = styled(motion.div)`
   height: 100%;
@@ -26,6 +26,10 @@ const ProjectPageRightPanelContainer = styled(motion.div)`
   border-left: 2px solid #b8b8b8;
   background-color: ${({ isDark }) => (!isDark ? "#404040" : "white")};
   transition: background-color 0.3s ease; /* 배경색 변화를 자연스럽게 만듭니다. */
+
+  @media (max-width: 1000px) {
+    display: none
+  }
 `;
 
 const ProjectPageRightPanelClosedContainer = styled.div`
@@ -80,6 +84,7 @@ const ProjectPageRightPanel = () => {
 
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
   const [isChatsNow, setIsChatsNow] = useState(true);
+  const [isHelpNow, setIsHelpNow] = useState(false)
   const [isNotification, setIsNotification] = useState(true);
 
   const isDark = !useSelector((state) => state.isDark.isDark);
@@ -87,6 +92,9 @@ const ProjectPageRightPanel = () => {
   const states = useSelector((state) => state.newMessage);
   const chatOpenForced = useSelector((state) => state.projectChatShow.value);
 
+  const userInfo = useSelector((state) => state.user.currentUser);
+  const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
+  
   useEffect(() => {
     dispatch(setProjectRightPanelState(isSidePanelOpen));
   }, [isSidePanelOpen]);
@@ -123,7 +131,6 @@ const ProjectPageRightPanel = () => {
             initial={{ width: "2%", opacity: 0 }}
             animate={{ width: "30%", opacity: 1 }}
             isDark={isDark}
-            className="hide-all-panel"
           >
             <UpperBox>
               <IconHoverBox isDark={isDark}>
@@ -159,34 +166,89 @@ const ProjectPageRightPanel = () => {
                         src="/images/chatbot_fade.png"
                         onClick={() => {
                           setIsChatsNow(false),
+                            setIsHelpNow(false),
                             dispatch(changeProjectChatState(false));
+                        }}
+                      />
+                    </IconHoverBox>
+                    <IconHoverBox>
+                      <IconImg
+                        src="/images/help_fade.png"
+                        onClick={() => {
+                          setIsChatsNow(false),
+                            setIsHelpNow(true),
+                            dispatch(changeProjectChatState(false))
                         }}
                       />
                     </IconHoverBox>
                   </>
                 ) : (
                   <>
-                    <IconHoverBox>
-                      <IconImg
-                        src="/images/chat_fade.png"
-                        onClick={() => setIsChatsNow(true)}
-                      />
-                    </IconHoverBox>
-                    <IconHoverBox>
-                      <IconImg src="/images/chatbot.png" />
-                    </IconHoverBox>
+                    {isHelpNow ?
+
+                      <>
+                        <IconHoverBox>
+                          <IconImg
+                            src="/images/chat_fade.png"
+                            onClick={() => {setIsChatsNow(true), setIsHelpNow(false), dispatch(changeProjectChatState(false))}}
+                          />
+                        </IconHoverBox>
+                        <IconHoverBox>
+                          <IconImg src="/images/chatbot_fade.png"
+                            onClick={() => {
+                              setIsChatsNow(false),
+                                setIsHelpNow(false),
+                                dispatch(changeProjectChatState(false))
+                            }}
+                          />
+                        </IconHoverBox>
+                        <IconHoverBox>
+                          <IconImg
+                            src="/images/help.png"
+                          />
+                        </IconHoverBox>
+                      </>
+                      :
+                      <>
+                        <IconHoverBox>
+                          <IconImg
+                            src="/images/chat_fade.png"
+                            onClick={() => {setIsChatsNow(true), setIsHelpNow(false), dispatch(changeProjectChatState(false))}}
+                          />
+                        </IconHoverBox>
+                        <IconHoverBox>
+                          <IconImg src="/images/chatbot.png" />
+                        </IconHoverBox>
+                        <IconHoverBox>
+                          <IconImg
+                            src="/images/help_fade.png"
+                            onClick={() => {
+                              setIsChatsNow(false),
+                                setIsHelpNow(true),
+                                dispatch(changeProjectChatState(false))
+                            }}
+                          />
+                        </IconHoverBox>
+                      </>
+                    }
                   </>
                 )}
               </ChatImgBox>
             </UpperBox>
-            <MainBox>{isChatsNow ? <Chat /> : <ChatBot />}</MainBox>
+            <MainBox>
+              {isChatsNow ? <Chat />
+                :
+                <>
+                  {isHelpNow ? <Feedback endpoint={`${userInfo.uid}/${myCurrentProject.projectId}`} /> : <ChatBot />}
+                </>}
+            </MainBox>
           </ProjectPageRightPanelContainer>
         ) : (
-          <ProjectPageRightPanelClosedContainer style={{cursor:"pointer"}} onClick={handleSidePanel} key="2" isDark={isDark}>
+          <ProjectPageRightPanelClosedContainer style={{ cursor: "pointer" }} onClick={handleSidePanel} key="2" isDark={isDark}>
             <IconHoverBox>
               <FontAwesomeIcon
                 icon={faChevronLeft}
-                
+
                 style={{
                   cursor: "pointer",
                   color: isDark ? "#564CAD" : "white",

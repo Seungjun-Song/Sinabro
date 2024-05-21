@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 const Detail = styled(motion.div)`
     font-family: Pretendard Medium;
 
-    margin: 1.5rem 0;
+    margin: 1.2rem 0;
 
     cursor: pointer;
 
@@ -33,7 +33,7 @@ const Proceed = styled.div`
 
     font-family: LaundryGothicRegular;
     color: rgba(52, 69, 156, 1);
-    font-size: 100%;
+    font-size: 80%;
 
     padding: 0.2rem 0.9rem;
 
@@ -62,7 +62,7 @@ const Title = styled.div`
     font-family: Pretendard SemiBold;
     max-width: 80%;
 
-    font-size: 1.5rem;
+    font-size: 1.1rem;
 `
 
 const Content = styled.div`
@@ -70,9 +70,9 @@ const Content = styled.div`
 display: flex;
 align-items: center;
 justify-content: space-between;
-font-size: 1.2rem;
+font-size: 0.9rem;
 
-    padding: 0.8rem;
+padding: 0.5rem 0.5rem 0 0;
 `
 
 const PlusInfo = styled.div`
@@ -116,6 +116,8 @@ const WriteInfo = styled.div`
     align-items: center;
     justify-content: space-between;
 
+    gap: 5px;
+
     font-family: Pretendard SemiBold;
     font-size: 0.7rem;
 `
@@ -145,16 +147,13 @@ const Post = ({post, kind, isDark}) => {
         }
 
         setHash(hashString.split(" "));
-
-        console.log("hashString", hashString)
         
     }, [post])
-    console.log("in post", post.title.length);
 
     return(
         <Detail 
             onClick={() => navigate('/communityDetail', {state: {kind: kind, postId: post.id} })}
-            whileHover={{ cursor: "pointer", y: -3, scale: 1.05}}
+            whileHover={{ cursor: "pointer", y: -3, scale: 1.01}}
             transition={{ type: "spring", stiffness: 100 }}
         >
             <div style={{display: 'flex', justifyContent: 'space-between', margin: '0 0 1rem 0'}}>
@@ -175,9 +174,9 @@ const Post = ({post, kind, isDark}) => {
                     :
                     (<>
                         {post.proceed === true ? 
-                            (<>구걸 중</>)
+                            (<>요청 중</>)
                             :
-                            (<>구걸 완료</>)
+                            (<>요청 완료</>)
                         }
                     
                     </>)}
@@ -202,13 +201,11 @@ const Post = ({post, kind, isDark}) => {
             </Jobs> */}
             </Content>
             </div>
-            <div>
-                <Jobs
+            <Jobs
                     kind={kind}
                     post={post}
                 >
             </Jobs>
-            </div>
             </div>
             <PlusInfo>
                 <Hashs>
@@ -233,7 +230,7 @@ const Post = ({post, kind, isDark}) => {
                     <Writer>
                         {post.writer}
                     </Writer>
-                    .
+                    &#183;
                     <Date>
                         {post.time}
                     </Date>

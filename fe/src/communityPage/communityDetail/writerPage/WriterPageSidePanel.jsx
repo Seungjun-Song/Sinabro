@@ -14,6 +14,7 @@ const MyPageSidePanelContainer = styled(motion.div)`
   width: 30%;
   flex-direction: column;
   align-items: center;
+  justify-content:center;
 `;
 
 const SkillArea = styled.span`
@@ -97,27 +98,6 @@ const WriterPageSidePanel = ({ isDark, userfind }) => {
     "/images/default_my_image.png"
   );
 
-  const handleImageChange = async () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.onchange = async (event) => {
-      const file = event.target.files[0];
-
-      // Firebase Storage에 이미지 업로드
-      const storage = getStorage(app);
-      const storageRef = ref(storage, file.name);
-      await uploadBytes(storageRef, file);
-
-      // 업로드된 이미지의 다운로드 URL 받아오기
-      const imageUrl = await getDownloadURL(storageRef);
-
-      // 다운로드 URL을 state에 저장
-      setSelectedImage(imageUrl);
-    };
-    input.click();
-  };
-
   return (
     <MyPageSidePanelContainer
       initial={{ opacity: 0, y: 5 }}
@@ -130,7 +110,7 @@ const WriterPageSidePanel = ({ isDark, userfind }) => {
         <MyImage src={userfind.memberImg} />
 
       </div>
-      <MyName style={{ color: isDark ? "white" : "black" }}>
+      <MyName style={{ color: isDark ? "white" : "black", marginTop: '1rem' }}>
         {userfind.nickname}
       </MyName>
       <MyInfoBox>

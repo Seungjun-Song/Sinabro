@@ -23,7 +23,7 @@ const NavBar = styled.nav`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-width: 600px;
+  min-width: 800px;
   height: 80px;
   background-color: ${({ isScrolled }) =>
     !isScrolled ? "rgba(86, 76, 173, 1)" : "rgba(245, 248, 255, 1)"};
@@ -33,6 +33,8 @@ const NavBar = styled.nav`
   top: 0;
   transition: 0.5s; /* 부드러운 애니메이션을 위한 transition 설정 */
   color: ${({ isScrolled }) => (!isScrolled ? "white" : GlobalColor.colors.primary_black)};
+
+  font-size: 1.1rem;
 `;
 
 const LogoImage = styled.img`
@@ -51,7 +53,7 @@ const DropDown = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 1rem;
   cursor: pointer;
 
   /* color: white; */
@@ -84,17 +86,17 @@ const DropDownPage = styled.div`
   position: absolute; /* 절대 위치 지정 */
   z-index: 999;
   top: 70%;
-  left: 8%;
+  left: 9.5%;
 `;
 
 const LeftNavContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  width: 25%;
-
+  
+  gap: 2rem;
   margin-left: 1%;
+
 `;
 
 const RightNavContainer = styled.div`
@@ -102,7 +104,6 @@ const RightNavContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  width: 18%;
 
   margin-right: 3%;
 `;
@@ -180,7 +181,7 @@ const Navbar = () => {
             setDropDown(!dropDown);
           }}
         >
-          <div style={{ fontFamily: "Jamsil Light", width: '4.8rem' }}>팀 스페이스</div>
+          <div style={{ fontFamily: "Jamsil Light" }}>팀 스페이스</div>
           <DropDownButton>
             <motion.div
               transition={{ duration: 0.3 }}
@@ -216,7 +217,7 @@ const Navbar = () => {
       </LeftNavContainer>
       <RightNavContainer>
         <MyPage style={{ fontFamily: "Jamsil Light", minWidth: '4.8rem' }}
-          onClick={() => navigate('/mypage')}
+          onClick={() =>navigate(`/mypage`, {state: {memberId: 0}})}
         >마이페이지</MyPage>
 
         <Log style={{ fontFamily: "Jamsil Light", minWidth: '4.5rem' }}

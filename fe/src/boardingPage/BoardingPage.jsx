@@ -9,6 +9,8 @@ import Section4 from "../components/boarding/Section4";
 import Section5 from "../components/boarding/Section5";
 import "./styles.css";
 import SectionButton from "../components/boarding/SectionButton";
+import ProjectInfo from "../projectPage/ProjectInfo";
+
 const BoardingPage = () => {
   const section1Ref = useRef(null);
   const section2Ref = useRef(null);
@@ -62,8 +64,9 @@ const BoardingPage = () => {
           alignItems: "center",
         }}
       >
+        {/* <ProjectInfo  /> */}
         <AnimatePresence>
-          {whereref !== 4 && !scroll&& (
+          {whereref !== 4 && !scroll && (
             <motion.div
               onClick={scrollToSection}
               onHoverStart={() => setIsHover(true)}
@@ -102,7 +105,7 @@ const BoardingPage = () => {
 
         <Section1 />
         <Section2 section2Ref={section2Ref} />
-        {isThird && <Section3  />}
+        {isThird && <Section3 />}
         {!isThird && (
           <div
             ref={section3Ref}
@@ -114,7 +117,7 @@ const BoardingPage = () => {
         )}
         {/* <Section4 /> */}
 
-        <Section5 section4Ref={section4Ref}  setScroll={setScroll} scroll={scroll} />
+        <Section5 section4Ref={section4Ref} setScroll={setScroll} scroll={scroll} />
 
         <motion.div className="progress-bar" style={{ scaleX }} />
       </div>

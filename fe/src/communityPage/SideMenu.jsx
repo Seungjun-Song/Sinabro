@@ -7,11 +7,11 @@ const MenuList = styled(motion.div)`
     flex-direction: column;  
     align-items: start;
     width: 20%;            
-    padding-left: 7rem;  
+    padding-left: 8rem;  
     margin: 5rem 0 0 4rem;        
     gap : 0.3rem;
 
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   
     position: relative;
 
@@ -73,7 +73,7 @@ const SideMenu = ({selected, setSelected, isDark, setCurrentPage, proceedOption,
             setProceedOption({id: 502, name: "모집 중"})
         }
         else{
-            setProceedOption({id: 502, name: "구걸 중"})
+            setProceedOption({id: 502, name: "요청 중"})
         }
 
         if(kind.name === "member" || kind.name === "feadback"){

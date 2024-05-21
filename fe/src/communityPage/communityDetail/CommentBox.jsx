@@ -81,8 +81,9 @@ const DeleteButton = styled.div`
     background: red;
     border: 0px solid red;
     border-radius: 5px;
-    padding: 0.1rem 0.3rem;
+    padding: 0.2rem 0.5rem;
     font-size: 0.9rem;
+    color: white;
 
     cursor: pointer;
 `
@@ -103,7 +104,7 @@ const commentMotion = {
 }
 
 
-const CommentBox = ({comment, index}) => {
+const CommentBox = ({comment, index, setOpenChat, setSelectedUser, deleteComment}) => {
     const [ hoverState, setHoverState ] = useState(false);
 
     //const [ hoverPointer, setHoverPointer ] = useState(false);
@@ -119,6 +120,7 @@ const CommentBox = ({comment, index}) => {
     const hoverTurnOff = () =>{
       //  setHoverPointer(true);
         setHoverState(false);
+
     }
 
     const hoverTurnOn = () => {
@@ -136,17 +138,6 @@ const CommentBox = ({comment, index}) => {
         }
     }
 
-    const deleteComment = () => {
-        console.log(comment)
-        axios.delete(`${back_url}/communities/comments/${comment.commentId}`)
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    }
-
     return(
         <Comment key={index}
                 {...commentMotion}>
@@ -155,6 +146,9 @@ const CommentBox = ({comment, index}) => {
                 {hoverState && (
                     <HoverInfoBox
                         hoverTurnOff={hoverTurnOff}
+                        comment={comment}
+                        setOpenChat={setOpenChat}
+                        setSelectedUser={setSelectedUser}
                     />
                 )}
                 <WriterProfile
@@ -178,7 +172,7 @@ const CommentBox = ({comment, index}) => {
                 </DateBox>
                 {comment.memberId === userInfo.uid &&
                     <DeleteButton
-                        onClick={() => deleteComment()}
+                        onClick={() => deleteComment(comment.commentId)}
                     >
                         삭제
                     </DeleteButton>
