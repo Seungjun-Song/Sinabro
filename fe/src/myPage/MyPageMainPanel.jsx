@@ -158,7 +158,7 @@ const MemoryGraphButtonBox = styled.div`
 `;
 
 const MemoryGraphButton = styled.div`
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   padding: 0.6rem;
   font-weight: bold;
   background-color: #6c32cd;
@@ -441,8 +441,13 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
     }
   };
 
-  const hadleAllClick =async (node) => {
+  const hadleAllClick = (node) => {
     // Aim at node from outside it
+    if (isMe) {
+      setWhatNode(node);
+    }
+
+    console.log(node);
     const distance = 500;
     const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
     if (graphData.nodes.length !== 1) {
@@ -456,50 +461,6 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
         1500 // ms transition duration
       );
     }
-    if (isMe) {
-      if(isLink){
-        const beforeNode = whatnode
-        // setNowNode(whatnode)
-        try {
-          const res = await axios.put(
-            `${back_url}/memo?memoId1=${node.id}&memoId2=${beforeNode.id}`,
-            { withCredentials: true }
-          );
-          console.log(res);
-          await getGraphData();
-          const distance = 500;
-          const distRatio =
-            1 + distance / Math.hypot(whatnode.x, whatnode.y, whatnode.z);
-          console.log(fgRef.current);
-          fgRef.current.cameraPosition(
-            {
-              x: whatnode.x * distRatio,
-              y: whatnode.y * distRatio,
-             z: whatnode.z * distRatio,
-            }, // new position
-            whatnode, // lookAt ({ x, y, z })
-            1500 // ms transition duration
-          );
-          setIsModal(false);
-          setWhatNode(null);
-          setContent("");
-          setNewNode("");
-          setIsLink(false)
-          setColor("#c7c7c7");
-        } catch (error) {
-          console.error("Error fetching data:", error);
-          alert("에러가 발생했습니다.")
-        }
-      }
-      setWhatNode(node);
-    }
-
-
-    
-   
-      
-    
-
     //   fgRef = 0;
   };
   //   console.log(color);
@@ -549,10 +510,6 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
     }
   }, [graphData, is2D]);
   const [isText, setIsText] = useState(false);
-  const [isLink ,setIsLink] = useState(false)
-  const handleNodeLink=()=>{  
-    setIsLink(true)
-  }
   return (
     <div
       style={{
@@ -837,9 +794,7 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
                 <MemoryGraphDescribeBox
                   style={{
                     color: isDark ? "white" : "black",
-                    backgroundColor: isDark
-                      ? GlobalColor.colors.primary_black
-                      : "rgb(245, 248, 255)",
+                    backgroundColor: isDark ? "black" : "rgb(245, 248, 255)",
                   }}
                 >
                   <h3>{whatnode.label}</h3>
@@ -864,13 +819,9 @@ const MyPageMainPanel = ({ isMe, isDark, userfind, setUserFind, userInfo }) => {
                   >
                     Edit
                   </MemoryGraphButton>
-                  <MemoryGraphButton onClick={() => handleNodeLink()}>
-                    Link
-                  </MemoryGraphButton>
                   <MemoryGraphButton onClick={() => handleNodeDel()}>
                     Del
                   </MemoryGraphButton>
-                  
                 </MemoryGraphButtonBox>
                 <div
                   onClick={() => setWhatNode(null)}
