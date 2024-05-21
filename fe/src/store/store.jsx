@@ -18,6 +18,7 @@ import myCurrentProjectSlice from "./myCurrentProjectSlice";
 import myChatingListSlice from "./myChatingListSlice";
 import feedbackMemberIdSlice from "./feedbackMemberIdSlice";
 import sizeSlice from "./sizeSlice";
+import feedbackSlice from "./feedbackSlice";
 
 const reducers = combineReducers({
   user: userSlice,
@@ -36,7 +37,8 @@ const reducers = combineReducers({
   myCurrentProject: myCurrentProjectSlice,
   myChatingList: myChatingListSlice,
   feedbackMemberId: feedbackMemberIdSlice,
-  size : sizeSlice, 
+  size : sizeSlice,
+  feedback: feedbackSlice,
 });
 
 const persistConfig = {

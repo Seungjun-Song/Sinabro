@@ -25,6 +25,7 @@ import {
   clearFeedbackMemberId,
 } from "../store/feedbackMemberIdSlice";
 import { toggleisDarkState } from "../store/isDarkSlice";
+import { clearFeedbackState } from "../store/feedbackSlice";
 
 const ProjectContainer = styled.div`
   position: relative; /* 부모 컨테이너를 기준으로 자식 요소의 위치를 설정하기 위해 */
@@ -121,6 +122,9 @@ const ProjectPage = () => {
   const myCurrentProject = useSelector((state) => state.myCurrentProject.value);
   const isDark = useSelector((state) => state.isDark.isDark);
   const feedbackMemberId = useSelector((state) => state.feedbackMemberId.value);
+  const isFromFeedback = useSelector(state => state.feedback.value)
+
+  const userId = isFromFeedback === true ? feedbackMemberId.id : userInfo.uid
 
   const back_url = getEnv("BACK_URL");
 
@@ -128,7 +132,7 @@ const ProjectPage = () => {
 
   const codeServerDarkMode = async () => {
     try {
-      const res = await axios.post(`${back_url}/teams/projects/${userInfo.uid}/darkMode`);
+      const res = await axios.post(`${back_url}/teams/projects/${userId}/darkMode`);
       console.log(res.data);
       // Iframe 리로딩
       if (iframeRef.current) {
@@ -286,6 +290,7 @@ const ProjectPage = () => {
             setLoading(true);
             leaveCodeServer();
             dispatch(clearFeedbackMemberId());
+            dispatch(clearFeedbackState())
           };
         }
       } catch (err) {
