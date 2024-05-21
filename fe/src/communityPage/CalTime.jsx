@@ -6,6 +6,13 @@ const CalTime = (fullDate) => {
   let finalDate;
   const day = fullDate.getDate();
 
+  const createdDateHours = fullDate.getHours();
+
+  const dayTime =
+    createdDateHours > 12
+      ? `PM ${createdDateHours - 12}`
+      : `AM ${createdDateHours}`;
+
   if (day === nowDate.getDate()) {
     const hour = fullDate.getHours();
     const minuet = fullDate.getMinutes();
@@ -22,8 +29,7 @@ const CalTime = (fullDate) => {
     finalDate = `${fullDate.getFullYear()}. 
                     ${fullDate.getMonth() + 1}.
                     ${fullDate.getDate()} 
-                    ${fullDate.getHours()}:
-                    ${fullDate.getMinutes()}`;
+                    ${dayTime}:${fullDate.getMinutes()}`;
   }
 
   return finalDate;
