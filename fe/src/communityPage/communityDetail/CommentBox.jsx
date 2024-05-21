@@ -25,7 +25,7 @@ const WriterInfo = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0 0.5rem;
+  padding: 0 1rem 0 0;
 `;
 
 const WriterProfile = styled(motion.img)`
