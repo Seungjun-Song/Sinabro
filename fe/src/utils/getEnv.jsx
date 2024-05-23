@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9b683570c382491bbd50bcfc816ccb1bc4b2f82632a5d3156fd95bba3cda8b34
-size 156
+// 환경변수에서 특정 변수를 가져오는 함수
+const getEnv = key => {
+    return import.meta.env[`VITE_${key}`];
+  };
+  
+export default getEnv;

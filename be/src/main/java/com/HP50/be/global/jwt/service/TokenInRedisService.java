@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:258ca52e1c9aeed20bede5533031161004d2b2a49137cbf4fdc4f27ea199f81c
-size 438
+package com.HP50.be.global.jwt.service;
+
+import com.HP50.be.global.jwt.entity.RedisJwtEntity;
+import java.util.Optional;
+
+public interface TokenInRedisService {
+    Optional<RedisJwtEntity> findByMemberName(String token);
+    // accessToken 을 통해 이름을 알아낸 후
+    // 해당 이름을 redis에 refreshToken 과 함께 저장
+    void save(String accessToken, String refreshToken);
+    Iterable<RedisJwtEntity> findAll();
+}

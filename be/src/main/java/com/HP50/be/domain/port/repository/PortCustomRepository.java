@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6487a7cab24af3c180c1fa547185cdc33ec9b2b78fe6baa3beec3436c2668516
-size 208
+package com.HP50.be.domain.port.repository;
+
+import com.HP50.be.domain.port.entity.Port;
+
+public interface PortCustomRepository {
+    Port getUnUse();
+    Port findExistingPortByMemberId(Integer memberId);
+}
