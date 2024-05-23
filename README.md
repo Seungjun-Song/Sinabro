@@ -1,9 +1,11 @@
-# <img src="./img/sinabro_logo.png" width="5%"/> 조금씩 천천히 시나브로 <img src="./img/Sinabro.png" width="13%" />
+# <img src="./img/sinabro_logo.png" width="5%"/> 조금씩 천천히 시나브로 <p style="background-color: #B2B2DF; display: inline-block; border-radius: 10px"><img src="./img/Sinabro.png" /></p>
 
-<img src="./img/boarding1.gif"/>
-<img src="./img/boarding2.gif"/>
-<img src="./img/boarding3.gif"/>
-<img src="./img/boarding4.gif"/>
+<p align="center">
+<img src="./img/boarding1.gif" width="50%"/>
+<img src="./img/boarding2.gif" width="50%"/>
+<img src="./img/boarding3.gif" width="50%"/>
+<img src="./img/boarding4.gif" width="50%"/>
+</p>
 
 초보 개발자를 위해 프로젝트 환경 제공 프로젝트 시나브로 입니다. 
 
@@ -47,31 +49,45 @@
 #### 1. 메인화면
 - 나의 팀스페이스 이동 화면
 - 시나브로에서 생성된 프로젝트 확인 가능
-<img src="./img/mainpage.gif">
+
+<p align="center">
+<img src="./img/mainpage.gif" width="50%">
+</p>
 
 #### 2. 팀 스페이스
 - 프로젝트 설명, 팀원 정보, 일정 확인 가능
 - 결제 시 소나큐브를 이용한 정적 코드 분석 정보 제공
-<img src="./img/projectdetail.gif">
-<img src="./img/sonarqube.gif">
+<p align="center">
+<img src="./img/projectdetail.gif" width="50%">
+<img src="./img/sonarqube.gif" width="50%">
+</p>
 
 - VSCode환경 및 실행 환경 제공
 - 음성 채팅, 일반채팅 챗봇 기능 제공
 - 일정 관리 기능 제공
-<img src="./img/projectvscode.gif"/>
+
+<p align="center">
+<img src="./img/projectvscode.gif" width="50%"/>
+</p>
 
 #### 5. 마이페이지
 - 사용자의 기술스택 표현
 - 프로젝트 리스트 확인
 - 메모리 그래프를 이용한 정보 정리
-<img src="./img/mypage.gif">
+
+<p align="center">
+<img src="./img/mypage.gif" width="50%">
+</p>
 
 #### 4. 커뮤니티
 - 팀원 구해요, 팀 구해요, 피드백 원해요 카테고리 분류
 - 팀원 구해요 : 프로젝트 링크를 통해 팀원을 구하는 프로젝트 확인 가능
 - 팀 구해요 : 개인 프로필 링크를 통해 글쓴이의 스택 확인 가능
 - 피드백 원해요: 프로젝트 링크를 통해 코드 확인 후 피드백 제공 가능
-<img src="./img/community.gif">
+
+<p align="center">
+<img src="./img/community.gif" width="50%">
+</p>
 
 <br>
 
