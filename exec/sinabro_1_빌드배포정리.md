@@ -2,15 +2,12 @@
 
 ## 시작 하기 전 기본 세팅(다운로드 및 설정)
 
-- IntelliJ 다운로드
-
 - MobaXterm 다운로드
-
-- gitlab 레포지토리 생성
 
 - dockerhub 회원가입 및 로그인
 
 - EC2 인스턴스 생성
+  - 인바운드 규칙 동적 포트 범위(20000 - 25000, 32768 - 60999) 열기
 
 ## Dockerfile 생성
 
@@ -23,63 +20,38 @@ COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java", "-Dspring.profiles.active=prod","-Duser.timezone=Asia/Seoul","-jar","app.jar"]
 ```
 
-## EC2 서버 접속하기 
+## 1번째 EC2 서버 접속하기 
 
-![image](https://github.com/Seungjun-Song/sinabro/assets/80227755/ec1f2610-c6ec-49b8-a5f0-64aa3923cfef)
+![image](https://github.com/Seungjun-Song/Sinabro/assets/80227755/5099fa14-bdf4-4517-8db7-1d4ca8997a1e)
 
 - MobaXterm 실행 후 좌측 상단의 Session 클릭
 
 - 위와 같이 Remote host, Specify username, Use private key 을 입력해준다
 
 ## docker 설치
+```
+$ sudo apt update
 
-1. ec2 접속
+$ sudo apt install apt-transport-https ca-certificates curl software-properties-common
 
-2. 패키지 업데이트
-    ```
-    $ sudo apt update
-    ```
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
-3. https 관련 패키지 설치
-    ```
-    $ sudo apt install apt-transport-https ca-certificates curl software-properties-common
-    ```
-        
-4. docker repository 접근을 위한 gpg 키 설정
-    ```
-    $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    ```
-        
-5. docker repository 등록
-    ```
-    $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-    ```
-        
-6. 패키지 다시 업데이트
-    ```
-    $ sudo apt update
-    ```
+$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
 
-7. 도커 설치
-    ```
-    $ sudo apt install docker-ce
-    ```
+$ sudo apt update
 
-8. 설치 확인
-    ```
-    $ docker -v
-    ```
+$ sudo apt install docker-ce
 
-9. USER 계정에 실행 권한 부여(매번 sudo 권한 요청을 할 필요 없어짐 / 터미널을 재 실행 해야 적용됨)
-    ```
-    $ sudo usermod -aG docker $USER
-    ```
+$ sudo usermod -aG docker $USER
+
+$ sudo reboot
+```
 
 ## Dockerfile 생성 및 실행
 
 ### Dockerfile 생성
 ```
-vi Dockerfile
+$ vi Dockerfile
 ```
 
 ```
@@ -127,18 +99,17 @@ USER jenkins
 
 ### Dockerfile 실행
 ```
-docker build -t jenkins .
+$ docker build -t jenkins .
 ```
 
 ## docker-compose 생성 및 실행
 
 ### docker-compose.yml 생성
 ```
-vi docker-compose.yml
+$ vi docker-compose.yml
 ```
 
 ```
-# vi docker-compose.yml
 services:
   jenkins:
     image: jenkins
@@ -207,12 +178,109 @@ services:
 ```
 
 ```
-esc :wq
+$ esc :wq
 ```
 
 ### docker-compose.yml 실행
 ```
-docker compose up -d
+$ docker compose up -d
+```
+
+## openvidu 설치
+
+```
+// 관리자 권한
+$ sudo su
+
+// openvidu가 설치되는 경로
+$ cd /opt
+
+// openvidu on promises 설치
+$ curl https://s3-eu-west-1.amazonaws.com/aws.openvidu.io/install_openvidu_latest.sh | bash
+```
+
+## openvidu 세팅
+
+### openvidu 도메인 지정 및 포트 지정
+
+```
+$ sudo vi /opt/openvidu/.env
+```
+
+```
+# OpenVidu configuration
+# ----------------------
+# Domain name. If you do not have one, the public IP of the machine.
+# For example: 198.51.100.1, or openvidu.example.com
+DOMAIN_OR_PUBLIC_IP=k10e103.p.ssafy.io
+
+# OpenVidu SECRET used for apps to connect to OpenVidu server and users to access to OpenVidu Dashboard
+OPENVIDU_SECRET=[OpenVidu 비밀번호]
+
+# Certificate type:
+# - selfsigned:  Self signed certificate. Not recommended for production use.
+#                Users will see an ERROR when connected to web page.
+# - owncert:     Valid certificate purchased in a Internet services company.
+#                Please put the certificates files inside folder ./owncert
+#                with names certificate.key and certificate.cert
+# - letsencrypt: Generate a new certificate using letsencrypt. Please set the
+#                required contact email for Let's Encrypt in LETSENCRYPT_EMAIL
+#                variable.
+CERTIFICATE_TYPE=letsencrypt
+
+# If CERTIFICATE_TYPE=letsencrypt, you need to configure a valid email for notifications
+LETSENCRYPT_EMAIL=[본인 이메일]
+
+# Proxy configuration
+# If you want to change the ports on which openvidu listens, uncomment the following lines
+
+# Allows any request to http://DOMAIN_OR_PUBLIC_IP:HTTP_PORT/ to be automatically
+# redirected to https://DOMAIN_OR_PUBLIC_IP:HTTPS_PORT/.
+# WARNING: the default port 80 cannot be changed during the first boot
+# if you have chosen to deploy with the option CERTIFICATE_TYPE=letsencrypt
+HTTP_PORT=8081
+
+# Changes the port of all services exposed by OpenVidu.
+# SDKs, REST clients and browsers will have to connect to this port
+HTTPS_PORT=8443
+```
+
+```
+$ esc :wq
+```
+
+### lets encrypt 인증서 파일 볼륨 마운트
+
+```
+$ sudo vi /opt/openvidu/docker-compose.yml
+```
+
+```
+# docker-compose.yml
+nginx:
+        image: openvidu/openvidu-proxy:2.29.0
+        restart: always
+        network_mode: host
+        volumes:
+            - /etc/letsencrypt:/etc/letsencrypt
+            - ./owncert:/owncert
+            - ./custom-nginx-vhosts:/etc/nginx/vhost.d/
+            - ./custom-nginx-locations:/custom-nginx-locations
+            - ${OPENVIDU_RECORDING_CUSTOM_LAYOUT}:/opt/openvidu/custom-layout
+```
+
+```
+$ esc :wq
+```
+
+### openviud 실행
+
+```
+$ cd /opt/openvidu/
+
+$ ./openvidu start
+
+$ Ctrl + C
 ```
 
 ## Nginx 설치 및 실행
@@ -233,84 +301,76 @@ $ sudo service nginx status
 
 ## Web Server https 적용
 
-1. apt update & apt upgrade
-    ```
-    $ sudo apt update
+```
+$ sudo apt update
 
-    $ sudo apt upgrade
-    ```
+$ sudo apt upgrade
 
-2. 기존 Certbot 제거
-    ```
-    $ sudo apt remove certbot
-    ```
+$ sudo snap install *--classic certbot*
 
-3. Certbot 설치
-    ```
-    $ sudo snap install *--classic certbot*
-    ```
-
-4. 자신의 도메인에 적용
-    ```
-    $ sudo certbot --nginx
-    중간에 도메인 입력칸 나오면 도메인 입력
-    1, 2 선택 묻는거 나오면 2 선택
-    1을 입력한다면 http 연결을 https로 리다이렉트 하지 않습니다.
-    2를 입력한다면 https 연결을 https로 리다이렉트 시킵니다.
-    ```
+$ sudo certbot --nginx
+중간에 도메인 입력칸 나오면 도메인 입력
+1, 2 선택 묻는거 나오면 2 선택
+1을 입력한다면 http 연결을 https로 리다이렉트 하지 않습니다.
+2를 입력한다면 https 연결을 https로 리다이렉트 시킵니다.
+```
 
 ## Nginx 설정
 
 ```
-vi /etc/nginx/sites-enabled/default
+$ sudo vi /etc/nginx/sites-enabled/default
 ```
 
 ```
-# default
 server {
+        root /home/ubuntu/dist;
+
+        index index.html index.htm index.nginx-debian.html;
+        server_name k10e103.p.ssafy.io; # managed by Certbot
+
+        location / {
+                try_files $uri $uri/ /index.html;
+        }
 
         location /api {
                 proxy_pass http://localhost:8080;
         }
 
-        location /fastapi {
-                proxy_pass http://localhost:8000;
-        }
-
-        location /swagger-ui/ {
-                proxy_pass http://localhost:8080/swagger-ui/;
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        location /v3/api-docs/ {
-                proxy_pass http://localhost:8080/v3/api-docs/;
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
         listen [::]:443 ssl ipv6only=on; # managed by Certbot
         listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/j10e106.p.ssafy.io/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/j10e106.p.ssafy.io/privkey.pem; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/k10e103.p.ssafy.io/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/k10e103.p.ssafy.io/privkey.pem; # managed by Certbot
         include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
 server {
-        if ($host = j10e106.p.ssafy.io) {
+        if ($host = k10e103.p.ssafy.io) {
                 return 301 https://$host$request_uri;
         } # managed by Certbot
 
-
         listen 80 ;
         listen [::]:80 ;
-        server_name j10e106.p.ssafy.io;
+        server_name k10e103.p.ssafy.io;
         return 404; # managed by Certbot
 }
+```
+
+```
+$ esc :wq
+
+$ sudo service nginx restart
+```
+
+## pem key 업로드
+
+![image](https://github.com/Seungjun-Song/Sinabro/assets/80227755/f984445c-7606-4ecc-9ffb-15ffe6904a31)
+
+### pem key 2개 다 업로드 후에
+
+```
+$ sudo mv K10E103T.pem /etc/keys
+
+$ sudo mv sinabro.pem /etc/keys
 ```
 
 ## Jenkins
@@ -329,16 +389,37 @@ server {
 
 4. jenkins plugin 설치
 
-    - gitlab
-    - ssh agent
-    - docker pipeline
+    - GitLab
+    - SSH Agent
+    - Docker Pipeline
+    - Mattermost Notification Plugin
 
-5. jenkins credentials 등록
+5. System 설정
+
+    - MM
+        - 좌측 상단 그리드 아이콘 클릭
+        - 통합 클릭
+        - 전체 Incoming Webhook 클릭
+        - Incoming Webhook 추가하기 클릭
+        - 제목, 설명, 채널 선택 후 저장
+        - 생성된 Webhook URL 복사
+        - 밖으로 나가서 지정한 채널을 우클릭 하고 링크 복사
+        ![image](https://github.com/Seungjun-Song/Sinabro/assets/80227755/de6f2811-d20f-4722-a066-d4df4cdc716e)
+        - https://meeting.ssafy.com/s10p30e1/channels/772f3b16d37a7f6a6ca623ad054eb43f 이렇게 링크가 나오면 제일 마지막의 772f3b16d37a7f6a6ca623ad054eb43f만 따로 복사
+
+    - jenkins page
+        - System 설정
+        - Global Mattermost Notifier Settings 찾기
+        - Endpoint에 위에서 복사한 Webhook URL 입력
+        - channel에 위에서 복사한 채널 링크 주소 입력
+        - Test Connection을 눌렀을 때 Success가 뜨면 성공
+        ![image](https://github.com/Seungjun-Song/Sinabro/assets/80227755/b36e9a79-8065-4ff4-bbc7-67526005b5b7)
+
+6. jenkins credentials 등록
 
     - aws
         - Kind : SSH Username with private key
-        - ID : aws-ec2
-        - Username : J10E106T
+        - ID : aws-key
         - Private Key : pem키 private key(cat 또는 vs code 등으로 열람)
 
     - gitlab
@@ -352,150 +433,270 @@ server {
         - Username : dockerhub Id
         - Password : dockerhub access token
         - ID : dockerhub
+    
+    - secret file
+        - Kind : Secret file
+        - File : .env
+        - ID : front-env
 
     - secret file
         - Kind : Secret file
-        - File : application-prod-secret.properties
-        - ID : application-secret
+        - File : application-prod.yml
+        - ID : back-env
 
-6. jenkins tools 설정(local 환경과 동일하게 버전 맞춰야 함)
+7. front
 
-    - gradle intallations 설정
-        - name: gradle    
-        - Version: Gradle 8.6
+    - Pipeline type으로 front, back 이라는 이름으로 2개의 Item 생성
 
-7. jenkins push event 설정(master 브랜치에 푸시하면 자동으로 배포 및 빌드 진행)
+    - front Item의 설정 들어가기
 
-    - jenkins page
-        - item 생성
-        - Build Triggers - Build when a change is pushed to GitLab. GitLab webhook URL: http://i10e106.p.ssafy.io:9090/project/master 클릭
-        - 고급 클릭
-        - Secret token Generate 후 복사
-        - item 저장
+    - jenkins push event 설정(fe/dev 브랜치에 푸시하면 자동으로 배포 및 빌드 진행)
+        - jenkins page
+            - Build Triggers - Build when a change is pushed to GitLab. GitLab webhook URL: http://k10e103.p.ssafy.io:9090/project/front 클릭
+            - Push Events 클릭
+            - 고급 클릭
+            - Secret token Generate 후 복사
 
-    - gitlab page
-        - gitlab - Settings - Webhooks - Add new webhook
-        - URL: http://i10e106.p.ssafy.io:9090/project/master
-        - Secret token: jenkins의 Secret token 입력
-        - Trigger에서 Push events 선택
-        - Wildcard pattern에서 배포를 원하는 브랜치 입력(master)
+        - gitlab page
+            - gitlab - Settings - Webhooks - Add new webhook
+            - URL: http://k10e103.p.ssafy.io:9090/project/front
+            - Secret token: jenkins에서 복사한 Secret token 입력
+            - Trigger에서 Push events 선택
+            - Wildcard pattern에서 배포를 원하는 브랜치 입력(fe/dev)
 
-8. jenkins pipeline
-    ```
-    pipeline {
-        agent any
-        tools {
-            gradle 'gradle'
+    - jenkins pipeline
+        ```
+        pipeline {
+            agent any
+            environment {
+                GIT_BRANCH = 'fe/dev'
+                GIT_CREDENTIALS = 'gitlab'
+                GIT_URL = 'https://lab.ssafy.com/s10-final/S10P31E103'
+                FRONT_DIR = './fe'
+                SECRET_FILE_CREDENTIALS = 'front-env'
+                SSH_CREDENTIALS = 'aws-key'
+                SSH_HOST = 'ubuntu@k10E103.p.ssafy.io'
+                WORKSPACE_DIR = '/var/jenkins_home/workspace/front'
+                EC2_TARGET_PATH = '/home/ubuntu'
+            }
+            
+            stages {
+                stage('Git Clone') {
+                    steps {
+                        git branch: GIT_BRANCH, credentialsId: GIT_CREDENTIALS, url: GIT_URL
+                    }
+                }
+                
+                stage('Initiate Pipeline') {
+                    steps {
+                        script {
+                            mattermostSend (
+                                color: "#2A42EE", 
+                                message: "### 배포 시작: ${env.JOB_NAME} #${env.BUILD_NUMBER} \n<${env.BUILD_URL}|Details..>"
+                            )
+                        }
+                    }
+                }
+
+                stage('Copy Secret File') {
+                    steps {
+                        dir(FRONT_DIR){
+                            withCredentials([file(credentialsId: SECRET_FILE_CREDENTIALS, variable: 'SECRET_FILE')]) {
+                                sh 'cp -f $SECRET_FILE .'
+                            }
+                        }
+                    }
+                }
+
+                stage('Frontend Build') {
+                    steps {
+                        dir(FRONT_DIR){
+                            sh 'npm install --legacy-peer-deps'
+                            sh 'npm run build'
+                        }
+                    }
+                }
+
+                stage('Compression'){
+                    steps{
+                        dir(FRONT_DIR){
+                            sh 'tar -cvf build.tar dist'
+                        }
+                    }
+                }
+
+                stage('Frontend Deploy to EC2'){
+                    steps {
+                        sshagent(credentials: [SSH_CREDENTIALS]) {
+                            sh '''
+                                ssh -o StrictHostKeyChecking=no ${SSH_HOST} uptime
+                                scp ${WORKSPACE_DIR}/${FRONT_DIR}/build.tar ${SSH_HOST}:${EC2_TARGET_PATH}
+                                ssh -o StrictHostKeyChecking=no ${SSH_HOST} "cd ${EC2_TARGET_PATH} && tar -xvf build.tar && sudo service nginx restart"
+                            '''
+                        }
+                    }
+                }
+            }
+            
+            post {
+                success {
+                    script {
+                        env.AUTHOR_ID = sh(script: "git show -s --pretty=%an HEAD~1", returnStdout: true).trim()
+                        mattermostSend (
+                            color: 'good', 
+                            message: "### 배포 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} (by ${AUTHOR_ID})\n<${env.BUILD_URL}|Details..>"
+                        )
+                    }
+                }
+                failure {
+                    script {
+                        env.AUTHOR_ID = sh(script: "git show -s --pretty=%an HEAD~1", returnStdout: true).trim()
+                        mattermostSend (
+                            color: 'danger', 
+                            message: "### 배포 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} (by ${AUTHOR_ID})\n<${env.BUILD_URL}|Details..>"
+                        )
+                    }
+                }
+            }
         }
-        stages {
-            stage('Git Clone') {
-                steps {
-                    git branch: 'master', credentialsId: 'gitlab', url: 'https://lab.ssafy.com/s10-webmobile1-sub2/S10P12E107'
-                }
+        ```
+
+8. back
+
+    - back Item의 설정 들어가기
+
+    - jenkins push event 설정(be/dev 브랜치에 푸시하면 자동으로 배포 및 빌드 진행)
+        - jenkins page
+            - Build Triggers - Build when a change is pushed to GitLab. GitLab webhook URL: http://k10e103.p.ssafy.io:9090/project/back 클릭
+            - Push Events 클릭
+            - 고급 클릭
+            - Secret token Generate 후 복사
+
+        - gitlab page
+            - gitlab - Settings - Webhooks - Add new webhook
+            - URL: http://k10e103.p.ssafy.io:9090/project/back
+            - Secret token: jenkins에서 복사한 Secret token 입력
+            - Trigger에서 Push events 선택
+            - Wildcard pattern에서 배포를 원하는 브랜치 입력(be/dev)
+
+    - jenkins pipeline
+        ```
+        pipeline {
+            agent any
+            environment {
+                GIT_BRANCH = 'be/dev'
+                GIT_CREDENTIALS = 'gitlab'
+                GIT_URL = 'https://lab.ssafy.com/s10-final/S10P31E103'
+                BACK_DIR = './be'
+                SECRET_FILE_CREDENTIALS = 'back-env'
+                SECRET_KEY_CREDENTIALS = 'pem-key'
+                DOCKER_IMAGE = 'ssj0187/sinabro'
+                DOCKER_TAG = 'latest'
+                SPRING_PROFILE = 'prod'
+                SSH_CREDENTIALS = 'aws-key'
+                SSH_HOST = 'ubuntu@k10E103.p.ssafy.io'
             }
-            
-            stage('FE-Build') {
-                steps {
-                    dir("./front-gollajyu"){
-                        //CI: 오류 무시
-                        sh 'rm -rf node_modules && rm -rf package-lock.json'
-                        sh 'npm install && CI=false npm run build'
+            stages {
+                stage('Initiate Pipeline') {
+                    steps {
+                        script {
+                            mattermostSend (
+                                color: "#2A42EE", 
+                                message: "### 배포 시작: ${env.JOB_NAME} #${env.BUILD_NUMBER} \n<${env.BUILD_URL}|Details..>"
+                            )
+                        }
                     }
                 }
-            }
-            
-            stage('Compression'){
-                steps{
-                    dir("./front-gollajyu"){
-                        sh '''
-                        rm -rf node_modules
-                        tar -cvf build.tar dist
-                        '''
+                
+                stage('Git Clone') {
+                    steps {
+                        git branch: GIT_BRANCH, credentialsId: GIT_CREDENTIALS, url: GIT_URL
                     }
                 }
-            }
-            
-            stage('Frontend Deploy to EC2'){
-                steps {
-                    // EC2 서버에 SSH 접속 크레덴셜 ID
-                    sshagent(credentials: ['aws-key']) {
-                        sh '''
-                            ssh -o StrictHostKeyChecking=no ubuntu@i10E107.p.ssafy.io uptime
-                            scp /var/jenkins_home/workspace/gollajyu/front-gollajyu/build.tar ubuntu@i10E107.p.ssafy.io:/home/ubuntu
-                            ssh -t ubuntu@i10E107.p.ssafy.io "sudo chmod +x /home/ubuntu/deploy.sh && sudo /home/ubuntu/deploy.sh"
-                        '''
+                
+                stage('Copy Secret File') {
+                    steps {
+                        dir(BACK_DIR){
+                            withCredentials([file(credentialsId: SECRET_FILE_CREDENTIALS, variable: 'SECRET_FILE')]) {
+                                sh 'cp -f $SECRET_FILE /var/jenkins_home/workspace/back/be/src/main/resources'
+                            }
+                        }
                     }
                 }
-            }
-            
-            stage('BE-Build') {
-                steps {
-                    dir("./back-gollajyu"){
-                        sh 'cp -r /etc/letsencrypt/live/i10e107.p.ssafy.io/keystore.p12 src/main/resources/'
-                        sh 'chmod +x gradlew'
-                        sh "./gradlew clean build"
+
+                stage('Backend Build') {
+                    steps {
+                        dir(BACK_DIR){
+                            sh 'chmod +x gradlew'
+                            sh "./gradlew clean build -x test"
+                        }
                     }
-                    
                 }
-            }
-            
-            stage('Docker Build and Push') {
-                steps {
-                    dir("./back-gollajyu"){
-                        script{
-                            //현재 작업 디렉토리 확인
-                            sh 'pwd'
-                            
-                            // Docker 이미지 빌드
-                            def app = docker.build "ssj0187/gollajyu"
-        
-                            // Docker Hub에 로그인
-                            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-jenkins') {
-                                // Docker 이미지 푸시
-                                app.push("1.0") // 1.0 이라는 태그로 image가 푸쉬됨
+                
+                stage('Docker Build and Push') {
+                    steps {
+                        dir(BACK_DIR){
+                            script{
+                                def app = docker.build("${env.DOCKER_IMAGE}", "--build-arg SPRING_PROFILES_ACTIVE=${env.SPRING_PROFILE} .")
+                                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-jenkins') {
+                                    app.push(env.DOCKER_TAG)
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                stage('BackEnd Deploy to EC2') {
+                    steps {
+                        sshagent(credentials: [SSH_CREDENTIALS]) {
+                            script {
+                                sh """
+                                ssh -o StrictHostKeyChecking=no ${env.SSH_HOST} '
+                                    docker rm -f spring || true;
+                                    docker pull ${env.DOCKER_IMAGE}:${env.DOCKER_TAG};
+                                    docker run --name spring -d -p 8080:8080 ${env.DOCKER_IMAGE}:${env.DOCKER_TAG};
+                                    docker cp /etc/keys/K10E103T.pem spring:/
+                                    docker cp /etc/keys/sinabro.pem spring:/
+                                    docker image prune -af
+                                '
+                                """
                             }
                         }
                     }
                 }
             }
             
-            stage('BackEnd Deploy to EC2'){
-                steps {
-                    sshagent(credentials: ['aws-key']) {
-                        
-                        sh '''
-                        if test "`docker ps -aq --filter ancestor=ssj0187/gollajyu:1.0`"; then
-                        
-                        ssh -o StrictHostKeyChecking=no ubuntu@i10E107.p.ssafy.io "docker stop $(docker ps -aq --filter ancestor=ssj0187/gollajyu:1.0)"
-                        ssh -o StrictHostKeyChecking=no ubuntu@i10E107.p.ssafy.io "docker rm -f $(docker ps -aq --filter ancestor=ssj0187/gollajyu:1.0)"
-                        ssh -o StrictHostKeyChecking=no ubuntu@i10E107.p.ssafy.io "docker rmi ssj0187/gollajyu:1.0"
-
-                        fi
-                        '''
+            post {
+                success {
+                    script {
+                        env.AUTHOR_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                        mattermostSend (
+                            color: 'good', 
+                            message: "### 배포 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} (by ${AUTHOR_ID})\n<${env.BUILD_URL}|Details..>"
+                        )
                     }
-                    
-                    sshagent(credentials: ['aws-key']) {
-                        sh 'ssh -o StrictHostKeyChecking=no ubuntu@i10E107.p.ssafy.io "sudo docker pull ssj0187/gollajyu:1.0"'
-                        sh 'ssh -o StrictHostKeyChecking=no ubuntu@i10E107.p.ssafy.io "sudo docker run --name spring -d -p 8080:8080 -v /home/ubuntu/gollajyuImages:/app/gollajyuImages ssj0187/gollajyu:1.0"'
+                }
+                failure {
+                    script {
+                        env.AUTHOR_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
+                        mattermostSend (
+                            color: 'danger', 
+                            message: "### 배포 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} (by ${AUTHOR_ID})\n<${env.BUILD_URL}|Details..>"
+                        )
                     }
                 }
             }
         }
-    }
-    ```
+        ```
 
 ## 2번째 EC2 서버 접속하기 
 
-인바운드 규칙 동적 DB 포트 범위(20000 - 25000) 열기
-
-인바운드 규칙 동적 포트 범위(32768 - 60999) 열기
-
-### 위에서 한 Docker 설치, Nginx 설치, WS 세팅을 한다.
+### 위에서 한 Docker 설치, Nginx 설치, Web Server https 세팅을 한다.
 
 ### JSch 사용을 위한 세팅
 
 ```
-sudo vi /etc/ssh/sshd_config.d/60-cloudimg-settings.conf
+$ sudo vi /etc/ssh/sshd_config.d/60-cloudimg-settings.conf
 ```
 
 ```
@@ -504,13 +705,15 @@ PubkeyAcceptedAlgorithms=+ssh-rsa
 ```
 
 ```
-sudo systemctl restart ssh
+$ esc :wq
+
+$ sudo systemctl restart ssh
 ```
 
 ### nginx_updater.py 생성
 
 ```
-vi nginx_updater.py
+$ vi nginx_updater.py
 ```
 
 ```
@@ -613,13 +816,13 @@ if __name__ == '__main__':
 ```
 
 ```
-esc :wq
+$ esc :wq
 ```
 
 ### start_mysql.sh 생성
 
 ```
-vi start_mysql.sh
+$ vi start_mysql.sh
 ```
 
 ```
@@ -659,13 +862,13 @@ sleep 1
 ```
 
 ```
-esc :wq
+$ esc :wq
 ```
 
 ### restart_mysql.sh 생성
 
 ```
-vi restart_mysql.sh
+$ vi restart_mysql.sh
 
 ```
 
@@ -680,13 +883,13 @@ sleep 1
 ```
 
 ```
-esc :wq
+$ esc :wq
 ```
 
 ### Dockerfile 생성 및 실행
 
 ```
-vi Dockerfile
+$ vi Dockerfile
 ```
 
 ```
@@ -750,47 +953,35 @@ HEALTHCHECK --interval=3s --timeout=30s --start-period=5s --retries=3 \
 ```
 
 ```
-esc :wq
+$ esc :wq
 ```
 
 ### Dockerfile 실행
 ```
-docker build -t code-server .
+$ docker build -t code-server .
 ```
 
 ### 웹 소켓 실행 환경 세팅
 ```
-sudo apt update
+$ sudo apt update
 
-sudo apt install npm
+$ sudo apt install npm
 
-node -v
-npm -v
-
-npm install ws http-proxy
+$ npm install ws http-proxy
 ```
 
 ### py 스크립트 실행 환경 세팅
 
 ```
-// 패키지 최신 상태 업데이트
-sudo apt update
+$ sudo apt install python3 python3-pip
 
-// python3 및 pip3 설치
-sudo apt install python3 python3-pip
-
-// 설치 확인
-python3 --version
-pip3 --version
-
-// docker 패키지 설치(python으로 docker의 api를 사용할 수 있게 해주는 라이브러리)
-sudo python3 -m pip install docker --break-system-packages
+$ sudo python3 -m pip install docker --break-system-packages
 ```
 
 ### websocker-proxy 세팅
 
 ```
-sudo vi websocket-proxy/proxy-server.js
+$ sudo vi websocket-proxy/proxy-server.js
 ```
 
 ```
@@ -960,5 +1151,5 @@ function getDockerPort(containerId, callback) {
 ```
 
 ```
-esc :wq
+$ esc :wq
 ```
